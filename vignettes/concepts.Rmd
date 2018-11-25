@@ -41,8 +41,29 @@ For instance, T helper lymphocytes are defined by the presence of surface protei
 ## Applications
 
 Absolute markers present the advantage of allowing the immediate characterization of any cell or cluster, without the need of a reference cell of cluster.
+In this case, each cell or cluster may be screened for the presence of absolute markers, and assigned an identity independently of all other cells in the sample.
 
-Relative markers can be advtantageous when the general cell type composition of a given sample is known in advance, and the problem is only to assign a predefined set of identities. In this case, 
+Relative markers can be advtantageous when the general cell type composition of a given sample is known in advance, and the problem is only to assign a predefined set of identities to a similar number of cell clusters in a new sample.
+In this case, differential expression analysis may be performed between clusters of cells in the new sample, and markers of each cluster may be compared to a similar reference sample to assign identities defined in the reference sample to each of the cells or clusters in the new sample.
+
+# Representation of signatures
+
+At its simplest a signature could list _positive_ markers that are known to be expressed in each cell type.
+For instance, the PBMC signatures used in the Seurat [PBMC 3k tutorial](https://satijalab.org/seurat/pbmc3k_tutorial.html) may be represented as follows:
+
+```{r}
+pbmc3k_markers <- list(
+    "CD4 T cells" = c("IL7R"),
+    "CD14+ Monocytes" = c("CD14", "LYZ"),
+    "B cells" = c("MS4A1"),
+    "CD8 T cells" = c("CD8A"),
+    "FCGR3A+ Monocytes" = c("FCGR3A", "MS4A7"),
+    "NK cells" = c("GNLY", "NKG7"),
+    "Dendritic Cells" = c("FCER1A", "CST3"),
+    "Megakaryocytes" = c("PPBP")
+)
+```
+
 
 # Session info {.unnumbered}
 

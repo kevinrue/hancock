@@ -1,4 +1,4 @@
-[![Travis build status](https://travis-ci.org/kevinrue/hancock.svg?branch=master)](https://travis-ci.org/kevinrue/hancock)
+[![Travis build status](https://travis-ci.org/kevinrue/Hancock.svg?branch=master)](https://travis-ci.org/kevinrue/Hancock)
 
 # hancock
 
