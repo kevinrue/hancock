@@ -1,0 +1,51 @@
+---
+title: "Concepts on cell types and signatures"
+author:
+- name: Kevin Rue-Albrecht
+  affiliation:
+  - &id1 Kennedy Institute of Rheumatology, University of Oxford, Headington, Oxford OX3 7FY, UK.
+  email: kevin.rue-albrecht@kennedy.ox.ac.uk
+- name: Second Author
+  affiliation: Second Author's Affiliation
+  email: corresponding@author.com
+package: Hancock
+output:
+    BiocStyle::html_document
+abstract: |
+    A discussion of concepts associated with cell types and transcriptional signatures.
+vignette: |
+    %\VignetteIndexEntry{Concepts on cell types and signatures}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+---
+
+# Definition of cell identity
+
+Discuss:
+
+- cell type is a continuum (e.g. differentiation, pseudotime)
+- in the same vein, all cells in an organism basically originate from a common progenitor
+- cell states may be defined similarly to cell types (e.g. markers of activated/resting cells)
+
+# Absolute and relative definition of markers and signatures
+
+## Definition
+
+Relative markers may be defined by _differential_ expression against all other cells in a sample.
+However, cells within a given sample are generally the result of sorting (e.g. FACS) and enriching a population of interest on a set of (protein) markers.
+In those cases, the markers used for sorting the cells generally appear as highly expressed in all cells, making it difficult or impossible to identify as relative markers.
+
+Absolute markers may be defined as molecules known to be present or absent in a given type of cells, _irrespective of their expression in other cells of the same sample_.
+For instance, T helper lymphocytes are defined by the presence of surface proteins Cd3 and Cd4, while T cytotoxic lymphocytes are defined by the presence of surface proteins Cd3 and Cd8.
+
+## Applications
+
+Absolute markers present the advantage of allowing the immediate characterization of any cell or cluster, without the need of a reference cell of cluster.
+
+Relative markers can be advtantageous when the general cell type composition of a given sample is known in advance, and the problem is only to assign a predefined set of identities. In this case, 
+
+# Session info {.unnumbered}
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
