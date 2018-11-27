@@ -11,5 +11,10 @@ Applies transcriptional signatures to assign cell identities.
 \author{
 \strong{Maintainer}: Kevin Rue-Albrecht \email{kevin.rue-albrecht@kennedy.ox.ac.uk}
 
+Authors:
+\itemize{
+  \item Robert Amezquita
+}
+
 }
 \keyword{internal}
