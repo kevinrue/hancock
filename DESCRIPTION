@@ -16,6 +16,7 @@ Suggests:
     knitr,
     rmarkdown,
     BiocStyle,
-    testthat
+    testthat,
+    covr
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
