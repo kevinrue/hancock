@@ -19,6 +19,7 @@ Suggests:
     rmarkdown,
     BiocStyle,
     testthat,
-    covr
+    covr,
+    GSEABase
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1

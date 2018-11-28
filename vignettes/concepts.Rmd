@@ -15,8 +15,10 @@ abstract: |
     A discussion of concepts associated with cell types and transcriptional signatures.
 vignette: |
     %\VignetteIndexEntry{Concepts on cell types and signatures}
-    %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
+    %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 # Definition of cell identity
