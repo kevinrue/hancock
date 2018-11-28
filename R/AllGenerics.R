@@ -1,7 +1,7 @@
 # positiveForMarker ----
 
 #' Detect cells positive for a given marker
-#' 
+#'
 #' @rdname positiveForMarker
 #'
 #' @param x A \code{\link{SummarizedExperiment}} or \code{matrix}.
@@ -19,10 +19,9 @@
 #' ncells <- 100
 #' u <- matrix(rpois(20000, 2), ncol=ncells)
 #' sce <- SummarizedExperiment(assays=list(counts=u))
-#' 
+#'
 #' # Example usage ----
 #' positiveForMarker(sce, 1, 0)
-#' positiveForMarker(u, 1, 0)
 setGeneric(
     "positiveForMarker", signature = c("x"),
     function(x, row, threshold=0, ...)

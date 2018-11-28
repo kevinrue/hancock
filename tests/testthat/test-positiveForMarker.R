@@ -7,15 +7,7 @@ rownames(u) <- paste0("Gene", sprintf("%03d", seq_len(nrow(u))))
 
 # positiveForMarker ----
 
-test_that("positiveForMarker works for matrix", {
-
-    out <- positiveForMarker(u, "Gene001", 0)
-
-    expected <- (u["Gene001", ] > 0)
-    expect_identical(out, expected)
-})
-
-test_that("positiveForMarker works for matrix", {
+test_that("positiveForMarker works for SummarizedExperiment", {
 
     sce <- SummarizedExperiment(assays=list(counts=u))
 
