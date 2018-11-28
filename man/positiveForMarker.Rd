@@ -37,5 +37,4 @@ sce <- SummarizedExperiment(assays=list(counts=u))
 
 # Example usage ----
 positiveForMarker(sce, 1, 0)
-positiveForMarker(u, 1, 0)
 }
