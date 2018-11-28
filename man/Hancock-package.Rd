@@ -9,7 +9,7 @@
 Applies transcriptional signatures to assign cell identities.
 }
 \author{
-\strong{Maintainer}: Kevin Rue-Albrecht \email{kevin.rue-albrecht@kennedy.ox.ac.uk}
+\strong{Maintainer}: Kevin Rue-Albrecht \email{kevinrue67@gmail.com}
 
 Authors:
 \itemize{
