@@ -1,12 +1,13 @@
 Package: Hancock
 Title: Learn and Apply Cell Type Signatures
-Version: 0.0.0.9000
+Version: 0.99.0
 Date: 2018-11-27
 Authors@R: c(
-    person(given = "Kevin", family = "Rue-Albrecht", role = c("aut", "cre"), email = "kevin.rue-albrecht@kennedy.ox.ac.uk"),
+    person(given = "Kevin", family = "Rue-Albrecht", role = c("aut", "cre"), email = "kevinrue67@gmail.com"),
     person(given = "Robert", family = "Amezquita", role = c("aut"))
     )
 Description: Applies transcriptional signatures to assign cell identities.
+biocViews: GeneExpression, Transcriptomics, SingleCell
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -19,6 +20,7 @@ Suggests:
     rmarkdown,
     BiocStyle,
     testthat,
-    covr
+    covr,
+    GSEABase
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1

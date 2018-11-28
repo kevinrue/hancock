@@ -15,8 +15,10 @@ abstract: |
     A discussion of concepts associated with cell types and transcriptional signatures.
 vignette: |
     %\VignetteIndexEntry{Concepts on cell types and signatures}
-    %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
+    %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 # Definition of cell identity
@@ -27,24 +29,34 @@ Discuss:
 - in the same vein, all cells in an organism basically originate from a common progenitor
 - cell states may be defined similarly to cell types (e.g. markers of activated/resting cells)
 
-# Absolute and relative definition of markers and signatures
+# Definition of absolute and relative markers and signatures
 
-## Definition
+## Definitions
 
-Relative markers may be defined by _differential_ expression against all other cells in a sample.
-However, cells within a given sample are generally the result of sorting (e.g. FACS) and enriching a population of interest on a set of (protein) markers.
-In those cases, the markers used for sorting the cells generally appear as highly expressed in all cells, making it difficult or impossible to identify as relative markers.
+**Absolute markers** may be defined as molecules (e.g. protein, transcripts) known to be present or absent in a given population of cells, _irrespective of their expression in other cells of the same sample_.
+For instance, T helper lymphocytes can be defined by the presence of surface proteins Cd3 and Cd4, while T cytotoxic lymphocytes are defined by the presence of surface proteins Cd3 and Cd8.
+To assess whether a cell is likely a T helper lymphocyte, one does not need to know the markers of T cytotoxic lymphocytes, nor that the two cell types have the Cd3 marker in common.
 
-Absolute markers may be defined as molecules known to be present or absent in a given type of cells, _irrespective of their expression in other cells of the same sample_.
-For instance, T helper lymphocytes are defined by the presence of surface proteins Cd3 and Cd4, while T cytotoxic lymphocytes are defined by the presence of surface proteins Cd3 and Cd8.
+**Relative markers** may be defined by _differential_ expression against other cells in the same sample.
+For instance, in a biological sample including both T helper and T cytotoxic lymphocytes, differential expression between the two lypmphocyte subsets would highlight Cd4 as a (relative) marker of T helper lymphocytes and Cd8 as a (relative) marker of T cytotoxic lymphocytes.
+
+Note that sets of **absolute markers** may also be subsetted to markers _specific_ of each cell population, either to increase stringency (due to their specificity) or sensitivity (due to their smaller number).
+For instance, Cd3 being a marker of both T helper and T cytotoxic lymphocytes, one may wish to exclude it from both signatures, in a manner similar to **relative markers**.
+Such markers may be called **relative absolute markers**, as they are composed of **absolute markers** compared to one another in order to identify specific subsets of markers.
 
 ## Applications
 
-Absolute markers present the advantage of allowing the immediate characterization of any cell or cluster, without the need of a reference cell of cluster.
+The origin of markers and signature dictates how they should be used in downstream classification tasks.
+
+**Absolute markers** present the advantage of allowing the immediate characterization of any cell or cluster, without the need of a reference cell of cluster.
 In this case, each cell or cluster may be screened for the presence of absolute markers, and assigned an identity independently of all other cells in the sample.
 
-Relative markers can be advtantageous when the general cell type composition of a given sample is known in advance, and the problem is only to assign a predefined set of identities to a similar number of cell clusters in a new sample.
+**Relative markers** can be advantageous when the general cell type composition of a given sample is known in advance, and the problem is only to assign a predefined set of identities to a similar number of cell clusters in a new sample.
 In this case, differential expression analysis may be performed between clusters of cells in the new sample, and markers of each cluster may be compared to a similar reference sample to assign identities defined in the reference sample to each of the cells or clusters in the new sample.
+However, cells within a given sample are generally the result of sorting (e.g. FACS) and enriching a population of interest on a set of (protein) markers.
+In those cases, the markers used for sorting the cells generally appear as highly expressed in all cells, making it difficult or impossible to identify as relative markers.
+
+**Relative absolute markers** may be advantageous when dealing with closely related cell populations or novel populations defined by new markers relative to canonical markers and cell types.
 
 # Representation of signatures
 
@@ -64,6 +76,26 @@ pbmc3k_markers <- list(
 )
 ```
 
+The `GSEABase` package provides infrastructure for enumerating pathways and their contents
+and facilitating translations among the different nomenclatures that
+are used to describe contents of pathways ([source](https://support.bioconductor.org/p/27770/)).
+
+The above list may be more formally represented as follows:
+
+```{r}
+suppressPackageStartupMessages({library(GSEABase)})
+pbmc3k_markers <- GeneSetCollection(list(
+    GeneSet(setName="CD4 T cells", c("IL7R"), collectionType=NullCollection()),
+    GeneSet(setName="CD14+ Monocytes", c("CD14", "LYZ"), collectionType=NullCollection()),
+    GeneSet(setName="B cells", c("MS4A1"), collectionType=NullCollection()),
+    GeneSet(setName="CD8 T cells", c("CD8A"), collectionType=NullCollection()),
+    GeneSet(setName="FCGR3A+ Monocytes", c("FCGR3A", "MS4A7"), collectionType=NullCollection()),
+    GeneSet(setName="NK cells", c("GNLY", "NKG7"), collectionType=NullCollection()),
+    GeneSet(setName="Dendritic Cells", c("FCER1A", "CST3"), collectionType=NullCollection()),
+    GeneSet(setName="Megakaryocytes", c("PPBP"), collectionType=NullCollection())
+))
+pbmc3k_markers
+```
 
 # Session info {.unnumbered}
 
