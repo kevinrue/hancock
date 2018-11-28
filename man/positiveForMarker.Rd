@@ -4,15 +4,12 @@
 \name{positiveForMarker}
 \alias{positiveForMarker}
 \alias{positiveForMarker,SummarizedExperiment-method}
-\alias{positiveForMarker,matrix-method}
 \title{Detect cells positive for a given marker}
 \usage{
 positiveForMarker(x, row, threshold = 0, ...)
 
 \S4method{positiveForMarker}{SummarizedExperiment}(x, row, threshold = 0,
   assay = "counts")
-
-\S4method{positiveForMarker}{matrix}(x, row, threshold = 0)
 }
 \arguments{
 \item{x}{A \code{\link{SummarizedExperiment}} or \code{matrix}.}
