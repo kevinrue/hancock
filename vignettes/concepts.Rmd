@@ -94,9 +94,8 @@ pbmc3k_markers <- GeneSetCollection(list(
     GeneSet(setName="Dendritic Cells", c("FCER1A", "CST3"), collectionType=NullCollection()),
     GeneSet(setName="Megakaryocytes", c("PPBP"), collectionType=NullCollection())
 ))
+pbmc3k_markers
 ```
-
-
 
 # Session info {.unnumbered}
 
