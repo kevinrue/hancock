@@ -74,25 +74,26 @@ pbmc3k_markers <- list(
     "Dendritic Cells" = c("FCER1A", "CST3"),
     "Megakaryocytes" = c("PPBP")
 )
+pbmc3k_markers
 ```
 
 The `GSEABase` package provides infrastructure for enumerating pathways and their contents
 and facilitating translations among the different nomenclatures that
 are used to describe contents of pathways ([source](https://support.bioconductor.org/p/27770/)).
 
-The above list may be more formally represented as follows:
+The above list may be more formally (and elegantly) represented as follows:
 
 ```{r}
 suppressPackageStartupMessages({library(GSEABase)})
 pbmc3k_markers <- GeneSetCollection(list(
-    GeneSet(setName="CD4 T cells", c("IL7R"), collectionType=NullCollection()),
-    GeneSet(setName="CD14+ Monocytes", c("CD14", "LYZ"), collectionType=NullCollection()),
-    GeneSet(setName="B cells", c("MS4A1"), collectionType=NullCollection()),
-    GeneSet(setName="CD8 T cells", c("CD8A"), collectionType=NullCollection()),
-    GeneSet(setName="FCGR3A+ Monocytes", c("FCGR3A", "MS4A7"), collectionType=NullCollection()),
-    GeneSet(setName="NK cells", c("GNLY", "NKG7"), collectionType=NullCollection()),
-    GeneSet(setName="Dendritic Cells", c("FCER1A", "CST3"), collectionType=NullCollection()),
-    GeneSet(setName="Megakaryocytes", c("PPBP"), collectionType=NullCollection())
+    GeneSet(setName="CD4 T cells", c("IL7R")),
+    GeneSet(setName="CD14+ Monocytes", c("CD14", "LYZ")),
+    GeneSet(setName="B cells", c("MS4A1")),
+    GeneSet(setName="CD8 T cells", c("CD8A")),
+    GeneSet(setName="FCGR3A+ Monocytes", c("FCGR3A", "MS4A7")),
+    GeneSet(setName="NK cells", c("GNLY", "NKG7")),
+    GeneSet(setName="Dendritic Cells", c("FCER1A", "CST3")),
+    GeneSet(setName="Megakaryocytes", c("PPBP"))
 ))
 pbmc3k_markers
 ```
