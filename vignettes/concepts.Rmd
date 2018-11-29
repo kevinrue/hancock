@@ -60,11 +60,13 @@ In those cases, the markers used for sorting the cells generally appear as highl
 
 # Representation of signatures
 
+## Lists of marker names using `GSEABase`
+
 At its simplest a signature could list _positive_ markers that are known to be expressed in each cell type.
 For instance, the PBMC signatures used in the Seurat [PBMC 3k tutorial](https://satijalab.org/seurat/pbmc3k_tutorial.html) may be represented as follows:
 
 ```{r}
-pbmc3k_markers <- list(
+pbmc3k_markers_list <- list(
     "CD4 T cells" = c("IL7R"),
     "CD14+ Monocytes" = c("CD14", "LYZ"),
     "B cells" = c("MS4A1"),
@@ -74,7 +76,7 @@ pbmc3k_markers <- list(
     "Dendritic Cells" = c("FCER1A", "CST3"),
     "Megakaryocytes" = c("PPBP")
 )
-pbmc3k_markers
+pbmc3k_markers_list
 ```
 
 The `GSEABase` package provides infrastructure for enumerating pathways and their contents
@@ -85,7 +87,7 @@ The above list may be more formally (and elegantly) represented as follows:
 
 ```{r}
 suppressPackageStartupMessages({library(GSEABase)})
-pbmc3k_markers <- GeneSetCollection(list(
+pbmc3k_markers_gsc <- GeneSetCollection(list(
     GeneSet(setName="CD4 T cells", c("IL7R")),
     GeneSet(setName="CD14+ Monocytes", c("CD14", "LYZ")),
     GeneSet(setName="B cells", c("MS4A1")),
@@ -95,7 +97,17 @@ pbmc3k_markers <- GeneSetCollection(list(
     GeneSet(setName="Dendritic Cells", c("FCER1A", "CST3")),
     GeneSet(setName="Megakaryocytes", c("PPBP"))
 ))
-pbmc3k_markers
+pbmc3k_markers_gsc
+```
+
+Note that generic R lists can easily be packaged into `r Biocpkg("GSEABase")` `GeneSetCollection` objects as documented in `?GeneSetCollection`, namely:
+
+```{r}
+pbmc3k_markers_gsc <- GeneSetCollection(mapply(function(geneIds, geneSetId) {
+        GeneSet(geneIds, geneIdType=EntrezIdentifier(),
+                collectionType=NullCollection(),
+                setName=geneSetId)
+    }, pbmc3k_markers_list, names(pbmc3k_markers_list)))
 ```
 
 # Session info {.unnumbered}
