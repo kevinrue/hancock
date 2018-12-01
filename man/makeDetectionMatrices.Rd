@@ -3,7 +3,7 @@
 \name{makeMarkerDetectionMatrix}
 \alias{makeMarkerDetectionMatrix}
 \alias{makeSignatureDetectionMatrix}
-\title{Identify Markers Present in Individual Samples}
+\title{Identify Markers and Signatures Present in Individual Samples}
 \usage{
 makeMarkerDetectionMatrix(se, markers, threshold = 0,
   assay.type = "counts")
@@ -25,14 +25,13 @@ See \code{\link{makeMarkerDetectionMatrix}}}
 \item{object}{A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}".}
 }
 \value{
-A logical matrix indicating the presence of each marker in each sample.
-
-A logical matrix indicating the presence of each signature in each sample.
+\describe{
+\item{\code{makeMarkerDetectionMatrix}}{A logical matrix indicating the presence of each marker in each sample.}
+\item{\code{makeSignatureDetectionMatrix}}{A logical matrix indicating the presence of each signature in each sample.}
+}
 }
 \description{
-Identify Markers Present in Individual Samples
-
-Identify Signatures Present in Individual Samples
+Identify Markers and Signatures Present in Individual Samples
 }
 \examples{
 # Example data ----
@@ -43,8 +42,8 @@ rownames(u) <- paste0("Gene", sprintf("\%03d", seq_len(nrow(u))))
 se <- SummarizedExperiment(assays=list(counts=u))
 
 gsc <- GeneSetCollection(list(
-  GeneSet(setName="Cell type 1", c("Gene001")),
-  GeneSet(setName="Cell type 2", c("Gene002", "Gene003"))
+  GeneSet(setName="Cell type 1", c("Gene001", "Gene002")),
+  GeneSet(setName="Cell type 2", c("Gene003", "Gene004"))
 ))
 
 # Example usage ----
@@ -52,7 +51,5 @@ markerMatrix <- makeMarkerDetectionMatrix(se, unique(unlist(geneIds(gsc))))
 signatureMatrix <- makeSignatureDetectionMatrix(markerMatrix, gsc)
 }
 \author{
-Kevin Rue-Albrecht
-
 Kevin Rue-Albrecht
 }

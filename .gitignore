@@ -5,5 +5,5 @@ inst/doc
 .Ruserdata
 *.html
 *.Rproj
-INTERNAL*
+INTERNAL_*
 .DS_Store

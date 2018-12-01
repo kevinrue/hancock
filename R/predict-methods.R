@@ -88,7 +88,7 @@ predictProportionPositiveForGeneSetCollection <- function(
     # Compute the proportion of each cluster positive for each signature
     uniqueMarkers <- .uniqueMarkers(object)
     stopifnot(all(uniqueMarkers %in% rownames(se)))
-    markerDetectionMatrix <- makeMarkerDetectionMatrix(se, uniqueMarkers, threshold=0, assay.type="counts")
+    markerDetectionMatrix <- makeMarkerDetectionMatrix(se, uniqueMarkers, threshold, assay.type)
     signatureMatrix <- makeSignatureDetectionMatrix(markerDetectionMatrix, object)
 
     clusterNames <- levels(clusterData)
@@ -142,7 +142,7 @@ predictProportionPositiveForGeneSetCollection <- function(
 }
 
 
-#' Identify Markers Present in Individual Samples
+#' Identify Markers and Signatures Present in Individual Samples
 #'
 #' @rdname makeDetectionMatrices
 #'
@@ -151,10 +151,32 @@ predictProportionPositiveForGeneSetCollection <- function(
 #' @param threshold Value \emph{above which} the marker is considered detected.
 #' @param assay.type A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".
 #'
-#' @return A logical matrix indicating the presence of each marker in each sample.
+#' @return
+#' \describe{
+#' \item{\code{makeMarkerDetectionMatrix}}{A logical matrix indicating the presence of each marker in each sample.}
+#' \item{\code{makeSignatureDetectionMatrix}}{A logical matrix indicating the presence of each signature in each sample.}
+#' }
+#'
 #' @export
 #'
 #' @author Kevin Rue-Albrecht
+#'
+#' @examples
+#' # Example data ----
+#' library(SummarizedExperiment)
+#' ncells <- 100
+#' u <- matrix(rpois(20000, 2), ncol=ncells)
+#' rownames(u) <- paste0("Gene", sprintf("%03d", seq_len(nrow(u))))
+#' se <- SummarizedExperiment(assays=list(counts=u))
+#'
+#' gsc <- GeneSetCollection(list(
+#'   GeneSet(setName="Cell type 1", c("Gene001", "Gene002")),
+#'   GeneSet(setName="Cell type 2", c("Gene003", "Gene004"))
+#' ))
+#'
+#' # Example usage ----
+#' markerMatrix <- makeMarkerDetectionMatrix(se, unique(unlist(geneIds(gsc))))
+#' signatureMatrix <- makeSignatureDetectionMatrix(markerMatrix, gsc)
 makeMarkerDetectionMatrix <- function(
     se, markers, threshold=0, assay.type="counts"
 ) {
@@ -173,49 +195,18 @@ makeMarkerDetectionMatrix <- function(
     markerDetectionMatrix
 }
 
-#' Identify Signatures Present in Individual Samples
-#'
 #' @rdname makeDetectionMatrices
 #'
 #' @param matrix A logical matrix indicating the presence of each marker in each sample.
 #' See \code{\link{makeMarkerDetectionMatrix}}
 #' @param object A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}".
 #'
-#' @return A logical matrix indicating the presence of each signature in each sample.
 #' @export
 #'
 #' @importFrom S4Vectors FilterRules evalSeparately
-#'
-#' @author Kevin Rue-Albrecht
-#'
-#' @examples
-#' # Example data ----
-#' library(SummarizedExperiment)
-#' ncells <- 100
-#' u <- matrix(rpois(20000, 2), ncol=ncells)
-#' rownames(u) <- paste0("Gene", sprintf("%03d", seq_len(nrow(u))))
-#' se <- SummarizedExperiment(assays=list(counts=u))
-#'
-#' gsc <- GeneSetCollection(list(
-#'   GeneSet(setName="Cell type 1", c("Gene001")),
-#'   GeneSet(setName="Cell type 2", c("Gene002", "Gene003"))
-#' ))
-#'
-#' # Example usage ----
-#' markerMatrix <- makeMarkerDetectionMatrix(se, unique(unlist(geneIds(gsc))))
-#' signatureMatrix <- makeSignatureDetectionMatrix(markerMatrix, gsc)
 makeSignatureDetectionMatrix <- function(matrix, object) {
     filterExpressions <- .makeFilterExpressionFromGeneSetCollection(object)
     fr <- FilterRules(filterExpressions)
     es <- evalSeparately(fr, as.data.frame(matrix))
     es
-}
-
-.makeFilterExpressionFromGeneSetCollection <- function(object) {
-    filterExpressions <- lapply(
-        names(object),
-        function(x){ parse(text=paste(geneIds(object[[x]]), collapse=" & ")) }
-    )
-    names(filterExpressions) <- names(object)
-    filterExpressions
 }
