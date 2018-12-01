@@ -1,5 +1,6 @@
 
 # Example data ----
+
 ncells <- 100
 u <- matrix(rpois(20000, 2), ncol=ncells)
 rownames(u) <- paste0("Gene", sprintf("%03d", seq_len(nrow(u))))
@@ -11,8 +12,9 @@ gsc <- GeneSetCollection(list(
     GeneSet(setName="Cell type 2", c("Gene003", "Gene004"))
 ))
 
-test_that("predict.GeneSetCollection works for method ProportionPositive", {
+# predict.GeneSetCollection ----
 
+test_that("predict.GeneSetCollection works for method ProportionPositive", {
     dummyCluster <- factor(sample(head(LETTERS, 3), ncol(se), replace = TRUE))
     colData(se)[, "cluster"] <- dummyCluster
 
