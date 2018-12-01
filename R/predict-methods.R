@@ -1,6 +1,8 @@
 
 #' Predict Method for GeneSetCollection signatures
 #'
+#' @aliases predict
+#'
 #' @param object A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}".
 #' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
 #' @param assay.type A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".
@@ -23,6 +25,7 @@
 #' }
 #'
 #' @export
+#' @method predict GeneSetCollection
 #'
 #' @importFrom S4Vectors metadata
 #'
@@ -52,7 +55,7 @@ predict.GeneSetCollection <- function(
     method <- match.arg(method)
 
     if (identical(method, "ProportionPositive")) {
-        se <- predictProportionPositiveForGeneSetCollection(object, se, assay.type, ...)
+        se <- predictProportionSignatureByCluster(object, se, assay.type, ...)
     }
 
     # Update the Hancock metadata.
@@ -77,7 +80,7 @@ predict.GeneSetCollection <- function(
 #' @importFrom S4Vectors DataFrame
 #'
 #' @author Kevin Rue-Albrecht
-predictProportionPositiveForGeneSetCollection <- function(
+predictProportionSignatureByCluster <- function(
     object, se, assay.type, cluster.col, threshold=0
 ) {
     # Sanity checks

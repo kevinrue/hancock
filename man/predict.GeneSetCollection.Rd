@@ -2,14 +2,15 @@
 % Please edit documentation in R/predict-methods.R
 \name{predict.GeneSetCollection}
 \alias{predict.GeneSetCollection}
-\alias{predictProportionPositiveForGeneSetCollection}
+\alias{predict}
+\alias{predictProportionSignatureByCluster}
 \title{Predict Method for GeneSetCollection signatures}
 \usage{
 \method{predict}{GeneSetCollection}(object, se, assay.type = "counts",
   method = c("ProportionPositive"), ...)
 
-predictProportionPositiveForGeneSetCollection(object, se, assay.type,
-  cluster.col, threshold = 0)
+predictProportionSignatureByCluster(object, se, assay.type, cluster.col,
+  threshold = 0)
 }
 \arguments{
 \item{object}{A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}".}
