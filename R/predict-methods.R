@@ -71,15 +71,58 @@ predict.GeneSetCollection <- function(
     se
 }
 
-#' @param cluster.col Name of column in \code{colData(se)} that contains a factor indicating cluster membership for each column (i.e. sample) in \code{se}.
-#' @param threshold Value \emph{above which} the marker is considered detected.
+#' Identify the Dominant Signatures in Clusters of Samples
 #'
-#' @rdname predict.GeneSetCollection
+#' This method computes the proportion of samples positive for each signature in each (predefined) cluster,
+#' and identifies the predominant signature in each cluster.
+#' The function stores information tracing the prediction process in the \code{metadata} slot. See Details.
+#'
+#' @details
+#' The function populates the \code{"Hancock"} element of the \code{metadata} slot with the following values:
+#' \describe{
+#' \item{\code{GeneSetCollection}}{Signatures used to make the predictions}
+#' \item{\code{method}}{Name of the method used to make the predictions}
+#' \item{\code{packageVersion}}{\code{Hancock} version used to make the predictions}
+#' \item{\code{ProportionPositiveByCluster}}{Matrix indicating the proportion of cells in each cluster that are positive for each signature.}
+#' \item{\code{TopSignatureByCluster}}{Named vector indicating the predominant signature for each cluster.}
+#' }
+#'
+#' @param object A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}".
+#' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
+#' @param cluster.col Name of column in \code{colData(se)} that contains
+#' a factor indicating cluster membership for each column (i.e. sample) in \code{se}.
+#' @param assay.type A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".
+#' @param threshold Value \emph{above which} the marker is considered detected.
 #'
 #' @importFrom SummarizedExperiment colData colData<- metadata<-
 #' @importFrom S4Vectors DataFrame
 #'
+#' @export
+#'
 #' @author Kevin Rue-Albrecht
+#' @examples
+#' # Example data ----
+#' library(SummarizedExperiment)
+#' ncells <- 100
+#' u <- matrix(rpois(20000, 1), ncol=ncells)
+#' rownames(u) <- paste0("Gene", sprintf("%03d", seq_len(nrow(u))))
+#' colnames(u) <- paste0("Cell", sprintf("%03d", seq_len(ncol(u))))
+#' se <- SummarizedExperiment(assays=list(counts=u))
+#'
+#' gsc <- GeneSetCollection(list(
+#'     GeneSet(setName="Cell type 1", c("Gene001", "Gene002")),
+#'     GeneSet(setName="Cell type 2", c("Gene003", "Gene004"))
+#' ))
+#' colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace = TRUE))
+#'
+#' # Example usage ----
+#' library(circlize)
+#' # Identify the dominant signature in each cluster
+#' se <- predictProportionSignatureByCluster(gsc, se, cluster.col="cluster")
+#' # Visualise the proportion of samples positive for each signature in each cluster
+#' plotProportionPositive(
+#'   se, cluster_rows=FALSE, cluster_columns=FALSE,
+#'   col = colorRamp2(c(0, 100), c("white", "red")))
 predictProportionSignatureByCluster <- function(
     object, se, cluster.col, assay.type="counts", threshold=0
 ) {
@@ -88,8 +131,8 @@ predictProportionSignatureByCluster <- function(
         stop("cluster.col is required for method 'ProportionPositive'")
     }
     stopifnot(!missing(cluster.col))
+    stopifnot(is.factor(colData(se)[, cluster.col, drop=TRUE]))
     clusterData <- colData(se)[, cluster.col, drop=TRUE]
-    stopifnot(is.factor(clusterData))
 
     # Compute the proportion of each cluster positive for each signature
     uniqueMarkers <- .uniqueMarkers(object)

@@ -3,14 +3,10 @@
 \name{predict.GeneSetCollection}
 \alias{predict.GeneSetCollection}
 \alias{predict}
-\alias{predictProportionSignatureByCluster}
 \title{Predict Method for GeneSetCollection signatures}
 \usage{
 \method{predict}{GeneSetCollection}(object, se, assay.type = "counts",
   method = c("ProportionPositive"), ...)
-
-predictProportionSignatureByCluster(object, se, cluster.col,
-  assay.type = "counts", threshold = 0)
 }
 \arguments{
 \item{object}{A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}".}
@@ -22,10 +18,6 @@ predictProportionSignatureByCluster(object, se, cluster.col,
 \item{method}{Prediction method. See section "Prediction methods".}
 
 \item{...}{Additional arguments affecting the predictions produced.}
-
-\item{cluster.col}{Name of column in \code{colData(se)} that contains a factor indicating cluster membership for each column (i.e. sample) in \code{se}.}
-
-\item{threshold}{Value \emph{above which} the marker is considered detected.}
 }
 \value{
 The object \code{se}, updated as follows:
@@ -68,7 +60,5 @@ colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace 
 predict(gsc, se1, method="ProportionPositive", cluster.col="cluster")
 }
 \author{
-Kevin Rue-Albrecht
-
 Kevin Rue-Albrecht
 }
