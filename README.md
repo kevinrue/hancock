@@ -6,3 +6,7 @@
 # Hancock
 
 The goal of Hancock is to provide a collection of single-cell methods for learning and applying gene signatures associated with cell identities.
+
+# Usage
+
+Demonstration notebooks are available on the companion repository: https://github.com/kevinrue/Hancock2018
