@@ -9,8 +9,8 @@
 \method{predict}{GeneSetCollection}(object, se, assay.type = "counts",
   method = c("ProportionPositive"), ...)
 
-predictProportionSignatureByCluster(object, se, assay.type, cluster.col,
-  threshold = 0)
+predictProportionSignatureByCluster(object, se, cluster.col,
+  assay.type = "counts", threshold = 0)
 }
 \arguments{
 \item{object}{A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}".}

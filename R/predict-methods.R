@@ -55,7 +55,7 @@ predict.GeneSetCollection <- function(
     method <- match.arg(method)
 
     if (identical(method, "ProportionPositive")) {
-        se <- predictProportionSignatureByCluster(object, se, assay.type, ...)
+        se <- predictProportionSignatureByCluster(object, se, ..., assay.type=assay.type)
     }
 
     # Update the Hancock metadata.
@@ -81,9 +81,12 @@ predict.GeneSetCollection <- function(
 #'
 #' @author Kevin Rue-Albrecht
 predictProportionSignatureByCluster <- function(
-    object, se, assay.type, cluster.col, threshold=0
+    object, se, cluster.col, assay.type="counts", threshold=0
 ) {
     # Sanity checks
+    if (missing(cluster.col)) {
+        stop("cluster.col is required for method 'ProportionPositive'")
+    }
     stopifnot(!missing(cluster.col))
     clusterData <- colData(se)[, cluster.col, drop=TRUE]
     stopifnot(is.factor(clusterData))

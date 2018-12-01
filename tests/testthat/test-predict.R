@@ -45,3 +45,10 @@ test_that("predict.GeneSetCollection works for method ProportionPositive", {
     expect_s3_class(TopSignatureByCluster, "factor")
     expect_length(TopSignatureByCluster, nlevels(se$cluster))
 })
+
+test_that("predictProportionSignatureByCluster requires argument col.cluster", {
+    expect_error(
+        predictProportionSignatureByCluster(gsc, se),
+        "cluster.col is required for method 'ProportionPositive'"
+    )
+})
