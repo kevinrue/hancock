@@ -29,9 +29,9 @@ Discuss:
 - in the same vein, all cells in an organism basically originate from a common progenitor
 - cell states may be defined similarly to cell types (e.g. markers of activated/resting cells)
 
-# Definition of absolute and relative markers and signatures
+# Definitions
 
-## Definitions
+## Definitions of absolute and relative markers and signatures
 
 **Absolute markers** may be defined as molecules (e.g. protein, transcripts) known to be present or absent in a given population of cells, _irrespective of their expression in other cells of the same sample_.
 For instance, T helper lymphocytes can be defined by the presence of surface proteins Cd3 and Cd4, while T cytotoxic lymphocytes are defined by the presence of surface proteins Cd3 and Cd8.
@@ -40,13 +40,23 @@ To assess whether a cell is likely a T helper lymphocyte, one does not need to k
 **Relative markers** may be defined by _differential_ expression against other cells in the same sample.
 For instance, in a biological sample including both T helper and T cytotoxic lymphocytes, differential expression between the two lypmphocyte subsets would highlight Cd4 as a (relative) marker of T helper lymphocytes and Cd8 as a (relative) marker of T cytotoxic lymphocytes.
 
-Note that sets of **absolute markers** may also be subsetted to markers _specific_ of each cell population, either to increase stringency (due to their specificity) or sensitivity (due to their smaller number).
+Note that sets of **absolute markers** may also be trimmed to markers _specific_ (i.e., unique) to each cell population, either to increase stringency (due to their specificity) or sensitivity (due to their smaller number).
 For instance, Cd3 being a marker of both T helper and T cytotoxic lymphocytes, one may wish to exclude it from both signatures, in a manner similar to **relative markers**.
 Such markers may be called **relative absolute markers**, as they are composed of **absolute markers** compared to one another in order to identify specific subsets of markers.
+
+## Definitions qualititative and quantitative signatures
+
+**Qualitative signatures** may be defined as those comprising lists of gene identifiers that are known to be either present or absent in a given population of cells.
+
+**Quantitative signatures** may be define as either full transcriptional profiles of cell populatitons, or gene lists accompanied with quantitative gene expression information (e.g., TPM).
+
+In addition, **Semi-quantitative signatures** may be defined as signatures accompanied with summarized gene expression data (e.g. gene rank by decreasing TPM).
 
 ## Applications
 
 The origin of markers and signature dictates how they should be used in downstream classification tasks.
+
+### Markers
 
 **Absolute markers** present the advantage of allowing the immediate characterization of any cell or cluster, without the need of a reference cell of cluster.
 In this case, each cell or cluster may be screened for the presence of absolute markers, and assigned an identity independently of all other cells in the sample.
@@ -57,6 +67,21 @@ However, cells within a given sample are generally the result of sorting (e.g. F
 In those cases, the markers used for sorting the cells generally appear as highly expressed in all cells, making it difficult or impossible to identify as relative markers.
 
 **Relative absolute markers** may be advantageous when dealing with closely related cell populations or novel populations defined by new markers relative to canonical markers and cell types.
+
+### Signatures
+
+**Qualitative signatures** may provide particularly fast and convenient ways to apply FACS-like "gating" strategies to the definition of cell identities.
+The main challenge for such signatures is to define _thresholds_ under and above which transcripts may be considered as absent or present (a natural default threshold being 0).
+The main advantage of qualitative signatures being that the presence or absence of any transcript should be considerably more stable than its fluctuating expression level.
+
+**Quantitative signatures** may provide considerably more precise information on the relative expression level of markers (and other) genes.
+However, this additional information carries additional constraints and caveats with it, namely:
+
+- the naturally fluctuating level of transcripts in individual samples means that independent data sets will never produce exactly identical quantitative signatures
+- in relation to this, quantitative signatures should ideally require users to process and quantitate their new data set _identically_ to the reference data set use to define those signatures; such methods generally limit reproducibility between researchers and software versions, in addition to greatly hindering the definition, distribution, and interpretation of "gold standard" signatures.
+
+**Semi-quantitative signatures** may provide a compromise between qualitative and quantitaive signatures, summarizing fluctuating **quantitative signatures** into more stable semi-quantitative summary metrics (e.g., gene rank by expression level).
+For instance, such signatures may be used to identify the most correlated reference sample to any cell or cluster in a new data set, allowing (to some extent) the comparison of even imperfectly correlated quantitative measurements (e.g. TPM and CPM).
 
 # Representation of signatures
 
