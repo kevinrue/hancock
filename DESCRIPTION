@@ -11,16 +11,16 @@ biocViews: GeneExpression, Transcriptomics, SingleCell
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Depends: SummarizedExperiment
+Depends: SummarizedExperiment, GSEABase
 Imports:
     methods,
     utils,
+    S4Vectors
 Suggests: 
     knitr,
     rmarkdown,
     BiocStyle,
     testthat,
-    covr,
-    GSEABase
+    covr
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1

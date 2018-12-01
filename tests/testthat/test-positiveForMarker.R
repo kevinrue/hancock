@@ -9,16 +9,16 @@ rownames(u) <- paste0("Gene", sprintf("%03d", seq_len(nrow(u))))
 
 test_that("positiveForMarker works for SummarizedExperiment", {
 
-    sce <- SummarizedExperiment(assays=list(counts=u))
+    se <- SummarizedExperiment(assays=list(counts=u))
 
-    out <- positiveForMarker(sce, "Gene001", 0, assay="counts")
+    out <- positiveForMarker(se, "Gene001", 0, assay="counts")
 
-    expected <- (assay(sce, "counts")["Gene001", ] > 0)
+    expected <- (assay(se, "counts")["Gene001", ] > 0)
     expect_identical(out, expected)
 
     # Catch invalid assay names
     expect_error(
-        positiveForMarker(sce, "Gene001", 0, assay="test")
+        positiveForMarker(se, "Gene001", 0, assay="test")
     )
 
 })
