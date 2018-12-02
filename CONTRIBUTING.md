@@ -94,3 +94,8 @@ Most importantly, plotting function should first check that the input `se` objec
 Plotting functions should return a minimal `ggplot2::ggplot` or `ComplexHeatmap::Heatmap` object, giving users maximal freedom to customize the plot.
 
 For an example, please refer to `plotProportionPositive`, using the result of the `predictProportionSignatureByCluster` method.
+
+## Terminology
+
+Until the [Cell Ontology](https://www.ebi.ac.uk/ols/ontologies/cl) or [Human Cell Atlas](https://www.humancellatlas.org) come up with some reference terminology, avoid the use of "cell type" and "(sub)<sub>n</sub>types" in the code and accompanying documentation.
+Those terms are increasingly confusing and open for interpretation as single-cell technologies advance our understanding of _cell differentiation_ into functionally distinct _cell populations_ or _compartments_ currently discriminated by their respective canonical set of _cell surface proteins_ and _transcriptional profiles_ (a few examples of terms that more specifically address individual aspects of the definition of "cell types").
