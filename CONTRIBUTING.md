@@ -5,7 +5,7 @@ Here are a few guidelines to help develop and maintain a consistent coding style
 
 ## Primary objectives
 
-Most importantly, contributions should directly contribute to the primary objectives of the package. namely:
+Most importantly, contributions should directly contribute to the primary objectives of the package, namely:
 
 1. Apply signatures to assign cell identities to new data sets
 2. Learn new signatures from data sets, in a format compatible with (1.)
