@@ -10,6 +10,12 @@ Most importantly, contributions should directly contribute to the primary object
 1. Apply signatures to assign cell identities to new data sets
 2. Learn new signatures from data sets, in a format compatible with (1.)
 
+## Coding style
+
+This package follows the _Bioconductor_ coding style (https://bioconductor.org/developers/how-to/coding-style/).
+
+Use common _Bioconductor_ methods and classes, in particular `SummarizedExperiment` and `GeneSetCollection`.
+
 ## Unit tests and code coverage
 
 Code coverage should remain at 100%.
@@ -18,8 +24,6 @@ Every function, both internal and exported, should be accompanied with its own u
 A single unit test may include multiple `expect_*` assertions. Use as many `expect_*` as appropriate.
 
 Note that large functions that include several `if` statements and require multiple unit tests to cover every scenario can generally be refactored in multiple smaller functions easier to unit test individually.
-
-
 
 ## Internal functions
 
