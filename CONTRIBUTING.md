@@ -15,6 +15,7 @@ Most importantly, contributions should directly contribute to the primary object
 This package follows the _Bioconductor_ coding style (https://bioconductor.org/developers/how-to/coding-style/).
 
 Use common _Bioconductor_ methods and classes, in particular `SummarizedExperiment` and `GeneSetCollection`.
+More details are available at https://bioconductor.org/developers/how-to/commonMethodsAndClasses/.
 
 ## Unit tests and code coverage
 
