@@ -45,7 +45,7 @@ New prediction methods should be first implemented as a separate functions, indi
 All prediction methods must accept `object` and `se` as their first two arguments, respectively the `GeneSetCollection` and `SummarizedExperiment` used to make predictions.
 Additional method-specific parameters may be accepted from the third argument onward.
 
-Once implemented as its own function, new methods should be made available through the `predict.GeneSetCollection` function using a unique `method` identifier.
+Once implemented as its own function, a new method should be made available through the `predict.GeneSetCollection` function using a unique `method` identifier.
 
 Prediction methods should return the input `SummarizedExperiment` object updated as follows:
 
