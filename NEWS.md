@@ -11,4 +11,5 @@
 * Added methods for the application of signatures:
     `predict.GeneSetCollection`, `predictProportionSignatureByCluster`.
 * Added predicting method `ProportionPositive`.
+* Added plotting method `plotProportionPositive`.
 * Added various internal helper functions.

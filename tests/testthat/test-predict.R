@@ -44,6 +44,10 @@ test_that("predict.GeneSetCollection works for method ProportionPositive", {
     TopSignatureByCluster <- metadata(out)[["Hancock"]][["TopSignatureByCluster"]]
     expect_s3_class(TopSignatureByCluster, "factor")
     expect_length(TopSignatureByCluster, nlevels(se$cluster))
+
+    # Test plotting methods
+    plotOut <- plotProportionPositive(out)
+    expect_s4_class(plotOut, "Heatmap")
 })
 
 test_that("predictProportionSignatureByCluster requires argument col.cluster", {
@@ -51,4 +55,10 @@ test_that("predictProportionSignatureByCluster requires argument col.cluster", {
         predictProportionSignatureByCluster(gsc, se),
         "cluster.col is required for method 'ProportionPositive'"
     )
+})
+
+test_that("plotProportionPositive requires predictProportionSignatureByCluster results", {
+    expect_error(
+        plotProportionPositive(se),
+        "Method 'ProportionPositive' was not run yet.")
 })

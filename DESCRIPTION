@@ -15,12 +15,14 @@ Depends: SummarizedExperiment, GSEABase
 Imports:
     methods,
     utils,
-    S4Vectors
+    S4Vectors,
+    ComplexHeatmap
 Suggests: 
     knitr,
     rmarkdown,
     BiocStyle,
     testthat,
-    covr
+    covr,
+    circlize
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
