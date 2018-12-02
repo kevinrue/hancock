@@ -70,7 +70,7 @@ For an example template, please refer to the prediction method `predictProportio
 
 New plotting functions should accept `se` as their first argument, namely a `SummarizedExperiment` returned by any prediction method (see above).
 
-Most importantly, pPlotting function should first check that the input `se` object contains the results of the associated prediction method(s).
+Most importantly, plotting function should first check that the input `se` object contains the results of the associated prediction method(s).
 
 Plotting functions should return a minimal `ggplot2::ggplot` or `ComplexHeatmap::Heatmap` object, giving users maximal freedom to customize the plot.
 
