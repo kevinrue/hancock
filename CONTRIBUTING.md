@@ -14,7 +14,7 @@ Most importantly, contributions should directly contribute to the primary object
 
 Ideally, a proof-of-concept Rmarkdown notebook should demonstrate the method _before_ adding any new function in `Hancock` (i.e., explicitly declaring any new function in the notebook itself).
 
-This can save significant time through community feedback and suggestions from both expert developers and prospective users on the implementation and expected usage _before_ investing significant time and effort into packaging and documenting functions.
+This can save significant time through community feedback and suggestions from both expert developers and prospective users on the implementation and expected usage of a new functionality _before_ investing significant time and effort into packaging and documenting functions.
 
 For an example, please refer to the proof-of-concept of the `predictProportionSignatureByCluster` function available [here](https://github.com/kevinrue/Hancock2018/blob/master/1-proportion_signature.Rmd).
 
