@@ -153,10 +153,12 @@ Conceptually, the transcriptional signatures of Ly6C^hi^ monocytes and mature F4
 colored_gsc <- GeneSetCollection(list(
     GeneColorSet(
         setName="Monocytes", c("Ly6c1", "MHCII"), phenotype=c("Ly6Chi"),
-        geneColor=factor(c("high", "absent")), phenotypeColor=factor(c("yes", "yes"))),
+        geneColor=factor(c("high", "absent")),
+        phenotypeColor=factor(c("yes", "yes"))),
     GeneColorSet(
         setName="Macrophages", c("Ly6c1", "MHCII"), phenotype=c("mature F4/80hi CX3CR1hi MHCII+"),
-        geneColor=factor(c("low", "present")), phenotypeColor=factor(c("yes", "yes")))
+        geneColor=factor(c("low", "present")),
+        phenotypeColor=factor(c("yes", "yes")))
 ))
 colored_gsc
 ```
