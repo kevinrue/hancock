@@ -26,6 +26,14 @@ A single unit test may include multiple `expect_*` assertions. Use as many `expe
 
 Note that large functions that include several `if` statements and require multiple unit tests to cover every scenario can generally be refactored in multiple smaller functions easier to unit test individually.
 
+The following code is useful to track down lines that are not covered by unit tests:
+
+```
+library(covr)
+pc <- package_coverage()
+report(pc)
+```
+
 ## Internal functions
 
 Internal functions should also be documented using roxygen comments (http://r-pkgs.had.co.nz/man.html).
