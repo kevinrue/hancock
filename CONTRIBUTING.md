@@ -26,7 +26,7 @@ Ideally, a proof-of-concept Rmarkdown notebook should demonstrate the method _be
 
 This can save significant time through community feedback and suggestions from both expert developers and prospective users on the implementation and expected usage of a new functionality _before_ investing significant time and effort into packaging and documenting functions.
 
-For an example, please refer to the proof-of-concept of the `predictProportionSignatureByCluster` function available [here](https://github.com/kevinrue/Hancock2018/blob/master/1-proportion_signature.Rmd).
+For an example, please refer to the proof-of-concept of the `predictProportionSignatureByCluster` function available [here](https://github.com/kevinrue/Hancock2018/blob/3e065aca67071338b1fcf496790da239ace5425c/1-proportion_signature.Rmd).
 
 
 ## Coding style
