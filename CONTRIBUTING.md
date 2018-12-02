@@ -20,7 +20,7 @@ More details are available at https://bioconductor.org/developers/how-to/commonM
 ## Unit tests and code coverage
 
 Code coverage should remain at 100%.
-Every function, both internal and exported, should be accompanied with its own unit test(s).
+Every function, both internal and exported, should be accompanied with its own unit test(s) as part of the _same_ pull request.
 
 A single unit test may include multiple `expect_*` assertions. Use as many `expect_*` as appropriate.
 
@@ -38,3 +38,32 @@ Nevertheless, required sections are:
 - `@param`
 - `@return`
 - `@author`
+
+## New prediction methods
+
+New prediction methods should be first implemented as a separate functions, individually exported in the `NAMESPACE` file.
+All prediction methods must accept `object` and `se` as their first two arguments, respectively the `GeneSetCollection` and `SummarizedExperiment` used to make predictions.
+Additional method-specific parameters may be accepted from the third argument onward.
+
+Once implemented as its own function, new methods should be made available through the `predict.GeneSetCollection` function using a unique `method` identifier.
+
+Prediction methods should return the input `SummarizedExperiment` object updated as follows:
+
+- In the `colData` slot, a `DataFrame` nested in a new (or updated) `"Hancock"` column should contain at least a first column called `prediction`. Additional, method-specific columns may be present from the second column onward.
+- In the `metadata` slot, a `list` in a new (or updated) `"Hancock"` element, should contain at least the following elements:
+    - `"GeneSetCollection"`: the `GeneSetCollection` object used to make the predictions
+    - `"method"`: Identifier of the method used to make the predictions
+    - `"packageVersion"`: Version of the `Hancock` package used to make the predictions
+    - Additional, method-specific elements may appear _after_ the above general metadata
+
+For an example template, please refer to the prediction method `predictProportionSignatureByCluster`, made available using the `"ProportionPositive"` identifier.
+
+## New plotting functions
+
+New plotting functions should accept `se` as their first argument, namely a `SummarizedExperiment` returned by any prediction method (see above).
+
+Most importantly, pPlotting function should first check that the input `se` object contains the results of the associated prediction method(s).
+
+Plotting functions should return a minimal `ggplot2::ggplot` or `ComplexHeatmap::Heatmap` object, giving users maximal freedom to customize the plot.
+
+For an example, please refer to `plotProportionPositive`, using the result of the `predictProportionSignatureByCluster` method.
