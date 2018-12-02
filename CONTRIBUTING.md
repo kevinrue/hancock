@@ -3,6 +3,16 @@
 
 Here are a few guidelines to help develop and maintain a consistent coding style.
 
+## Table of contents
+
+* [Primary objectives](#primary-objectives)
+* [Proof of concepts](#proof-of-concepts)
+* [Coding style](#coding-style)
+* [Unit tests and code coverage](#unit-tests-and-code-coverage)
+* [Internal functions](#internal-functions)
+* [New prediction methods](#new-prediction-methods)
+* [New plotting functions](#new-plotting-functions)
+
 ## Primary objectives
 
 Most importantly, contributions should directly contribute to the primary objectives of the package, namely:
