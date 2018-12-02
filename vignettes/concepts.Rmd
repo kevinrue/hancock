@@ -46,11 +46,11 @@ Such markers may be called **relative absolute markers**, as they are composed o
 
 ## Definitions qualititative and quantitative signatures
 
-**Qualitative signatures** may be defined as those comprising lists of gene identifiers that are known to be either present or absent in a given population of cells.
+**Qualitative signatures** may be defined as those comprising lists of gene identifiers that are known to be either present or absent in a given population of cells, without _any_ quantitative information (i.e., neither absolute nor relative, see below).
 
-**Quantitative signatures** may be define as either full transcriptional profiles of cell populatitons, or gene lists accompanied with quantitative gene expression information (e.g., TPM).
+**Quantitative signatures** may be defined as either full transcriptional profiles of cell populatitons, or gene lists accompanied with either absolute or relative quantitative gene expression information (e.g., counts, transcripts per million).
 
-In addition, **Semi-quantitative signatures** may be defined as signatures accompanied with summarized gene expression data (e.g. gene rank by decreasing TPM).
+In addition, **Semi-quantitative signatures** may be defined as signatures accompanied with summarized gene expression data (e.g., gene rank by decreasing TPM).
 
 ## Applications
 
