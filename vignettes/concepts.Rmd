@@ -19,6 +19,7 @@ vignette: |
     %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
+bibliography: Hancock.bib
 ---
 
 # Definition of cell identity
@@ -110,8 +111,8 @@ are used to describe contents of pathways ([source](https://support.bioconductor
 
 The above list may be more formally (and elegantly) represented as follows:
 
-```{r}
-suppressPackageStartupMessages({library(GSEABase)})
+```{r, message=FALSE}
+library(GSEABase)
 pbmc3k_markers_gsc <- GeneSetCollection(list(
     GeneSet(setName="CD4 T cells", c("IL7R")),
     GeneSet(setName="CD14+ Monocytes", c("CD14", "LYZ")),
@@ -133,6 +134,44 @@ pbmc3k_markers_gsc <- GeneSetCollection(mapply(function(geneIds, geneSetId) {
                 collectionType=NullCollection(),
                 setName=geneSetId)
     }, pbmc3k_markers_list, names(pbmc3k_markers_list)))
+```
+
+## Combinations of positive and negative markers using the `GeneColorSet` class
+
+"Colored" gene sets, implemented in the `GeneColorSet` class, can store information about the relation between each gene and a given phenotype.
+For the purpose of signatures associated with individual cell types, we may consider the identity of a differentiated cell as the phenotype of interest.
+
+In particular, individual genes may be positively _or_ negatively associated with certain populations of cells.
+Such genes may be called **positive markers** or **negative markers** for the associated cell population.
+
+For instance, the differentiation of monocytes into mature F4/80^hi^ CX3CR1^hi^ MHCII^+^ macrophages in the murine colonic mucosa is described as a "waterfall" that visually describes the concomitant downregulation of Ly6C and upregulation of MHCII
+[@monocytewaterfall2012].
+
+Conceptually, the transcriptional signatures of Ly6C^hi^ monocytes and mature F4/80^hi^ CX3CR1^hi^ MHCII^+^ macrophages may be represented as follows:
+
+```{r}
+colored_gsc <- GeneSetCollection(list(
+    GeneColorSet(
+        setName="Monocytes", c("Ly6c1", "MHCII"), phenotype=c("Ly6Chi"),
+        geneColor=factor(c("high", "absent")), phenotypeColor=factor(c("yes", "yes"))),
+    GeneColorSet(
+        setName="Macrophages", c("Ly6c1", "MHCII"), phenotype=c("mature F4/80hi CX3CR1hi MHCII+"),
+        geneColor=factor(c("low", "present")), phenotypeColor=factor(c("yes", "yes")))
+))
+colored_gsc
+```
+
+The monocytic signature can be extracted, for further inspection.
+
+```{r}
+colored_gsc[["Monocytes"]]
+```
+
+It is also possible to examine the relationship of individual markers with respect to the "Ly6Chi Monocyte" phenotype.
+
+```{r}
+colored_gsc[["Monocytes"]][["Ly6c1"]]
+colored_gsc[["Monocytes"]][["MHCII"]]
 ```
 
 # Session info {.unnumbered}
