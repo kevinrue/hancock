@@ -27,8 +27,8 @@ bibliography: Hancock.bib
 Discuss:
 
 - cell type is a continuum (e.g. differentiation, pseudotime)
-- in the same vein, all cells in an organism basically originate from a common progenitor
-- cell states may be defined similarly to cell types (e.g. markers of activated/resting cells)
+- in the same notion, all cells in an organism basically originate from a common progenitor (itself coming from two, etc.)
+- cell "states" may be defined similarly to cell "types" (e.g. markers of activated/resting cells)
 
 # Definitions
 
@@ -139,6 +139,7 @@ pbmc3k_markers_gsc <- GeneSetCollection(mapply(function(geneIds, geneSetId) {
 ## Combinations of positive and negative markers using the `GeneColorSet` class
 
 "Colored" gene sets, implemented in the `GeneColorSet` class, can store information about the relation between each gene and a given phenotype.
+Here, "colors" are `factor` levels used to represent the "state" of each gene (e.g., expression levels "up", "down", or "unchanged"), and a phenotypic consequence (e.g., the phenotype is "enhanced" or "reduced").
 For the purpose of signatures associated with individual cell types, we may consider the identity of a differentiated cell as the phenotype of interest.
 
 In particular, individual genes may be positively _or_ negatively associated with certain populations of cells.
@@ -153,12 +154,12 @@ Conceptually, the transcriptional signatures of Ly6C^hi^ monocytes and mature F4
 colored_gsc <- GeneSetCollection(list(
     GeneColorSet(
         setName="Monocytes", c("Ly6c1", "MHCII"), phenotype=c("Ly6Chi"),
-        geneColor=factor(c("high", "absent")),
-        phenotypeColor=factor(c("yes", "yes"))),
+        geneColor=factor(c("high", "-")),
+        phenotypeColor=factor(c(TRUE, TRUE))),
     GeneColorSet(
         setName="Macrophages", c("Ly6c1", "MHCII"), phenotype=c("mature F4/80hi CX3CR1hi MHCII+"),
-        geneColor=factor(c("low", "present")),
-        phenotypeColor=factor(c("yes", "yes")))
+        geneColor=factor(c("low", "+")),
+        phenotypeColor=factor(c(TRUE, TRUE)))
 ))
 colored_gsc
 ```
