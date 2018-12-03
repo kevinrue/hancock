@@ -1,10 +1,10 @@
 # Hancock 0.99.0
 
 * Added a `NEWS.md` file to track changes to the package.
-* Added Travis CI.
+* Added Travis continuous integration.
 * Added `testthat` unit tests.
 * Added `codecov` code coverage.
-* Added vignette discussing concepts.
+* Added vignette discussing concepts related to the package functionality.
 * Added methods for the detection of markers and signatures:
     `positiveForMarker` (generic), `makeMarkerDetectionMatrix`,
     `makeSignatureDetectionMatrix`.

@@ -21,6 +21,9 @@ Most importantly, contributions should directly contribute to the primary object
 1. Apply signatures to assign cell identities to new data sets
 2. Learn new signatures from data sets, in a format compatible with (1.)
 
+Existing methods implemented in other _R_ packages are welcome.
+Those should be handled as described in the [New prediction methods](#new-prediction-methods) section.
+
 ## Proof of concepts
 
 Ideally, a proof-of-concept Rmarkdown notebook should demonstrate the method _before_ adding any new function in `Hancock` (i.e., explicitly declaring any new function in the notebook itself).
@@ -34,7 +37,7 @@ For an example, please refer to the proof-of-concept of the `predictProportionSi
 
 This package follows the _Bioconductor_ coding style (https://bioconductor.org/developers/how-to/coding-style/).
 
-Use common _Bioconductor_ methods and classes, in particular `SummarizedExperiment` and `GeneSetCollection`.
+Please use common _Bioconductor_ methods and classes, in particular `SummarizedExperiment` and `GeneSetCollection`.
 More details are available at https://bioconductor.org/developers/how-to/commonMethodsAndClasses/.
 
 ## Unit tests and code coverage
@@ -53,6 +56,10 @@ library(covr)
 pc <- package_coverage()
 report(pc)
 ```
+
+## NEWS file
+
+Until the package is made available through the [_Bioconductor_](https://bioconductor.org) project, all new features should be described under the "Hancock 0.99.0" section, as part of the _same_ pull request.
 
 ## Internal functions
 
@@ -98,5 +105,5 @@ For an example, please refer to `plotProportionPositive`, using the result of th
 
 ## Terminology
 
-Until the [Cell Ontology](https://www.ebi.ac.uk/ols/ontologies/cl) or [Human Cell Atlas](https://www.humancellatlas.org) come up with some reference terminology, avoid the use of "cell type" and "(sub)<sub>n</sub>types" in the code and accompanying documentation.
+Until the [Cell Ontology](https://www.ebi.ac.uk/ols/ontologies/cl) or [Human Cell Atlas](https://www.humancellatlas.org) come up with some reference terminology, avoid the use of "cell type" and "(sub-)<sub>n</sub>types" in the code and accompanying documentation.
 Those terms are increasingly confusing and open for interpretation as single-cell technologies advance our understanding of _cell differentiation_ into functionally distinct _cell populations_ or _compartments_ currently discriminated by their respective canonical set of _cell surface proteins_ and _transcriptional profiles_ (a few examples of terms that more specifically address individual aspects of the definition of "cell types").
