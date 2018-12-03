@@ -55,7 +55,7 @@ In addition, **Semi-quantitative signatures** may be defined as signatures accom
 
 ## Applications
 
-The origin of markers and signature dictates how they should be used in downstream classification tasks.
+The origin of markers and signatures dictates how they should be used in downstream classification tasks.
 
 ### Markers
 
