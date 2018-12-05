@@ -5,6 +5,8 @@
 #'
 #' @param object A GeneSetCollection object.
 #'
+#' @return A character vector of unique markers across all signatures.
+#'
 #' @author Kevin Rue-Albrecht
 .uniqueMarkers <- function(
     object

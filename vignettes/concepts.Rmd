@@ -86,7 +86,7 @@ For instance, such signatures may be used to identify the most correlated refere
 
 # Representation of signatures
 
-## Lists of marker names using `GSEABase`
+## Lists of marker names using `GSEABase` {#gseabaselist}
 
 At its simplest a signature could list _positive_ markers that are known to be expressed in each cell type.
 For instance, the PBMC signatures used in the Seurat [PBMC 3k tutorial](https://satijalab.org/seurat/pbmc3k_tutorial.html) may be represented as follows:
@@ -134,6 +134,26 @@ pbmc3k_markers_gsc <- GeneSetCollection(mapply(function(geneIds, geneSetId) {
                 collectionType=NullCollection(),
                 setName=geneSetId)
     }, pbmc3k_markers_list, names(pbmc3k_markers_list)))
+```
+
+## Tibbles of markers using `GeneSet`
+
+The `r Githubpkg("Kayla-Morrell/GeneSet")` package is being actively developped as an expansion of the `GSEABase` package.
+Conveniently, this package makes the definition of gene sets as simple as the use of `list` described [above](#gseabaselist).
+
+```{r}
+library("GeneSet")
+pbmc3k_markers_tbl <- tbl_geneset(
+    "CD4 T cells" = c("IL7R"),
+    "CD14+ Monocytes" = c("CD14", "LYZ"),
+    "B cells" = c("MS4A1"),
+    "CD8 T cells" = c("CD8A"),
+    "FCGR3A+ Monocytes" = c("FCGR3A", "MS4A7"),
+    "NK cells" = c("GNLY", "NKG7"),
+    "Dendritic Cells" = c("FCER1A", "CST3"),
+    "Megakaryocytes" = c("PPBP")
+)
+pbmc3k_markers_tbl
 ```
 
 ## Combinations of positive and negative markers using the `GeneColorSet` class

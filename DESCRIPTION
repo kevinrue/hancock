@@ -7,7 +7,8 @@ Authors@R: c(
     person(given = "Robert", family = "Amezquita", role = c("aut"))
     )
 Description: Applies transcriptional signatures to assign cell identities.
-biocViews: GeneExpression, Transcriptomics, SingleCell
+biocViews: GeneExpression, Transcriptomics, SingleCell, Sequencing,
+    GeneSetEnrichment, GO, KEGG
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -23,6 +24,7 @@ Suggests:
     BiocStyle,
     testthat,
     covr,
-    circlize
+    circlize,
+    GeneSet
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1

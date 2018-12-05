@@ -24,6 +24,14 @@ a factor indicating cluster membership for each column (i.e. sample) in \code{se
 
 \item{threshold}{Value \emph{above which} the marker is considered detected.}
 }
+\value{
+The object \code{se}, updated as follows:
+\itemize{
+\item in the \code{metadata} slot, a \code{"Hancock"} item is added (or updated) with information tracing the prediction process. See Details.
+\item in the \code{colData} slot, a \code{DataFrame} is nested in a new (or updated) \code{"Hancock"} column.
+This DataFrame contains predicted labels in the first and only column.
+}
+}
 \description{
 This method computes the proportion of samples positive for each signature in each (predefined) cluster,
 and identifies the predominant signature in each cluster.
