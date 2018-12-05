@@ -7,15 +7,18 @@ sudo: false
 cache: packages
 
 before_install:
-  - Rscript -e 'install.packages("devtools")'
-  - Rscript -e 'devtools::install(dependencies=TRUE)'
+    - Rscript -e 'install.packages("devtools")'
+    - Rscript -e 'devtools::install(dependencies=TRUE)'
 
 r_build_args: "--no-manual --no-resave-data"
 r_check_args: "--no-build-vignettes --no-manual --timings"
 
 r_packages:
-  - covr
-  - BiocManager
+    - covr
+    - BiocManager
+
+r_github_packages:
+    - Kayla-Morrell/GeneSet
 
 after_success:
-  - Rscript -e 'library(covr); codecov()'
+    - Rscript -e 'library(covr); codecov()'
