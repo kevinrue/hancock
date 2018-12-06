@@ -8,6 +8,7 @@ cache: packages
 
 before_install:
   - Rscript -e 'install.packages("devtools")'
+  - Rscript -e 'devtools::install_github("Kayla-Morrell/GeneSet")'
   - Rscript -e 'devtools::install(dependencies=TRUE)'
 
 r_build_args: "--no-manual --no-resave-data"
@@ -16,9 +17,6 @@ r_check_args: "--no-build-vignettes --no-manual --timings"
 r_packages:
   - covr
   - BiocManager
-
-r_github_packages:
-  - Kayla-Morrell/GeneSet
 
 after_success:
   - Rscript -e 'library(covr); codecov()'
