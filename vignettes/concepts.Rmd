@@ -138,7 +138,14 @@ pbmc3k_markers_gsc <- GeneSetCollection(mapply(function(geneIds, geneSetId) {
 
 ## Tibbles of markers using `GeneSet`
 
-The `r Githubpkg("Kayla-Morrell/GeneSet")` package is being actively developped as an expansion of the `GSEABase` package.
+The `r Githubpkg("Kayla-Morrell/GeneSet")` package is being actively developped as a `tibble` expansion of the `GSEABase` package.
+
+The relevant version can be installed as follows:
+
+```{r, eval=FALSE}
+devtools::install_github("Kayla-Morrell/GeneSet", "tibble_implement")
+```
+
 Conveniently, this package makes the definition of gene sets as simple as the use of `list` described [above](#gseabaselist).
 
 ```{r}
