@@ -142,7 +142,7 @@ The `r Githubpkg("Kayla-Morrell/GeneSet")` package is being actively developped 
 Conveniently, this package makes the definition of gene sets as simple as the use of `list` described [above](#gseabaselist).
 
 ```{r}
-library("GeneSet")
+library(GeneSet)
 pbmc3k_markers_tbl <- tbl_geneset(
     "CD4 T cells" = c("IL7R"),
     "CD14+ Monocytes" = c("CD14", "LYZ"),
