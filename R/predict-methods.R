@@ -94,6 +94,13 @@ predict.GeneSetCollection <- function(
 #' @param assay.type A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".
 #' @param threshold Value \emph{above which} the marker is considered detected.
 #'
+#' @return The object \code{se}, updated as follows:
+#' \itemize{
+#' \item in the \code{metadata} slot, a \code{"Hancock"} item is added (or updated) with information tracing the prediction process. See Details.
+#' \item in the \code{colData} slot, a \code{DataFrame} is nested in a new (or updated) \code{"Hancock"} column.
+#' This DataFrame contains predicted labels in the first and only column.
+#' }
+#'
 #' @importFrom SummarizedExperiment colData colData<- metadata<-
 #' @importFrom S4Vectors DataFrame
 #'

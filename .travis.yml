@@ -8,6 +8,7 @@ cache: packages
 
 before_install:
   - Rscript -e 'install.packages("devtools")'
+  - Rscript -e 'devtools::install_github("Kayla-Morrell/GeneSet", "tibble_implement")'
   - Rscript -e 'devtools::install(dependencies=TRUE)'
 
 r_build_args: "--no-manual --no-resave-data"
