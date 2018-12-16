@@ -86,7 +86,7 @@ For instance, such signatures may be used to identify the most correlated refere
 
 # Representation of signatures
 
-## Lists of marker names using `GSEABase` {#gseabaselist}
+## Lists of marker names {#usinglist}
 
 At its simplest a signature could list _positive_ markers that are known to be expressed in each cell type.
 For instance, the PBMC signatures used in the Seurat [PBMC 3k tutorial](https://satijalab.org/seurat/pbmc3k_tutorial.html) may be represented as follows:
@@ -104,6 +104,8 @@ pbmc3k_markers_list <- list(
 )
 pbmc3k_markers_list
 ```
+
+## Using `GSEABase` {#usinggseabase}
 
 The `GSEABase` package provides infrastructure for enumerating pathways and their contents
 and facilitating translations among the different nomenclatures that
@@ -126,7 +128,7 @@ pbmc3k_markers_gsc <- GeneSetCollection(list(
 pbmc3k_markers_gsc
 ```
 
-Note that generic R lists can easily be packaged into `r Biocpkg("GSEABase")` `GeneSetCollection` objects as documented in `?GeneSetCollection`, namely:
+Note that generic R lists can easily be packaged into `r Biocpkg("GSEABase")` `GeneSetCollection` objects as documented in `?GeneSetCollection`, for instance:
 
 ```{r}
 pbmc3k_markers_gsc <- GeneSetCollection(mapply(function(geneIds, geneSetId) {
@@ -136,7 +138,7 @@ pbmc3k_markers_gsc <- GeneSetCollection(mapply(function(geneIds, geneSetId) {
     }, pbmc3k_markers_list, names(pbmc3k_markers_list)))
 ```
 
-## Tibbles of markers using `GeneSet`
+## Tibbles of markers using `GeneSet` {#usingtibble}
 
 The `r Githubpkg("Kayla-Morrell/GeneSet")` package is being actively developped as a `tibble` expansion of the `GSEABase` package.
 
@@ -146,7 +148,7 @@ The relevant version can be installed as follows:
 devtools::install_github("Kayla-Morrell/GeneSet", "tibble_implement")
 ```
 
-Conveniently, this package makes the definition of gene sets as simple as the use of `list` described [above](#gseabaselist).
+Conveniently, this package makes the definition of gene sets as simple as the use of `list` described [above](#usinglist).
 
 ```{r}
 library(GeneSet)
