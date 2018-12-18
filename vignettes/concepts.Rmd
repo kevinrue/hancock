@@ -30,7 +30,7 @@ bibliography: Hancock.bib
 
 **Last edited**: 2018-03-08
 
-**License**: `r packageDescription("iSEE")[["License"]]`
+**License**: `r packageDescription("Hancock")[["License"]]`
 
 # Definition of cell identity
 
