@@ -8,8 +8,7 @@
 * Added methods for the detection of markers and signatures:
     `positiveForMarker` (generic), `makeMarkerDetectionMatrix`,
     `makeSignatureDetectionMatrix`.
-* Added methods for the application of signatures:
-    `predict.GeneSetCollection`, `predictProportionSignatureByCluster`.
+* Added support for gene set classes: `GeneSetCollection`, `tbl_geneset`.
 * Added predicting method `ProportionPositive`.
 * Added plotting method `plotProportionPositive`.
-* Added various internal helper functions.
+* Added helper functions: `makeFilterExpression`, `uniqueMarkers`.

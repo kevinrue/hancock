@@ -13,7 +13,7 @@ makeSignatureDetectionMatrix(matrix, object)
 \arguments{
 \item{se}{An object of class inheriting from "\code{\link{SummarizedExperiment}}".}
 
-\item{markers}{A character vector, subset of}
+\item{markers}{A character vector, subset of \code{rownames(se)}.}
 
 \item{threshold}{Value \emph{above which} the marker is considered detected.}
 
@@ -22,7 +22,7 @@ makeSignatureDetectionMatrix(matrix, object)
 \item{matrix}{A logical matrix indicating the presence of each marker in each sample.
 See \code{\link{makeMarkerDetectionMatrix}}}
 
-\item{object}{A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}".}
+\item{object}{A collection of signatures inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".}
 }
 \value{
 \describe{
@@ -31,7 +31,12 @@ See \code{\link{makeMarkerDetectionMatrix}}}
 }
 }
 \description{
-Identify Markers and Signatures Present in Individual Samples
+Create matrices of detection events for individual gene features or combination thereof (i.e., signatures).
+}
+\details{
+The \code{makeMarkerDetectionMatrix} function declares a feature as detected if it is detected above a given threshold in a specific assay (e.g., count or UMI matrix).
+
+The \code{makeSignatureDetectionMatrix} function declares a signature (composed of one or more gene features) as detected if all the associated features are detected.
 }
 \examples{
 # Example data ----

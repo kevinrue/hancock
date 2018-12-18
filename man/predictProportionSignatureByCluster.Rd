@@ -15,9 +15,9 @@ predictProportionSignatureByCluster(object, se, cluster.col,
 
 \item{...}{Additional arguments to be passed to methods.}
 
-\item{object}{A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}".}
+\item{object}{A collection of signatures inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".}
 
-\item{cluster.col}{Name of column in \code{colData(se)} that contains
+\item{cluster.col}{Name of a column in \code{colData(se)} that contains
 a factor indicating cluster membership for each column (i.e. sample) in \code{se}.}
 
 \item{assay.type}{A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".}
@@ -33,14 +33,14 @@ This DataFrame contains predicted labels in the first and only column.
 }
 }
 \description{
-This method computes the proportion of samples positive for each signature in each (predefined) cluster,
+The \code{predictProportionSignatureByCluster} function computes the proportion of samples positive for each signature in each (predefined) cluster
 and identifies the predominant signature in each cluster.
 The function stores information tracing the prediction process in the \code{metadata} slot. See Details.
 }
 \details{
 The function populates the \code{"Hancock"} element of the \code{metadata} slot with the following values:
 \describe{
-\item{\code{GeneSetCollection}}{Signatures used to make the predictions}
+\item{\code{GeneSets}}{Signatures used to make the predictions}
 \item{\code{method}}{Name of the method used to make the predictions}
 \item{\code{packageVersion}}{\code{Hancock} version used to make the predictions}
 \item{\code{ProportionPositiveByCluster}}{Matrix indicating the proportion of cells in each cluster that are positive for each signature.}
@@ -49,7 +49,7 @@ The function populates the \code{"Hancock"} element of the \code{metadata} slot 
 }
 \section{Functions}{
 \itemize{
-\item \code{plotProportionPositive}: Visualize proportion of samples positive signatures in each cluster.
+\item \code{plotProportionPositive}: Returns a \code{Heatmap} displaying the proportion (on a scale from 0 to 100) of samples that are positive for each individual signature in each cluster.
 }}
 
 \examples{
