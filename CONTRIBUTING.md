@@ -86,7 +86,7 @@ Prediction methods should return the input `SummarizedExperiment` object updated
 
 - In the `colData` slot, a `DataFrame` nested in a new (or updated) `"Hancock"` column should contain at least a first column called `prediction`. Additional, method-specific columns may be present from the second column onward.
 - In the `metadata` slot, a `list` in a new (or updated) `"Hancock"` element, should contain at least the following elements:
-    - `"GeneSetCollection"`: the `GeneSetCollection` object used to make the predictions
+    - `"GeneSets"`: the object of class `GeneSetCollection` or `tbl_geneset` containing the signatures used to make the predictions.
     - `"method"`: Identifier of the method used to make the predictions
     - `"packageVersion"`: Version of the `Hancock` package used to make the predictions
     - Additional, method-specific elements may appear _after_ the above general metadata
