@@ -17,7 +17,9 @@ Imports:
     methods,
     utils,
     S4Vectors,
-    ComplexHeatmap
+    ComplexHeatmap,
+    Matrix,
+    Biobase
 Suggests: 
     knitr,
     rmarkdown,

@@ -20,8 +20,8 @@
 #' \describe{
 #' \item{ProportionPositive}{
 #' \emph{Requires prior cluster membership information.}
-#' Computes the proportion cells positive for each signature in each cluster.
-#' Assigns to each cluster the signature detected in the highest proportion of cells.}
+#' Computes the proportion of samples positive for each signature in each cluster.
+#' Assigns to each cluster the signature detected in the highest proportion of samples.}
 #' }
 #'
 #' @return The object \code{se}, updated as follows:
@@ -41,8 +41,8 @@
 #' @examples
 #' # Example data ----
 #' library(SummarizedExperiment)
-#' ncells <- 100
-#' u <- matrix(rpois(20000, 2), ncol=ncells)
+#' nsamples <- 100
+#' u <- matrix(rpois(20000, 2), ncol=nsamples)
 #' rownames(u) <- paste0("Gene", sprintf("%03d", seq_len(nrow(u))))
 #' colnames(u) <- paste0("Cell", sprintf("%03d", seq_len(ncol(u))))
 #' se <- SummarizedExperiment(assays=list(counts=u))
@@ -90,6 +90,7 @@ predict.tbl_geneset <- function(
 ){
     method <- match.arg(method)
 
+    # NOTE: match.arg above ensures that invalid methods throw an error
     if (identical(method, "ProportionPositive")) {
         se <- predictProportionSignatureByCluster(object, se, ..., assay.type=assay.type)
     }
@@ -121,7 +122,7 @@ predict.tbl_geneset <- function(
 #' \item{\code{GeneSets}}{Signatures used to make the predictions}
 #' \item{\code{method}}{Name of the method used to make the predictions}
 #' \item{\code{packageVersion}}{\code{Hancock} version used to make the predictions}
-#' \item{\code{ProportionPositiveByCluster}}{Matrix indicating the proportion of cells in each cluster that are positive for each signature.}
+#' \item{\code{ProportionPositiveByCluster}}{Matrix indicating the proportion of samples in each cluster that are positive for each signature.}
 #' \item{\code{TopSignatureByCluster}}{Named vector indicating the predominant signature for each cluster.}
 #' }
 #'
@@ -148,8 +149,8 @@ predict.tbl_geneset <- function(
 #' @examples
 #' # Example data ----
 #' library(SummarizedExperiment)
-#' ncells <- 100
-#' u <- matrix(rpois(20000, 1), ncol=ncells)
+#' nsamples <- 100
+#' u <- matrix(rpois(20000, 1), ncol=nsamples)
 #' rownames(u) <- paste0("Gene", sprintf("%03d", seq_len(nrow(u))))
 #' colnames(u) <- paste0("Cell", sprintf("%03d", seq_len(ncol(u))))
 #' se <- SummarizedExperiment(assays=list(counts=u))
@@ -189,7 +190,7 @@ predictProportionSignatureByCluster <- function(
     numberCellsInCluster <- table(clusterData)
 
     proportionPositiveByCluster <- matrix(
-        data=FALSE,
+        data=NA_real_,
         nrow=length(clusterNames),
         ncol=ncol(signatureMatrix),
         dimnames=list(cluster=clusterNames, signature=colnames(signatureMatrix)))

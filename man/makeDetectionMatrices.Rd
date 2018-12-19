@@ -41,8 +41,8 @@ The \code{makeSignatureDetectionMatrix} function declares a signature (composed 
 \examples{
 # Example data ----
 library(SummarizedExperiment)
-ncells <- 100
-u <- matrix(rpois(20000, 2), ncol=ncells)
+nsamples <- 100
+u <- matrix(rpois(20000, 2), ncol=nsamples)
 rownames(u) <- paste0("Gene", sprintf("\%03d", seq_len(nrow(u))))
 se <- SummarizedExperiment(assays=list(counts=u))
 

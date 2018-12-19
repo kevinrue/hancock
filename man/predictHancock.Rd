@@ -41,16 +41,16 @@ in \code{SummarizedExperiment} objects.
 \describe{
 \item{ProportionPositive}{
 \emph{Requires prior cluster membership information.}
-Computes the proportion cells positive for each signature in each cluster.
-Assigns to each cluster the signature detected in the highest proportion of cells.}
+Computes the proportion of samples positive for each signature in each cluster.
+Assigns to each cluster the signature detected in the highest proportion of samples.}
 }
 }
 
 \examples{
 # Example data ----
 library(SummarizedExperiment)
-ncells <- 100
-u <- matrix(rpois(20000, 2), ncol=ncells)
+nsamples <- 100
+u <- matrix(rpois(20000, 2), ncol=nsamples)
 rownames(u) <- paste0("Gene", sprintf("\%03d", seq_len(nrow(u))))
 colnames(u) <- paste0("Cell", sprintf("\%03d", seq_len(ncol(u))))
 se <- SummarizedExperiment(assays=list(counts=u))
