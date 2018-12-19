@@ -8,19 +8,29 @@ author:
 - name: Second Author
   affiliation: Second Author's Affiliation
   email: corresponding@author.com
+date: "`r BiocStyle::doc_date()`"
 package: Hancock
-output:
-    BiocStyle::html_document
+output: 
+  BiocStyle::html_document:
+    toc_float: true
 abstract: |
     A discussion of concepts associated with cell types and transcriptional signatures.
 vignette: |
     %\VignetteIndexEntry{Concepts on cell types and signatures}
     %\VignetteEncoding{UTF-8}
+    %\VignettePackage{Hancock}
+    %\VignetteKeywords{GeneExpression, RNASeq, Sequencing}
     %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
 bibliography: Hancock.bib
 ---
+
+**Compiled date**: `r Sys.Date()`
+
+**Last edited**: 2018-03-08
+
+**License**: `r packageDescription("Hancock")[["License"]]`
 
 # Definition of cell identity
 

@@ -2,13 +2,12 @@
 # uniqueMarkers ----
 
 #' @rdname uniqueMarkers
-#' @importFrom GSEABase geneIds
 setMethod(
-    "uniqueMarkers", c("GeneSetCollection"),
+    "uniqueMarkers", c("tbl_geneset"),
     function(object){
         # NOTE: later, we may trim gene sets to features present in `se`
         # NOTE: in which case, gene sets trimmed to length 0 would have to be dropped (!)
-        uniqueMarkers <- unique(unlist(geneIds(object)))
+        uniqueMarkers <- unique(object$gene)
         uniqueMarkers
     }
 )
@@ -16,20 +15,20 @@ setMethod(
 # makeFilterExpression ----
 
 #' @rdname makeFilterExpression
-#' @importFrom GSEABase geneIds
 setMethod(
-    "makeFilterExpression", c("GeneSetCollection"),
+    "makeFilterExpression", c("tbl_geneset"),
     function(object){
 
         .buildSingleExpression <- function(setName) {
-            parse(text=paste(geneIds(object[[setName]]), collapse=" & "))
+            geneIds <- subset(object, set == setName, "gene", drop=TRUE)
+            parse(text=paste(geneIds, collapse=" & "))
         }
 
         filterExpressions <- lapply(
-            names(object),
+            levels(object$set),
             .buildSingleExpression
         )
-        names(filterExpressions) <- names(object)
+        names(filterExpressions) <- levels(object$set)
         filterExpressions
     }
 )

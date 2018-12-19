@@ -1,18 +1,25 @@
 
-#' Predict Method for GeneSetCollection signatures
+# predict ----
+
+#' Predict Method for Collection of Gene Set Signatures
 #'
+#' These method signatures apply gene set signatures optionally augmented with
+#' (semi-)quantitative information to the prediction of sample and cell identities
+#' in \code{SummarizedExperiment} objects.
+#'
+#' @rdname predictHancock
 #' @aliases predict
 #'
-#' @param object A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}".
+#' @param object A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".
 #' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
 #' @param assay.type A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".
 #' @param method Prediction method. See section "Prediction methods".
 #' @param ... Additional arguments affecting the predictions produced.
 #'
 #' @section Prediction methods:
-#' Cluster-level predictions:
 #' \describe{
 #' \item{ProportionPositive}{
+#' \emph{Requires prior cluster membership information.}
 #' Computes the proportion cells positive for each signature in each cluster.
 #' Assigns to each cluster the signature detected in the highest proportion of cells.}
 #' }
@@ -52,6 +59,35 @@
 predict.GeneSetCollection <- function(
     object, se, assay.type="counts", method=c("ProportionPositive"), ...
 ) {
+    .predictAnyGeneSetClass(object, se, assay.type, method, ...)
+}
+
+#' @rdname predictHancock
+#' @export
+#' @method predict tbl_geneset
+predict.tbl_geneset <- function(
+    object, se, assay.type="counts", method=c("ProportionPositive"), ...
+) {
+    .predictAnyGeneSetClass(object, se, assay.type, method, ...)
+}
+
+#' Internal Predict Method for Any Type of Gene Set Collection
+#'
+#' This function is called by both \code{GeneSetCollection} and \code{tbl_geneset} signatures.
+#' Dispatch occurs in downstream functions (e.g. \code{positiveForMarker}, \code{makeSignatureDetectionMatrix}).
+#'
+#' @param object A collection of signatures inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".
+#' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
+#' @param assay.type A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".
+#' @param method Prediction method. See section "Prediction methods".
+#' @param ... Additional arguments affecting the predictions produced.
+#'
+#' @rdname INTERNAL_predictAnyGeneSetClass
+#'
+#' @author Kevin Rue-Albrecht
+.predictAnyGeneSetClass <- function(
+    object, se, assay.type="counts", method=c("ProportionPositive"), ...
+){
     method <- match.arg(method)
 
     if (identical(method, "ProportionPositive")) {
@@ -62,7 +98,7 @@ predict.GeneSetCollection <- function(
     # Add global new (general) metadata before existing (method-specific) metadata
     existingHancockMetadata <- metadata(se)[[getPackageName()]]
     newHancockMetadata <- list(
-        GeneSetCollection=object,
+        GeneSets=object,
         method=method,
         packageVersion=packageVersion(getPackageName())
     )
@@ -71,25 +107,27 @@ predict.GeneSetCollection <- function(
     se
 }
 
+# predictProportionSignatureByCluster ----
+
 #' Identify the Dominant Signatures in Clusters of Samples
 #'
-#' This method computes the proportion of samples positive for each signature in each (predefined) cluster,
+#' The \code{predictProportionSignatureByCluster} function computes the proportion of samples positive for each signature in each (predefined) cluster
 #' and identifies the predominant signature in each cluster.
 #' The function stores information tracing the prediction process in the \code{metadata} slot. See Details.
 #'
 #' @details
 #' The function populates the \code{"Hancock"} element of the \code{metadata} slot with the following values:
 #' \describe{
-#' \item{\code{GeneSetCollection}}{Signatures used to make the predictions}
+#' \item{\code{GeneSets}}{Signatures used to make the predictions}
 #' \item{\code{method}}{Name of the method used to make the predictions}
 #' \item{\code{packageVersion}}{\code{Hancock} version used to make the predictions}
 #' \item{\code{ProportionPositiveByCluster}}{Matrix indicating the proportion of cells in each cluster that are positive for each signature.}
 #' \item{\code{TopSignatureByCluster}}{Named vector indicating the predominant signature for each cluster.}
 #' }
 #'
-#' @param object A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}".
+#' @param object A collection of signatures inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".
 #' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
-#' @param cluster.col Name of column in \code{colData(se)} that contains
+#' @param cluster.col Name of a column in \code{colData(se)} that contains
 #' a factor indicating cluster membership for each column (i.e. sample) in \code{se}.
 #' @param assay.type A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".
 #' @param threshold Value \emph{above which} the marker is considered detected.
@@ -142,9 +180,9 @@ predictProportionSignatureByCluster <- function(
     clusterData <- colData(se)[, cluster.col, drop=TRUE]
 
     # Compute the proportion of each cluster positive for each signature
-    uniqueMarkers <- .uniqueMarkers(object)
-    stopifnot(all(uniqueMarkers %in% rownames(se)))
-    markerDetectionMatrix <- makeMarkerDetectionMatrix(se, uniqueMarkers, threshold, assay.type)
+    uniqueMarkersIds <- uniqueMarkers(object)
+    stopifnot(all(uniqueMarkersIds %in% rownames(se)))
+    markerDetectionMatrix <- makeMarkerDetectionMatrix(se, uniqueMarkersIds, threshold, assay.type)
     signatureMatrix <- makeSignatureDetectionMatrix(markerDetectionMatrix, object)
 
     clusterNames <- levels(clusterData)

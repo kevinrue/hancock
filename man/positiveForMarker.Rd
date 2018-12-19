@@ -4,7 +4,7 @@
 \name{positiveForMarker}
 \alias{positiveForMarker}
 \alias{positiveForMarker,SummarizedExperiment-method}
-\title{Detect cells positive for a given marker}
+\title{Detect Samples Positive for Given Markers}
 \usage{
 positiveForMarker(x, row, threshold = 0, ...)
 
@@ -12,21 +12,21 @@ positiveForMarker(x, row, threshold = 0, ...)
   assay = "counts")
 }
 \arguments{
-\item{x}{A \code{\link{SummarizedExperiment}} or \code{matrix}.}
+\item{x}{A \code{\link{SummarizedExperiment}}.}
 
-\item{row}{Row index of a marker.}
+\item{row}{Row index of markers to examine.}
 
-\item{threshold}{Value \emph{above which} the marker is considered detected.}
+\item{threshold}{Value \emph{above which} markers are considered detected.}
 
 \item{...}{Additional arguments passed to and from methods.}
 
 \item{assay}{Name of the \code{assay} slot to use.}
 }
 \value{
-A logical vector where \code{TRUE} indicates detection of the marker.
+A logical vector (single marker) or matrix (multiple markers) where \code{TRUE} indicates detection of the marker.
 }
 \description{
-Detect cells positive for a given marker
+Declare whether individual gene features (i.e., "markers") are detected above a given threshold in a given assay in each sample.
 }
 \examples{
 # Example data ----

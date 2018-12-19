@@ -6,17 +6,24 @@ setMethod(
     function(x, row, threshold=0, assay="counts"){
         # Extract assay matrix
         x <- assay(x, assay)
-        isCellPositive <- (x[row, ] > threshold)
+        isCellPositive <- (x[row, , drop=TRUE] > threshold)
         isCellPositive
     }
 )
 
 #' Identify Markers and Signatures Present in Individual Samples
 #'
+#' Create matrices of detection events for individual gene features or combination thereof (i.e., signatures).
+#'
 #' @rdname makeDetectionMatrices
 #'
+#' @details
+#' The \code{makeMarkerDetectionMatrix} function declares a feature as detected if it is detected above a given threshold in a specific assay (e.g., count or UMI matrix).
+#'
+#' The \code{makeSignatureDetectionMatrix} function declares a signature (composed of one or more gene features) as detected if all the associated features are detected.
+#'
 #' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
-#' @param markers A character vector, subset of
+#' @param markers A character vector, subset of \code{rownames(se)}.
 #' @param threshold Value \emph{above which} the marker is considered detected.
 #' @param assay.type A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".
 #'
@@ -58,8 +65,8 @@ makeMarkerDetectionMatrix <- function(
         nrow=ncol(se), ncol=length(markers),
         dimnames=list(colnames(se), markers))
     # TODO: lapply, BiocParallel, ...
-    for (gene in markers) {
-        markerDetectionMatrix[, gene] <- positiveForMarker(se, gene, threshold, assay.type)
+    for (marker in markers) {
+        markerDetectionMatrix[, marker] <- positiveForMarker(se, marker, threshold, assay.type)
     }
     markerDetectionMatrix
 }
@@ -68,13 +75,13 @@ makeMarkerDetectionMatrix <- function(
 #'
 #' @param matrix A logical matrix indicating the presence of each marker in each sample.
 #' See \code{\link{makeMarkerDetectionMatrix}}
-#' @param object A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}".
+#' @param object A collection of signatures inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".
 #'
 #' @export
 #'
 #' @importFrom S4Vectors FilterRules evalSeparately
 makeSignatureDetectionMatrix <- function(matrix, object) {
-    filterExpressions <- .makeFilterExpressionFromGeneSetCollection(object)
+    filterExpressions <- makeFilterExpression(object)
     fr <- FilterRules(filterExpressions)
     es <- evalSeparately(fr, as.data.frame(matrix))
     es

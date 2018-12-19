@@ -12,7 +12,7 @@ biocViews: GeneExpression, Transcriptomics, SingleCell, Sequencing,
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Depends: SummarizedExperiment, GSEABase
+Depends: SummarizedExperiment, GSEABase, GeneSet
 Imports:
     methods,
     utils,
@@ -24,7 +24,6 @@ Suggests:
     BiocStyle,
     testthat,
     covr,
-    circlize,
-    GeneSet
+    circlize
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1

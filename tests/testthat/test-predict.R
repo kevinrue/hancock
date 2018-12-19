@@ -12,6 +12,11 @@ gsc <- GeneSetCollection(list(
     GeneSet(setName="Cell type 2", c("Gene003", "Gene004"))
 ))
 
+tgs <- tbl_geneset(
+    "Cell type 1" = c("Gene001", "Gene002"),
+    "Cell type 2" = c("Gene002", "Gene003", "Gene004")
+)
+
 # predict.GeneSetCollection ----
 
 test_that("predict.GeneSetCollection works for method ProportionPositive", {
@@ -27,10 +32,46 @@ test_that("predict.GeneSetCollection works for method ProportionPositive", {
 
     expect_identical(
         names(metadata(out)[["Hancock"]]),
-        c("GeneSetCollection", "method", "packageVersion", "ProportionPositiveByCluster",  "TopSignatureByCluster")
+        c("GeneSets", "method", "packageVersion", "ProportionPositiveByCluster",  "TopSignatureByCluster")
     )
 
-    expect_s4_class(metadata(out)[["Hancock"]][["GeneSetCollection"]], "GeneSetCollection")
+    expect_s4_class(metadata(out)[["Hancock"]][["GeneSets"]], "GeneSetCollection")
+
+    expect_identical(metadata(out)[["Hancock"]][["method"]], "ProportionPositive")
+
+    expect_s3_class(metadata(out)[["Hancock"]][["packageVersion"]], "package_version")
+
+    ProportionPositiveByCluster <- metadata(out)[["Hancock"]][["ProportionPositiveByCluster"]]
+    expect_is(ProportionPositiveByCluster, "matrix")
+    expect_identical(nrow(ProportionPositiveByCluster), nlevels(se$cluster))
+    expect_identical(ncol(ProportionPositiveByCluster), length(gsc))
+
+    TopSignatureByCluster <- metadata(out)[["Hancock"]][["TopSignatureByCluster"]]
+    expect_s3_class(TopSignatureByCluster, "factor")
+    expect_length(TopSignatureByCluster, nlevels(se$cluster))
+
+    # Test plotting methods
+    plotOut <- plotProportionPositive(out)
+    expect_s4_class(plotOut, "Heatmap")
+})
+
+test_that("predict.tbl_geneset works for method ProportionPositive", {
+    dummyCluster <- factor(sample(head(LETTERS, 3), ncol(se), replace = TRUE))
+    colData(se)[, "cluster"] <- dummyCluster
+
+    out <- predict(tgs, se, method="ProportionPositive", cluster.col="cluster")
+
+    expect_s4_class(out$Hancock, "DataFrame")
+    expect_named(out$Hancock, c("prediction"))
+    expect_s3_class(out$Hancock$prediction, "factor")
+    expect_true(all(out$Hancock$prediction %in% names(gsc)))
+
+    expect_identical(
+        names(metadata(out)[["Hancock"]]),
+        c("GeneSets", "method", "packageVersion", "ProportionPositiveByCluster",  "TopSignatureByCluster")
+    )
+
+    expect_s3_class(metadata(out)[["Hancock"]][["GeneSets"]], "tbl_geneset")
 
     expect_identical(metadata(out)[["Hancock"]][["method"]], "ProportionPositive")
 

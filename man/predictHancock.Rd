@@ -3,13 +3,17 @@
 \name{predict.GeneSetCollection}
 \alias{predict.GeneSetCollection}
 \alias{predict}
-\title{Predict Method for GeneSetCollection signatures}
+\alias{predict.tbl_geneset}
+\title{Predict Method for Collection of Gene Set Signatures}
 \usage{
 \method{predict}{GeneSetCollection}(object, se, assay.type = "counts",
   method = c("ProportionPositive"), ...)
+
+\method{predict}{tbl_geneset}(object, se, assay.type = "counts",
+  method = c("ProportionPositive"), ...)
 }
 \arguments{
-\item{object}{A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}".}
+\item{object}{A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".}
 
 \item{se}{An object of class inheriting from "\code{\link{SummarizedExperiment}}".}
 
@@ -28,13 +32,15 @@ This DataFrame contains predicted labels in the first column and additional info
 }
 }
 \description{
-Predict Method for GeneSetCollection signatures
+These method signatures apply gene set signatures optionally augmented with
+(semi-)quantitative information to the prediction of sample and cell identities
+in \code{SummarizedExperiment} objects.
 }
 \section{Prediction methods}{
 
-Cluster-level predictions:
 \describe{
 \item{ProportionPositive}{
+\emph{Requires prior cluster membership information.}
 Computes the proportion cells positive for each signature in each cluster.
 Assigns to each cluster the signature detected in the highest proportion of cells.}
 }
