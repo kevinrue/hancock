@@ -43,7 +43,7 @@ The function populates the \code{"Hancock"} element of the \code{metadata} slot 
 \item{\code{GeneSets}}{Signatures used to make the predictions}
 \item{\code{method}}{Name of the method used to make the predictions}
 \item{\code{packageVersion}}{\code{Hancock} version used to make the predictions}
-\item{\code{ProportionPositiveByCluster}}{Matrix indicating the proportion of cells in each cluster that are positive for each signature.}
+\item{\code{ProportionPositiveByCluster}}{Matrix indicating the proportion of samples in each cluster that are positive for each signature.}
 \item{\code{TopSignatureByCluster}}{Named vector indicating the predominant signature for each cluster.}
 }
 }
@@ -55,8 +55,8 @@ The function populates the \code{"Hancock"} element of the \code{metadata} slot 
 \examples{
 # Example data ----
 library(SummarizedExperiment)
-ncells <- 100
-u <- matrix(rpois(20000, 1), ncol=ncells)
+nsamples <- 100
+u <- matrix(rpois(20000, 1), ncol=nsamples)
 rownames(u) <- paste0("Gene", sprintf("\%03d", seq_len(nrow(u))))
 colnames(u) <- paste0("Cell", sprintf("\%03d", seq_len(ncol(u))))
 se <- SummarizedExperiment(assays=list(counts=u))
