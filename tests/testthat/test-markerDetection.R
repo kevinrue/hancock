@@ -8,28 +8,19 @@ colnames(u) <- paste0("Cell", sprintf("%03d", seq_len(ncol(u))))
 
 se <- SummarizedExperiment(assays=list(counts=u))
 
-# positiveForMarker ----
-
-test_that("positiveForMarker works for SummarizedExperiment", {
-    out <- positiveForMarker(se, "Gene001", 0, assay="counts")
-
-    expected <- (assay(se, "counts")["Gene001", ] > 0)
-    expect_identical(out, expected)
-
-    # Catch invalid assay names
-    expect_error(
-        positiveForMarker(se, "Gene001", 0, assay="test")
-    )
-})
-
 # makeMarkerDetectionMatrix ----
 
 test_that("makeMarkerDetectionMatrix works", {
     markers <- c("Gene001", "Gene002", "Gene003", "Gene004")
     out <- makeMarkerDetectionMatrix(se, markers, threshold=0, assay.type="counts")
 
-    expect_identical(ncol(out), length(markers))
-    expect_identical(nrow(out), ncol(se))
+    # Matrix orientation was preserved: rows are features (e.g. genes)
+    expect_identical(nrow(out), length(markers))
+    expect_identical(rownames(out), markers)
+    # Matrix orientation was preserved: columns are samples (e.g. cells)
+    expect_identical(ncol(out), ncol(se))
+    expect_identical(colnames(out), colnames(se))
+
     expect_type(out, "logical")
 })
 
@@ -47,15 +38,17 @@ test_that("makeMarkerDetectionMatrix warns about duplicated markers", {
 
 test_that("makeSignatureDetectionMatrix works", {
     nmarkers <- 5
-    markerMatrix <- matrix(sample(c(TRUE, FALSE), 100, TRUE), ncol=nmarkers, nrow=ncells)
-    colnames(markerMatrix) <- paste0("Marker", sprintf("%02d", seq_len(ncol(markerMatrix))))
+    markerMatrix <- matrix(sample(c(TRUE, FALSE), 100, TRUE), nrow=nmarkers, ncol=ncells)
+    rownames(markerMatrix) <- paste0("Marker", sprintf("%02d", seq_len(nrow(markerMatrix))))
     gsc <- GeneSetCollection(
         GeneSet(c("Marker01", "Marker02"), setName="Set1"),
         GeneSet(c("Marker03", "Marker04"), setName="Set2")
     )
 
     out <- makeSignatureDetectionMatrix(markerMatrix, gsc)
+    # Each signature is a column in the output matrix
     expect_identical(ncol(out), length(gsc))
-    expect_identical(nrow(out), nrow(markerMatrix))
+    # The marker detection matrix was flipped: samples have become rows
+    expect_identical(nrow(out), ncol(markerMatrix))
     expect_type(out, "logical")
 })

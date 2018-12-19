@@ -1,15 +1,5 @@
 
-#' @rdname positiveForMarker
-#' @importFrom SummarizedExperiment assay
-setMethod(
-    "positiveForMarker", c("SummarizedExperiment"),
-    function(x, row, threshold=0, assay="counts"){
-        # Extract assay matrix
-        x <- assay(x, assay)
-        isCellPositive <- (x[row, , drop=TRUE] > threshold)
-        isCellPositive
-    }
-)
+# makeMarkerDetectionMatrix ----
 
 #' Identify Markers and Signatures Present in Individual Samples
 #'
@@ -34,6 +24,7 @@ setMethod(
 #' }
 #'
 #' @export
+#' @importFrom SummarizedExperiment assay
 #'
 #' @author Kevin Rue-Albrecht
 #'
@@ -60,16 +51,13 @@ makeMarkerDetectionMatrix <- function(
         warning("Dropping duplicated markers values")
         markers <- unique(markers)
     }
-    markerDetectionMatrix <- matrix(
-        data=FALSE,
-        nrow=ncol(se), ncol=length(markers),
-        dimnames=list(colnames(se), markers))
-    # TODO: lapply, BiocParallel, ...
-    for (marker in markers) {
-        markerDetectionMatrix[, marker] <- positiveForMarker(se, marker, threshold, assay.type)
-    }
+    # Subset the requested assay to the markers of interest
+    x <- assay(se, assay.type)[markers, , drop=TRUE]
+    markerDetectionMatrix <- (x > threshold)
     markerDetectionMatrix
 }
+
+# makeSignatureDetectionMatrix ----
 
 #' @rdname makeDetectionMatrices
 #'
@@ -83,6 +71,6 @@ makeMarkerDetectionMatrix <- function(
 makeSignatureDetectionMatrix <- function(matrix, object) {
     filterExpressions <- makeFilterExpression(object)
     fr <- FilterRules(filterExpressions)
-    es <- evalSeparately(fr, as.data.frame(matrix))
+    es <- evalSeparately(fr, as.data.frame(t(matrix)))
     es
 }

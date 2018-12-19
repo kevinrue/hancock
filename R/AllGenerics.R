@@ -1,34 +1,3 @@
-# positiveForMarker ----
-
-#' Detect Samples Positive for Given Markers
-#'
-#' Declare whether individual gene features (i.e., "markers") are detected above a given threshold in a given assay in each sample.
-#'
-#' @rdname positiveForMarker
-#'
-#' @param x A \code{\link{SummarizedExperiment}}.
-#' @param row Row index of markers to examine.
-#' @param threshold Value \emph{above which} markers are considered detected.
-#' @param ... Additional arguments passed to and from methods.
-#' @param assay Name of the \code{assay} slot to use.
-#'
-#' @return A logical vector (single marker) or matrix (multiple markers) where \code{TRUE} indicates detection of the marker.
-#' @export
-#'
-#' @examples
-#' # Example data ----
-#' library(SummarizedExperiment)
-#' ncells <- 100
-#' u <- matrix(rpois(20000, 2), ncol=ncells)
-#' sce <- SummarizedExperiment(assays=list(counts=u))
-#'
-#' # Example usage ----
-#' positiveForMarker(sce, 1, 0)
-setGeneric(
-    "positiveForMarker", signature=c("x"),
-    function(x, row, threshold=0, ...)
-        standardGeneric("positiveForMarker")
-)
 
 # uniqueMarkers ----
 
