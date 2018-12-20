@@ -12,6 +12,7 @@ Here are a few guidelines to help develop and maintain a consistent coding style
 * [Internal functions](#internal-functions)
 * [New prediction methods](#new-prediction-methods)
 * [New plotting functions](#new-plotting-functions)
+* [New learning methods](#new-learning-methods)
 * [Terminology](#terminology)
 
 ## Primary objectives
