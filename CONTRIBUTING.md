@@ -12,6 +12,7 @@ Here are a few guidelines to help develop and maintain a consistent coding style
 * [Internal functions](#internal-functions)
 * [New prediction methods](#new-prediction-methods)
 * [New plotting functions](#new-plotting-functions)
+* [New learning methods](#new-learning-methods)
 * [Terminology](#terminology)
 
 ## Primary objectives
@@ -22,7 +23,7 @@ Most importantly, contributions should directly contribute to the primary object
 2. Learn new signatures from data sets, in a format compatible with (1.)
 
 Existing methods implemented in other _R_ packages are welcome.
-Those should be handled as described in the [New prediction methods](#new-prediction-methods) section.
+Those should be handled as described in the [New prediction methods](#new-prediction-methods) section and unit tested as described in the [Unit tests and code coverage](#unit-tests-and-code-coverage) section.
 
 ## Proof of concepts
 
@@ -35,9 +36,11 @@ For an example, please refer to the proof-of-concept of the `predictProportionSi
 
 ## Coding style
 
-This package follows the _Bioconductor_ coding style (https://bioconductor.org/developers/how-to/coding-style/).
+This package adheres to the _Bioconductor_ coding style (https://bioconductor.org/developers/how-to/coding-style/).
 
-Please use common _Bioconductor_ methods and classes, in particular `SummarizedExperiment` and `GeneSetCollection`.
+Please use common _Bioconductor_ methods and classes, in particular `SummarizedExperiment`, `GeneSetCollection`, and `tbl_geneset` ([GeneSet](https://github.com/Kayla-Morrell/GeneSet) package, in development).
+Note that the `GeneSetCollection` class is currently the primary class to store gene sets in the Bioconductor release code; that said, the new `tbl_geneset` class in development is expected to provide a more efficient representation of large data sets and a more familiar `tibble`-like framework.
+
 More details are available at https://bioconductor.org/developers/how-to/commonMethodsAndClasses/.
 
 ## Unit tests and code coverage
@@ -60,6 +63,7 @@ report(pc)
 ## NEWS file
 
 Until the package is made available through the [_Bioconductor_](https://bioconductor.org) project, all new features should be described under the "Hancock 0.99.0" section, as part of the _same_ pull request.
+This will produce a manifest of functionality to accompany the initial submission to the _Bioconductor_ project.
 
 ## Internal functions
 
@@ -77,7 +81,7 @@ Nevertheless, required sections are:
 ## New prediction methods
 
 New prediction methods should be first implemented as a separate functions, individually exported in the `NAMESPACE` file.
-All prediction methods must accept `object` and `se` as their first two arguments, respectively the `GeneSetCollection` and `SummarizedExperiment` used to make predictions.
+All prediction methods must accept `object` and `se` as their first two arguments, respectively the `GeneSetCollection` or `tbl_geneset`, and `SummarizedExperiment` used to make predictions.
 Additional method-specific parameters may be accepted from the third argument onward.
 
 Once implemented as its own function, a new method should be made available through the `predict.GeneSetCollection` function using a unique `method` identifier.
@@ -102,6 +106,18 @@ Most importantly, plotting function should first check that the input `se` objec
 Plotting functions should return a minimal `ggplot2::ggplot` or `ComplexHeatmap::Heatmap` object, giving users maximal freedom to customize the plot.
 
 For an example, please refer to `plotProportionPositive`, using the result of the `predictProportionSignatureByCluster` method.
+
+## New learning methods
+
+New learning methods should be first implemented as a separate functions, individually exported in the `NAMESPACE` file.
+All prediction methods must accept `se` as their first argument, namely the `SummarizedExperiment` from which to learn signatures.
+Additional method-specific parameters may be accepted from the second argument onward.
+
+Once implemented as its own function, a new method should be made available through the `learnSignatures` function using a unique `method` identifier.
+
+Learning methods should return a `tbl_geneset` object, defined in the [GeneSet](https://github.com/Kayla-Morrell/GeneSet) package.
+
+For an example template, please refer to the prediction method `learnSignaturesByProportionDifference`, made available using the `"ProportionDifference"` identifier.
 
 ## Terminology
 
