@@ -51,7 +51,7 @@ learnSignatures <- function(
     method <- match.arg(method)
 
     if (identical(method, "ProportionDifference")) {
-        out <- learnSignaturesByProportionDifference(se, assay.type="counts", ...)
+        out <- learnSignaturesByProportionDifference(se, assay.type=assay.type, ...)
     }
 
     out
