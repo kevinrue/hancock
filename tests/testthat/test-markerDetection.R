@@ -34,6 +34,23 @@ test_that("makeMarkerDetectionMatrix warns about duplicated markers", {
 
 })
 
+# makeMarkerProportionMatrix ----
+
+test_that("makeMarkerDetectionMatrix works", {
+    dummyCluster <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
+    colData(se)[, "cluster"] <- dummyCluster
+    out <- makeMarkerProportionMatrix(se, "cluster")
+
+    # One row per feature in the input object
+    expect_identical(nrow(out), nrow(se))
+    # One column per cluster
+    expect_identical(ncol(out), nlevels(dummyCluster))
+    # All values between 0 and 1
+    expect_true(all(out >= 0))
+    expect_true(all(out <= 1))
+    expect_type(out, "double")
+})
+
 # makeSignatureDetectionMatrix ----
 
 test_that("makeSignatureDetectionMatrix works", {

@@ -109,29 +109,10 @@ learnMarkersByPositiveProportionDifference <- function(
     if (min.diff > 1) {
         stop("Detection rates are computed in the range 0-1.")
     }
-    stopifnot(!missing(cluster.col))
-    stopifnot(is.factor(colData(se)[, cluster.col, drop=TRUE]))
-    clusterData <- colData(se)[, cluster.col, drop=TRUE]
 
-    # Compute the proportion of each cluster positive for each marker
-    markerDetectionMatrix <- makeMarkerDetectionMatrix(se, rownames(se), threshold, assay.type)
+    proportionPositiveByCluster <- makeMarkerProportionMatrix(se, cluster.col, assay.type, threshold)
 
-    clusterNames <- levels(clusterData)
-    numberCellsInCluster <- table(clusterData)
-
-    proportionPositiveByCluster <- matrix(
-        data=NA_real_,
-        nrow=nrow(markerDetectionMatrix),
-        ncol=length(clusterNames),
-        dimnames=list(feature=rownames(markerDetectionMatrix), cluster=clusterNames))
-    x <- assay(se, assay.type)
-    for (clusterName in clusterNames) {
-        clusterSamples <- which(colData(se)[, cluster.col] == clusterName)
-        nDetected <- Matrix::rowSums(x[, clusterSamples] > threshold)
-        proportionPositiveByCluster[, clusterName] <- nDetected / length(clusterSamples)
-    }
-
-    markers <- lapply(clusterNames, function(clusterName, top=n) {
+    getTopMarkers <- function(clusterName, top=n) {
         df <- data.frame(
             freqTarget=proportionPositiveByCluster[, clusterName],
             freqOtherMax=rowMax(proportionPositiveByCluster[, setdiff(colnames(proportionPositiveByCluster), clusterName)]),
@@ -141,7 +122,10 @@ learnMarkersByPositiveProportionDifference <- function(
         df <- df[df$diffFreq >= min.diff, ]
         df <- df[order(df$diffFreq, decreasing=TRUE), ]
         head(rownames(df), top)
-    })
+    }
+
+    clusterNames <- colnames(proportionPositiveByCluster)
+    markers <- lapply(clusterNames, getTopMarkers)
     names(markers) <- clusterNames
 
     tbl <- do.call(tbl_geneset, markers)

@@ -3,12 +3,16 @@
 \name{makeMarkerDetectionMatrix}
 \alias{makeMarkerDetectionMatrix}
 \alias{makeSignatureDetectionMatrix}
+\alias{makeMarkerProportionMatrix}
 \title{Identify Markers and Signatures Present in Individual Samples}
 \usage{
 makeMarkerDetectionMatrix(se, markers, threshold = 0,
   assay.type = "counts")
 
 makeSignatureDetectionMatrix(matrix, object)
+
+makeMarkerProportionMatrix(se, cluster.col, assay.type = "counts",
+  threshold = 0)
 }
 \arguments{
 \item{se}{An object of class inheriting from "\code{\link{SummarizedExperiment}}".}
@@ -23,6 +27,9 @@ makeSignatureDetectionMatrix(matrix, object)
 See \code{\link{makeMarkerDetectionMatrix}}}
 
 \item{object}{A collection of signatures inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".}
+
+\item{cluster.col}{Name of a column in \code{colData(se)} that contains
+a factor indicating cluster membership for each column (i.e. sample) in \code{se}.}
 }
 \value{
 \describe{
@@ -37,6 +44,8 @@ Create matrices of detection events for individual gene features or combination 
 The \code{makeMarkerDetectionMatrix} function declares a feature as detected if it is detected above a given threshold in a specific assay (e.g., count or UMI matrix).
 
 The \code{makeSignatureDetectionMatrix} function declares a signature (composed of one or more gene features) as detected if all the associated features are detected.
+
+The \code{makeMarkerProportionMatrix} function computes the proportion of samples positive for each marker in predefined clusters.
 }
 \examples{
 # Example data ----
