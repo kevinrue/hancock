@@ -17,7 +17,7 @@ test_that("learnSignatures works for method ProportionPositive", {
     out <- learnSignatures(se, method="PositiveProportionDifference", cluster.col="cluster", n=nMarkersPerCluster)
 
     expect_s3_class(out, "tbl_geneset")
-    expect_identical(nrow(out), nMarkersPerCluster*nlevels(dummyCluster))
+    expect_lte(nrow(out), nMarkersPerCluster*nlevels(dummyCluster))
 })
 
 test_that("learnMarkersByPositiveProportionDifference requires argument col.cluster", {
