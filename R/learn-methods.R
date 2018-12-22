@@ -1,5 +1,5 @@
 
-# learnSignaturess ----
+# learnSignatures ----
 
 #' Method to Learn Signatures from SummarizedExperiment
 #'
@@ -7,7 +7,7 @@
 #' (semi-)quantitative information for the prediction of sample and cell identities
 #' in \code{SummarizedExperiment} objects.
 #'
-#' @rdname learnSignatures
+#' @rdname learnHancock
 #'
 #' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
 #' @param assay.type A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".
@@ -30,6 +30,8 @@
 #' @importFrom Matrix rowSums
 #' @importFrom Biobase rowMax
 #'
+#' @seealso learnMarkersByPositiveProportionDifference
+#'
 #' @author Kevin Rue-Albrecht
 #'
 #' @examples
@@ -51,17 +53,17 @@ learnSignatures <- function(
     method <- match.arg(method)
 
     if (method %in% c("PositiveProportionDifference", "PPD")) {
-        out <- learnPositiveMarkersByProportionDifference(se, assay.type=assay.type, ...)
+        out <- learnMarkersByPositiveProportionDifference(se, assay.type=assay.type, ...)
     }
 
     out
 }
 
-# learnPositiveMarkersByProportionDifference ----
+# learnMarkersByPositiveProportionDifference ----
 
 #' Identify Markers by Largest Difference of Detection Rate in Clusters
 #'
-#' This function computes the detection rate of each gene feature in each cluster.
+#' This function computes the detection rate of each feature in each cluster.
 #' For each cluster, it ranks all the features by decreasing difference between
 #' the detection rate in the target cluster, and the maximal detection rate in any other cluster.
 #' The function returns up to \code{n} markers for each cluster.
@@ -81,6 +83,9 @@ learnSignatures <- function(
 #' @importFrom Biobase rowMax
 #'
 #' @author Kevin Rue-Albrecht
+#'
+#' @seealso learnHancock
+#'
 #' @examples
 #' # Example data ----
 #' library(SummarizedExperiment)
@@ -93,9 +98,9 @@ learnSignatures <- function(
 #' colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
 #'
 #' # Example usage ----
-#' tgs <- learnPositiveMarkersByProportionDifference(se, cluster.col="cluster")
-learnPositiveMarkersByProportionDifference <- function(
-    se, cluster.col, assay.type="counts", threshold=0, n=2, min.diff=0.1
+#' tgs <- learnMarkersByPositiveProportionDifference(se, cluster.col="cluster")
+learnMarkersByPositiveProportionDifference <- function(
+    se, cluster.col, assay.type="counts", threshold=0, n=Inf, min.diff=0.1
 ) {
     # Sanity checks
     if (missing(cluster.col)) {

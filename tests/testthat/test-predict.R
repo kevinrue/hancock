@@ -91,14 +91,14 @@ test_that("predict.tbl_geneset works for method ProportionPositive", {
     expect_s4_class(plotOut, "Heatmap")
 })
 
-test_that("predictProportionSignatureByCluster requires argument col.cluster", {
+test_that("predictByProportionPositive requires argument col.cluster", {
     expect_error(
-        predictProportionSignatureByCluster(gsc, se),
+        predictByProportionPositive(gsc, se),
         "cluster.col is required for method 'ProportionPositive'"
     )
 })
 
-test_that("plotProportionPositive requires predictProportionSignatureByCluster results", {
+test_that("plotProportionPositive requires predictByProportionPositive results", {
     expect_error(
         plotProportionPositive(se),
         "Method 'ProportionPositive' was not run yet.")

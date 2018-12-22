@@ -20,7 +20,7 @@ setMethod(
     function(object){
 
         .buildSingleExpression <- function(setName) {
-            geneIds <- subset(object, set == setName, "gene", drop=TRUE)
+            geneIds <- object[object$set == setName, "gene", drop=TRUE]
             parse(text=paste(geneIds, collapse=" & "))
         }
 
