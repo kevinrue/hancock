@@ -18,7 +18,7 @@
 #'
 #' @section Prediction methods:
 #' \describe{
-#' \item{ProportionPositive}{
+#' \item{ProportionPositive, PP}{
 #' \emph{Requires prior cluster membership information.}
 #' Computes the proportion of samples positive for each signature in each cluster.
 #' Assigns to each cluster the signature detected in the highest proportion of samples.}
@@ -54,10 +54,10 @@
 #'
 #' # Example usage ----
 #' se1 <- se
-#' colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace = TRUE))
+#' colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace=TRUE))
 #' predict(gsc, se1, method="ProportionPositive", cluster.col="cluster")
 predict.GeneSetCollection <- function(
-    object, se, assay.type="counts", method=c("ProportionPositive"), ...
+    object, se, assay.type="counts", method=c("ProportionPositive", "PP"), ...
 ) {
     .predictAnyGeneSetClass(object, se, assay.type, method, ...)
 }
@@ -66,7 +66,7 @@ predict.GeneSetCollection <- function(
 #' @export
 #' @method predict tbl_geneset
 predict.tbl_geneset <- function(
-    object, se, assay.type="counts", method=c("ProportionPositive"), ...
+    object, se, assay.type="counts", method=c("ProportionPositive", "PP"), ...
 ) {
     .predictAnyGeneSetClass(object, se, assay.type, method, ...)
 }
@@ -86,12 +86,12 @@ predict.tbl_geneset <- function(
 #'
 #' @author Kevin Rue-Albrecht
 .predictAnyGeneSetClass <- function(
-    object, se, assay.type="counts", method=c("ProportionPositive"), ...
+    object, se, assay.type="counts", method=c("ProportionPositive", "PP"), ...
 ){
     method <- match.arg(method)
 
     # NOTE: match.arg above ensures that invalid methods throw an error
-    if (identical(method, "ProportionPositive")) {
+    if (method %in% c("ProportionPositive", "PP")) {
         se <- predictProportionSignatureByCluster(object, se, ..., assay.type=assay.type)
     }
 
@@ -159,7 +159,7 @@ predict.tbl_geneset <- function(
 #'     GeneSet(setName="Cell type 1", c("Gene001", "Gene002")),
 #'     GeneSet(setName="Cell type 2", c("Gene003", "Gene004"))
 #' ))
-#' colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace = TRUE))
+#' colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
 #'
 #' # Example usage ----
 #' library(circlize)
@@ -168,7 +168,7 @@ predict.tbl_geneset <- function(
 #' # Visualise the proportion of samples positive for each signature in each cluster
 #' plotProportionPositive(
 #'   se, cluster_rows=FALSE, cluster_columns=FALSE,
-#'   col = colorRamp2(c(0, 100), c("white", "red")))
+#'   col=colorRamp2(c(0, 100), c("white", "red")))
 predictProportionSignatureByCluster <- function(
     object, se, cluster.col, assay.type="counts", threshold=0
 ) {

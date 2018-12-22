@@ -7,10 +7,10 @@
 \title{Predict Method for Collection of Gene Set Signatures}
 \usage{
 \method{predict}{GeneSetCollection}(object, se, assay.type = "counts",
-  method = c("ProportionPositive"), ...)
+  method = c("ProportionPositive", "PP"), ...)
 
 \method{predict}{tbl_geneset}(object, se, assay.type = "counts",
-  method = c("ProportionPositive"), ...)
+  method = c("ProportionPositive", "PP"), ...)
 }
 \arguments{
 \item{object}{A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".}
@@ -39,7 +39,7 @@ in \code{SummarizedExperiment} objects.
 \section{Prediction methods}{
 
 \describe{
-\item{ProportionPositive}{
+\item{ProportionPositive, PP}{
 \emph{Requires prior cluster membership information.}
 Computes the proportion of samples positive for each signature in each cluster.
 Assigns to each cluster the signature detected in the highest proportion of samples.}
@@ -62,7 +62,7 @@ gsc <- GeneSetCollection(list(
 
 # Example usage ----
 se1 <- se
-colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace = TRUE))
+colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace=TRUE))
 predict(gsc, se1, method="ProportionPositive", cluster.col="cluster")
 }
 \author{

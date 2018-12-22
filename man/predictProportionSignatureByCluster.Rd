@@ -65,7 +65,7 @@ gsc <- GeneSetCollection(list(
     GeneSet(setName="Cell type 1", c("Gene001", "Gene002")),
     GeneSet(setName="Cell type 2", c("Gene003", "Gene004"))
 ))
-colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace = TRUE))
+colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
 
 # Example usage ----
 library(circlize)
@@ -74,7 +74,7 @@ se <- predictProportionSignatureByCluster(gsc, se, cluster.col="cluster")
 # Visualise the proportion of samples positive for each signature in each cluster
 plotProportionPositive(
   se, cluster_rows=FALSE, cluster_columns=FALSE,
-  col = colorRamp2(c(0, 100), c("white", "red")))
+  col=colorRamp2(c(0, 100), c("white", "red")))
 }
 \author{
 Kevin Rue-Albrecht

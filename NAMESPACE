@@ -2,8 +2,8 @@
 
 S3method(predict,GeneSetCollection)
 S3method(predict,tbl_geneset)
+export(learnPositiveMarkersByProportionDifference)
 export(learnSignatures)
-export(learnSignaturesByProportionDifference)
 export(makeFilterExpression)
 export(makeMarkerDetectionMatrix)
 export(makeSignatureDetectionMatrix)

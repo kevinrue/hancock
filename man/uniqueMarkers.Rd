@@ -27,8 +27,8 @@ Extract Unique Markers from a Collection of Gene Sets
 # Example data ----
 library(GeneSet)
 tgs <- tbl_geneset(
-    "Cell type 1" = c("Gene001", "Gene002"),
-    "Cell type 2" = c("Gene002", "Gene003", "Gene004")
+    "Cell type 1"=c("Gene001", "Gene002"),
+    "Cell type 2"=c("Gene002", "Gene003", "Gene004")
 )
 
 # Example usage ----

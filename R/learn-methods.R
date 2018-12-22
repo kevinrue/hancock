@@ -16,7 +16,7 @@
 #'
 #' @section Learning methods:
 #' \describe{
-#' \item{ProportionDifference}{
+#' \item{PositiveProportionDifference, PPD}{
 #' \emph{Requires prior cluster membership information.}
 #' Computes the proportion of samples positive for each feature in each cluster.
 #' Identifies for each cluster the top \code{n} features showing the maximal difference
@@ -43,21 +43,21 @@
 #'
 #' # Example usage ----
 #' se1 <- se
-#' colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace = TRUE))
-#' learnSignatures(se1, method="ProportionDifference", cluster.col="cluster")
+#' colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace=TRUE))
+#' learnSignatures(se1, method="PositiveProportionDifference", cluster.col="cluster")
 learnSignatures <- function(
-    se, assay.type="counts", method=c("ProportionDifference"), ...
+    se, assay.type="counts", method=c("PositiveProportionDifference", "PPD"), ...
 ) {
     method <- match.arg(method)
 
-    if (identical(method, "ProportionDifference")) {
-        out <- learnSignaturesByProportionDifference(se, assay.type=assay.type, ...)
+    if (method %in% c("PositiveProportionDifference", "PPD")) {
+        out <- learnPositiveMarkersByProportionDifference(se, assay.type=assay.type, ...)
     }
 
     out
 }
 
-# learnSignaturesByProportionDifference ----
+# learnPositiveMarkersByProportionDifference ----
 
 #' Identify Markers by Largest Difference of Detection Rate in Clusters
 #'
@@ -72,10 +72,13 @@ learnSignatures <- function(
 #' @param assay.type A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".
 #' @param threshold Value \emph{above which} the marker is considered detected.
 #' @param n Maximal number of markers allowed for each signature.
+#' @param min.diff Minimal difference in detection rate between the target cluster
+#' and the maximal detection rate in any other cluster (in the range 0-1).
 #'
 #' @return A collection of signatures as a "\code{\link{tbl_geneset}}".
 #'
 #' @export
+#' @importFrom Biobase rowMax
 #'
 #' @author Kevin Rue-Albrecht
 #' @examples
@@ -87,16 +90,19 @@ learnSignatures <- function(
 #' colnames(u) <- paste0("Cell", sprintf("%03d", seq_len(ncol(u))))
 #' se <- SummarizedExperiment(assays=list(counts=u))
 #'
-#' colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace = TRUE))
+#' colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
 #'
 #' # Example usage ----
-#' tgs <- learnSignaturesByProportionDifference(se, cluster.col="cluster")
-learnSignaturesByProportionDifference <- function(
-    se, cluster.col, assay.type="counts", threshold=0, n=2
+#' tgs <- learnPositiveMarkersByProportionDifference(se, cluster.col="cluster")
+learnPositiveMarkersByProportionDifference <- function(
+    se, cluster.col, assay.type="counts", threshold=0, n=2, min.diff=0.1
 ) {
     # Sanity checks
     if (missing(cluster.col)) {
-        stop("cluster.col is required for method 'ProportionDifference'")
+        stop("cluster.col is required for method 'PositiveProportionDifference'")
+    }
+    if (min.diff > 1) {
+        stop("Detection rates are computed in the range 0-1.")
     }
     stopifnot(!missing(cluster.col))
     stopifnot(is.factor(colData(se)[, cluster.col, drop=TRUE]))
@@ -121,11 +127,15 @@ learnSignaturesByProportionDifference <- function(
     }
 
     markers <- lapply(clusterNames, function(clusterName, top=n) {
-        freqTarget <- proportionPositiveByCluster[, clusterName]
-        freqMaxOther <- rowMax(proportionPositiveByCluster[, setdiff(colnames(proportionPositiveByCluster), clusterName)])
-        diffFreq <- freqTarget - freqMaxOther
-        rankedGenes <- rownames(se)[order(diffFreq, decreasing = TRUE)]
-        head(rankedGenes, top)
+        df <- data.frame(
+            freqTarget=proportionPositiveByCluster[, clusterName],
+            freqOtherMax=rowMax(proportionPositiveByCluster[, setdiff(colnames(proportionPositiveByCluster), clusterName)]),
+            row.names=rownames(se)
+        )
+        df$diffFreq <- df$freqTarget - df$freqOtherMax
+        df <- df[df$diffFreq >= min.diff, ]
+        df <- df[order(df$diffFreq, decreasing=TRUE), ]
+        head(rownames(df), top)
     })
     names(markers) <- clusterNames
 
