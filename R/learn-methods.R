@@ -117,7 +117,9 @@ learnMarkersByPositiveProportionDifference <- function(
         # Detection rate in the target cluster, and maximum in any other cluster
         df <- data.frame(
             freqTarget=proportionPositiveByCluster[, clusterName],
-            freqOtherMax=rowMax(proportionPositiveByCluster[, setdiff(colnames(proportionPositiveByCluster), clusterName)]),
+            freqOtherMax=rowMax(proportionPositiveByCluster[
+                , setdiff(colnames(proportionPositiveByCluster), clusterName),
+                drop=FALSE]),
             row.names=rownames(se)
         )
         # Difference of detection rate
