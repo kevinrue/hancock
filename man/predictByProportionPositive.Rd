@@ -2,12 +2,12 @@
 % Please edit documentation in R/plot-methods.R, R/predict-methods.R
 \name{plotProportionPositive}
 \alias{plotProportionPositive}
-\alias{predictProportionSignatureByCluster}
+\alias{predictByProportionPositive}
 \title{Identify the Dominant Signatures in Clusters of Samples}
 \usage{
 plotProportionPositive(se, ...)
 
-predictProportionSignatureByCluster(object, se, cluster.col,
+predictByProportionPositive(object, se, cluster.col,
   assay.type = "counts", threshold = 0)
 }
 \arguments{
@@ -33,7 +33,7 @@ This DataFrame contains predicted labels in the first and only column.
 }
 }
 \description{
-The \code{predictProportionSignatureByCluster} function computes the proportion of samples positive for each signature in each (predefined) cluster
+The \code{predictByProportionPositive} function computes the proportion of samples positive for each signature in each (predefined) cluster
 and identifies the predominant signature in each cluster.
 The function stores information tracing the prediction process in the \code{metadata} slot. See Details.
 }
@@ -65,16 +65,19 @@ gsc <- GeneSetCollection(list(
     GeneSet(setName="Cell type 1", c("Gene001", "Gene002")),
     GeneSet(setName="Cell type 2", c("Gene003", "Gene004"))
 ))
-colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace = TRUE))
+colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
 
 # Example usage ----
 library(circlize)
 # Identify the dominant signature in each cluster
-se <- predictProportionSignatureByCluster(gsc, se, cluster.col="cluster")
+se <- predictByProportionPositive(gsc, se, cluster.col="cluster")
 # Visualise the proportion of samples positive for each signature in each cluster
 plotProportionPositive(
   se, cluster_rows=FALSE, cluster_columns=FALSE,
-  col = colorRamp2(c(0, 100), c("white", "red")))
+  col=colorRamp2(c(0, 100), c("white", "red")))
+}
+\seealso{
+\code{\link{predict.GeneSetCollection}}, \code{\link{predict.tbl_geneset}}
 }
 \author{
 Kevin Rue-Albrecht

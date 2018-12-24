@@ -34,6 +34,40 @@ test_that("makeMarkerDetectionMatrix warns about duplicated markers", {
 
 })
 
+# makeMarkerProportionMatrix ----
+
+test_that("makeMarkerDetectionMatrix works", {
+    dummyCluster <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
+    colData(se)[, "cluster"] <- dummyCluster
+    out <- makeMarkerProportionMatrix(se, "cluster")
+
+    # One row per feature in the input object
+    expect_identical(nrow(out), nrow(se))
+    # One column per cluster
+    expect_identical(ncol(out), nlevels(dummyCluster))
+    # All values between 0 and 1
+    expect_true(all(out >= 0))
+    expect_true(all(out <= 1))
+    expect_type(out, "double")
+})
+
+# makeMarkerProportionScree ----
+
+test_that("makeMarkerProportionScree works", {
+    markerDetectionMatrix <- makeMarkerDetectionMatrix(se, rownames(se), threshold=0, assay.type="counts")
+    # Typical use case: Get the list of markers ordered by decreasing detection rate
+    orderedMarkers <- rownames(markerDetectionMatrix)[order(rowSums(markerDetectionMatrix), decreasing=TRUE)]
+    # Reorder the marker detection matrix
+    markerDetectionMatrix <- markerDetectionMatrix[orderedMarkers, ]
+
+    proportionScreen <- makeMarkerProportionScree(markerDetectionMatrix)
+
+    # One value per input row
+    expect_identical(length(proportionScreen), nrow(se))
+    # Decreasing values
+    expect_identical(proportionScreen, sort(proportionScreen, decreasing=TRUE))
+})
+
 # makeSignatureDetectionMatrix ----
 
 test_that("makeSignatureDetectionMatrix works", {

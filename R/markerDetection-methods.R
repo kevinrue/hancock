@@ -12,6 +12,12 @@
 #'
 #' The \code{makeSignatureDetectionMatrix} function declares a signature (composed of one or more gene features) as detected if all the associated features are detected.
 #'
+#' The \code{makeMarkerProportionMatrix} function computes the proportion of samples positive for each marker in predefined clusters.
+#'
+#' The \code{makeMarkerProportionScree} function compute the 'cumulative' combined detection rate
+#' of markers:
+#' the proportion of samples positive for the first marker, the first two markers, etc.
+#'
 #' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
 #' @param markers A character vector, subset of \code{rownames(se)}.
 #' @param threshold Value \emph{above which} the marker is considered detected.
@@ -57,20 +63,81 @@ makeMarkerDetectionMatrix <- function(
     markerDetectionMatrix
 }
 
+# makeMarkerProportionScree ----
+
+#' @rdname makeDetectionMatrices
+#'
+#' @export
+#'
+#' @importFrom Matrix colSums
+makeMarkerProportionScree <- function(matrix) {
+    .combinedProportion <- function(n){
+        positiveCount <- Matrix::colSums(matrix[seq(1, n), , drop=FALSE]) == n
+        positiveProportion <- sum(positiveCount) / ncol(matrix)
+        positiveProportion
+    }
+
+    combinativeProportion <- vapply(
+        X=seq_len(nrow(matrix)), FUN=.combinedProportion, FUN.VALUE=double(1),
+        USE.NAMES=FALSE)
+
+    combinativeProportion
+}
+
 # makeSignatureDetectionMatrix ----
 
 #' @rdname makeDetectionMatrices
 #'
 #' @param matrix A logical matrix indicating the presence of each marker in each sample.
-#' See \code{\link{makeMarkerDetectionMatrix}}
 #' @param object A collection of signatures inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".
 #'
 #' @export
 #'
 #' @importFrom S4Vectors FilterRules evalSeparately
-makeSignatureDetectionMatrix <- function(matrix, object) {
+makeSignatureDetectionMatrix <- function(
+    matrix, object
+) {
     filterExpressions <- makeFilterExpression(object)
     fr <- FilterRules(filterExpressions)
     es <- evalSeparately(fr, as.data.frame(t(matrix)))
     es
+}
+
+# makeMarkerProportionMatrix ----
+
+#' @rdname makeDetectionMatrices
+#'
+#' @param cluster.col Name of a column in \code{colData(se)} that contains
+#' a factor indicating cluster membership for each column (i.e. sample) in \code{se}.
+#'
+#' @export
+#'
+#' @importFrom SummarizedExperiment colData assay
+#' @importFrom Matrix rowSums
+makeMarkerProportionMatrix <- function(
+    se, cluster.col, assay.type="counts", threshold=0
+) {
+    stopifnot(!missing(cluster.col))
+    stopifnot(is.factor(colData(se)[, cluster.col, drop=TRUE])) # keep as-is to raise an error referring to variables known to the user
+    clusterData <- colData(se)[, cluster.col, drop=TRUE]
+
+    # Compute the proportion of each cluster positive for each marker
+    markerDetectionMatrix <- makeMarkerDetectionMatrix(se, rownames(se), threshold, assay.type)
+
+    clusterNames <- levels(clusterData)
+    numberCellsInCluster <- table(clusterData)
+
+    proportionPositiveByCluster <- matrix(
+        data=NA_real_,
+        nrow=nrow(markerDetectionMatrix),
+        ncol=length(clusterNames),
+        dimnames=list(feature=rownames(markerDetectionMatrix), cluster=clusterNames))
+    x <- assay(se, assay.type)
+    for (clusterName in clusterNames) {
+        clusterSamples <- which(colData(se)[, cluster.col] == clusterName)
+        nDetected <- Matrix::rowSums(x[, clusterSamples] > threshold)
+        proportionPositiveByCluster[, clusterName] <- nDetected / length(clusterSamples)
+    }
+
+    proportionPositiveByCluster
 }

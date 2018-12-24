@@ -18,7 +18,7 @@
 #'
 #' @section Prediction methods:
 #' \describe{
-#' \item{ProportionPositive}{
+#' \item{ProportionPositive, PP}{
 #' \emph{Requires prior cluster membership information.}
 #' Computes the proportion of samples positive for each signature in each cluster.
 #' Assigns to each cluster the signature detected in the highest proportion of samples.}
@@ -33,8 +33,9 @@
 #'
 #' @export
 #' @method predict GeneSetCollection
-#'
 #' @importFrom S4Vectors metadata
+#'
+#' @seealso \code{\link{predictByProportionPositive}}
 #'
 #' @author Kevin Rue-Albrecht
 #'
@@ -54,10 +55,10 @@
 #'
 #' # Example usage ----
 #' se1 <- se
-#' colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace = TRUE))
+#' colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace=TRUE))
 #' predict(gsc, se1, method="ProportionPositive", cluster.col="cluster")
 predict.GeneSetCollection <- function(
-    object, se, assay.type="counts", method=c("ProportionPositive"), ...
+    object, se, assay.type="counts", method=c("ProportionPositive", "PP"), ...
 ) {
     .predictAnyGeneSetClass(object, se, assay.type, method, ...)
 }
@@ -66,7 +67,7 @@ predict.GeneSetCollection <- function(
 #' @export
 #' @method predict tbl_geneset
 predict.tbl_geneset <- function(
-    object, se, assay.type="counts", method=c("ProportionPositive"), ...
+    object, se, assay.type="counts", method=c("ProportionPositive", "PP"), ...
 ) {
     .predictAnyGeneSetClass(object, se, assay.type, method, ...)
 }
@@ -86,13 +87,13 @@ predict.tbl_geneset <- function(
 #'
 #' @author Kevin Rue-Albrecht
 .predictAnyGeneSetClass <- function(
-    object, se, assay.type="counts", method=c("ProportionPositive"), ...
+    object, se, assay.type="counts", method=c("ProportionPositive", "PP"), ...
 ){
     method <- match.arg(method)
 
     # NOTE: match.arg above ensures that invalid methods throw an error
-    if (identical(method, "ProportionPositive")) {
-        se <- predictProportionSignatureByCluster(object, se, ..., assay.type=assay.type)
+    if (method %in% c("ProportionPositive", "PP")) {
+        se <- predictByProportionPositive(object, se, ..., assay.type=assay.type)
     }
 
     # Update the Hancock metadata.
@@ -108,11 +109,11 @@ predict.tbl_geneset <- function(
     se
 }
 
-# predictProportionSignatureByCluster ----
+# predictByProportionPositive ----
 
 #' Identify the Dominant Signatures in Clusters of Samples
 #'
-#' The \code{predictProportionSignatureByCluster} function computes the proportion of samples positive for each signature in each (predefined) cluster
+#' The \code{predictByProportionPositive} function computes the proportion of samples positive for each signature in each (predefined) cluster
 #' and identifies the predominant signature in each cluster.
 #' The function stores information tracing the prediction process in the \code{metadata} slot. See Details.
 #'
@@ -146,6 +147,9 @@ predict.tbl_geneset <- function(
 #' @export
 #'
 #' @author Kevin Rue-Albrecht
+#'
+#' @seealso \code{\link{predict.GeneSetCollection}}, \code{\link{predict.tbl_geneset}}
+#'
 #' @examples
 #' # Example data ----
 #' library(SummarizedExperiment)
@@ -159,17 +163,17 @@ predict.tbl_geneset <- function(
 #'     GeneSet(setName="Cell type 1", c("Gene001", "Gene002")),
 #'     GeneSet(setName="Cell type 2", c("Gene003", "Gene004"))
 #' ))
-#' colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace = TRUE))
+#' colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
 #'
 #' # Example usage ----
 #' library(circlize)
 #' # Identify the dominant signature in each cluster
-#' se <- predictProportionSignatureByCluster(gsc, se, cluster.col="cluster")
+#' se <- predictByProportionPositive(gsc, se, cluster.col="cluster")
 #' # Visualise the proportion of samples positive for each signature in each cluster
 #' plotProportionPositive(
 #'   se, cluster_rows=FALSE, cluster_columns=FALSE,
-#'   col = colorRamp2(c(0, 100), c("white", "red")))
-predictProportionSignatureByCluster <- function(
+#'   col=colorRamp2(c(0, 100), c("white", "red")))
+predictByProportionPositive <- function(
     object, se, cluster.col, assay.type="counts", threshold=0
 ) {
     # Sanity checks

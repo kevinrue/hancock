@@ -10,6 +10,6 @@
     `makeSignatureDetectionMatrix`.
 * Added support for gene set classes: `GeneSetCollection`, `tbl_geneset`.
 * Added prediction method `ProportionPositive`.
-* Added learning method `ProportionDifference`.
-* Added plotting method `plotProportionPositive`.
+* Added learning method `PositiveProportionDifference`.
+* Added plotting function `plotProportionPositive`.
 * Added helper functions: `makeFilterExpression`, `uniqueMarkers`.

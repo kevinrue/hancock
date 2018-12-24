@@ -1,5 +1,5 @@
 
-#' @describeIn predictProportionSignatureByCluster
+#' @describeIn predictByProportionPositive
 #' Returns a \code{Heatmap} displaying the proportion (on a scale from 0 to 100) of samples that are positive for each individual signature in each cluster.
 #'
 #' @aliases plotProportionPositive

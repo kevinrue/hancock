@@ -5,7 +5,7 @@
 \title{Method to Learn Signatures from SummarizedExperiment}
 \usage{
 learnSignatures(se, assay.type = "counts",
-  method = c("ProportionDifference"), ...)
+  method = c("PositiveProportionDifference", "PPD"), ...)
 }
 \arguments{
 \item{se}{An object of class inheriting from "\code{\link{SummarizedExperiment}}".}
@@ -27,7 +27,7 @@ in \code{SummarizedExperiment} objects.
 \section{Learning methods}{
 
 \describe{
-\item{ProportionDifference}{
+\item{PositiveProportionDifference, PPD}{
 \emph{Requires prior cluster membership information.}
 Computes the proportion of samples positive for each feature in each cluster.
 Identifies for each cluster the top \code{n} features showing the maximal difference
@@ -46,8 +46,11 @@ se <- SummarizedExperiment(assays=list(counts=u))
 
 # Example usage ----
 se1 <- se
-colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace = TRUE))
-learnSignatures(se1, method="ProportionDifference", cluster.col="cluster")
+colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace=TRUE))
+learnSignatures(se1, method="PositiveProportionDifference", cluster.col="cluster")
+}
+\seealso{
+\code{\link{learnMarkersByPositiveProportionDifference}}
 }
 \author{
 Kevin Rue-Albrecht
