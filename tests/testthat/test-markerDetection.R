@@ -51,6 +51,23 @@ test_that("makeMarkerDetectionMatrix works", {
     expect_type(out, "double")
 })
 
+# makeMarkerProportionScree ----
+
+test_that("makeMarkerProportionScree works", {
+    markerDetectionMatrix <- makeMarkerDetectionMatrix(se, rownames(se), threshold=0, assay.type="counts")
+    # Typical use case: Get the list of markers ordered by decreasing detection rate
+    orderedMarkers <- rownames(markerDetectionMatrix)[order(rowSums(markerDetectionMatrix), decreasing=TRUE)]
+    # Reorder the marker detection matrix
+    markerDetectionMatrix <- markerDetectionMatrix[orderedMarkers, ]
+
+    proportionScreen <- makeMarkerProportionScree(markerDetectionMatrix)
+
+    # One value per input row
+    expect_identical(length(proportionScreen), nrow(se))
+    # Decreasing values
+    expect_identical(proportionScreen, sort(proportionScreen, decreasing=TRUE))
+})
+
 # makeSignatureDetectionMatrix ----
 
 test_that("makeSignatureDetectionMatrix works", {

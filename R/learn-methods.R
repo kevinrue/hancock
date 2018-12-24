@@ -30,7 +30,7 @@
 #' @importFrom Matrix rowSums
 #' @importFrom Biobase rowMax
 #'
-#' @seealso learnMarkersByPositiveProportionDifference
+#' @seealso \code{\link{learnMarkersByPositiveProportionDifference}}
 #'
 #' @author Kevin Rue-Albrecht
 #'
@@ -76,6 +76,7 @@ learnSignatures <- function(
 #' @param n Maximal number of markers allowed for each signature.
 #' @param min.diff Minimal difference in detection rate between the target cluster
 #' and the maximal detection rate in any other cluster (in the range 0-1).
+#' @param min.prop Minimal proportion of samples in the target cluster where the combined set of markers is detected.
 #'
 #' @return A collection of signatures as a "\code{\link{tbl_geneset}}".
 #'
@@ -84,7 +85,7 @@ learnSignatures <- function(
 #'
 #' @author Kevin Rue-Albrecht
 #'
-#' @seealso learnHancock
+#' @seealso \code{\link{learnSignatures}}
 #'
 #' @examples
 #' # Example data ----
@@ -100,27 +101,48 @@ learnSignatures <- function(
 #' # Example usage ----
 #' tgs <- learnMarkersByPositiveProportionDifference(se, cluster.col="cluster")
 learnMarkersByPositiveProportionDifference <- function(
-    se, cluster.col, assay.type="counts", threshold=0, n=Inf, min.diff=0.1
+    se, cluster.col, assay.type="counts", threshold=0, n=Inf, min.diff=0.1, min.prop=0.1
 ) {
     # Sanity checks
     if (missing(cluster.col)) {
         stop("cluster.col is required for method 'PositiveProportionDifference'")
     }
-    if (min.diff > 1) {
-        stop("Detection rates are computed in the range 0-1.")
+    if (min.diff > 1 | min.diff < 0) {
+        stop("min.diff must be a scalar in the range [0,1].")
     }
 
     proportionPositiveByCluster <- makeMarkerProportionMatrix(se, cluster.col, assay.type, threshold)
 
     getTopMarkers <- function(clusterName, top=n) {
+        # Detection rate in the target cluster, and maximum in any other cluster
         df <- data.frame(
             freqTarget=proportionPositiveByCluster[, clusterName],
             freqOtherMax=rowMax(proportionPositiveByCluster[, setdiff(colnames(proportionPositiveByCluster), clusterName)]),
             row.names=rownames(se)
         )
+        # Difference of detection rate
         df$diffFreq <- df$freqTarget - df$freqOtherMax
-        df <- df[df$diffFreq >= min.diff, ]
+        # Exclude markers below the minimal difference threshold
+        if (!is.na(min.diff)) {
+            df <- df[df$diffFreq >= min.diff, ]
+        }
+        # 'Combinatorial' detection rate in the target cluster
+        # Do not move above the exclusion on min.diff, to save time
+        if (!is.na(min.prop)) {
+            seSubset <- se[, colData(se)[, cluster.col] == clusterName]
+            markerDetectionMatrix <- makeMarkerDetectionMatrix(seSubset, rownames(df), threshold, assay.type)
+            # Order markers by decreasing detection rate
+            orderedMarkers <- rownames(markerDetectionMatrix)[order(rowSums(markerDetectionMatrix), decreasing=TRUE)]
+            markerDetectionMatrix <- markerDetectionMatrix[orderedMarkers, ]
+            proportionScreen <- makeMarkerProportionScree(markerDetectionMatrix)
+            df <- df[orderedMarkers, ]
+            df$combinedProp <- proportionScreen
+            df <- df[df$combinedProp >= min.prop, ]
+        }
+        # Reorder the remaining markers.
+        # Do not move higher above, it saves time.
         df <- df[order(df$diffFreq, decreasing=TRUE), ]
+        # Extract the request number of markers (default: all)
         head(rownames(df), top)
     }
 

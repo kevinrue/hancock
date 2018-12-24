@@ -30,6 +30,7 @@ test_that("learnMarkersByPositiveProportionDifference requires argument col.clus
 test_that("learnMarkersByPositiveProportionDifference requires detection rate in the range 0-1", {
     expect_error(
         learnMarkersByPositiveProportionDifference(se, cluster.col="cluster", min.diff=10),
-        "Detection rates are computed in the range 0-1."
+        "min.diff must be a scalar in the range [0,1].",
+        fixed=TRUE
     )
 })

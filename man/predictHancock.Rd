@@ -66,7 +66,7 @@ colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace=
 predict(gsc, se1, method="ProportionPositive", cluster.col="cluster")
 }
 \seealso{
-predictByProportionPositive
+\code{\link{predictByProportionPositive}}
 }
 \author{
 Kevin Rue-Albrecht

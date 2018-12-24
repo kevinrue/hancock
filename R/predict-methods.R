@@ -35,7 +35,7 @@
 #' @method predict GeneSetCollection
 #' @importFrom S4Vectors metadata
 #'
-#' @seealso predictByProportionPositive
+#' @seealso \code{\link{predictByProportionPositive}}
 #'
 #' @author Kevin Rue-Albrecht
 #'
@@ -148,7 +148,7 @@ predict.tbl_geneset <- function(
 #'
 #' @author Kevin Rue-Albrecht
 #'
-#' @seealso predictHancock
+#' @seealso \code{\link{predict.GeneSetCollection}}, \code{\link{predict.tbl_geneset}}
 #'
 #' @examples
 #' # Example data ----

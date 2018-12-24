@@ -5,7 +5,8 @@
 \title{Identify Markers by Largest Difference of Detection Rate in Clusters}
 \usage{
 learnMarkersByPositiveProportionDifference(se, cluster.col,
-  assay.type = "counts", threshold = 0, n = Inf, min.diff = 0.1)
+  assay.type = "counts", threshold = 0, n = Inf, min.diff = 0.1,
+  min.prop = 0.1)
 }
 \arguments{
 \item{se}{An object of class inheriting from "\code{\link{SummarizedExperiment}}".}
@@ -21,6 +22,8 @@ a factor indicating cluster membership for each column (i.e. sample) in \code{se
 
 \item{min.diff}{Minimal difference in detection rate between the target cluster
 and the maximal detection rate in any other cluster (in the range 0-1).}
+
+\item{min.prop}{Minimal proportion of samples in the target cluster where the combined set of markers is detected.}
 }
 \value{
 A collection of signatures as a "\code{\link{tbl_geneset}}".
@@ -46,7 +49,7 @@ colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace=TR
 tgs <- learnMarkersByPositiveProportionDifference(se, cluster.col="cluster")
 }
 \seealso{
-learnHancock
+\code{\link{learnSignatures}}
 }
 \author{
 Kevin Rue-Albrecht

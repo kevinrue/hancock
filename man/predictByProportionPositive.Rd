@@ -77,7 +77,7 @@ plotProportionPositive(
   col=colorRamp2(c(0, 100), c("white", "red")))
 }
 \seealso{
-predictHancock
+\code{\link{predict.GeneSetCollection}}, \code{\link{predict.tbl_geneset}}
 }
 \author{
 Kevin Rue-Albrecht

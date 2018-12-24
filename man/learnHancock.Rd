@@ -50,7 +50,7 @@ colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace=
 learnSignatures(se1, method="PositiveProportionDifference", cluster.col="cluster")
 }
 \seealso{
-learnMarkersByPositiveProportionDifference
+\code{\link{learnMarkersByPositiveProportionDifference}}
 }
 \author{
 Kevin Rue-Albrecht

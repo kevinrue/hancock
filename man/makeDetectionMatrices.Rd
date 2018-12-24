@@ -2,12 +2,15 @@
 % Please edit documentation in R/markerDetection-methods.R
 \name{makeMarkerDetectionMatrix}
 \alias{makeMarkerDetectionMatrix}
+\alias{makeMarkerProportionScree}
 \alias{makeSignatureDetectionMatrix}
 \alias{makeMarkerProportionMatrix}
 \title{Identify Markers and Signatures Present in Individual Samples}
 \usage{
 makeMarkerDetectionMatrix(se, markers, threshold = 0,
   assay.type = "counts")
+
+makeMarkerProportionScree(matrix)
 
 makeSignatureDetectionMatrix(matrix, object)
 
@@ -23,8 +26,7 @@ makeMarkerProportionMatrix(se, cluster.col, assay.type = "counts",
 
 \item{assay.type}{A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".}
 
-\item{matrix}{A logical matrix indicating the presence of each marker in each sample.
-See \code{\link{makeMarkerDetectionMatrix}}}
+\item{matrix}{A logical matrix indicating the presence of each marker in each sample.}
 
 \item{object}{A collection of signatures inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".}
 
@@ -46,6 +48,10 @@ The \code{makeMarkerDetectionMatrix} function declares a feature as detected if 
 The \code{makeSignatureDetectionMatrix} function declares a signature (composed of one or more gene features) as detected if all the associated features are detected.
 
 The \code{makeMarkerProportionMatrix} function computes the proportion of samples positive for each marker in predefined clusters.
+
+The \code{makeMarkerProportionScree} function compute the 'cumulative' combined detection rate
+of markers:
+the proportion of samples positive for the first marker, the first two markers, etc.
 }
 \examples{
 # Example data ----

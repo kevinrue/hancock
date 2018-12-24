@@ -14,6 +14,10 @@
 #'
 #' The \code{makeMarkerProportionMatrix} function computes the proportion of samples positive for each marker in predefined clusters.
 #'
+#' The \code{makeMarkerProportionScree} function compute the 'cumulative' combined detection rate
+#' of markers:
+#' the proportion of samples positive for the first marker, the first two markers, etc.
+#'
 #' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
 #' @param markers A character vector, subset of \code{rownames(se)}.
 #' @param threshold Value \emph{above which} the marker is considered detected.
@@ -59,12 +63,32 @@ makeMarkerDetectionMatrix <- function(
     markerDetectionMatrix
 }
 
+# makeMarkerProportionScree ----
+
+#' @rdname makeDetectionMatrices
+#'
+#' @export
+#'
+#' @importFrom Matrix colSums
+makeMarkerProportionScree <- function(matrix) {
+    .combinedProportion <- function(n){
+        positiveCount <- Matrix::colSums(matrix[seq(1, n), , drop=FALSE]) == n
+        positiveProportion <- sum(positiveCount) / ncol(matrix)
+        positiveProportion
+    }
+
+    combinativeProportion <- vapply(
+        X=seq_len(nrow(matrix)), FUN=.combinedProportion, FUN.VALUE=double(1),
+        USE.NAMES=FALSE)
+
+    combinativeProportion
+}
+
 # makeSignatureDetectionMatrix ----
 
 #' @rdname makeDetectionMatrices
 #'
 #' @param matrix A logical matrix indicating the presence of each marker in each sample.
-#' See \code{\link{makeMarkerDetectionMatrix}}
 #' @param object A collection of signatures inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".
 #'
 #' @export
