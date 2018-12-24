@@ -116,7 +116,7 @@ learnMarkersByPositiveProportionDifference <- function(
     getTopMarkers <- function(clusterName, top=n) {
         # Detection rate in the target cluster, and maximum in any other cluster
         df <- data.frame(
-            freqTarget=proportionPositiveByCluster[, clusterName],
+            freqTarget=proportionPositiveByCluster[, clusterName, drop=TRUE],
             freqOtherMax=rowMax(proportionPositiveByCluster[
                 , setdiff(colnames(proportionPositiveByCluster), clusterName),
                 drop=FALSE]),
@@ -126,7 +126,7 @@ learnMarkersByPositiveProportionDifference <- function(
         df$diffFreq <- df$freqTarget - df$freqOtherMax
         # Exclude markers below the minimal difference threshold
         if (!is.na(min.diff)) {
-            df <- df[df$diffFreq >= min.diff, ]
+            df <- df[df$diffFreq >= min.diff, , drop=FALSE]
         }
         # 'Combinatorial' detection rate in the target cluster
         # Do not move above the exclusion on min.diff, to save time
@@ -137,13 +137,13 @@ learnMarkersByPositiveProportionDifference <- function(
             orderedMarkers <- rownames(markerDetectionMatrix)[order(rowSums(markerDetectionMatrix), decreasing=TRUE)]
             markerDetectionMatrix <- markerDetectionMatrix[orderedMarkers, ]
             proportionScreen <- makeMarkerProportionScree(markerDetectionMatrix)
-            df <- df[orderedMarkers, ]
+            df <- df[orderedMarkers, , drop=FALSE]
             df$combinedProp <- proportionScreen
-            df <- df[df$combinedProp >= min.prop, ]
+            df <- df[df$combinedProp >= min.prop, , drop=FALSE]
         }
         # Reorder the remaining markers.
         # Do not move higher above, it saves time.
-        df <- df[order(df$diffFreq, decreasing=TRUE), ]
+        df <- df[order(df$diffFreq, decreasing=TRUE), , drop=FALSE]
         # Extract the request number of markers (default: all)
         head(rownames(df), top)
     }
