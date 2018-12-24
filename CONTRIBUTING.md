@@ -31,7 +31,9 @@ Ideally, a proof-of-concept Rmarkdown notebook should demonstrate the method _be
 
 This can save significant time through community feedback and suggestions from both expert developers and prospective users on the implementation and expected usage of a new functionality _before_ investing significant time and effort into packaging and documenting functions.
 
-For an example, please refer to the proof-of-concept of the `predictProportionSignatureByCluster` function available [here](https://github.com/kevinrue/Hancock2018/blob/3e065aca67071338b1fcf496790da239ace5425c/1-proportion_signature.Rmd).
+For an example, please refer to the proof-of-concept of the function `predictByProportionPositive` available [here](https://github.com/kevinrue/Hancock2018/blob/3e065aca67071338b1fcf496790da239ace5425c/1-proportion_signature.Rmd).
+
+Proof-of-concept vignettes may be subsequently updated to demonstrate the same use case, but calling functions implemented in the package. Refer to the demonstration of the function `learnMarkersByPositiveProportionDifference` available [here](https://github.com/kevinrue/Hancock2018/blob/f08ee1d34c6bea722757870a339ad3940a48040c/2-learn-signatures.Rmd).
 
 
 ## Coding style
@@ -85,6 +87,7 @@ All prediction methods must accept `object` and `se` as their first two argument
 Additional method-specific parameters may be accepted from the third argument onward.
 
 Once implemented as its own function, a new method should be made available through the `predict.GeneSetCollection` function using a unique `method` identifier.
+Make sure the new identifier and method are documented in the `?predictHancock` man page.
 
 Prediction methods should return the input `SummarizedExperiment` object updated as follows:
 
@@ -95,7 +98,7 @@ Prediction methods should return the input `SummarizedExperiment` object updated
     - `"packageVersion"`: Version of the `Hancock` package used to make the predictions
     - Additional, method-specific elements may appear _after_ the above general metadata
 
-For an example template, please refer to the prediction method `predictProportionSignatureByCluster`, made available using the `"ProportionPositive"` identifier.
+For an example template, please refer to the prediction method `predictByProportionPositive`, made available using the `"ProportionPositive"` identifier.
 
 ## New plotting functions
 
@@ -109,15 +112,16 @@ For an example, please refer to `plotProportionPositive`, using the result of th
 
 ## New learning methods
 
-New learning methods should be first implemented as a separate functions, individually exported in the `NAMESPACE` file.
+Similarly to [new prediction methods](#new-prediction-methods), new learning methods should be first implemented as a separate functions, individually exported in the `NAMESPACE` file.
 All prediction methods must accept `se` as their first argument, namely the `SummarizedExperiment` from which to learn signatures.
 Additional method-specific parameters may be accepted from the second argument onward.
 
 Once implemented as its own function, a new method should be made available through the `learnSignatures` function using a unique `method` identifier.
+Make sure the new identifier and method are documented in the `?learnHancock` man page.
 
 Learning methods should return a `tbl_geneset` object, defined in the [GeneSet](https://github.com/Kayla-Morrell/GeneSet) package.
 
-For an example template, please refer to the prediction method `learnSignaturesByProportionDifference`, made available using the `"ProportionDifference"` identifier.
+For an example template, please refer to the prediction method `learnMarkersByPositiveProportionDifference`, made available using the `"PositiveProportionDifference"` identifier.
 
 ## Terminology
 
