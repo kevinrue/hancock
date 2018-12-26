@@ -18,9 +18,9 @@
 #' \describe{
 #' \item{PositiveProportionDifference, PPD}{
 #' \emph{Requires prior cluster membership information.}
-#' Computes the proportion of samples positive for each feature in each cluster.
-#' Identifies for each cluster the top \code{n} features showing the maximal difference
-#' between the frequency of detection in the cluster of interest and the maximal frequency of detection in any other cluster.}
+#' This method computes the proportion of samples positive for each feature in each cluster,
+#' and subsequently identifies for each cluster the features showing the maximal difference
+#' between the detection rate in the cluster of interest and the detection rate in all other clusters.}
 #' }
 #'
 #' @return A \code{\link{tbl_geneset}}.
@@ -65,8 +65,8 @@ learnSignatures <- function(
 #'
 #' This function computes the detection rate of each feature in each cluster.
 #' For each cluster, it ranks all the features by decreasing difference between
-#' the detection rate in the target cluster, and the maximal detection rate in any other cluster.
-#' The function returns up to \code{n} markers for each cluster.
+#' the detection rate in the target cluster, and the detection rate in all other clusters.
+#' The function can limit results up to \code{n} markers for each cluster.
 #'
 #' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
 #' @param cluster.col Name of a column in \code{colData(se)} that contains
@@ -83,7 +83,7 @@ learnSignatures <- function(
 #'
 #' @details
 #' \code{diff.method} affects how the detection rate in all clusters \emph{other than the target one} are summarized before comparison with the detection in the target cluster.
-#' It is possible to use the minimal (\code{"min"}), \code{"mean"}, \code{"median"} (minimal), or maximal (\code{"max"}) difference between the detection in the target cluster all that of any other cluster.
+#' It is possible to rank features using the minimal (\code{"min"}), \code{"mean"}, \code{"median"} (minimal), or maximal (\code{"max"}) difference between the detection rate in the target cluster and those of all other clusters.
 #'
 #' @return A collection of signatures as a "\code{\link{tbl_geneset}}".
 #'

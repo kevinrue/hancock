@@ -29,9 +29,9 @@ in \code{SummarizedExperiment} objects.
 \describe{
 \item{PositiveProportionDifference, PPD}{
 \emph{Requires prior cluster membership information.}
-Computes the proportion of samples positive for each feature in each cluster.
-Identifies for each cluster the top \code{n} features showing the maximal difference
-between the frequency of detection in the cluster of interest and the maximal frequency of detection in any other cluster.}
+This method computes the proportion of samples positive for each feature in each cluster,
+and subsequently identifies for each cluster the features showing the maximal difference
+between the detection rate in the cluster of interest and the detection rate in all other clusters.}
 }
 }
 
