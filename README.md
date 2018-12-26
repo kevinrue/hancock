@@ -7,9 +7,19 @@
 
 The goal of Hancock is to provide a collection of single-cell methods for learning and applying gene signatures associated with cell identities.
 
+# Prerequisites
+
+Several functions depend on the `GeneSet` package, currently only available from [GitHub](https://github.com/Kayla-Morrell/GeneSet).
+The dependencies may be installed as follows:
+
+```
+install.packages("devtools")
+devtools::install_github("Kayla-Morrell/GeneSet", "tibble_implement")
+```
+
 # Installation
 
-The package may be installed as follows:
+The `Hancock` package may be installed as follows:
 
 ```
 install.packages("devtools")
