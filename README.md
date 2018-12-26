@@ -5,7 +5,8 @@
 
 # Hancock
 
-The goal of Hancock is to provide a collection of single-cell methods for learning and applying gene signatures associated with cell identities.
+The goal of Hancock is to provide a collection of methods for learning and applying gene signatures associated with cellular phenotypes and identities.
+Particular focus is given to single-cell data stored in objects derived from the [`SummarizedExperiment`](https://bioconductor.org/packages/release/bioc/html/SummarizedExperiment.html) class.
 
 # Prerequisites
 
