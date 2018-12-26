@@ -18,9 +18,9 @@
 #' \describe{
 #' \item{PositiveProportionDifference, PPD}{
 #' \emph{Requires prior cluster membership information.}
-#' Computes the proportion of samples positive for each feature in each cluster.
-#' Identifies for each cluster the top \code{n} features showing the maximal difference
-#' between the frequency of detection in the cluster of interest and the maximal frequency of detection in any other cluster.}
+#' This method computes the proportion of samples positive for each feature in each cluster,
+#' and subsequently identifies for each cluster the features showing the maximal difference
+#' between the detection rate in the cluster of interest and the detection rate in all other clusters.}
 #' }
 #'
 #' @return A \code{\link{tbl_geneset}}.
@@ -65,8 +65,8 @@ learnSignatures <- function(
 #'
 #' This function computes the detection rate of each feature in each cluster.
 #' For each cluster, it ranks all the features by decreasing difference between
-#' the detection rate in the target cluster, and the maximal detection rate in any other cluster.
-#' The function returns up to \code{n} markers for each cluster.
+#' the detection rate in the target cluster, and the detection rate in all other clusters.
+#' The function can limit results up to \code{n} markers for each cluster.
 #'
 #' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
 #' @param cluster.col Name of a column in \code{colData(se)} that contains
@@ -75,13 +75,21 @@ learnSignatures <- function(
 #' @param threshold Value \emph{above which} the marker is considered detected.
 #' @param n Maximal number of markers allowed for each signature.
 #' @param min.diff Minimal difference in detection rate between the target cluster
-#' and the maximal detection rate in any other cluster (in the range 0-1).
+#' and the summarized detection rate in any other cluster (in the range 0-1).
+#' See argument \code{diff.method} below.
 #' @param min.prop Minimal proportion of samples in the target cluster where the combined set of markers is detected.
+#' @param diff.method Method to contrast the detection rate in the target cluster to that of all other clusters.
+#' See Details section.
+#'
+#' @details
+#' \code{diff.method} affects how the detection rate in all clusters \emph{other than the target one} are summarized before comparison with the detection in the target cluster.
+#' It is possible to rank features using the minimal (\code{"min"}), \code{"mean"}, \code{"median"} (minimal), or maximal (\code{"max"}) difference between the detection rate in the target cluster and those of all other clusters.
 #'
 #' @return A collection of signatures as a "\code{\link{tbl_geneset}}".
 #'
 #' @export
-#' @importFrom Biobase rowMax
+#' @importFrom Biobase rowMax rowMin
+#' @importFrom matrixStats rowMedians
 #'
 #' @author Kevin Rue-Albrecht
 #'
@@ -101,7 +109,8 @@ learnSignatures <- function(
 #' # Example usage ----
 #' tgs <- learnMarkersByPositiveProportionDifference(se, cluster.col="cluster")
 learnMarkersByPositiveProportionDifference <- function(
-    se, cluster.col, assay.type="counts", threshold=0, n=Inf, min.diff=0.1, min.prop=0.1
+    se, cluster.col, assay.type="counts", threshold=0, n=Inf, min.diff=0.1, min.prop=0.1,
+    diff.method=c("min", "mean", "median", "max")
 ) {
     # Sanity checks
     if (missing(cluster.col)) {
@@ -110,6 +119,14 @@ learnMarkersByPositiveProportionDifference <- function(
     if (min.diff > 1 | min.diff < 0) {
         stop("min.diff must be a scalar in the range [0,1].")
     }
+    diff.method <- match.arg(diff.method)
+    diffMethods <- c(
+        "min"=Biobase::rowMax,# minimal difference: compare to the maximal value
+        "mean"=Matrix::rowMeans,
+        "median"=matrixStats::rowMedians,
+        "max"=Biobase::rowMin # maximal difference: compare to the minimal value
+        )
+    diff.method <- diffMethods[[diff.method]]
 
     proportionPositiveByCluster <- makeMarkerProportionMatrix(se, cluster.col, assay.type, threshold)
 
@@ -117,7 +134,7 @@ learnMarkersByPositiveProportionDifference <- function(
         # Detection rate in the target cluster, and maximum in any other cluster
         df <- data.frame(
             freqTarget=proportionPositiveByCluster[, clusterName, drop=TRUE],
-            freqOtherMax=rowMax(proportionPositiveByCluster[
+            freqOtherMax=diff.method(proportionPositiveByCluster[
                 , setdiff(colnames(proportionPositiveByCluster), clusterName),
                 drop=FALSE]),
             row.names=rownames(se)

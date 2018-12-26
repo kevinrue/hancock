@@ -19,7 +19,8 @@ Imports:
     S4Vectors,
     ComplexHeatmap,
     Matrix,
-    Biobase
+    Biobase,
+    matrixStats
 Suggests: 
     knitr,
     rmarkdown,
