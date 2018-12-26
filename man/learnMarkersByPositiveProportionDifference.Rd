@@ -6,7 +6,7 @@
 \usage{
 learnMarkersByPositiveProportionDifference(se, cluster.col,
   assay.type = "counts", threshold = 0, n = Inf, min.diff = 0.1,
-  min.prop = 0.1)
+  min.prop = 0.1, diff.method = c("min", "mean", "median", "max"))
 }
 \arguments{
 \item{se}{An object of class inheriting from "\code{\link{SummarizedExperiment}}".}
@@ -21,9 +21,13 @@ a factor indicating cluster membership for each column (i.e. sample) in \code{se
 \item{n}{Maximal number of markers allowed for each signature.}
 
 \item{min.diff}{Minimal difference in detection rate between the target cluster
-and the maximal detection rate in any other cluster (in the range 0-1).}
+and the summarized detection rate in any other cluster (in the range 0-1).
+See argument \code{diff.method} below.}
 
 \item{min.prop}{Minimal proportion of samples in the target cluster where the combined set of markers is detected.}
+
+\item{diff.method}{Method to contrast the detection rate in the target cluster to that of all other clusters.
+See Details section.}
 }
 \value{
 A collection of signatures as a "\code{\link{tbl_geneset}}".
@@ -33,6 +37,10 @@ This function computes the detection rate of each feature in each cluster.
 For each cluster, it ranks all the features by decreasing difference between
 the detection rate in the target cluster, and the maximal detection rate in any other cluster.
 The function returns up to \code{n} markers for each cluster.
+}
+\details{
+\code{diff.method} affects how the detection rate in all clusters \emph{other than the target one} are summarized before comparison with the detection in the target cluster.
+It is possible to use the minimal (\code{"min"}), \code{"mean"}, \code{"median"} (minimal), or maximal (\code{"max"}) difference between the detection in the target cluster all that of any other cluster.
 }
 \examples{
 # Example data ----
