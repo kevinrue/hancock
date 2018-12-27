@@ -159,7 +159,7 @@ learnMarkersByPositiveProportionDifference <- function(
             df$combinedProp <- proportionScreen
             df <- df[df$combinedProp >= min.prop, , drop=FALSE]
             df$combinedProp <- min(df$combinedProp) # no need for na.rm=TRUE
-            df$detectionProp <- (rowSums(markerDetectionMatrix[rownames(df), ]) / ncol(markerDetectionMatrix))
+            df$detectionProp <- (rowSums(markerDetectionMatrix[rownames(df), , drop=TRUE]) / ncol(markerDetectionMatrix))
         }
         # Reorder the remaining markers.
         # Do not move higher above, it saves time.

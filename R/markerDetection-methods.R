@@ -59,8 +59,8 @@ makeMarkerDetectionMatrix <- function(
         markers <- unique(markers)
     }
     # Subset the requested assay to the markers of interest
-    x <- assay(se, assay.type)[markers, , drop=TRUE]
-    markerDetectionMatrix <- (x > threshold)
+    assayMatrix <- assay(se, assay.type)[markers, , drop=FALSE]
+    markerDetectionMatrix <- (assayMatrix > threshold)
     markerDetectionMatrix
 }
 
@@ -133,10 +133,10 @@ makeMarkerProportionMatrix <- function(
         nrow=nrow(markerDetectionMatrix),
         ncol=length(clusterNames),
         dimnames=list(feature=rownames(markerDetectionMatrix), cluster=clusterNames))
-    x <- assay(se, assay.type)
+    assayMatrix <- assay(se, assay.type)
     for (clusterName in clusterNames) {
         clusterSamples <- which(colData(se)[, cluster.col] == clusterName)
-        nDetected <- Matrix::rowSums(x[, clusterSamples] > threshold)
+        nDetected <- Matrix::rowSums(assayMatrix[, clusterSamples] > threshold)
         proportionPositiveByCluster[, clusterName] <- nDetected / length(clusterSamples)
     }
 
