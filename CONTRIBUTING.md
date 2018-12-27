@@ -98,7 +98,7 @@ Prediction methods should return the input `SummarizedExperiment` object updated
     - `"packageVersion"`: Version of the `Hancock` package used to make the predictions
     - Additional, method-specific elements may appear _after_ the above general metadata
 
-For an example template, please refer to the prediction method `predictByProportionPositive`, made available using the `"ProportionPositive"` identifier.
+For an example template, please refer to the prediction method [`predictByProportionPositive`](https://github.com/kevinrue/Hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/predict-methods.R#L176), made available using the [`"ProportionPositive"`](https://github.com/kevinrue/Hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/predict-methods.R#L95) identifier.
 
 ## New plotting functions
 
@@ -108,7 +108,7 @@ Most importantly, plotting function should first check that the input `se` objec
 
 Plotting functions should return a minimal `ggplot2::ggplot` or `ComplexHeatmap::Heatmap` object, giving users maximal freedom to customize the plot.
 
-For an example, please refer to `plotProportionPositive`, using the result of the `predictProportionSignatureByCluster` method.
+For an example, please refer to [`plotProportionPositive`](https://github.com/kevinrue/Hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/plot-methods.R#L11), using the result of the [`predictByProportionPositive`](https://github.com/kevinrue/Hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/predict-methods.R#L176) method.
 
 ## New learning methods
 
@@ -121,7 +121,10 @@ Make sure the new identifier and method are documented in the `?learnHancock` ma
 
 Learning methods should return a `tbl_geneset` object, defined in the [GeneSet](https://github.com/Kayla-Morrell/GeneSet) package.
 
-For an example template, please refer to the prediction method `learnMarkersByPositiveProportionDifference`, made available using the `"PositiveProportionDifference"` identifier.
+For an example template, please refer to the prediction method [`learnMarkersByPositiveProportionDifference`](https://github.com/kevinrue/Hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/learn-methods.R#L111), made available using the [`"PositiveProportionDifference"`](https://github.com/kevinrue/Hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/learn-methods.R#L55) identifier.
+
+_Experimental: metadata produced by learning methods may be stored as [additional columns](https://github.com/kevinrue/Hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/learn-methods.R#L181) of the `tbl_geneset` returned.
+Those fields are currently ignored, and the implementation guidelines may change according to the development of the `tbl_geneset` class._
 
 ## Terminology
 
