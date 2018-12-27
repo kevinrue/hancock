@@ -20,8 +20,7 @@ Imports:
     ComplexHeatmap,
     Matrix,
     Biobase,
-    matrixStats,
-    tibble
+    matrixStats
 Suggests: 
     knitr,
     rmarkdown,

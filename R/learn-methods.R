@@ -90,7 +90,6 @@ learnSignatures <- function(
 #' @export
 #' @importFrom Biobase rowMax rowMin
 #' @importFrom matrixStats rowMedians
-#' @importFrom tibble as_tibble
 #'
 #' @author Kevin Rue-Albrecht
 #'
