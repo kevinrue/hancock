@@ -35,8 +35,10 @@ a factor indicating cluster membership for each column (i.e. sample) in \code{se
 }
 \value{
 \describe{
-\item{\code{makeMarkerDetectionMatrix}}{A logical matrix indicating the presence of each marker in each sample.}
-\item{\code{makeSignatureDetectionMatrix}}{A logical matrix indicating the presence of each signature in each sample.}
+\item{\code{makeMarkerDetectionMatrix}}{A \code{logical} matrix indicating detectable levels of each marker in each sample.}
+\item{\code{makeSignatureDetectionMatrix}}{A \code{logical} matrix indicating detectable levels of each signature in each sample.}
+\item{\code{makeMarkerProportionMatrix}}{A matrix indicating for each feature the proportion of samples expressing detectable levels in each cluster.}
+\item{\code{makeMarkerProportionScree}}{A \code{double} vector indicating the proportion of samples positive for markers in the input \code{logical} matrix.}
 }
 }
 \description{
@@ -47,11 +49,10 @@ The \code{makeMarkerDetectionMatrix} function declares a feature as detected if 
 
 The \code{makeSignatureDetectionMatrix} function declares a signature (composed of one or more gene features) as detected if all the associated features are detected.
 
-The \code{makeMarkerProportionMatrix} function computes the proportion of samples positive for each marker in predefined clusters.
+The \code{makeMarkerProportionMatrix} function computes the proportion of samples expressing detectable levels of each marker in individual predefined clusters.
 
-The \code{makeMarkerProportionScree} function compute the 'cumulative' combined detection rate
-of markers:
-the proportion of samples positive for the first marker, the first two markers, etc.
+The \code{makeMarkerProportionScree} function compute the 'cumulative' (i.e., combined) detection rate of markers:
+the proportion of samples with detectable levels of the first marker, both of the first two markers, etc.
 }
 \examples{
 # Example data ----
