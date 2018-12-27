@@ -177,6 +177,7 @@ learnMarkersByPositiveProportionDifference <- function(
     tbl <- do.call(tbl_geneset, markers)
     # Annotate the tbl_geneset with the gene metadata
     metadataToAdd <- do.call(rbind, markerTables)
+    # cbind would coerce the tbl_geneset to a data.frame (workaround)
     for (columnName in colnames(metadataToAdd)) {
         tbl[, columnName] <- metadataToAdd[, columnName]
     }
