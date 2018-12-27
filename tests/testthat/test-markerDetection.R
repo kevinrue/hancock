@@ -36,7 +36,7 @@ test_that("makeMarkerDetectionMatrix warns about duplicated markers", {
 
 # makeMarkerProportionMatrix ----
 
-test_that("makeMarkerDetectionMatrix works", {
+test_that("makeMarkerProportionMatrix works", {
     dummyCluster <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
     colData(se)[, "cluster"] <- dummyCluster
     out <- makeMarkerProportionMatrix(se, "cluster")

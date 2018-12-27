@@ -90,6 +90,7 @@ learnSignatures <- function(
 #' @export
 #' @importFrom Biobase rowMax rowMin
 #' @importFrom matrixStats rowMedians
+#' @importFrom tibble as_tibble
 #'
 #' @author Kevin Rue-Albrecht
 #'
@@ -147,6 +148,7 @@ learnMarkersByPositiveProportionDifference <- function(
         }
         # 'Combinatorial' detection rate in the target cluster
         # Do not move above the exclusion on min.diff, to save time
+        df$combinedProp <- NA_real_
         if (!is.na(min.prop)) {
             seSubset <- se[, colData(se)[, cluster.col] == clusterName]
             markerDetectionMatrix <- makeMarkerDetectionMatrix(seSubset, rownames(df), threshold, assay.type)
@@ -157,19 +159,27 @@ learnMarkersByPositiveProportionDifference <- function(
             df <- df[orderedMarkers, , drop=FALSE]
             df$combinedProp <- proportionScreen
             df <- df[df$combinedProp >= min.prop, , drop=FALSE]
+            df$combinedProp <- min(df$combinedProp) # no need for na.rm=TRUE
+            df$detectionProp <- (rowSums(markerDetectionMatrix[rownames(df), ]) / ncol(markerDetectionMatrix))
         }
         # Reorder the remaining markers.
         # Do not move higher above, it saves time.
         df <- df[order(df$diffFreq, decreasing=TRUE), , drop=FALSE]
         # Extract the request number of markers (default: all)
-        head(rownames(df), top)
+        head(df[, c("detectionProp", "combinedProp"), drop=FALSE], top)
+    }
+    # Compute the markers for each cluster
+    clusterNames <- colnames(proportionPositiveByCluster)
+    markerTables <- lapply(clusterNames, getTopMarkers)
+    # Make a tbl_geneset
+    markers <- lapply(markerTables, rownames)
+    names(markers) <- clusterNames
+    tbl <- do.call(tbl_geneset, markers)
+    # Annotate the tbl_geneset with the gene metadata
+    metadataToAdd <- do.call(rbind, markerTables)
+    for (columnName in colnames(metadataToAdd)) {
+        tbl[, columnName] <- metadataToAdd[, columnName]
     }
 
-    clusterNames <- colnames(proportionPositiveByCluster)
-    markers <- lapply(clusterNames, getTopMarkers)
-    names(markers) <- clusterNames
-
-    tbl <- do.call(tbl_geneset, markers)
     tbl
 }
-
