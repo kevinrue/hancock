@@ -38,27 +38,31 @@ shinyLabels <- function(gs) {
     app_ui <- dashboardPage(
         dashboardHeader(),
         dashboardSidebar(
-            actionButton("Done", "Done", icon("window-close"), "50%")
+            actionButton("Done", "Done", icon("sign-out"), "50%")
         ),
         dashboardBody(
-            uiOutput("allPanels")
+            uiOutput("mainPanels")
         ),
         title="Hancock: Label signatures"
     )
 
     app_server <- function(input, output, session) {
 
-        nSets <- nlevels(gs$set)
+        # App-specific constants ----
 
-        output$allPanels <- renderUI({
+        NSETS <- nlevels(gs$set)
 
-            textBoxList <- list()
-            for (id in seq_len(nSets)) {
+        # Main panels ----
+
+        output$mainPanels <- renderUI({
+
+            panelList <- list()
+            for (id in seq_len(NSETS)) {
                 id0 <- id
                 geneSetName0 <- levels(gs$set)[id0]
                 geneIds0 <- gs[gs$set == geneSetName0, "gene", drop=TRUE]
                 geneIdText <- paste(geneIds0, collapse=", ")
-                textBoxList[[id0]] <- box(
+                panelList[[id0]] <- box(
                     textInput(
                         paste0("geneSetName", id0), paste("Gene set name", id0),
                         geneSetName0, "50%", paste("Gene set name", id0)
@@ -67,16 +71,14 @@ shinyLabels <- function(gs) {
                     width=12, title=paste("Gene set name", id0)
                 )
             }
-            outValue <- do.call(fluidRow, textBoxList)
+            outValue <- do.call(fluidRow, panelList)
 
             return(outValue)
         })
 
-        observeEvent(input$Done, {
-            stopApp(invisible(REACTIVE$geneset))
-        })
+        # Observer for the gene set names ----
 
-        for (id in seq_len(nSets)) {
+        for (id in seq_len(NSETS)) {
             local({
                 id0 <- id
                 inputId0 <- paste0("geneSetName", id0)
@@ -86,6 +88,12 @@ shinyLabels <- function(gs) {
                 })
             })
         }
+
+        # Observer for closing the app and returning the updated object ----
+
+        observeEvent(input$Done, {
+            stopApp(invisible(REACTIVE$geneset))
+        })
 
     }
 
