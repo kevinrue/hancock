@@ -14,21 +14,24 @@ Encoding: UTF-8
 LazyData: true
 Depends: SummarizedExperiment, GSEABase, GeneSet
 Imports:
+    Biobase,
+    BiocGenerics,
+    ComplexHeatmap,
+    cowplot,
+    ggplot2,
+    Matrix,
+    matrixStats,
     methods,
     utils,
     S4Vectors,
-    ComplexHeatmap,
-    Matrix,
-    Biobase,
-    matrixStats,
     shiny,
     shinydashboard
 Suggests: 
+    BiocStyle,
+    circlize,
+    covr,
     knitr,
     rmarkdown,
-    BiocStyle,
-    testthat,
-    covr,
-    circlize
+    testthat
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1

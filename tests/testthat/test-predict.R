@@ -53,7 +53,12 @@ test_that("predict.GeneSetCollection works for method ProportionPositive", {
     # Test plotting methods
     plotOut <- plotProportionPositive(out)
     expect_s4_class(plotOut, "Heatmap")
+
+    plotOut <- barplotPredictions(out, highlight=c("Cell type 1"))
+    expect_s3_class(plotOut, "ggplot")
 })
+
+# predict.tbl_geneset ----
 
 test_that("predict.tbl_geneset works for method ProportionPositive", {
     dummyCluster <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
@@ -89,7 +94,12 @@ test_that("predict.tbl_geneset works for method ProportionPositive", {
     # Test plotting methods
     plotOut <- plotProportionPositive(out)
     expect_s4_class(plotOut, "Heatmap")
+
+    plotOut <- barplotPredictions(out, highlight=c("Cell type 1"))
+    expect_s3_class(plotOut, "ggplot")
 })
+
+# predictByProportionPositive ----
 
 test_that("predictByProportionPositive requires argument col.cluster", {
     expect_error(
@@ -97,6 +107,8 @@ test_that("predictByProportionPositive requires argument col.cluster", {
         "cluster.col is required for method 'ProportionPositive'"
     )
 })
+
+# plotProportionPositive ----
 
 test_that("plotProportionPositive requires predictByProportionPositive results", {
     expect_error(

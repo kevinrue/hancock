@@ -12,6 +12,17 @@ setMethod(
     }
 )
 
+# uniqueSetNames ----
+
+#' @rdname uniqueSetNames
+setMethod(
+    "uniqueSetNames", c("tbl_geneset"),
+    function(object){
+        uniqueSetNames <- levels(object$set)
+        uniqueSetNames
+    }
+)
+
 # makeFilterExpression ----
 
 #' @rdname makeFilterExpression
@@ -21,7 +32,7 @@ setMethod(
 
         .buildSingleExpression <- function(setName) {
             geneIds <- object[object$set == setName, "gene", drop=TRUE]
-            parse(text=paste(geneIds, collapse=" & "))
+            parse(text=paste(sprintf("`%s`", geneIds), collapse=" & "))
         }
 
         filterExpressions <- lapply(

@@ -61,16 +61,16 @@ rownames(u) <- paste0("Gene", sprintf("\%03d", seq_len(nrow(u))))
 colnames(u) <- paste0("Cell", sprintf("\%03d", seq_len(ncol(u))))
 se <- SummarizedExperiment(assays=list(counts=u))
 
-gsc <- GeneSetCollection(list(
-    GeneSet(setName="Cell type 1", c("Gene001", "Gene002")),
-    GeneSet(setName="Cell type 2", c("Gene003", "Gene004"))
-))
+tgs <- tbl_geneset(
+    "Cell type 1"=c("Gene001", "Gene002"),
+    "Cell type 2"=c("Gene003", "Gene004")
+)
 colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
 
 # Example usage ----
 library(circlize)
 # Identify the dominant signature in each cluster
-se <- predictByProportionPositive(gsc, se, cluster.col="cluster")
+se <- predictByProportionPositive(tgs, se, cluster.col="cluster")
 # Visualise the proportion of samples positive for each signature in each cluster
 plotProportionPositive(
   se, cluster_rows=FALSE, cluster_columns=FALSE,

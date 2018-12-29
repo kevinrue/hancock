@@ -4,13 +4,15 @@
 \alias{shinyLabels}
 \title{Interactively Inspect and Name Gene Signatures}
 \usage{
-shinyLabels(gs)
+shinyLabels(gs, se)
 }
 \arguments{
 \item{gs}{A set of gene signatures inheriting from \code{\link{tbl_geneset}}.}
+
+\item{se}{An object of class inheriting from "\code{\link{SummarizedExperiment}}".}
 }
 \value{
-The update set of gene signatures as a \code{\link{tbl_geneset}}.
+The updated set of gene signatures as a \code{\link{tbl_geneset}}.
 }
 \description{
 This function launches a Shiny app to inspect the gene signatures defined in a \code{tbl_geneset}
@@ -25,8 +27,18 @@ tgs <- tbl_geneset(
     "Cell type 2"=c("Gene002", "Gene003", "Gene004")
 )
 
+library(SummarizedExperiment)
+nsamples <- 100
+u <- matrix(rpois(20000, 2), ncol=nsamples)
+rownames(u) <- paste0("Gene", sprintf("\%03d", seq_len(nrow(u))))
+colnames(u) <- paste0("Cell", sprintf("\%03d", seq_len(ncol(u))))
+se <- SummarizedExperiment(assays=list(counts=u))
+colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
+
+se1 <- predict(tgs, se, method="ProportionPositive", cluster.col="cluster")
+
 # Example usage ----
 if (interactive()){
-x <- runApp(shinyLabels(tgs))
+    x <- runApp(shinyLabels(tgs, se1))
 }
 }

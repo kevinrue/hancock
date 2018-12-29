@@ -13,6 +13,17 @@ setMethod(
     }
 )
 
+# uniqueSetNames ----
+
+#' @rdname uniqueSetNames
+setMethod(
+    "uniqueSetNames", c("GeneSetCollection"),
+    function(object){
+        uniqueSetNames <- names(object)
+        uniqueSetNames
+    }
+)
+
 # makeFilterExpression ----
 
 #' @rdname makeFilterExpression
@@ -22,7 +33,7 @@ setMethod(
     function(object){
 
         .buildSingleExpression <- function(setName) {
-            parse(text=paste(geneIds(object[[setName]]), collapse=" & "))
+            parse(text=paste(sprintf("`%s`", geneIds(object[[setName]])), collapse=" & "))
         }
 
         filterExpressions <- lapply(

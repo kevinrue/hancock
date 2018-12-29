@@ -48,15 +48,17 @@
 #' colnames(u) <- paste0("Cell", sprintf("%03d", seq_len(ncol(u))))
 #' se <- SummarizedExperiment(assays=list(counts=u))
 #'
-#' gsc <- GeneSetCollection(list(
-#'     GeneSet(setName="Cell type 1", c("Gene001", "Gene002")),
-#'     GeneSet(setName="Cell type 2", c("Gene003", "Gene004"))
-#' ))
+#' tgs <- tbl_geneset(
+#'     "Cell type 1"=c("Gene001", "Gene002"),
+#'     "Cell type 2"=c("Gene002", "Gene003", "Gene004")
+#' )
 #'
 #' # Example usage ----
 #' se1 <- se
 #' colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace=TRUE))
-#' predict(gsc, se1, method="ProportionPositive", cluster.col="cluster")
+#' se1 <- predict(tgs, se1, method="ProportionPositive", cluster.col="cluster")
+#' # Visualise the count of samples predicted for each signature in each cluster
+#' barplotPredictions(se1, highlight=c("Cell type 1"))
 predict.GeneSetCollection <- function(
     object, se, assay.type="counts", method=c("ProportionPositive", "PP"), ...
 ) {
@@ -159,16 +161,16 @@ predict.tbl_geneset <- function(
 #' colnames(u) <- paste0("Cell", sprintf("%03d", seq_len(ncol(u))))
 #' se <- SummarizedExperiment(assays=list(counts=u))
 #'
-#' gsc <- GeneSetCollection(list(
-#'     GeneSet(setName="Cell type 1", c("Gene001", "Gene002")),
-#'     GeneSet(setName="Cell type 2", c("Gene003", "Gene004"))
-#' ))
+#' tgs <- tbl_geneset(
+#'     "Cell type 1"=c("Gene001", "Gene002"),
+#'     "Cell type 2"=c("Gene003", "Gene004")
+#' )
 #' colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
 #'
 #' # Example usage ----
 #' library(circlize)
 #' # Identify the dominant signature in each cluster
-#' se <- predictByProportionPositive(gsc, se, cluster.col="cluster")
+#' se <- predictByProportionPositive(tgs, se, cluster.col="cluster")
 #' # Visualise the proportion of samples positive for each signature in each cluster
 #' plotProportionPositive(
 #'   se, cluster_rows=FALSE, cluster_columns=FALSE,
@@ -192,6 +194,7 @@ predictByProportionPositive <- function(
 
     clusterNames <- levels(clusterData)
     numberCellsInCluster <- table(clusterData)
+    signatureNames <- uniqueSetNames(object)
 
     proportionPositiveByCluster <- matrix(
         data=NA_real_,
@@ -206,7 +209,9 @@ predictByProportionPositive <- function(
     # For each cluster, identify the most frequent signature
     # TODO: warning if ties
     maxColIdx <- max.col(proportionPositiveByCluster, ties.method="first")
-    maxSignatureName <- factor(colnames(proportionPositiveByCluster)[maxColIdx])
+    maxSignatureName <- factor(
+        x=colnames(proportionPositiveByCluster)[maxColIdx],
+        levels=signatureNames)
     names(maxSignatureName) <- rownames(proportionPositiveByCluster)
 
     # Assign most frequent signature to every cell in each cluster
