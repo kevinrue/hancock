@@ -28,6 +28,35 @@ setGeneric(
         standardGeneric("uniqueMarkers")
 )
 
+# uniqueSetNames ----
+
+#' Extract Unique Signature Names from a Collection of Gene Sets
+#'
+#' @rdname uniqueSetNames
+#'
+#' @param object A \code{\link{tbl_geneset}} or \code{GeneSetCollection}.
+#'
+#' @return A character vector of unique set names across all gene sets.
+#' @export
+#'
+#' @author Kevin Rue-Albrecht
+#'
+#' @examples
+#' # Example data ----
+#' library(GeneSet)
+#' tgs <- tbl_geneset(
+#'     "Cell type 1"=c("Gene001", "Gene002"),
+#'     "Cell type 2"=c("Gene002", "Gene003", "Gene004")
+#' )
+#'
+#' # Example usage ----
+#' uniqueSetNames(tgs)
+setGeneric(
+    "uniqueSetNames", signature=c("object"),
+    function(object)
+        standardGeneric("uniqueSetNames")
+)
+
 # makeFilterExpression ----
 
 #' Build Filter Expressions from GeneSetCollection objects

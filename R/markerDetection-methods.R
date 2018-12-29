@@ -100,7 +100,7 @@ makeSignatureDetectionMatrix <- function(
 ) {
     filterExpressions <- makeFilterExpression(object)
     fr <- FilterRules(filterExpressions)
-    es <- evalSeparately(fr, as.data.frame(t(matrix)))
+    es <- evalSeparately(fr, as.data.frame(t(as.matrix(matrix))))
     es
 }
 
