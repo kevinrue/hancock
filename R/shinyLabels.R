@@ -1,3 +1,10 @@
+
+# Constants ----
+
+.geneSetNameInput <- "geneSetName"
+
+# App ----
+
 #nocov start
 #' Interactively Inspect and Name Gene Signatures
 #'
@@ -38,7 +45,7 @@ shinyLabels <- function(gs) {
     app_ui <- dashboardPage(
         dashboardHeader(),
         dashboardSidebar(
-            actionButton("Done", "Done", icon("sign-out"), "50%")
+            actionButton(inputId="Done", label="Done", icon=icon("sign-out"), width="50%")
         ),
         dashboardBody(
             uiOutput("mainPanels")
@@ -64,8 +71,10 @@ shinyLabels <- function(gs) {
                 geneIdText <- paste(geneIds0, collapse=", ")
                 panelList[[id0]] <- box(
                     textInput(
-                        paste0("geneSetName", id0), paste("Gene set name", id0),
-                        geneSetName0, "50%", paste("Gene set name", id0)
+                        inputId=paste0(.geneSetNameInput, id0),
+                        label=paste("Gene set name", id0),
+                        value=geneSetName0, width="50%",
+                        placeholder=paste("Gene set name", id0)
                     ),
                     HTML(sprintf("<p>%s<p>", geneIdText)),
                     width=12, title=paste("Gene set name", id0)
@@ -81,7 +90,7 @@ shinyLabels <- function(gs) {
         for (id in seq_len(NSETS)) {
             local({
                 id0 <- id
-                inputId0 <- paste0("geneSetName", id0)
+                inputId0 <- paste0(.geneSetNameInput, id0)
                 observeEvent(input[[inputId0]], {
                     newValue <- input[[inputId0]]
                     levels(REACTIVE$geneset$set)[id0] <- as.character(newValue)
