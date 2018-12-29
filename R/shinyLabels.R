@@ -1,0 +1,94 @@
+#nocov start
+#' Interactively Inspect and Name Gene Signatures
+#'
+#' This function launches a Shiny app to inspect the gene signatures defined in a \code{tbl_geneset}
+#' for the purpose of (re-)naming those signatures interactively.
+#' The app returns the updated \code{tbl_geneset} when closed using the \code{"Done"} button.
+#'
+#' @param gs A set of gene signatures inheriting from \code{\link{tbl_geneset}}.
+#'
+#' @return The update set of gene signatures as a \code{\link{tbl_geneset}}.
+#' @export
+#' @importFrom methods is
+#' @importFrom shiny shinyApp reactiveValues observeEvent stopApp
+#' fluidRow column icon textInput actionButton renderUI HTML uiOutput
+#' @importFrom shinydashboard dashboardPage dashboardHeader dashboardSidebar
+#' dashboardBody box menuItem
+#'
+#' @examples
+#' # Example data ----
+#' library(GeneSet)
+#' tgs <- tbl_geneset(
+#'     "Cell type 1"=c("Gene001", "Gene002"),
+#'     "Cell type 2"=c("Gene002", "Gene003", "Gene004")
+#' )
+#'
+#' # Example usage ----
+#' if (interactive()){
+#' x <- runApp(shinyLabels(tgs))
+#' }
+shinyLabels <- function(gs) {
+
+    stopifnot(is(gs, "tbl_geneset"))
+
+    REACTIVE <- reactiveValues(
+        geneset=gs
+    )
+
+    app_ui <- dashboardPage(
+        dashboardHeader(),
+        dashboardSidebar(
+            actionButton("Done", "Done", icon("window-close"), "50%")
+        ),
+        dashboardBody(
+            uiOutput("allPanels")
+        ),
+        title="Hancock: Label signatures"
+    )
+
+    app_server <- function(input, output, session) {
+
+        nSets <- nlevels(gs$set)
+
+        output$allPanels <- renderUI({
+
+            textBoxList <- list()
+            for (id in seq_len(nSets)) {
+                id0 <- id
+                geneSetName0 <- levels(gs$set)[id0]
+                geneIds0 <- gs[gs$set == geneSetName0, "gene", drop=TRUE]
+                geneIdText <- paste(geneIds0, collapse=", ")
+                textBoxList[[id0]] <- box(
+                    textInput(
+                        paste0("geneSetName", id0), paste("Gene set name", id0),
+                        geneSetName0, "50%", paste("Gene set name", id0)
+                    ),
+                    HTML(sprintf("<p>%s<p>", geneIdText)),
+                    width=12, title=paste("Gene set name", id0)
+                )
+            }
+            outValue <- do.call(fluidRow, textBoxList)
+
+            return(outValue)
+        })
+
+        observeEvent(input$Done, {
+            stopApp(invisible(REACTIVE$geneset))
+        })
+
+        for (id in seq_len(nSets)) {
+            local({
+                id0 <- id
+                inputId0 <- paste0("geneSetName", id0)
+                observeEvent(input[[inputId0]], {
+                    newValue <- input[[inputId0]]
+                    levels(REACTIVE$geneset$set)[id0] <- as.character(newValue)
+                })
+            })
+        }
+
+    }
+
+    shinyApp(ui=app_ui, server=app_server)
+}
+#nocov end

@@ -13,3 +13,4 @@
 * Added learning method `PositiveProportionDifference`.
 * Added plotting function `plotProportionPositive`.
 * Added helper functions: `makeFilterExpression`, `uniqueMarkers`.
+* Added _Shiny_ function: `shinyLabels`.

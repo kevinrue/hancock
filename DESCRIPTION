@@ -20,7 +20,9 @@ Imports:
     ComplexHeatmap,
     Matrix,
     Biobase,
-    matrixStats
+    matrixStats,
+    shiny,
+    shinydashboard
 Suggests: 
     knitr,
     rmarkdown,
