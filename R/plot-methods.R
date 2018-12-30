@@ -53,19 +53,20 @@ barplotPredictionCount <- function(se, highlight=character(0)) {
 #' @export
 #' @importFrom BiocGenerics ncol
 #' @importFrom SummarizedExperiment colData
-#' @importFrom ggplot2 ggplot aes aes_string geom_bar guides position_fill labs
+#' @importFrom ggplot2 ggplot aes_string geom_bar guides position_fill labs
 #' scale_fill_manual scale_x_discrete scale_y_continuous
 #' @importFrom cowplot theme_cowplot
 #' @importFrom scales percent
 barplotPredictionProportion <- function(se, highlight=character(0)) {
     # TODO: refactor with barplotPredictionCount above
-    ggFrame <- as.data.frame(colData(se)[, "Hancock"], row.names=seq_len(ncol(se)))
+    ggFrame <- as.data.frame(table(colData(se)$Hancock$prediction))
+    ggFrame$Proportion <- ggFrame$Freq / sum(ggFrame$Freq)
     ggFrame$highlight <- FALSE
     if (length(highlight) > 0) {
-        ggFrame[which(ggFrame$prediction %in% highlight), "highlight"] <- TRUE
+        ggFrame[which(ggFrame$Var1 %in% highlight), "highlight"] <- TRUE
     }
-    gg <- ggplot(ggFrame, aes_string("prediction", fill="highlight")) +
-        geom_bar(aes(y=(..count..)/sum(..count..))) +
+    gg <- ggplot(ggFrame, aes_string("Var1", "Proportion")) +
+        geom_col(aes_string(fill="highlight")) +
         scale_fill_manual(values=c("TRUE"="black", "FALSE"="grey")) +
         scale_x_discrete(drop=FALSE) +
         scale_y_continuous(labels=scales::percent) +
