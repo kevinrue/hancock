@@ -53,7 +53,7 @@ barplotPredictionCount <- function(se, highlight=character(0)) {
 #' @export
 #' @importFrom BiocGenerics ncol
 #' @importFrom SummarizedExperiment colData
-#' @importFrom ggplot2 ggplot aes_string geom_bar guides position_fill labs
+#' @importFrom ggplot2 ggplot aes_string geom_col guides position_fill labs
 #' scale_fill_manual scale_x_discrete scale_y_continuous
 #' @importFrom cowplot theme_cowplot
 #' @importFrom scales percent
