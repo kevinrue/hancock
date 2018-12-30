@@ -2,35 +2,11 @@
 # Constants ----
 
 .geneSetNameInput <- "geneSetName"
+.shinyLabelsPlotChoices <- c(
+    "Barplot (#)"="barplotPredictionCount",
+    "Barplot (%)"="barplotPredictionProportion")
 
 # Plotting functions ----
-
-#' @describeIn predictHancock Returns a \code{ggplot} bar plot displaying
-#' the count of samples predicted for each gene signature.
-#'
-#' @param highlight Character vector indicating names of signatures to highlight.
-#'
-#' @return A \code{ggplot} object.
-#' @export
-#' @importFrom BiocGenerics ncol
-#' @importFrom SummarizedExperiment colData
-#' @importFrom ggplot2 ggplot aes_string geom_bar guides
-#' scale_fill_manual scale_x_discrete
-#' @importFrom cowplot theme_cowplot
-barplotPredictions <- function(se, highlight=character(0)) {
-    ggFrame <- as.data.frame(colData(se)[, "Hancock"], row.names=seq_len(ncol(se)))
-    ggFrame$highlight <- FALSE
-    if (length(highlight) > 0) {
-        ggFrame[which(ggFrame$prediction %in% highlight), "highlight"] <- TRUE
-    }
-    gg <- ggplot(ggFrame, aes_string("prediction")) +
-        geom_bar(aes_string(fill="highlight")) +
-        scale_fill_manual(values=c("TRUE"="black", "FALSE"="grey")) +
-        scale_x_discrete(drop=FALSE) +
-        guides(fill="none") +
-        theme_cowplot()
-    gg
-}
 
 #' Generate the panels in the app body
 #'
@@ -130,7 +106,8 @@ shinyLabels <- function(gs, se) {
     app_ui <- dashboardPage(
         dashboardHeader(),
         dashboardSidebar(
-            actionButton(inputId="Done", label="Done", icon=icon("sign-out"), width="50%")
+            actionButton(inputId="Done", label="Done", icon=icon("sign-out"), width="50%"),
+            selectizeInput(inputId="Plot", label="Plot", choices=.shinyLabelsPlotChoices, selected="barplotPredictions")
         ),
         dashboardBody(
             uiOutput("mainPanels")
@@ -152,8 +129,9 @@ shinyLabels <- function(gs, se) {
                 id0 <- id
                 plotName0 <- paste0("plot", id0)
                 output[[plotName0]] <- renderPlot({
+                    plotFUN <- get(input[["Plot"]])
                     geneSetName0 <- levels(REACTIVE$GS$set)[id0]
-                    barplotPredictions(REACTIVE$SE, geneSetName0)
+                    plotFUN(REACTIVE$SE, geneSetName0)
                 })
             })
         }
