@@ -71,7 +71,7 @@ barplotPredictionProportion <- function(se, highlight=character(0)) {
         scale_x_discrete(drop=FALSE) +
         scale_y_continuous(labels=scales::percent) +
         guides(fill="none") +
-        labs(y="Proportion") +
+        labs(y="Proportion", x="prediction") +
         theme_cowplot()
     gg
 }
