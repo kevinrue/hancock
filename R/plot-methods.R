@@ -41,7 +41,7 @@ barplotPredictionCount <- function(se, highlight=character(0)) {
         scale_fill_manual(values=c("TRUE"="black", "FALSE"="grey")) +
         scale_x_discrete(drop=FALSE) +
         guides(fill="none") +
-        labs(y="Count") +
+        labs(y="Count", x="Prediction") +
         theme_cowplot()
     gg
 }
@@ -71,7 +71,7 @@ barplotPredictionProportion <- function(se, highlight=character(0)) {
         scale_x_discrete(drop=FALSE) +
         scale_y_continuous(labels=scales::percent) +
         guides(fill="none") +
-        labs(y="Proportion", x="prediction") +
+        labs(y="Proportion", x="Prediction") +
         theme_cowplot()
     gg
 }
