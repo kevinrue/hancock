@@ -58,7 +58,8 @@
 #' colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace=TRUE))
 #' se1 <- predict(tgs, se1, method="ProportionPositive", cluster.col="cluster")
 #' # Visualise the count of samples predicted for each signature in each cluster
-#' barplotPredictions(se1, highlight=c("Cell type 1"))
+#' barplotPredictionCount(se1, highlight=c("Cell type 1"))
+#' barplotPredictionProportion(se1, highlight=c("Cell type 2"))
 predict.GeneSetCollection <- function(
     object, se, assay.type="counts", method=c("ProportionPositive", "PP"), ...
 ) {

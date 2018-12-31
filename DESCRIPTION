@@ -25,7 +25,8 @@ Imports:
     utils,
     S4Vectors,
     shiny,
-    shinydashboard
+    shinydashboard,
+    scales
 Suggests: 
     BiocStyle,
     circlize,
