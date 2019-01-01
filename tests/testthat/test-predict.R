@@ -5,7 +5,9 @@ ncells <- 100
 u <- matrix(rpois(20000, 2), ncol=ncells)
 rownames(u) <- paste0("Gene", sprintf("%03d", seq_len(nrow(u))))
 colnames(u) <- paste0("Cell", sprintf("%03d", seq_len(ncol(u))))
-se <- SummarizedExperiment(assays=list(counts=u))
+sce <- SingleCellExperiment(assays=list(counts=u))
+
+reducedDim(sce, "PCA") <- matrix(rnorm(2*ncol(sce)), nrow=ncol(sce), ncol=2)
 
 gsc <- GeneSetCollection(list(
     GeneSet(setName="Cell type 1", c("Gene001", "Gene002")),
@@ -20,10 +22,10 @@ tgs <- tbl_geneset(
 # predict.GeneSetCollection ----
 
 test_that("predict.GeneSetCollection works for method ProportionPositive", {
-    dummyCluster <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
-    colData(se)[, "cluster"] <- dummyCluster
+    dummyCluster <- factor(sample(head(LETTERS, 3), ncol(sce), replace=TRUE))
+    colData(sce)[, "cluster"] <- dummyCluster
 
-    out <- predict(gsc, se, method="ProportionPositive", cluster.col="cluster")
+    out <- predict(gsc, sce, method="ProportionPositive", cluster.col="cluster")
 
     expect_s4_class(out$Hancock, "DataFrame")
     expect_named(out$Hancock, c("prediction"))
@@ -43,12 +45,12 @@ test_that("predict.GeneSetCollection works for method ProportionPositive", {
 
     ProportionPositiveByCluster <- metadata(out)[["Hancock"]][["ProportionPositiveByCluster"]]
     expect_is(ProportionPositiveByCluster, "matrix")
-    expect_identical(nrow(ProportionPositiveByCluster), nlevels(se$cluster))
+    expect_identical(nrow(ProportionPositiveByCluster), nlevels(sce$cluster))
     expect_identical(ncol(ProportionPositiveByCluster), length(gsc))
 
     TopSignatureByCluster <- metadata(out)[["Hancock"]][["TopSignatureByCluster"]]
     expect_s3_class(TopSignatureByCluster, "factor")
-    expect_length(TopSignatureByCluster, nlevels(se$cluster))
+    expect_length(TopSignatureByCluster, nlevels(sce$cluster))
 
     # Test plotting methods
     plotOut <- plotProportionPositive(out)
@@ -59,15 +61,22 @@ test_that("predict.GeneSetCollection works for method ProportionPositive", {
 
     plotOut <- barplotPredictionProportion(out, highlight=c("Cell type 1"))
     expect_s3_class(plotOut, "ggplot")
+
+    plotOut <- reducedDimPrediction(out, highlight=c("Cell type 1"), redDimType="PCA")
+    expect_s3_class(plotOut, "ggplot")
+
+    plotOut <- Hancock:::.plotWrapper(
+        out, highlight=c("Cell type 1"), plotType="reducedDimPrediction", redDimType="PCA")
+    expect_s3_class(plotOut, "ggplot")
 })
 
 # predict.tbl_geneset ----
 
 test_that("predict.tbl_geneset works for method ProportionPositive", {
-    dummyCluster <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
-    colData(se)[, "cluster"] <- dummyCluster
+    dummyCluster <- factor(sample(head(LETTERS, 3), ncol(sce), replace=TRUE))
+    colData(sce)[, "cluster"] <- dummyCluster
 
-    out <- predict(tgs, se, method="ProportionPositive", cluster.col="cluster")
+    out <- predict(tgs, sce, method="ProportionPositive", cluster.col="cluster")
 
     expect_s4_class(out$Hancock, "DataFrame")
     expect_named(out$Hancock, c("prediction"))
@@ -87,12 +96,12 @@ test_that("predict.tbl_geneset works for method ProportionPositive", {
 
     ProportionPositiveByCluster <- metadata(out)[["Hancock"]][["ProportionPositiveByCluster"]]
     expect_is(ProportionPositiveByCluster, "matrix")
-    expect_identical(nrow(ProportionPositiveByCluster), nlevels(se$cluster))
+    expect_identical(nrow(ProportionPositiveByCluster), nlevels(sce$cluster))
     expect_identical(ncol(ProportionPositiveByCluster), length(gsc))
 
     TopSignatureByCluster <- metadata(out)[["Hancock"]][["TopSignatureByCluster"]]
     expect_s3_class(TopSignatureByCluster, "factor")
-    expect_length(TopSignatureByCluster, nlevels(se$cluster))
+    expect_length(TopSignatureByCluster, nlevels(sce$cluster))
 
     # Test plotting methods
     plotOut <- plotProportionPositive(out)
@@ -103,13 +112,20 @@ test_that("predict.tbl_geneset works for method ProportionPositive", {
 
     plotOut <- barplotPredictionProportion(out, highlight=c("Cell type 1"))
     expect_s3_class(plotOut, "ggplot")
+
+    plotOut <- reducedDimPrediction(out, highlight=c("Cell type 1"), redDimType="PCA")
+    expect_s3_class(plotOut, "ggplot")
+
+    plotOut <- Hancock:::.plotWrapper(
+        out, highlight=c("Cell type 1"), plotType="reducedDimPrediction", redDimType="PCA")
+    expect_s3_class(plotOut, "ggplot")
 })
 
 # predictByProportionPositive ----
 
 test_that("predictByProportionPositive requires argument col.cluster", {
     expect_error(
-        predictByProportionPositive(gsc, se),
+        predictByProportionPositive(gsc, sce),
         "cluster.col is required for method 'ProportionPositive'"
     )
 })
@@ -118,6 +134,6 @@ test_that("predictByProportionPositive requires argument col.cluster", {
 
 test_that("plotProportionPositive requires predictByProportionPositive results", {
     expect_error(
-        plotProportionPositive(se),
+        plotProportionPositive(sce),
         "Method 'ProportionPositive' was not run yet.")
 })

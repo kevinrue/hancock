@@ -2,6 +2,9 @@
 # Constants ----
 
 .geneSetNameInput <- "geneSetName"
+.plotFunction <- "plotType"
+.redDimTypeInput <- "redDimType"
+
 .shinyLabelsPlotChoices <- c(
     "Barplot (#)"="barplotPredictionCount",
     "Barplot (%)"="barplotPredictionProportion")
@@ -61,12 +64,13 @@
 #'
 #' @return The updated set of gene signatures as a \code{\link{tbl_geneset}}.
 #' @export
-#' @importFrom methods is
+#' @importFrom methods is as
 #' @importFrom shiny shinyApp reactiveValues observeEvent stopApp isolate
 #' fluidRow column icon textInput actionButton renderUI renderPlot
-#' HTML uiOutput selectizeInput
+#' HTML uiOutput selectizeInput conditionalPanel
 #' @importFrom shinydashboard dashboardPage dashboardHeader dashboardSidebar
 #' dashboardBody box menuItem
+#' @importFrom SingleCellExperiment SingleCellExperiment reducedDimNames
 #'
 #' @examples
 #' # Example data ----
@@ -86,9 +90,17 @@
 #'
 #' se1 <- predict(tgs, se, method="ProportionPositive", cluster.col="cluster")
 #'
+#' # Add reduced dimension results to enable app features
+#' library(SingleCellExperiment)
+#' library(Rtsne)
+#' sce1 <- as(se1, "SingleCellExperiment")
+#' reducedDim(sce1, "PCA") <- prcomp(t(assay(sce1)))$x
+#' reducedDim(sce1, "TSNE") <- Rtsne(X=reducedDim(sce1, "PCA"))$Y
+#'
 #' # Example usage ----
 #' if (interactive()){
-#'     x <- runApp(shinyLabels(tgs, se1))
+#'     library(shiny)
+#'     x <- runApp(shinyLabels(tgs, sce1))
 #' }
 shinyLabels <- function(gs, se) {
 
@@ -98,16 +110,31 @@ shinyLabels <- function(gs, se) {
         levels(se$Hancock$prediction)
     ))
 
+    se <- as(se, "SingleCellExperiment")
+
     REACTIVE <- reactiveValues(
         GS=gs,
         SE=se
     )
 
+    if (!is.null(reducedDim(se))) {
+        .shinyLabelsPlotChoices <- c(
+            .shinyLabelsPlotChoices,
+            "reducedDim"="reducedDimPrediction")
+    }
+
     app_ui <- dashboardPage(
         dashboardHeader(),
         dashboardSidebar(
             actionButton(inputId="Done", label="Done", icon=icon("sign-out"), width="50%"),
-            selectizeInput(inputId="Plot", label="Plot", choices=.shinyLabelsPlotChoices, selected="barplotPredictions")
+            selectizeInput(inputId=.plotFunction, label="Plot", choices=.shinyLabelsPlotChoices, selected="barplotPredictions"),
+            conditionalPanel(
+                condition = sprintf("input.%s == 'reducedDimPrediction'", .plotFunction),
+                selectizeInput(
+                    .redDimTypeInput, "Type",
+                    reducedDimNames(se)
+                )
+            )
         ),
         dashboardBody(
             uiOutput("mainPanels")
@@ -129,9 +156,11 @@ shinyLabels <- function(gs, se) {
                 id0 <- id
                 plotName0 <- paste0("plot", id0)
                 output[[plotName0]] <- renderPlot({
-                    plotFUN <- get(input[["Plot"]])
                     geneSetName0 <- levels(REACTIVE$GS$set)[id0]
-                    plotFUN(REACTIVE$SE, geneSetName0)
+                    .plotWrapper(
+                        REACTIVE$SE, geneSetName0,
+                        plotType=input[[.plotFunction]],
+                        redDimType=input[[.redDimTypeInput]])
                 })
             })
         }
