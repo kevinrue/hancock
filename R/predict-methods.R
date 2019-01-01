@@ -59,7 +59,13 @@
 #' se1 <- predict(tgs, se1, method="ProportionPositive", cluster.col="cluster")
 #' # Visualise the count of samples predicted for each signature in each cluster
 #' barplotPredictionCount(se1, highlight=c("Cell type 1"))
+#'
 #' barplotPredictionProportion(se1, highlight=c("Cell type 2"))
+#'
+#' library(SingleCellExperiment)
+#' sce1 <- as(se1, "SingleCellExperiment")
+#' reducedDim(sce1, "PCA") <- prcomp(t(assay(sce1)))$x
+#' reducedDimPrediction(sce1, highlight="Cell type 1", redDimType="PCA", x="Dim1", y="Dim2")
 predict.GeneSetCollection <- function(
     object, se, assay.type="counts", method=c("ProportionPositive", "PP"), ...
 ) {

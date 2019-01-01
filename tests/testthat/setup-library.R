@@ -1,2 +1,2 @@
-library(SummarizedExperiment)
+library(SingleCellExperiment)
 library(GeneSet)

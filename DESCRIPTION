@@ -26,13 +26,15 @@ Imports:
     S4Vectors,
     shiny,
     shinydashboard,
-    scales
+    scales,
+    SingleCellExperiment
 Suggests: 
     BiocStyle,
     circlize,
     covr,
     knitr,
     rmarkdown,
+    Rtsne,
     testthat
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1

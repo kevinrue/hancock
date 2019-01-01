@@ -3,6 +3,7 @@
 \name{barplotPredictionCount}
 \alias{barplotPredictionCount}
 \alias{barplotPredictionProportion}
+\alias{reducedDimPrediction}
 \alias{predict.GeneSetCollection}
 \alias{predict}
 \alias{predict.tbl_geneset}
@@ -11,6 +12,9 @@
 barplotPredictionCount(se, highlight = character(0))
 
 barplotPredictionProportion(se, highlight = character(0))
+
+reducedDimPrediction(se, highlight = character(0), redDimType = "PCA",
+  x = "Dim1", y = "Dim2", labels = TRUE)
 
 \method{predict}{GeneSetCollection}(object, se, assay.type = "counts",
   method = c("ProportionPositive", "PP"), ...)
@@ -23,6 +27,14 @@ barplotPredictionProportion(se, highlight = character(0))
 
 \item{highlight}{Character vector indicating names of signatures to highlight.}
 
+\item{redDimType}{Name of the reduced dimension result type to display.}
+
+\item{x}{Name of the covariate to display on the x-axis.}
+
+\item{y}{Name of the covariate to display on the y-axis.}
+
+\item{labels}{Logical value indicating whether to display labels.}
+
 \item{object}{A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".}
 
 \item{assay.type}{A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".}
@@ -32,6 +44,8 @@ barplotPredictionProportion(se, highlight = character(0))
 \item{...}{Additional arguments affecting the predictions produced.}
 }
 \value{
+A \code{ggplot} object.
+
 A \code{ggplot} object.
 
 A \code{ggplot} object.
@@ -55,6 +69,9 @@ the count of samples predicted for each gene signature.
 
 \item \code{barplotPredictionProportion}: Returns a \code{ggplot} bar plot displaying
 the proportion of samples predicted for each gene signature.
+
+\item \code{reducedDimPrediction}: Returns a \code{ggplot} bar plot displaying
+the first reduced dimension result in \code{reducedDims(se)}.
 }}
 
 \section{Prediction methods}{
@@ -87,7 +104,13 @@ colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace=
 se1 <- predict(tgs, se1, method="ProportionPositive", cluster.col="cluster")
 # Visualise the count of samples predicted for each signature in each cluster
 barplotPredictionCount(se1, highlight=c("Cell type 1"))
+
 barplotPredictionProportion(se1, highlight=c("Cell type 2"))
+
+library(SingleCellExperiment)
+sce1 <- as(se1, "SingleCellExperiment")
+reducedDim(sce1, "PCA") <- prcomp(t(assay(sce1)))$x
+reducedDimPrediction(sce1, highlight="Cell type 1", redDimType="PCA", x="Dim1", y="Dim2")
 }
 \seealso{
 \code{\link{predictByProportionPositive}}

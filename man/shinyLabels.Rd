@@ -37,8 +37,16 @@ colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace=TR
 
 se1 <- predict(tgs, se, method="ProportionPositive", cluster.col="cluster")
 
+# Add reduced dimension results to enable app features
+library(SingleCellExperiment)
+library(Rtsne)
+sce1 <- as(se1, "SingleCellExperiment")
+reducedDim(sce1, "PCA") <- prcomp(t(assay(sce1)))$x
+reducedDim(sce1, "TSNE") <- Rtsne(X=reducedDim(sce1, "PCA"))$Y
+
 # Example usage ----
 if (interactive()){
-    x <- runApp(shinyLabels(tgs, se1))
+    library(shiny)
+    x <- runApp(shinyLabels(tgs, sce1))
 }
 }
