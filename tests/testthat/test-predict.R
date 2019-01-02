@@ -56,10 +56,10 @@ test_that("predict.GeneSetCollection works for method ProportionPositive", {
     plotOut <- plotProportionPositive(out)
     expect_s4_class(plotOut, "Heatmap")
 
-    plotOut <- barplotPredictionCount(out, highlight=c("Cell type 1"))
+    plotOut <- barplotPredictionCount(out, highlight=c("Cell type 1"), labels=FALSE)
     expect_s3_class(plotOut, "ggplot")
 
-    plotOut <- barplotPredictionProportion(out, highlight=c("Cell type 1"))
+    plotOut <- barplotPredictionProportion(out, highlight=c("Cell type 1"), labels=FALSE)
     expect_s3_class(plotOut, "ggplot")
 
     plotOut <- reducedDimPrediction(out, highlight=c("Cell type 1"), redDimType="PCA")
@@ -107,10 +107,10 @@ test_that("predict.tbl_geneset works for method ProportionPositive", {
     plotOut <- plotProportionPositive(out)
     expect_s4_class(plotOut, "Heatmap")
 
-    plotOut <- barplotPredictionCount(out, highlight=c("Cell type 1"))
+    plotOut <- barplotPredictionCount(out, highlight=c("Cell type 1"), labels=FALSE)
     expect_s3_class(plotOut, "ggplot")
 
-    plotOut <- barplotPredictionProportion(out, highlight=c("Cell type 1"))
+    plotOut <- barplotPredictionProportion(out, highlight=c("Cell type 1"), labels=FALSE)
     expect_s3_class(plotOut, "ggplot")
 
     plotOut <- reducedDimPrediction(out, highlight=c("Cell type 1"), redDimType="PCA")

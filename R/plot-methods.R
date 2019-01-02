@@ -29,8 +29,11 @@ plotProportionPositive <- function(
 #' @importFrom SummarizedExperiment colData
 #' @importFrom ggplot2 ggplot aes aes_string geom_bar guides labs rel
 #' scale_fill_manual scale_x_discrete
+#' theme element_blank
 #' @importFrom cowplot theme_cowplot
-barplotPredictionCount <- function(se, highlight=character(0)) {
+barplotPredictionCount <- function(
+    se, highlight=character(0), labels=TRUE
+) {
     ggFrame <- as.data.frame(colData(se)[, "Hancock"], row.names=seq_len(ncol(se)))
     ggFrame$highlight <- FALSE
     if (length(highlight) > 0) {
@@ -43,6 +46,9 @@ barplotPredictionCount <- function(se, highlight=character(0)) {
         guides(fill="none") +
         labs(y="Count", x="Prediction") +
         theme_cowplot()
+    if (!labels) {
+        gg <- gg + theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())
+    }
     gg
 }
 
@@ -55,9 +61,12 @@ barplotPredictionCount <- function(se, highlight=character(0)) {
 #' @importFrom SummarizedExperiment colData
 #' @importFrom ggplot2 ggplot aes_string geom_col guides position_fill labs
 #' scale_fill_manual scale_x_discrete scale_y_continuous
+#' theme element_blank
 #' @importFrom cowplot theme_cowplot
 #' @importFrom scales percent
-barplotPredictionProportion <- function(se, highlight=character(0)) {
+barplotPredictionProportion <- function(
+    se, highlight=character(0), labels=TRUE
+) {
     # TODO: refactor with barplotPredictionCount above
     ggFrame <- as.data.frame(table(colData(se)$Hancock$prediction))
     ggFrame$Proportion <- ggFrame$Freq / sum(ggFrame$Freq)
@@ -73,6 +82,9 @@ barplotPredictionProportion <- function(se, highlight=character(0)) {
         guides(fill="none") +
         labs(y="Proportion", x="Prediction") +
         theme_cowplot()
+    if (!labels) {
+        gg <- gg + theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())
+    }
     gg
 }
 
@@ -92,31 +104,32 @@ barplotPredictionProportion <- function(se, highlight=character(0)) {
 #' guides position_fill labs scale_color_manual
 #' @importFrom cowplot theme_cowplot
 reducedDimPrediction <- function(
-    se, highlight=character(0), redDimType="PCA", x="Dim1", y="Dim2", labels=TRUE
+    se, highlight=character(0), redDimType="PCA", x=1, y=2, labels=TRUE
 ) {
     # TODO: refactor with barplotPredictionCount above
     ggFrame <- as.data.frame(reducedDim(se, redDimType))
-    colnames(ggFrame) <- paste0("Dim", seq_len(ncol(ggFrame)))
     ggFrame <- ggFrame[, c(x, y)]
+    colnames(ggFrame) <- c("X", "Y")
     ggFrame$prediction <- se$Hancock$prediction
     ggFrame$highlight <- FALSE
     if (length(highlight) > 0) {
         ggFrame[which(ggFrame$prediction %in% highlight), "highlight"] <- TRUE
     }
+    gg <- ggplot() +
+        geom_point(aes_string("X", "Y"), subset(ggFrame, !highlight), color="grey") +
+        geom_point(aes_string("X", "Y"), subset(ggFrame, highlight), color="red")
     if (labels) {
         ggLabels <- data.frame(
             prediction=levels(ggFrame$prediction),
-            X=tapply(ggFrame[, x], ggFrame$prediction, FUN="mean"),
-            Y=tapply(ggFrame[, y], ggFrame$prediction, FUN="mean"),
+            X=tapply(ggFrame[, "X"], ggFrame$prediction, FUN="mean"),
+            Y=tapply(ggFrame[, "Y"], ggFrame$prediction, FUN="mean"),
             highlight=tapply(ggFrame$highlight, ggFrame$prediction, FUN="unique")
         )
+        gg <- gg +
+            geom_text(aes_string("X", "Y", label="prediction"), subset(ggLabels, !highlight), color="black", alpha=0.9, size=rel(4)) +
+            geom_label(aes_string("X", "Y", label="prediction"), subset(ggLabels, highlight), color="black", alpha=0.8, size=rel(5))
     }
-    gg <- ggplot() + # ggFrame, aes_string(x, y)
-        geom_point(aes_string(x, y), subset(ggFrame, !highlight), color="grey") +
-        geom_point(aes_string(x, y), subset(ggFrame, highlight), color="red") +
-        geom_text(aes_string("X", "Y", label="prediction"), subset(ggLabels, !highlight), color="black", alpha=0.9, size=rel(4)) +
-        geom_label(aes_string("X", "Y", label="prediction"), subset(ggLabels, highlight), color="black", alpha=0.7, size=rel(4)) +
-        guides(color="none") +
+    gg <- gg +
         labs(y="Dimension 1", x="Dimension 2") +
         theme_cowplot()
     gg
@@ -131,6 +144,7 @@ reducedDimPrediction <- function(
 #' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
 #' @param highlight Character vector indicating names of signatures to highlight.
 #' @param plotType Name of a plot type. See Details.
+#' @param labels Logical value indicating whether to display prediction labels.
 #' @param ... Additional argument passed to individual plotting functions.
 #'
 #' @details
@@ -139,17 +153,21 @@ reducedDimPrediction <- function(
 #'
 #' @return A \code{ggplot} object.
 #' @author Kevin Rue-Albrecht
-.plotWrapper <- function(se, highlight, plotType, ...) {
+.plotWrapper <- function(se, highlight, plotType, labels=TRUE, ...) {
     dots <- list(...)
     extras <- ""
     if (identical(plotType, "reducedDimPrediction")) {
         redDimType <- dots[["redDimType"]]
-        extras <- paste0(extras, sprintf(", redDimType='%s'", redDimType))
+        xAxis <- dots[["x"]]
+        yAxis <- dots[["y"]]
+        extras <- paste0(extras, sprintf(
+            ", redDimType='%s', x=%i, y=%i",
+            redDimType, xAxis, yAxis))
     }
     # Write explicit prediction(s) to highlight
     highlight <- deparse(highlight)
     # Assemble function call
-    functionCall <- sprintf("%s(se, highlight=%s%s)", plotType, highlight, extras)
+    functionCall <- sprintf("%s(se, highlight=%s, labels=%s%s)", plotType, highlight, labels, extras)
     ggPlot <- eval(parse(text=functionCall))
     ggPlot
 }
