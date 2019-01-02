@@ -9,12 +9,13 @@
 \alias{predict.tbl_geneset}
 \title{Predict Method for Collection of Gene Set Signatures}
 \usage{
-barplotPredictionCount(se, highlight = character(0))
+barplotPredictionCount(se, highlight = character(0), labels = TRUE)
 
-barplotPredictionProportion(se, highlight = character(0))
+barplotPredictionProportion(se, highlight = character(0),
+  labels = TRUE)
 
 reducedDimPrediction(se, highlight = character(0), redDimType = "PCA",
-  x = "Dim1", y = "Dim2", labels = TRUE)
+  x = 1, y = 2, labels = TRUE)
 
 \method{predict}{GeneSetCollection}(object, se, assay.type = "counts",
   method = c("ProportionPositive", "PP"), ...)
@@ -27,13 +28,13 @@ reducedDimPrediction(se, highlight = character(0), redDimType = "PCA",
 
 \item{highlight}{Character vector indicating names of signatures to highlight.}
 
+\item{labels}{Logical value indicating whether to display labels.}
+
 \item{redDimType}{Name of the reduced dimension result type to display.}
 
 \item{x}{Name of the covariate to display on the x-axis.}
 
 \item{y}{Name of the covariate to display on the y-axis.}
-
-\item{labels}{Logical value indicating whether to display labels.}
 
 \item{object}{A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".}
 
@@ -110,7 +111,7 @@ barplotPredictionProportion(se1, highlight=c("Cell type 2"))
 library(SingleCellExperiment)
 sce1 <- as(se1, "SingleCellExperiment")
 reducedDim(sce1, "PCA") <- prcomp(t(assay(sce1)))$x
-reducedDimPrediction(sce1, highlight="Cell type 1", redDimType="PCA", x="Dim1", y="Dim2")
+reducedDimPrediction(sce1, highlight="Cell type 1", redDimType="PCA", x=1, y=2)
 }
 \seealso{
 \code{\link{predictByProportionPositive}}

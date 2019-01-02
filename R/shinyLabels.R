@@ -4,6 +4,9 @@
 .geneSetNameInput <- "geneSetName"
 .plotFunction <- "plotType"
 .redDimTypeInput <- "redDimType"
+.xAxisInput <- "XAxis"
+.yAxisInput <- "YAxis"
+.showLabelsInput <- "showLabels"
 
 .shinyLabelsPlotChoices <- c(
     "Barplot (#)"="barplotPredictionCount",
@@ -67,7 +70,8 @@
 #' @importFrom methods is as
 #' @importFrom shiny shinyApp reactiveValues observeEvent stopApp isolate
 #' fluidRow column icon textInput actionButton renderUI renderPlot
-#' HTML uiOutput selectizeInput conditionalPanel updateSelectizeInput
+#' HTML uiOutput checkboxInput selectizeInput conditionalPanel
+#' updateSelectizeInput
 #' @importFrom shinydashboard dashboardPage dashboardHeader dashboardSidebar
 #' dashboardBody box menuItem
 #' @importFrom SingleCellExperiment SingleCellExperiment reducedDimNames
@@ -128,6 +132,7 @@ shinyLabels <- function(gs, se) {
         dashboardSidebar(
             actionButton(inputId="Done", label="Done", icon=icon("sign-out"), width="50%"),
             selectizeInput(inputId=.plotFunction, label="Plot", choices=.shinyLabelsPlotChoices, selected="barplotPredictions"),
+            checkboxInput(.showLabelsInput, "Show labels", TRUE),
             conditionalPanel(
                 condition = sprintf("input.%s == 'reducedDimPrediction'", .plotFunction),
                 selectizeInput(
@@ -135,12 +140,12 @@ shinyLabels <- function(gs, se) {
                     reducedDimNames(se)
                 ),
                 selectizeInput(
-                    "XAxis", "x-axis",
+                    .xAxisInput, "x-axis",
                     seq_len(ncol(reducedDim(se, 1L))),
                     min(1L, ncol(reducedDim(se, 1L)), na.rm=TRUE)
                 ),
                 selectizeInput(
-                    "YAxis", "y-axis",
+                    .yAxisInput, "y-axis",
                     seq_len(ncol(reducedDim(se, 1L))),
                     min(2L, ncol(reducedDim(se, 1L)), na.rm=TRUE)
                 )
@@ -170,7 +175,11 @@ shinyLabels <- function(gs, se) {
                     .plotWrapper(
                         REACTIVE$SE, geneSetName0,
                         plotType=input[[.plotFunction]],
-                        redDimType=input[[.redDimTypeInput]])
+                        labels=input[[.showLabelsInput]],
+                        redDimType=input[[.redDimTypeInput]],
+                        x=as.numeric(input[[.xAxisInput]]),
+                        y=as.numeric(input[[.yAxisInput]])
+                    )
                 })
             })
         }
@@ -198,11 +207,11 @@ shinyLabels <- function(gs, se) {
         observeEvent(input[[.redDimTypeInput]], {
             redDimType <- input[[.redDimTypeInput]]
             updateSelectizeInput(
-                session, "XAxis",
+                session, .xAxisInput,
                 choices=seq_len(ncol(reducedDim(se, redDimType))),
                 selected=min(1L, ncol(reducedDim(se, redDimType)), na.rm=TRUE))
             updateSelectizeInput(
-                session, "YAxis",
+                session, .yAxisInput,
                 choices=seq_len(ncol(reducedDim(se, redDimType))),
                 selected=min(2L, ncol(reducedDim(se, redDimType)), na.rm=TRUE))
         })
