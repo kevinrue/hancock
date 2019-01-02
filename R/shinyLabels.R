@@ -67,7 +67,7 @@
 #' @importFrom methods is as
 #' @importFrom shiny shinyApp reactiveValues observeEvent stopApp isolate
 #' fluidRow column icon textInput actionButton renderUI renderPlot
-#' HTML uiOutput selectizeInput conditionalPanel
+#' HTML uiOutput selectizeInput conditionalPanel updateSelectizeInput
 #' @importFrom shinydashboard dashboardPage dashboardHeader dashboardSidebar
 #' dashboardBody box menuItem
 #' @importFrom SingleCellExperiment SingleCellExperiment reducedDimNames
