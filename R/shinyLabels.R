@@ -1,6 +1,9 @@
 
 # Constants ----
 
+.doneInput <- "Done"
+.resetInput <- "Reset"
+
 .geneSetNameInput <- "geneSetName"
 .plotFunction <- "plotType"
 .redDimTypeInput <- "redDimType"
@@ -130,7 +133,8 @@ shinyLabels <- function(gs, se) {
     app_ui <- dashboardPage(
         dashboardHeader(),
         dashboardSidebar(
-            actionButton(inputId="Done", label="Done", icon=icon("sign-out"), width="50%"),
+            actionButton(inputId=.doneInput, label="Done", icon=icon("sign-out"), width="50%"),
+            actionButton(inputId=.resetInput, label="Reset", icon=icon("undo"), width="50%"),
             selectizeInput(inputId=.plotFunction, label="Plot", choices=.shinyLabelsPlotChoices, selected="barplotPredictions"),
             checkboxInput(.showLabelsInput, "Show labels", TRUE),
             conditionalPanel(
@@ -216,9 +220,15 @@ shinyLabels <- function(gs, se) {
                 selected=min(2L, ncol(reducedDim(se, redDimType)), na.rm=TRUE))
         })
 
+        # Observer for resetting the gene signature object ----
+
+        observeEvent(input[[.resetInput]], {
+            REACTIVE$GS <- gs
+        })
+
         # Observer for closing the app and returning the updated object ----
 
-        observeEvent(input$Done, {
+        observeEvent(input[[.doneInput]], {
             stopApp(invisible(REACTIVE$GS))
         })
 
