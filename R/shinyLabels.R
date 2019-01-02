@@ -133,6 +133,16 @@ shinyLabels <- function(gs, se) {
                 selectizeInput(
                     .redDimTypeInput, "Type",
                     reducedDimNames(se)
+                ),
+                selectizeInput(
+                    "XAxis", "x-axis",
+                    seq_len(ncol(reducedDim(se, 1L))),
+                    min(1L, ncol(reducedDim(se, 1L)), na.rm=TRUE)
+                ),
+                selectizeInput(
+                    "YAxis", "y-axis",
+                    seq_len(ncol(reducedDim(se, 1L))),
+                    min(2L, ncol(reducedDim(se, 1L)), na.rm=TRUE)
                 )
             )
         ),
@@ -182,6 +192,20 @@ shinyLabels <- function(gs, se) {
                 })
             })
         }
+
+        # Observer to update the available x/y-axis dropdown menus ----
+
+        observeEvent(input[[.redDimTypeInput]], {
+            redDimType <- input[[.redDimTypeInput]]
+            updateSelectizeInput(
+                session, "XAxis",
+                choices=seq_len(ncol(reducedDim(se, redDimType))),
+                selected=min(1L, ncol(reducedDim(se, redDimType)), na.rm=TRUE))
+            updateSelectizeInput(
+                session, "YAxis",
+                choices=seq_len(ncol(reducedDim(se, redDimType))),
+                selected=min(2L, ncol(reducedDim(se, redDimType)), na.rm=TRUE))
+        })
 
         # Observer for closing the app and returning the updated object ----
 
