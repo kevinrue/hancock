@@ -23,7 +23,6 @@ plotProportionPositive <- function(
 #'
 #' @param highlight Character vector indicating names of signatures to highlight.
 #'
-#' @return A \code{ggplot} object.
 #' @export
 #' @importFrom BiocGenerics ncol
 #' @importFrom SummarizedExperiment colData
@@ -55,7 +54,6 @@ barplotPredictionCount <- function(
 #' @describeIn predictHancock Returns a \code{ggplot} bar plot displaying
 #' the proportion of samples predicted for each gene signature.
 #'
-#' @return A \code{ggplot} object.
 #' @export
 #' @importFrom BiocGenerics ncol
 #' @importFrom SummarizedExperiment colData
@@ -88,7 +86,7 @@ barplotPredictionProportion <- function(
     gg
 }
 
-#' @describeIn predictHancock Returns a \code{ggplot} bar plot displaying
+#' @describeIn predictHancock Returns a \code{ggplot} scatter plot displaying
 #' the first reduced dimension result in \code{reducedDims(se)}.
 #'
 #' @param redDimType Name of the reduced dimension result type to display.
@@ -96,7 +94,6 @@ barplotPredictionProportion <- function(
 #' @param y Name of the covariate to display on the y-axis.
 #' @param labels Logical value indicating whether to display labels.
 #'
-#' @return A \code{ggplot} object.
 #' @export
 #' @importFrom SummarizedExperiment colData
 #' @importFrom SingleCellExperiment reducedDim

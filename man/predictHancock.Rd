@@ -45,12 +45,6 @@ reducedDimPrediction(se, highlight = character(0), redDimType = "PCA",
 \item{...}{Additional arguments affecting the predictions produced.}
 }
 \value{
-A \code{ggplot} object.
-
-A \code{ggplot} object.
-
-A \code{ggplot} object.
-
 The object \code{se}, updated as follows:
 \itemize{
 \item in the \code{metadata} slot, a \code{"Hancock"} item is added (or updated) with information tracing the prediction process (e.g., method, signatures).
@@ -71,7 +65,7 @@ the count of samples predicted for each gene signature.
 \item \code{barplotPredictionProportion}: Returns a \code{ggplot} bar plot displaying
 the proportion of samples predicted for each gene signature.
 
-\item \code{reducedDimPrediction}: Returns a \code{ggplot} bar plot displaying
+\item \code{reducedDimPrediction}: Returns a \code{ggplot} scatter plot displaying
 the first reduced dimension result in \code{reducedDims(se)}.
 }}
 

@@ -124,10 +124,13 @@ shinyLabels <- function(gs, se) {
         SE=se
     )
 
+    xAxisMax <- 0L
+    yAxisMax <- 0L
     if (!is.null(reducedDim(se))) {
         .shinyLabelsPlotChoices <- c(
             .shinyLabelsPlotChoices,
             "reducedDim"="reducedDimPrediction")
+        xAxisMax <- yAxisMax <- ncol(reducedDim(se, 1L))
     }
 
     app_ui <- dashboardPage(
@@ -145,13 +148,13 @@ shinyLabels <- function(gs, se) {
                 ),
                 selectizeInput(
                     .xAxisInput, "x-axis",
-                    seq_len(ncol(reducedDim(se, 1L))),
-                    min(1L, ncol(reducedDim(se, 1L)), na.rm=TRUE)
+                    seq_len(xAxisMax),
+                    min(1L, xAxisMax, na.rm=TRUE)
                 ),
                 selectizeInput(
                     .yAxisInput, "y-axis",
-                    seq_len(ncol(reducedDim(se, 1L))),
-                    min(2L, ncol(reducedDim(se, 1L)), na.rm=TRUE)
+                    seq_len(yAxisMax),
+                    min(2L, yAxisMax, na.rm=TRUE)
                 )
             )
         ),
@@ -208,7 +211,7 @@ shinyLabels <- function(gs, se) {
 
         # Observer to update the available x/y-axis dropdown menus ----
 
-        observeEvent(input[[.redDimTypeInput]], {
+        observeEvent(ignoreInit = TRUE, input[[.redDimTypeInput]], {
             redDimType <- input[[.redDimTypeInput]]
             updateSelectizeInput(
                 session, .xAxisInput,

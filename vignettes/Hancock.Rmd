@@ -1,0 +1,83 @@
+---
+title: "Vignette for the _Hancock_ package"
+author:
+- name: Kevin Rue-Albrecht
+  affiliation:
+  - &id1 Kennedy Institute of Rheumatology, University of Oxford, Headington, Oxford OX3 7FY, UK.
+  email: kevin.rue-albrecht@kennedy.ox.ac.uk
+- name: Second Author
+  affiliation: Second Author's Affiliation
+  email: corresponding@author.com
+date: "`r BiocStyle::doc_date()`"
+package: Hancock
+output: 
+  BiocStyle::html_document:
+    toc_float: true
+abstract: |
+  Example usage of the _Hancock_ package demonstrated using example data sets.
+vignette: |
+    %\VignetteIndexEntry{Vignette for the Hancock package}
+    %\VignetteEncoding{UTF-8}
+    %\VignettePackage{Hancock}
+    %\VignetteKeywords{GeneExpression, RNASeq, Sequencing}
+    %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+bibliography: Hancock.bib
+---
+
+**Compiled date**: `r Sys.Date()`
+
+**Last edited**: 2018-03-08
+
+**License**: `r packageDescription("Hancock")[["License"]]`
+
+# Running _Hancock_
+
+To run an analysis, the first step is to start R and load the `r Githubpkg("kevinrue/Hancock")` package:
+
+```{r}
+library(Hancock)
+```
+
+As an initial example, we will demonstrate an analysis to find genes markers of three populations of neurons labelled by the fluorescent protein tdTomato (tdT) after Cre-mediated recombination.
+
+For this example, we will use a subset of single cell RNA-seq dataset from the Allen Brain Atlas [@tasic2016].
+This dataset is available in the `r Biocpkg("scRNAseq")` Experiment data package:
+
+```{r}
+library(scRNAseq)
+data(allen)
+allen
+```
+
+The individual Cre line is indicated for each cell in the `"driver_1_s"` metadata.
+
+```{r}
+table(allen$driver_1_s)
+```
+
+The learning method `"PositiveProportionDifference"` requires prior clustering information to be stored as a `factor` in a column of the `colData` slot.
+The method can then be applied to identify markers for each cluster, using a variety of filters on individual markers (e.g., minimal difference in detection rate between clusters) and on the combine set of markers (e.g., minimal detection rate in the target cluster).
+
+```{r}
+allen$driver_1_s <- as.factor(allen$driver_1_s)
+tgs <- learnSignatures(
+    se = allen, assay.type = "tophat_counts", method = "PositiveProportionDifference",
+    cluster.col = "driver_1_s", min.diff = 0.3, min.prop = 0.5, diff.method = "min")
+table(tgs$set)
+```
+
+The markers identified above can then be applied on the training data set, to annotate each cluster with its corresponding signature.
+Furthermore, this operation allows the use of a _Shiny_ app that may be used to rename each signature.
+Specifically, the app takes the set of signatures as well as the annotated object, and returns the updated set of signatures (i.e., renamed interactively in the app) upon closing the application.
+
+```{r}
+allenHancock <- predict(
+    tgs, allen, assay.type = "tophat_counts", method = "ProportionPositive",
+    cluster.col="driver_1_s")
+if (interactive()) {
+    library(shiny)
+    x <- runApp(shinyLabels(tgs, allenHancock))
+}
+```

@@ -35,6 +35,7 @@ Suggests:
     knitr,
     rmarkdown,
     Rtsne,
+    scRNAseq,
     testthat
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
