@@ -131,7 +131,6 @@ shinyLabels <- function(gs, se) {
             .shinyLabelsPlotChoices,
             "reducedDim"="reducedDimPrediction")
         xAxisMax <- yAxisMax <- ncol(reducedDim(se, 1L))
-        print(xAxisMax)
     }
 
     app_ui <- dashboardPage(
