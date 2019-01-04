@@ -3,17 +3,23 @@
 
 .doneInput <- "Done"
 .resetInput <- "Reset"
+.tourInput <- "Tour"
 
-.geneSetNameInput <- "geneSetName"
-.plotFunction <- "plotType"
-.redDimTypeInput <- "redDimType"
+.plotOutput <- "Plot"
+
+.geneSetNameInput <- "GeneSetName"
+.plotFunction <- "PlotType"
+.redDimTypeInput <- "RedDimType"
 .xAxisInput <- "XAxis"
 .yAxisInput <- "YAxis"
-.showLabelsInput <- "showLabels"
+.showLabelsInput <- "ShowLabels"
 
 .shinyLabelsPlotChoices <- c(
     "Barplot (#)"="barplotPredictionCount",
     "Barplot (%)"="barplotPredictionProportion")
+
+.actionbutton_biocstyle <- "color: #ffffff; background-color: #0092AC; border-color: #2e6da4"
+
 
 # Plotting functions ----
 
@@ -37,7 +43,7 @@
         geneSetName0 <- levels(genesets$set)[id0]
         geneIds0 <- genesets[genesets$set == geneSetName0, "gene", drop=TRUE]
         geneIdText <- paste(geneIds0, collapse=", ")
-        plotName0 <- paste0("plot", id0)
+        plotName0 <- paste0(.plotOutput, id0)
         signaturePlot <- plotOutput(plotName0, height="400px")
         panelList[[id0]] <- box(
             textInput(
@@ -48,7 +54,8 @@
             ),
             column(signaturePlot, width=12),
             HTML(sprintf("<strong>Features:</strong><p>%s<p>", geneIdText)),
-            width=12, title=paste("Gene set", id0)
+            width=12, title=paste("Gene set", id0)#, collapsible=TRUE, collapsed=(id0 > 1L)
+            # TODO: remember whether each box should be open/closed at each refresh
         )
     }
     outValue <- do.call(fluidRow, panelList)
@@ -76,8 +83,10 @@
 #' HTML uiOutput checkboxInput selectizeInput conditionalPanel
 #' updateSelectizeInput
 #' @importFrom shinydashboard dashboardPage dashboardHeader dashboardSidebar
-#' dashboardBody box menuItem
+#' dashboardBody box menuItem dropdownMenu notificationItem
 #' @importFrom SingleCellExperiment SingleCellExperiment reducedDimNames
+#' @importFrom rintrojs introjsUI introjs
+#' @importFrom utils read.delim
 #'
 #' @examples
 #' # Example data ----
@@ -111,6 +120,8 @@
 #' }
 shinyLabels <- function(gs, se) {
 
+    # Initialization of reactive values ----
+
     stopifnot(is(gs, "tbl_geneset"))
     stopifnot(identical(
         levels(gs$set),
@@ -119,11 +130,23 @@ shinyLabels <- function(gs, se) {
 
     se <- as(se, "SingleCellExperiment")
 
+    # Storage for all the reactive objects
     REACTIVE <- reactiveValues(
         GS=gs,
         SE=se
     )
 
+    # Initialization of non-reactive values ----
+
+    NSETS <- nlevels(gs$set)
+
+    # Storage for persistent non-reactive objects.
+    pObjects <- new.env()
+
+    # TODO: "expand all"/"collapse all" button
+    # pObjects$collapsedBox <- c(FALSE, rep(TRUE, NSETS-1))
+
+    # Initial state for reduced dimension inputs ----
     xAxisMax <- 0L
     yAxisMax <- 0L
     if (!is.null(reducedDim(se))) {
@@ -134,11 +157,27 @@ shinyLabels <- function(gs, se) {
     }
 
     app_ui <- dashboardPage(
-        dashboardHeader(),
+        dashboardHeader(
+            dropdownMenu(
+                type="tasks",
+                icon=icon("question-circle fa-1g"),
+                badgeStatus=NULL,
+                headerText="Documentation",
+                notificationItem(
+                    text=actionButton(
+                        .tourInput, "Interactive tour",
+                        icon("hand-o-right"),
+                        style=.actionbutton_biocstyle
+                    ),
+                    icon=icon(""), # tricking it to not have additional icon
+                    status="primary"
+                )
+            )
+        ),
         dashboardSidebar(
             actionButton(inputId=.doneInput, label="Done", icon=icon("sign-out"), width="50%"),
             actionButton(inputId=.resetInput, label="Reset", icon=icon("undo"), width="50%"),
-            selectizeInput(inputId=.plotFunction, label="Plot", choices=.shinyLabelsPlotChoices, selected="barplotPredictions"),
+            selectizeInput(inputId=.plotFunction, label="Plot type:", choices=.shinyLabelsPlotChoices, selected="barplotPredictions"),
             checkboxInput(.showLabelsInput, "Show labels", TRUE),
             conditionalPanel(
                 condition = sprintf("input.%s == 'reducedDimPrediction'", .plotFunction),
@@ -159,6 +198,7 @@ shinyLabels <- function(gs, se) {
             )
         ),
         dashboardBody(
+            introjsUI(), # must be included in UI
             uiOutput("mainPanels")
         ),
         title="Hancock: Label signatures"
@@ -166,17 +206,13 @@ shinyLabels <- function(gs, se) {
 
     app_server <- function(input, output, session) {
 
-        # App-specific constants ----
-
-        NSETS <- nlevels(gs$set)
-
         # Main panels ----
 
         panelList <- list()
         for (id in seq_len(NSETS)) {
             local({
                 id0 <- id
-                plotName0 <- paste0("plot", id0)
+                plotName0 <- paste0(.plotOutput, id0)
                 output[[plotName0]] <- renderPlot({
                     geneSetName0 <- levels(REACTIVE$GS$set)[id0]
                     .plotWrapper(
@@ -221,6 +257,15 @@ shinyLabels <- function(gs, se) {
                 session, .yAxisInput,
                 choices=seq_len(ncol(reducedDim(se, redDimType))),
                 selected=min(2L, ncol(reducedDim(se, redDimType)), na.rm=TRUE))
+        })
+
+        # Observer for the tour ----
+
+        observeEvent(input[[.tourInput]], {
+            tour <- read.delim(
+                system.file("extdata", "intro_shinyLabels.txt", package="Hancock"),
+                sep=";", stringsAsFactors=FALSE, row.names=NULL, quote="")
+            introjs(session, options=list(steps=tour))
         })
 
         # Observer for resetting the gene signature object ----
