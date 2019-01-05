@@ -1,25 +1,34 @@
 
 # Constants ----
 
+# Unique inputs
 .doneInput <- "Done"
 .resetInput <- "Reset"
-.tourInput <- "Tour"
-
-.plotOutput <- "Plot"
-
-.geneSetNameInput <- "GeneSetName"
 .plotFunction <- "PlotType"
+
 .redDimTypeInput <- "RedDimType"
 .xAxisInput <- "XAxis"
 .yAxisInput <- "YAxis"
-.showLabelsInput <- "ShowLabels"
 
+.collapseAllInput <- "CollapseAll"
+.expandAllInput <- "ExpandAll"
+
+.tourInput <- "Tour"
+
+# Looped inputs
+.geneSetNameInput <- "GeneSetName"
+.showLabelsInput <- "ShowLabels"
 .boxOpen <- "BoxOpen"
 
+# Looped outputs
+.plotOutput <- "Plot"
+
+# Dropdown selectize
 .shinyLabelsPlotChoices <- c(
     "Barplot (#)"="barplotPredictionCount",
     "Barplot (%)"="barplotPredictionProportion")
 
+# Misc
 .actionbutton_biocstyle <- "color: #ffffff; background-color: #0092AC; border-color: #2e6da4"
 
 
@@ -163,6 +172,8 @@ shinyLabels <- function(gs, se) {
         dashboardSidebar(
             actionButton(inputId=.doneInput, label="Done", icon=icon("sign-out"), width="50%"),
             actionButton(inputId=.resetInput, label="Reset", icon=icon("undo"), width="50%"),
+            actionButton(inputId=.collapseAllInput, label="Collapse all", icon=icon("window-minimize"), width="50%"),
+            actionButton(inputId=.expandAllInput, label="Expand all", icon=icon("window-maximize"), width="50%"),
             selectizeInput(inputId=.plotFunction, label="Plot type:", choices=.shinyLabelsPlotChoices, selected="barplotPredictions"),
             checkboxInput(.showLabelsInput, "Show labels", TRUE),
             conditionalPanel(
@@ -232,6 +243,8 @@ shinyLabels <- function(gs, se) {
         }
 
         output$mainPanels <- renderUI({
+            force(input[[.collapseAllInput]])
+            force(input[[.expandAllInput]])
             .panelGeneration(REACTIVE$GS, pObjects)
         })
 
@@ -254,13 +267,20 @@ shinyLabels <- function(gs, se) {
         for (id in seq_len(NSETS)) {
             local({
                 id0 <- id
-
                 open_field <- paste0(.boxOpen, id0)
                 observeEvent(input[[open_field]], {
                     pObjects[[.boxOpen]][id0] <- input[[open_field]]
                 })
             })
         }
+
+        observeEvent(input[[.collapseAllInput]], {
+            pObjects[[.boxOpen]] <- rep(FALSE, NSETS)
+        })
+
+        observeEvent(input[[.expandAllInput]], {
+            pObjects[[.boxOpen]] <- rep(TRUE, NSETS)
+        })
 
         # Observer to update the available x/y-axis dropdown menus ----
 
