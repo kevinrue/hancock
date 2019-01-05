@@ -1,0 +1,12 @@
+element;intro
+#Welcome;<p>Welcome to the interactive tour for <a href="https://github.com/kevinrue/Hancock">Hancock</a>.</p><p>The following steps will guide you through the different components of the user interface (UI).</p><p><strong>Action: </strong>now, click on the 'Next' button or use the right arrow of your keyboard to proceed into your tour.</p>
+#BoxOpen1;<p>Each signature is given a collapsible box in the UI.</p><p>Clicking on the box name collapses or expands each box.</p>
+#GeneSetName1;<p>Each box is associated with a text field input.</p><p>This field is initially populated with the current name of the gene signature. However, it can be used to rename each signature interactively.</p><p><strong>Action: </strong>type in this field to edit the signature name.</p>
+#Plot1;<p>In addition, each signature is accompanied with a plotting panel where the samples associated with the signature are highlighted, to help with the interactive examination and curation of each signature.</p><p>Note how the plot displays the signature name that you interactively updated in the previous step.</p>
+#PlotType + .selectize-control;<p>The type of plot can be selected here.</p><p>For simplicity, this single user input updates all of the boxes in the main panel simultaneously.</p><p><strong>Action: </strong>select another type of plot, for instance <code>"Reduced dimension"</code>, if available.</p>
+#ShowLabels;<p>Signature labels may be hidden from the plots using this checkbox, to temporarily view data points better.</p><p><strong>Action: </strong>toggle labels on and off using this checkbox.</p><p>Other plot-specific options are made visible below in this sidebar when the associated plot is selected.</p>
+#Done;<p>Once renamed, the updated collection of signatures may be sent back to the R session using this button.</p>
+#Reset;<p>This button resets all signature names to their initial value.</p>
+#CollapseAll;<p>This button collapses all boxes in a single action.</p>
+#ExpandAll;<p>Conversely, this button expands all boxes in a single action.</p>
+#Bye;Thank you for taking the tour of <a href="https://github.com/kevinrue/Hancock">Hancock</a>!
