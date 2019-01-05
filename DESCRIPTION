@@ -19,6 +19,7 @@ Imports:
     ComplexHeatmap,
     cowplot,
     ggplot2,
+    iSEE,
     Matrix,
     matrixStats,
     methods,

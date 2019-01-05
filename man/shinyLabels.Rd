@@ -24,7 +24,7 @@ The app returns the updated \code{tbl_geneset} when closed using the \code{"Done
 library(GeneSet)
 tgs <- tbl_geneset(
     "Cell type 1"=c("Gene001", "Gene002"),
-    "Cell type 2"=c("Gene002", "Gene003", "Gene004")
+    "Cell type 2"=c("Gene003", "Gene004")
 )
 
 library(SummarizedExperiment)

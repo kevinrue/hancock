@@ -14,6 +14,8 @@
 .yAxisInput <- "YAxis"
 .showLabelsInput <- "ShowLabels"
 
+.boxOpen <- "BoxOpen"
+
 .shinyLabelsPlotChoices <- c(
     "Barplot (#)"="barplotPredictionCount",
     "Barplot (%)"="barplotPredictionProportion")
@@ -30,12 +32,13 @@
 #' @rdname INTERNAL_panelGeneration
 #'
 #' @param genesets A set of signatures of class inheriting from "\code{\link{tbl_geneset}}".
+#' @param memory Persistent memory of the UI state as a \code{list}.
 #'
 #' @return
 #' A HTML tag object containing the UI elements for the main body of the app.
 #' This includes the output plots/tables as well as UI elements to control them.
 #' @importFrom shiny plotOutput
-.panelGeneration <- function(genesets) {
+.panelGeneration <- function(genesets, memory) {
     NSETS <- nlevels(genesets$set)
     panelList <- list()
     for (id in seq_len(NSETS)) {
@@ -45,7 +48,10 @@
         geneIdText <- paste(geneIds0, collapse=", ")
         plotName0 <- paste0(.plotOutput, id0)
         signaturePlot <- plotOutput(plotName0, height="400px")
-        panelList[[id0]] <- box(
+        panelList[[id0]] <- iSEE:::collapseBox(
+            id=paste0(.boxOpen, id0),
+            title=paste("Gene set", id0),
+            open=memory[[.boxOpen]][id0],
             textInput(
                 inputId=paste0(.geneSetNameInput, id0),
                 label=paste("Gene set name", id0),
@@ -53,9 +59,7 @@
                 placeholder=paste("Gene set name", id0)
             ),
             column(signaturePlot, width=12),
-            HTML(sprintf("<strong>Features:</strong><p>%s<p>", geneIdText)),
-            width=12, title=paste("Gene set", id0)#, collapsible=TRUE, collapsed=(id0 > 1L)
-            # TODO: remember whether each box should be open/closed at each refresh
+            HTML(sprintf("<strong>Features:</strong><p>%s<p>", geneIdText))
         )
     }
     outValue <- do.call(fluidRow, panelList)
@@ -93,7 +97,7 @@
 #' library(GeneSet)
 #' tgs <- tbl_geneset(
 #'     "Cell type 1"=c("Gene001", "Gene002"),
-#'     "Cell type 2"=c("Gene002", "Gene003", "Gene004")
+#'     "Cell type 2"=c("Gene003", "Gene004")
 #' )
 #'
 #' library(SummarizedExperiment)
@@ -120,8 +124,6 @@
 #' }
 shinyLabels <- function(gs, se) {
 
-    # Initialization of reactive values ----
-
     stopifnot(is(gs, "tbl_geneset"))
     stopifnot(identical(
         levels(gs$set),
@@ -130,29 +132,13 @@ shinyLabels <- function(gs, se) {
 
     se <- as(se, "SingleCellExperiment")
 
-    # Storage for all the reactive objects
-    REACTIVE <- reactiveValues(
-        GS=gs,
-        SE=se
-    )
-
-    # Initialization of non-reactive values ----
-
-    NSETS <- nlevels(gs$set)
-
-    # Storage for persistent non-reactive objects.
-    pObjects <- new.env()
-
-    # TODO: "expand all"/"collapse all" button
-    # pObjects$collapsedBox <- c(FALSE, rep(TRUE, NSETS-1))
-
     # Initial state for reduced dimension inputs ----
     xAxisMax <- 0L
     yAxisMax <- 0L
     if (!is.null(reducedDim(se))) {
         .shinyLabelsPlotChoices <- c(
             .shinyLabelsPlotChoices,
-            "reducedDim"="reducedDimPrediction")
+            "Reduced dimension"="reducedDimPrediction")
         xAxisMax <- yAxisMax <- ncol(reducedDim(se, 1L))
     }
 
@@ -206,6 +192,24 @@ shinyLabels <- function(gs, se) {
 
     app_server <- function(input, output, session) {
 
+        # Initialization of non-reactive values ----
+
+        NSETS <- nlevels(gs$set)
+
+        # Storage for persistent non-reactive objects.
+        pObjects <- new.env()
+
+        # TODO: "expand all"/"collapse all" button
+        pObjects[[.boxOpen]] <- c(TRUE, rep(FALSE, NSETS-1))
+
+        # Initialization of reactive values ----
+
+        # Storage for all the reactive objects
+        REACTIVE <- reactiveValues(
+            GS=gs,
+            SE=se
+        )
+
         # Main panels ----
 
         panelList <- list()
@@ -228,10 +232,10 @@ shinyLabels <- function(gs, se) {
         }
 
         output$mainPanels <- renderUI({
-            .panelGeneration(REACTIVE$GS)
+            .panelGeneration(REACTIVE$GS, pObjects)
         })
 
-        # Observer for the gene set names ----
+        # Observers for the gene set names ----
 
         for (id in seq_len(NSETS)) {
             local({
@@ -241,6 +245,19 @@ shinyLabels <- function(gs, se) {
                     newValue <- input[[inputId0]]
                     levels(REACTIVE$GS$set)[id0] <- as.character(newValue)
                     levels(REACTIVE$SE$Hancock$prediction)[id0] <- as.character(newValue)
+                })
+            })
+        }
+
+        # Observers for the collapsible panels ----
+
+        for (id in seq_len(NSETS)) {
+            local({
+                id0 <- id
+
+                open_field <- paste0(.boxOpen, id0)
+                observeEvent(input[[open_field]], {
+                    pObjects[[.boxOpen]][id0] <- input[[open_field]]
                 })
             })
         }
