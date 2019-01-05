@@ -14,7 +14,7 @@
 #' @importFrom shiny shinyApp reactiveValues observeEvent stopApp isolate
 #' fluidRow column icon textInput actionButton renderUI renderPlot
 #' HTML uiOutput plotOutput checkboxInput selectizeInput conditionalPanel
-#' updateSelectizeInput
+#' updateSelectizeInput updateTextInput
 #' @importFrom shinydashboard dashboardPage dashboardHeader dashboardSidebar
 #' dashboardBody box menuItem dropdownMenu notificationItem
 #' @importFrom SingleCellExperiment SingleCellExperiment reducedDimNames
