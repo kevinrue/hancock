@@ -1,83 +1,3 @@
-
-# Constants ----
-
-# Unique inputs
-.doneInput <- "Done"
-.resetInput <- "Reset"
-.plotFunction <- "PlotType"
-
-.redDimTypeInput <- "RedDimType"
-.xAxisInput <- "XAxis"
-.yAxisInput <- "YAxis"
-
-.collapseAllInput <- "CollapseAll"
-.expandAllInput <- "ExpandAll"
-
-.tourInput <- "Tour"
-
-# Looped inputs
-.geneSetNameInput <- "GeneSetName"
-.showLabelsInput <- "ShowLabels"
-.boxOpen <- "BoxOpen"
-
-# Looped outputs
-.plotOutput <- "Plot"
-
-# Dropdown selectize
-.shinyLabelsPlotChoices <- c(
-    "Barplot (#)"="barplotPredictionCount",
-    "Barplot (%)"="barplotPredictionProportion")
-
-# Misc
-.actionbutton_biocstyle <- "color: #ffffff; background-color: #0092AC; border-color: #2e6da4"
-
-
-# Plotting functions ----
-
-#' Generate the panels in the app body
-#'
-#' Constructs the panels in the main body of the app to examine and rename gene signatures.
-#'
-#' @rdname INTERNAL_panelGeneration
-#'
-#' @param genesets A set of signatures of class inheriting from "\code{\link{tbl_geneset}}".
-#' @param memory Persistent memory of the UI state as a \code{list}.
-#'
-#' @return
-#' A HTML tag object containing the UI elements for the main body of the app.
-#' This includes the output plots/tables as well as UI elements to control them.
-#' @importFrom shiny plotOutput
-.panelGeneration <- function(genesets, memory) {
-    NSETS <- nlevels(genesets$set)
-    panelList <- list()
-    for (id in seq_len(NSETS)) {
-        id0 <- id
-        geneSetName0 <- levels(genesets$set)[id0]
-        geneIds0 <- genesets[genesets$set == geneSetName0, "gene", drop=TRUE]
-        geneIdText <- paste(geneIds0, collapse=", ")
-        plotName0 <- paste0(.plotOutput, id0)
-        signaturePlot <- plotOutput(plotName0, height="400px")
-        panelList[[id0]] <- iSEE:::collapseBox(
-            id=paste0(.boxOpen, id0),
-            title=paste("Gene set", id0),
-            open=memory[[.boxOpen]][id0],
-            textInput(
-                inputId=paste0(.geneSetNameInput, id0),
-                label=paste("Gene set name", id0),
-                value=geneSetName0, width="100%",
-                placeholder=paste("Gene set name", id0)
-            ),
-            column(signaturePlot, width=12),
-            HTML(sprintf("<strong>Features:</strong><p>%s<p>", geneIdText))
-        )
-    }
-    outValue <- do.call(fluidRow, panelList)
-
-    return(outValue)
-}
-
-# App ----
-
 #nocov start
 #' Interactively Inspect and Name Gene Signatures
 #'
@@ -93,7 +13,7 @@
 #' @importFrom methods is as
 #' @importFrom shiny shinyApp reactiveValues observeEvent stopApp isolate
 #' fluidRow column icon textInput actionButton renderUI renderPlot
-#' HTML uiOutput checkboxInput selectizeInput conditionalPanel
+#' HTML uiOutput plotOutput checkboxInput selectizeInput conditionalPanel
 #' updateSelectizeInput
 #' @importFrom shinydashboard dashboardPage dashboardHeader dashboardSidebar
 #' dashboardBody box menuItem dropdownMenu notificationItem
@@ -218,7 +138,8 @@ shinyLabels <- function(gs, se) {
         # Storage for all the reactive objects
         REACTIVE <- reactiveValues(
             GS=gs,
-            SE=se
+            SE=se,
+            refresh=0L
         )
 
         # Main panels ----
@@ -243,9 +164,34 @@ shinyLabels <- function(gs, se) {
         }
 
         output$mainPanels <- renderUI({
-            force(input[[.collapseAllInput]])
-            force(input[[.expandAllInput]])
-            .panelGeneration(REACTIVE$GS, pObjects)
+            force(REACTIVE$refresh)
+
+            NSETS <- nlevels(gs$set)
+            panelList <- list()
+            for (id in seq_len(NSETS)) {
+                id0 <- id
+                geneSetName0 <- levels(gs$set)[id0]
+                geneIds0 <- gs[gs$set == geneSetName0, "gene", drop=TRUE]
+                geneIdText <- head(paste(geneIds0, collapse=", "), 50) # TODO: change 50
+                plotName0 <- paste0(.plotOutput, id0)
+                signaturePlot <- plotOutput(plotName0, height="400px")
+                panelList[[id0]] <- iSEE:::collapseBox(
+                    id=paste0(.boxOpen, id0),
+                    title=paste("Gene set", id0),
+                    open=pObjects[[.boxOpen]][id0],
+                    textInput(
+                        inputId=paste0(.geneSetNameInput, id0),
+                        label=paste("Gene set name", id0),
+                        value=geneSetName0, width="100%",
+                        placeholder=paste("Gene set name", id0)
+                    ),
+                    column(signaturePlot, width=12),
+                    HTML(sprintf("<strong>Features:</strong><p>%s<p>", geneIdText))
+                )
+            }
+            outValue <- do.call(fluidRow, panelList)
+
+            outValue
         })
 
         # Observers for the gene set names ----
@@ -276,10 +222,12 @@ shinyLabels <- function(gs, se) {
 
         observeEvent(input[[.collapseAllInput]], {
             pObjects[[.boxOpen]] <- rep(FALSE, NSETS)
+            REACTIVE$refresh <- REACTIVE$refresh + 1
         })
 
         observeEvent(input[[.expandAllInput]], {
             pObjects[[.boxOpen]] <- rep(TRUE, NSETS)
+            REACTIVE$refresh <- REACTIVE$refresh + 1
         })
 
         # Observer to update the available x/y-axis dropdown menus ----
@@ -309,6 +257,14 @@ shinyLabels <- function(gs, se) {
 
         observeEvent(input[[.resetInput]], {
             REACTIVE$GS <- gs
+            REACTIVE$SE <- se
+            for (id in seq_len(NSETS)) {
+                local({
+                    id0 <- id
+                    inputId0 <- paste0(.geneSetNameInput, id0)
+                    updateTextInput(session, inputId0, value=levels(gs$set)[id0])
+                })
+            }
         })
 
         # Observer for closing the app and returning the updated object ----
