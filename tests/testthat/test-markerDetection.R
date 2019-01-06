@@ -51,6 +51,40 @@ test_that("makeMarkerProportionMatrix works", {
     expect_type(out, "double")
 })
 
+# cxx_num_detected_markers ----
+
+test_that("num_detected_markers works correctly", {
+    for (lambda in c(1, 10)) {
+        Y <- matrix(rpois(10000, lambda=1), nrow=200)
+        o <- sample(nrow(Y), 50)
+        ref <- apply(Y, 2, FUN=function(x) {
+            detected <- x[o]==0L
+            if (all(detected)) {
+                length(detected)
+            } else {
+                min(which(detected)) - 1L
+            }
+        })
+
+        expect_identical(typeof(Y), "integer")
+        iout <- .Call(Hancock:::cxx_num_detected_markers, Y, o-1L, 1L)
+        expect_identical(ref, iout)
+
+        Z <- Y
+        storage.mode(Z) <- "double"
+        dout <- .Call(Hancock:::cxx_num_detected_markers, Z, o-1L, 1e-8)
+        expect_identical(ref, dout)
+
+        lout <- .Call(Hancock:::cxx_num_detected_markers, Y>0L, o-1L, 1L)
+        expect_identical(ref, lout) 
+        
+        # Works with alternative matrices.
+        M <- as(Y, "dgCMatrix")
+        mout <- .Call(Hancock:::cxx_num_detected_markers, M, o-1L, 1L)
+        expect_identical(ref, mout)
+    }
+})
+
 # makeMarkerProportionScree ----
 
 test_that("makeMarkerProportionScree works", {
