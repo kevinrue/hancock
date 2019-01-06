@@ -38,6 +38,9 @@ Suggests:
     rmarkdown,
     Rtsne,
     scRNAseq,
-    testthat
+    testthat,
+    beachmat
+LinkingTo: Rcpp, beachmat, Rhdf5lib
+SystemRequirements: C++11
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
