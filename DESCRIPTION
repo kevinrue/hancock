@@ -29,7 +29,8 @@ Imports:
     shiny,
     shinydashboard,
     scales,
-    SingleCellExperiment
+    SingleCellExperiment,
+    Rcpp
 Suggests: 
     BiocStyle,
     circlize,
