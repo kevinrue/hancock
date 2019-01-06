@@ -83,6 +83,22 @@ test_that("num_detected_markers works correctly", {
         mout <- .Call(Hancock:::cxx_num_detected_markers, M, o-1L, 1L)
         expect_identical(ref, mout)
     }
+    
+    # Expect valid (0-indexed) rows
+    expect_error(
+        .Call(Hancock:::cxx_num_detected_markers, Y, -1L, 1L)
+    )
+    expect_error(
+        .Call(Hancock:::cxx_num_detected_markers, Y, nrow(Y), 1L)
+    )
+    
+    # Threhsolds should be scalar values
+    expect_error(
+        .Call(Hancock:::cxx_num_detected_markers, Y, 0L, integer(0))
+    )
+    expect_error(
+        .Call(Hancock:::cxx_num_detected_markers, log(Y+1), 0L, integer(0))
+    )
 })
 
 # makeMarkerProportionScree ----
