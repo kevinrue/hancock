@@ -70,7 +70,10 @@ gsc <- GeneSetCollection(list(
 # Example usage ----
 markerMatrix <- makeMarkerDetectionMatrix(se, unique(unlist(geneIds(gsc))))
 signatureMatrix <- makeSignatureDetectionMatrix(markerMatrix, gsc)
+
+tab <- makeMarkerProportionScree(markerMatrix)
+plot(tab$markers, tab$proportion, ylim=c(0, 1), main="Combined detection scree")
 }
 \author{
-Kevin Rue-Albrecht
+Kevin Rue-Albrecht, with C++ code by Aaron Lun
 }

@@ -33,7 +33,7 @@
 #' @export
 #' @importFrom SummarizedExperiment assay
 #'
-#' @author Kevin Rue-Albrecht
+#' @author Kevin Rue-Albrecht, with C++ code by Aaron Lun
 #'
 #' @examples
 #' # Example data ----
@@ -51,6 +51,9 @@
 #' # Example usage ----
 #' markerMatrix <- makeMarkerDetectionMatrix(se, unique(unlist(geneIds(gsc))))
 #' signatureMatrix <- makeSignatureDetectionMatrix(markerMatrix, gsc)
+#' 
+#' tab <- makeMarkerProportionScree(markerMatrix)
+#' plot(tab$markers, tab$proportion, ylim=c(0, 1), main="Combined detection scree")
 makeMarkerDetectionMatrix <- function(
     se, markers, threshold=0, assay.type="counts"
 ) {
@@ -72,17 +75,12 @@ makeMarkerDetectionMatrix <- function(
 #'
 #' @importFrom Matrix colSums
 makeMarkerProportionScree <- function(matrix) {
-    .combinedProportion <- function(n){
-        positiveCount <- Matrix::colSums(matrix[seq(1, n), , drop=FALSE]) == n
-        positiveProportion <- sum(positiveCount) / ncol(matrix)
-        positiveProportion
-    }
-
-    combinativeProportion <- vapply(
-        X=seq_len(nrow(matrix)), FUN=.combinedProportion, FUN.VALUE=double(1),
-        USE.NAMES=FALSE)
-
-    combinativeProportion
+    topDetected <- .Call(cxx_num_detected_markers, matrix, seq_len(nrow(matrix))-1L, 1L)
+    tab <- rle(sort(topDetected, decreasing=TRUE))
+    outTable <- data.frame(
+        proportion=cumsum(tab$lengths / ncol(matrix)),
+        markers=tab$values)
+    outTable
 }
 
 # makeSignatureDetectionMatrix ----

@@ -8,12 +8,21 @@
 \description{
 Applies transcriptional signatures to assign cell identities.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/kevinrue/Hancock}
+  \item Report bugs at \url{https://github.com/kevinrue/Hancock/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Kevin Rue-Albrecht \email{kevinrue67@gmail.com}
 
 Authors:
 \itemize{
   \item Robert Amezquita
+  \item Aaron Lun \email{infinite.monkeys.with.keyboards@gmail.com}
 }
 
 }

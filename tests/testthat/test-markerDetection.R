@@ -75,6 +75,7 @@ test_that("num_detected_markers works correctly", {
         dout <- .Call(Hancock:::cxx_num_detected_markers, Z, o-1L, 1e-8)
         expect_identical(ref, dout)
 
+        # logical
         lout <- .Call(Hancock:::cxx_num_detected_markers, Y>0L, o-1L, 1L)
         expect_identical(ref, lout) 
         
@@ -113,9 +114,11 @@ test_that("makeMarkerProportionScree works", {
     proportionScreen <- makeMarkerProportionScree(markerDetectionMatrix)
 
     # One value per input row
-    expect_identical(length(proportionScreen), nrow(se))
-    # Decreasing values
-    expect_identical(proportionScreen, sort(proportionScreen, decreasing=TRUE))
+    expect_identical(colnames(proportionScreen), c("proportion", "markers"))
+    # Increasing cumsum
+    expect_identical(proportionScreen$proportion, sort(proportionScreen$proportion))
+    # Decreasing number of markers
+    expect_identical(proportionScreen$markers, sort(proportionScreen$markers, decreasing=TRUE))
 })
 
 # makeSignatureDetectionMatrix ----
