@@ -204,13 +204,15 @@ predictByProportionPositive <- function(
     signatureNames <- uniqueSetNames(object)
 
     proportionPositiveByCluster <- matrix(
-        data=NA_real_,
+        data=0,
         nrow=length(clusterNames),
         ncol=ncol(signatureMatrix),
         dimnames=list(cluster=clusterNames, signature=colnames(signatureMatrix)))
     for (signatureName in colnames(signatureMatrix)) {
-        countSignatureInCluster <- table(clusterData, signatureMatrix[, signatureName])[, "TRUE"]
-        proportionPositiveByCluster[, signatureName] <- countSignatureInCluster / numberCellsInCluster
+        countSignatureTable <- table(clusterData, signatureMatrix[, signatureName])
+        if ("TRUE" %in% colnames(countSignatureTable)) {
+            proportionPositiveByCluster[, signatureName] <- countSignatureTable[, "TRUE"] / numberCellsInCluster
+        }
     }
 
     # For each cluster, identify the most frequent signature

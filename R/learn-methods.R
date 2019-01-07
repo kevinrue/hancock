@@ -149,23 +149,28 @@ learnMarkersByPositiveProportionDifference <- function(
         # Do not move above the exclusion on min.diff, to save time
         df$combinedProp <- NA_real_
         if (!is.na(min.prop)) {
+            # Exclude markers detected alone below the threshold
+            df <- df[df$freqTarget >= min.prop, , drop=FALSE]
+            # Order markers by decreasing detection rate
+            df <- df[order(df$freqTarget, decreasing=TRUE), ]
+            # Compute which of the remaining markers are detected in each sample
             seSubset <- se[, colData(se)[, cluster.col] == clusterName]
             markerDetectionMatrix <- makeMarkerDetectionMatrix(seSubset, rownames(df), threshold, assay.type)
-            # Order markers by decreasing detection rate
-            orderedMarkers <- rownames(markerDetectionMatrix)[order(rowSums(markerDetectionMatrix), decreasing=TRUE)]
-            markerDetectionMatrix <- markerDetectionMatrix[orderedMarkers, ]
-            proportionScreen <- makeMarkerProportionScree(markerDetectionMatrix)
-            df <- df[orderedMarkers, , drop=FALSE]
-            df$combinedProp <- proportionScreen
-            df <- df[df$combinedProp >= min.prop, , drop=FALSE]
-            df$combinedProp <- min(df$combinedProp) # no need for na.rm=TRUE
-            df$detectionProp <- (rowSums(markerDetectionMatrix[rownames(df), , drop=TRUE]) / ncol(markerDetectionMatrix))
+            # Identify the maximal number of markers simultaneously detected above the threshold
+            proportionScree <- makeMarkerProportionScree(markerDetectionMatrix)
+            maxRow <- head(which(proportionScree$proportion > min.prop), 1)
+            maxMarkers <- proportionScree[maxRow, "markers", drop=TRUE]
+            maxProportion <- proportionScree[maxRow, "proportion", drop=TRUE]
+            df <- head(df, maxMarkers)
+            df$combinedProp <- maxProportion
         }
-        # Reorder the remaining markers.
+        # Reorder the remaining markers by differential detection rate
         # Do not move higher above, it saves time.
         df <- df[order(df$diffFreq, decreasing=TRUE), , drop=FALSE]
         # Extract the request number of markers (default: all)
-        head(df[, c("detectionProp", "combinedProp"), drop=FALSE], top)
+        out <- head(df[, c("freqTarget", "combinedProp"), drop=FALSE], top)
+        colnames(out) <- c("markerProp", "combinedProp")
+        out
     }
     # Compute the markers for each cluster
     clusterNames <- colnames(proportionPositiveByCluster)

@@ -1,10 +1,11 @@
 Package: Hancock
 Title: Learn and Apply Cell Type Signatures
 Version: 0.99.0
-Date: 2018-11-27
+Date: 2018-01-07
 Authors@R: c(
     person(given = "Kevin", family = "Rue-Albrecht", role = c("aut", "cre"), email = "kevinrue67@gmail.com"),
-    person(given = "Robert", family = "Amezquita", role = c("aut"))
+    person(given = "Robert", family = "Amezquita", role = c("aut")),
+    person("Aaron", "Lun", role = c("aut"), email="infinite.monkeys.with.keyboards@gmail.com")
     )
 Description: Applies transcriptional signatures to assign cell identities.
 biocViews: GeneExpression, Transcriptomics, SingleCell, Sequencing,
@@ -29,7 +30,8 @@ Imports:
     shiny,
     shinydashboard,
     scales,
-    SingleCellExperiment
+    SingleCellExperiment,
+    Rcpp
 Suggests: 
     BiocStyle,
     circlize,
@@ -38,6 +40,12 @@ Suggests:
     rmarkdown,
     Rtsne,
     scRNAseq,
-    testthat
+    testthat,
+    beachmat
+LinkingTo: Rcpp, beachmat, Rhdf5lib
+NeedsCompilation: yes
+SystemRequirements: C++11
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
+URL: https://github.com/kevinrue/Hancock
+BugReports: https://github.com/kevinrue/Hancock/issues

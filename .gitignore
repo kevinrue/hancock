@@ -7,3 +7,5 @@ inst/doc
 *.Rproj
 INTERNAL_*
 .DS_Store
+*.so
+*.o
