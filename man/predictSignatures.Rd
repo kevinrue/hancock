@@ -47,8 +47,8 @@ reducedDimPrediction(se, highlight = character(0), redDimType = "PCA",
 \value{
 The object \code{se}, updated as follows:
 \itemize{
-\item in the \code{metadata} slot, a \code{"Hancock"} item is added (or updated) with information tracing the prediction process (e.g., method, signatures).
-\item in the \code{colData} slot, a \code{DataFrame} is nested in a new (or updated) \code{"Hancock"} column.
+\item in the \code{metadata} slot, a \code{"hancock"} item is added (or updated) with information tracing the prediction process (e.g., method, signatures).
+\item in the \code{colData} slot, a \code{DataFrame} is nested in a new (or updated) \code{"hancock"} column.
 This DataFrame contains predicted labels in the first column and additional information in further columns for each column in \code{se}.
 }
 }

@@ -11,14 +11,14 @@
 plotProportionPositive <- function(
     se, ...
 ){
-    ppbc <- metadata(se)[["Hancock"]][["ProportionPositiveByCluster"]]
+    ppbc <- metadata(se)[[getPackageName()]][["ProportionPositiveByCluster"]]
     if (is.null(ppbc)) {
         stop("Method 'ProportionPositive' was not run yet.")
     }
     Heatmap(matrix=t(ppbc*100), name="Proportion (%)", ...)
 }
 
-#' @describeIn predictHancock Returns a \code{ggplot} bar plot displaying
+#' @describeIn predictSignatures Returns a \code{ggplot} bar plot displaying
 #' the count of samples predicted for each gene signature.
 #'
 #' @param highlight Character vector indicating names of signatures to highlight.
@@ -33,7 +33,7 @@ plotProportionPositive <- function(
 barplotPredictionCount <- function(
     se, highlight=character(0), labels=TRUE
 ) {
-    ggFrame <- as.data.frame(colData(se)[, "Hancock"], row.names=seq_len(ncol(se)))
+    ggFrame <- as.data.frame(colData(se)[[getPackageName()]], row.names=seq_len(ncol(se)))
     ggFrame$highlight <- FALSE
     if (length(highlight) > 0) {
         ggFrame[which(ggFrame$prediction %in% highlight), "highlight"] <- TRUE
@@ -51,7 +51,7 @@ barplotPredictionCount <- function(
     gg
 }
 
-#' @describeIn predictHancock Returns a \code{ggplot} bar plot displaying
+#' @describeIn predictSignatures Returns a \code{ggplot} bar plot displaying
 #' the proportion of samples predicted for each gene signature.
 #'
 #' @export
@@ -66,7 +66,7 @@ barplotPredictionProportion <- function(
     se, highlight=character(0), labels=TRUE
 ) {
     # TODO: refactor with barplotPredictionCount above
-    ggFrame <- as.data.frame(table(colData(se)$Hancock$prediction))
+    ggFrame <- as.data.frame(table(colData(se)[[getPackageName()]][["prediction"]]))
     ggFrame$Proportion <- ggFrame$Freq / sum(ggFrame$Freq)
     ggFrame$highlight <- FALSE
     if (length(highlight) > 0) {
@@ -86,7 +86,7 @@ barplotPredictionProportion <- function(
     gg
 }
 
-#' @describeIn predictHancock Returns a \code{ggplot} scatter plot displaying
+#' @describeIn predictSignatures Returns a \code{ggplot} scatter plot displaying
 #' the first reduced dimension result in \code{reducedDims(se)}.
 #'
 #' @param redDimType Name of the reduced dimension result type to display.
@@ -107,7 +107,7 @@ reducedDimPrediction <- function(
     ggFrame <- as.data.frame(reducedDim(se, redDimType))
     ggFrame <- ggFrame[, c(x, y)]
     colnames(ggFrame) <- c("X", "Y")
-    ggFrame$prediction <- se$Hancock$prediction
+    ggFrame$prediction <- colData(se)[[getPackageName()]][["prediction"]]
     ggFrame$highlight <- FALSE
     if (length(highlight) > 0) {
         ggFrame[which(ggFrame$prediction %in% highlight), "highlight"] <- TRUE

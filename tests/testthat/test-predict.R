@@ -27,28 +27,28 @@ test_that("predict.GeneSetCollection works for method ProportionPositive", {
 
     out <- predict(gsc, sce, method="ProportionPositive", cluster.col="cluster")
 
-    expect_s4_class(out$Hancock, "DataFrame")
-    expect_named(out$Hancock, c("prediction"))
-    expect_s3_class(out$Hancock$prediction, "factor")
-    expect_true(all(out$Hancock$prediction %in% names(gsc)))
+    expect_s4_class(out$hancock, "DataFrame")
+    expect_named(out$hancock, c("prediction"))
+    expect_s3_class(out$hancock$prediction, "factor")
+    expect_true(all(out$hancock$prediction %in% names(gsc)))
 
     expect_identical(
-        names(metadata(out)[["Hancock"]]),
+        names(metadata(out)[["hancock"]]),
         c("GeneSets", "method", "packageVersion", "ProportionPositiveByCluster",  "TopSignatureByCluster")
     )
 
-    expect_s4_class(metadata(out)[["Hancock"]][["GeneSets"]], "GeneSetCollection")
+    expect_s4_class(metadata(out)[["hancock"]][["GeneSets"]], "GeneSetCollection")
 
-    expect_identical(metadata(out)[["Hancock"]][["method"]], "ProportionPositive")
+    expect_identical(metadata(out)[["hancock"]][["method"]], "ProportionPositive")
 
-    expect_s3_class(metadata(out)[["Hancock"]][["packageVersion"]], "package_version")
+    expect_s3_class(metadata(out)[["hancock"]][["packageVersion"]], "package_version")
 
-    ProportionPositiveByCluster <- metadata(out)[["Hancock"]][["ProportionPositiveByCluster"]]
+    ProportionPositiveByCluster <- metadata(out)[["hancock"]][["ProportionPositiveByCluster"]]
     expect_is(ProportionPositiveByCluster, "matrix")
     expect_identical(nrow(ProportionPositiveByCluster), nlevels(sce$cluster))
     expect_identical(ncol(ProportionPositiveByCluster), length(gsc))
 
-    TopSignatureByCluster <- metadata(out)[["Hancock"]][["TopSignatureByCluster"]]
+    TopSignatureByCluster <- metadata(out)[["hancock"]][["TopSignatureByCluster"]]
     expect_s3_class(TopSignatureByCluster, "factor")
     expect_length(TopSignatureByCluster, nlevels(sce$cluster))
 
@@ -65,7 +65,7 @@ test_that("predict.GeneSetCollection works for method ProportionPositive", {
     plotOut <- reducedDimPrediction(out, highlight=c("Cell type 1"), redDimType="PCA")
     expect_s3_class(plotOut, "ggplot")
 
-    plotOut <- Hancock:::.plotWrapper(
+    plotOut <- hancock:::.plotWrapper(
         out, highlight=c("Cell type 1"), plotType="reducedDimPrediction", redDimType="PCA")
     expect_s3_class(plotOut, "ggplot")
 })
@@ -78,28 +78,28 @@ test_that("predict.tbl_geneset works for method ProportionPositive", {
 
     out <- predict(tgs, sce, method="ProportionPositive", cluster.col="cluster")
 
-    expect_s4_class(out$Hancock, "DataFrame")
-    expect_named(out$Hancock, c("prediction"))
-    expect_s3_class(out$Hancock$prediction, "factor")
-    expect_true(all(out$Hancock$prediction %in% names(gsc)))
+    expect_s4_class(out$hancock, "DataFrame")
+    expect_named(out$hancock, c("prediction"))
+    expect_s3_class(out$hancock$prediction, "factor")
+    expect_true(all(out$hancock$prediction %in% names(gsc)))
 
     expect_identical(
-        names(metadata(out)[["Hancock"]]),
+        names(metadata(out)[["hancock"]]),
         c("GeneSets", "method", "packageVersion", "ProportionPositiveByCluster",  "TopSignatureByCluster")
     )
 
-    expect_s3_class(metadata(out)[["Hancock"]][["GeneSets"]], "tbl_geneset")
+    expect_s3_class(metadata(out)[["hancock"]][["GeneSets"]], "tbl_geneset")
 
-    expect_identical(metadata(out)[["Hancock"]][["method"]], "ProportionPositive")
+    expect_identical(metadata(out)[["hancock"]][["method"]], "ProportionPositive")
 
-    expect_s3_class(metadata(out)[["Hancock"]][["packageVersion"]], "package_version")
+    expect_s3_class(metadata(out)[["hancock"]][["packageVersion"]], "package_version")
 
-    ProportionPositiveByCluster <- metadata(out)[["Hancock"]][["ProportionPositiveByCluster"]]
+    ProportionPositiveByCluster <- metadata(out)[["hancock"]][["ProportionPositiveByCluster"]]
     expect_is(ProportionPositiveByCluster, "matrix")
     expect_identical(nrow(ProportionPositiveByCluster), nlevels(sce$cluster))
     expect_identical(ncol(ProportionPositiveByCluster), length(gsc))
 
-    TopSignatureByCluster <- metadata(out)[["Hancock"]][["TopSignatureByCluster"]]
+    TopSignatureByCluster <- metadata(out)[["hancock"]][["TopSignatureByCluster"]]
     expect_s3_class(TopSignatureByCluster, "factor")
     expect_length(TopSignatureByCluster, nlevels(sce$cluster))
 
@@ -116,7 +116,7 @@ test_that("predict.tbl_geneset works for method ProportionPositive", {
     plotOut <- reducedDimPrediction(out, highlight=c("Cell type 1"), redDimType="PCA")
     expect_s3_class(plotOut, "ggplot")
 
-    plotOut <- Hancock:::.plotWrapper(
+    plotOut <- hancock:::.plotWrapper(
         out, highlight=c("Cell type 1"), plotType="reducedDimPrediction", redDimType="PCA")
     expect_s3_class(plotOut, "ggplot")
 })

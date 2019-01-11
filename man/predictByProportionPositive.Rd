@@ -27,8 +27,8 @@ a factor indicating cluster membership for each column (i.e. sample) in \code{se
 \value{
 The object \code{se}, updated as follows:
 \itemize{
-\item in the \code{metadata} slot, a \code{"Hancock"} item is added (or updated) with information tracing the prediction process. See Details.
-\item in the \code{colData} slot, a \code{DataFrame} is nested in a new (or updated) \code{"Hancock"} column.
+\item in the \code{metadata} slot, a \code{"hancock"} item is added (or updated) with information tracing the prediction process. See Details.
+\item in the \code{colData} slot, a \code{DataFrame} is nested in a new (or updated) \code{"hancock"} column.
 This DataFrame contains predicted labels in the first and only column.
 }
 }
@@ -38,11 +38,11 @@ and identifies the predominant signature in each cluster.
 The function stores information tracing the prediction process in the \code{metadata} slot. See Details.
 }
 \details{
-The function populates the \code{"Hancock"} element of the \code{metadata} slot with the following values:
+The function populates the \code{"hancock"} element of the \code{metadata} slot with the following values:
 \describe{
 \item{\code{GeneSets}}{Signatures used to make the predictions}
 \item{\code{method}}{Name of the method used to make the predictions}
-\item{\code{packageVersion}}{\code{Hancock} version used to make the predictions}
+\item{\code{packageVersion}}{\code{hancock} version used to make the predictions}
 \item{\code{ProportionPositiveByCluster}}{Matrix indicating the proportion of samples in each cluster that are positive for each signature.}
 \item{\code{TopSignatureByCluster}}{Named vector indicating the predominant signature for each cluster.}
 }

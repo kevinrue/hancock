@@ -7,7 +7,7 @@
 #' (semi-)quantitative information for the prediction of sample and cell identities
 #' in \code{SummarizedExperiment} objects.
 #'
-#' @rdname learnHancock
+#' @rdname learnSignatures
 #'
 #' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
 #' @param assay.type A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".

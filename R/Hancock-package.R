@@ -6,5 +6,5 @@
 #' @importFrom methods setGeneric getPackageName
 #' @importFrom utils packageVersion
 #' @importFrom Rcpp sourceCpp
-#' @useDynLib Hancock, .registration=TRUE, .fixes="cxx_"
+#' @useDynLib hancock, .registration=TRUE, .fixes="cxx_"
 "_PACKAGE"
