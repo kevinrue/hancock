@@ -27,13 +27,13 @@ Those should be handled as described in the [New prediction methods](#new-predic
 
 ## Proof of concepts
 
-Ideally, a proof-of-concept Rmarkdown notebook should demonstrate the method _before_ adding any new function in `Hancock` (i.e., explicitly declaring any new function in the notebook itself).
+Ideally, a proof-of-concept Rmarkdown notebook should demonstrate the method _before_ adding any new function in `hancock` (i.e., explicitly declaring any new function in the notebook itself).
 
 This can save significant time through community feedback and suggestions from both expert developers and prospective users on the implementation and expected usage of a new functionality _before_ investing significant time and effort into packaging and documenting functions.
 
-For an example, please refer to the proof-of-concept of the function `predictByProportionPositive` available [here](https://github.com/kevinrue/Hancock2018/blob/3e065aca67071338b1fcf496790da239ace5425c/1-proportion_signature.Rmd).
+For an example, please refer to the proof-of-concept of the function `predictByProportionPositive` available [here](https://github.com/kevinrue/hancock2018/blob/3e065aca67071338b1fcf496790da239ace5425c/1-proportion_signature.Rmd).
 
-Proof-of-concept vignettes may be subsequently updated to demonstrate the same use case, but calling functions implemented in the package. Refer to the demonstration of the function `learnMarkersByPositiveProportionDifference` available [here](https://github.com/kevinrue/Hancock2018/blob/f08ee1d34c6bea722757870a339ad3940a48040c/2-learn-signatures.Rmd).
+Proof-of-concept vignettes may be subsequently updated to demonstrate the same use case, but calling functions implemented in the package. Refer to the demonstration of the function `learnMarkersByPositiveProportionDifference` available [here](https://github.com/kevinrue/hancock2018/blob/f08ee1d34c6bea722757870a339ad3940a48040c/2-learn-signatures.Rmd).
 
 
 ## Coding style
@@ -64,7 +64,7 @@ report(pc)
 
 ## NEWS file
 
-Until the package is made available through the [_Bioconductor_](https://bioconductor.org) project, all new features should be described under the "Hancock 0.99.0" section, as part of the _same_ pull request.
+Until the package is made available through the [_Bioconductor_](https://bioconductor.org) project, all new features should be described under the "hancock 0.99.0" section, as part of the _same_ pull request.
 This will produce a manifest of functionality to accompany the initial submission to the _Bioconductor_ project.
 
 ## Internal functions
@@ -87,18 +87,18 @@ All prediction methods must accept `object` and `se` as their first two argument
 Additional method-specific parameters may be accepted from the third argument onward.
 
 Once implemented as its own function, a new method should be made available through the `predict.GeneSetCollection` function using a unique `method` identifier.
-Make sure the new identifier and method are documented in the `?predictHancock` man page.
+Make sure the new identifier and method are documented in the `?predictSignatures` man page.
 
 Prediction methods should return the input `SummarizedExperiment` object updated as follows:
 
-- In the `colData` slot, a `DataFrame` nested in a new (or updated) `"Hancock"` column should contain at least a first column called `prediction`. Additional, method-specific columns may be present from the second column onward.
-- In the `metadata` slot, a `list` in a new (or updated) `"Hancock"` element, should contain at least the following elements:
+- In the `colData` slot, a `DataFrame` nested in a new (or updated) `"hancock"` column should contain at least a first column called `prediction`. Additional, method-specific columns may be present from the second column onward.
+- In the `metadata` slot, a `list` in a new (or updated) `"hancock"` element, should contain at least the following elements:
     - `"GeneSets"`: the object of class `GeneSetCollection` or `tbl_geneset` containing the signatures used to make the predictions.
     - `"method"`: Identifier of the method used to make the predictions
-    - `"packageVersion"`: Version of the `Hancock` package used to make the predictions
+    - `"packageVersion"`: Version of the `hancock` package used to make the predictions
     - Additional, method-specific elements may appear _after_ the above general metadata
 
-For an example template, please refer to the prediction method [`predictByProportionPositive`](https://github.com/kevinrue/Hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/predict-methods.R#L176), made available using the [`"ProportionPositive"`](https://github.com/kevinrue/Hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/predict-methods.R#L95) identifier.
+For an example template, please refer to the prediction method [`predictByProportionPositive`](https://github.com/kevinrue/hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/predict-methods.R#L176), made available using the [`"ProportionPositive"`](https://github.com/kevinrue/hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/predict-methods.R#L95) identifier.
 
 ## New plotting functions
 
@@ -108,7 +108,7 @@ Most importantly, plotting function should first check that the input `se` objec
 
 Plotting functions should return a minimal `ggplot2::ggplot` or `ComplexHeatmap::Heatmap` object, giving users maximal freedom to customize the plot.
 
-For an example, please refer to [`plotProportionPositive`](https://github.com/kevinrue/Hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/plot-methods.R#L11), using the result of the [`predictByProportionPositive`](https://github.com/kevinrue/Hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/predict-methods.R#L176) method.
+For an example, please refer to [`plotProportionPositive`](https://github.com/kevinrue/hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/plot-methods.R#L11), using the result of the [`predictByProportionPositive`](https://github.com/kevinrue/hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/predict-methods.R#L176) method.
 
 ## New learning methods
 
@@ -117,13 +117,13 @@ All prediction methods must accept `se` as their first argument, namely the `Sum
 Additional method-specific parameters may be accepted from the second argument onward.
 
 Once implemented as its own function, a new method should be made available through the `learnSignatures` function using a unique `method` identifier.
-Make sure the new identifier and method are documented in the `?learnHancock` man page.
+Make sure the new identifier and method are documented in the `?learnSignatures` man page.
 
 Learning methods should return a `tbl_geneset` object, defined in the [GeneSet](https://github.com/Kayla-Morrell/GeneSet) package.
 
-For an example template, please refer to the prediction method [`learnMarkersByPositiveProportionDifference`](https://github.com/kevinrue/Hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/learn-methods.R#L111), made available using the [`"PositiveProportionDifference"`](https://github.com/kevinrue/Hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/learn-methods.R#L55) identifier.
+For an example template, please refer to the prediction method [`learnMarkersByPositiveProportionDifference`](https://github.com/kevinrue/hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/learn-methods.R#L111), made available using the [`"PositiveProportionDifference"`](https://github.com/kevinrue/hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/learn-methods.R#L55) identifier.
 
-_Experimental: metadata produced by learning methods may be stored as [additional columns](https://github.com/kevinrue/Hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/learn-methods.R#L181) of the `tbl_geneset` returned.
+_Experimental: metadata produced by learning methods may be stored as [additional columns](https://github.com/kevinrue/hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/learn-methods.R#L181) of the `tbl_geneset` returned.
 Those fields are currently ignored, and the implementation guidelines may change according to the development of the `tbl_geneset` class._
 
 ## Terminology

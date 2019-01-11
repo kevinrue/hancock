@@ -7,7 +7,7 @@
 #' (semi-)quantitative information to the prediction of sample and cell identities
 #' in \code{SummarizedExperiment} objects.
 #'
-#' @rdname predictHancock
+#' @rdname predictSignatures
 #' @aliases predict
 #'
 #' @param object A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".
@@ -26,8 +26,8 @@
 #'
 #' @return The object \code{se}, updated as follows:
 #' \itemize{
-#' \item in the \code{metadata} slot, a \code{"Hancock"} item is added (or updated) with information tracing the prediction process (e.g., method, signatures).
-#' \item in the \code{colData} slot, a \code{DataFrame} is nested in a new (or updated) \code{"Hancock"} column.
+#' \item in the \code{metadata} slot, a \code{"hancock"} item is added (or updated) with information tracing the prediction process (e.g., method, signatures).
+#' \item in the \code{colData} slot, a \code{DataFrame} is nested in a new (or updated) \code{"hancock"} column.
 #' This DataFrame contains predicted labels in the first column and additional information in further columns for each column in \code{se}.
 #' }
 #'
@@ -72,7 +72,7 @@ predict.GeneSetCollection <- function(
     .predictAnyGeneSetClass(object, se, assay.type, method, ...)
 }
 
-#' @rdname predictHancock
+#' @rdname predictSignatures
 #' @export
 #' @method predict tbl_geneset
 predict.tbl_geneset <- function(
@@ -105,15 +105,15 @@ predict.tbl_geneset <- function(
         se <- predictByProportionPositive(object, se, ..., assay.type=assay.type)
     }
 
-    # Update the Hancock metadata.
+    # Update the hancock metadata.
     # Add global new (general) metadata before existing (method-specific) metadata
-    existingHancockMetadata <- metadata(se)[[getPackageName()]]
-    newHancockMetadata <- list(
+    existingMetadata <- metadata(se)[[getPackageName()]]
+    newMetadata <- list(
         GeneSets=object,
         method=method,
         packageVersion=packageVersion(getPackageName())
     )
-    metadata(se)[[getPackageName()]] <- append(newHancockMetadata, existingHancockMetadata)
+    metadata(se)[[getPackageName()]] <- append(newMetadata, existingMetadata)
 
     se
 }
@@ -127,11 +127,11 @@ predict.tbl_geneset <- function(
 #' The function stores information tracing the prediction process in the \code{metadata} slot. See Details.
 #'
 #' @details
-#' The function populates the \code{"Hancock"} element of the \code{metadata} slot with the following values:
+#' The function populates the \code{"hancock"} element of the \code{metadata} slot with the following values:
 #' \describe{
 #' \item{\code{GeneSets}}{Signatures used to make the predictions}
 #' \item{\code{method}}{Name of the method used to make the predictions}
-#' \item{\code{packageVersion}}{\code{Hancock} version used to make the predictions}
+#' \item{\code{packageVersion}}{\code{hancock} version used to make the predictions}
 #' \item{\code{ProportionPositiveByCluster}}{Matrix indicating the proportion of samples in each cluster that are positive for each signature.}
 #' \item{\code{TopSignatureByCluster}}{Named vector indicating the predominant signature for each cluster.}
 #' }
@@ -145,8 +145,8 @@ predict.tbl_geneset <- function(
 #'
 #' @return The object \code{se}, updated as follows:
 #' \itemize{
-#' \item in the \code{metadata} slot, a \code{"Hancock"} item is added (or updated) with information tracing the prediction process. See Details.
-#' \item in the \code{colData} slot, a \code{DataFrame} is nested in a new (or updated) \code{"Hancock"} column.
+#' \item in the \code{metadata} slot, a \code{"hancock"} item is added (or updated) with information tracing the prediction process. See Details.
+#' \item in the \code{colData} slot, a \code{DataFrame} is nested in a new (or updated) \code{"hancock"} column.
 #' This DataFrame contains predicted labels in the first and only column.
 #' }
 #'
@@ -224,17 +224,17 @@ predictByProportionPositive <- function(
     names(maxSignatureName) <- rownames(proportionPositiveByCluster)
 
     # Assign most frequent signature to every cell in each cluster
-    newHancockColData <- DataFrame(
+    newColData <- DataFrame(
         prediction=maxSignatureName[colData(se)[, cluster.col, drop=TRUE]]
     )
-    colData(se)[[getPackageName()]] <- newHancockColData
+    colData(se)[[getPackageName()]] <- newColData
 
     # Store the proportion of cluster positive for each signature in metadata for later plotting
-    newHancockMetadata <- list(
+    newMetadata <- list(
         ProportionPositiveByCluster=proportionPositiveByCluster,
         TopSignatureByCluster=maxSignatureName
     )
-    metadata(se)[[getPackageName()]] <- newHancockMetadata
+    metadata(se)[[getPackageName()]] <- newMetadata
 
     se
 }

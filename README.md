@@ -1,11 +1,11 @@
-<img src="inst/www/Hancock_hexsticker.png" align="right" alt="" width="120" />
+<img src="inst/www/hancock_hexsticker.png" align="right" alt="" width="120" />
 
-[![Travis build status](https://travis-ci.org/kevinrue/Hancock.svg?branch=master)](https://travis-ci.org/kevinrue/Hancock)
-[![Coverage status](https://codecov.io/gh/kevinrue/Hancock/branch/master/graph/badge.svg)](https://codecov.io/github/kevinrue/Hancock?branch=master)
+[![Travis build status](https://travis-ci.org/kevinrue/hancock.svg?branch=master)](https://travis-ci.org/kevinrue/hancock)
+[![Coverage status](https://codecov.io/gh/kevinrue/hancock/branch/master/graph/badge.svg)](https://codecov.io/github/kevinrue/hancock?branch=master)
 
-# Hancock
+# hancock
 
-The goal of Hancock is to provide a collection of methods for learning and applying gene signatures associated with cellular phenotypes and identities.
+The goal of the `hancock` package is to provide a collection of methods for learning and applying gene signatures associated with cellular phenotypes and identities.
 Particular focus is given to single-cell data stored in objects derived from the [`SummarizedExperiment`](https://bioconductor.org/packages/release/bioc/html/SummarizedExperiment.html) class.
 
 # Prerequisites
@@ -20,18 +20,18 @@ devtools::install_github("Kayla-Morrell/GeneSet", "tibble_implement")
 
 # Installation
 
-The `Hancock` package may be installed as follows:
+The `hancock` package may be installed as follows:
 
 ```
 install.packages("devtools")
-devtools::install_github("kevinrue/Hancock")
+devtools::install_github("kevinrue/hancock")
 ```
 
 # Usage
 
-Demonstration notebooks are available on the companion repository: https://github.com/kevinrue/Hancock2018
+Demonstration notebooks are available on the companion repository: https://github.com/kevinrue/hancock2018
 
 # Contributing
 
 Considerate contributions are more than welcome.
-Please refer to the [contributing guidelines](https://github.com/kevinrue/Hancock/blob/master/CONTRIBUTING.md) for more details.
+Please refer to the [contributing guidelines](https://github.com/kevinrue/hancock/blob/master/CONTRIBUTING.md) for more details.

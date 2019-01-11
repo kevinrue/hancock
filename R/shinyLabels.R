@@ -56,7 +56,7 @@ shinyLabels <- function(gs, se) {
     stopifnot(is(gs, "tbl_geneset"))
     stopifnot(identical(
         levels(gs$set),
-        levels(se$Hancock$prediction)
+        levels(colData(se)[[getPackageName()]][["prediction"]])
     ))
 
     se <- as(se, "SingleCellExperiment")
@@ -118,7 +118,7 @@ shinyLabels <- function(gs, se) {
             introjsUI(), # must be included in UI
             uiOutput("mainPanels")
         ),
-        title="Hancock: Label signatures"
+        title="hancock: Label signatures"
     )
 
     app_server <- function(input, output, session) {
@@ -203,7 +203,7 @@ shinyLabels <- function(gs, se) {
                 observeEvent(input[[inputId0]], {
                     newValue <- input[[inputId0]]
                     levels(REACTIVE$GS$set)[id0] <- as.character(newValue)
-                    levels(REACTIVE$SE$Hancock$prediction)[id0] <- as.character(newValue)
+                    levels(colData(REACTIVE$SE)[[getPackageName()]][["prediction"]])[id0] <- as.character(newValue)
                 })
             })
         }
@@ -248,7 +248,7 @@ shinyLabels <- function(gs, se) {
 
         observeEvent(input[[.tourInput]], {
             tour <- read.delim(
-                system.file("extdata", "intro_shinyLabels.txt", package="Hancock"),
+                system.file("extdata", "intro_shinyLabels.txt", package=getPackageName()),
                 sep=";", stringsAsFactors=FALSE, row.names=NULL, quote="")
             introjs(session, options=list(steps=tour))
         })

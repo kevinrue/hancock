@@ -1,5 +1,5 @@
 ---
-title: "Vignette for the _Hancock_ package"
+title: "Vignette for the _hancock_ package"
 author:
 - name: Kevin Rue-Albrecht
   affiliation:
@@ -9,35 +9,35 @@ author:
   affiliation: Second Author's Affiliation
   email: corresponding@author.com
 date: "`r BiocStyle::doc_date()`"
-package: Hancock
+package: hancock
 output: 
   BiocStyle::html_document:
     toc_float: true
 abstract: |
-  Example usage of the _Hancock_ package demonstrated using example data sets.
+  Example usage of the _hancock_ package demonstrated using example data sets.
 vignette: |
-    %\VignetteIndexEntry{Vignette for the Hancock package}
+    %\VignetteIndexEntry{Vignette for the hancock package}
     %\VignetteEncoding{UTF-8}
-    %\VignettePackage{Hancock}
+    %\VignettePackage{hancock}
     %\VignetteKeywords{GeneExpression, RNASeq, Sequencing}
     %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
-bibliography: Hancock.bib
+bibliography: hancock.bib
 ---
 
 **Compiled date**: `r Sys.Date()`
 
 **Last edited**: 2018-03-08
 
-**License**: `r packageDescription("Hancock")[["License"]]`
+**License**: `r packageDescription("hancock")[["License"]]`
 
-# Running _Hancock_
+# Running _hancock_
 
-To run an analysis, the first step is to start R and load the `r Githubpkg("kevinrue/Hancock")` package:
+To run an analysis, the first step is to start R and load the `r Githubpkg("kevinrue/hancock")` package:
 
 ```{r}
-library(Hancock)
+library(hancock)
 ```
 
 As an initial example, we will demonstrate an analysis to find genes markers of three populations of neurons labelled by the fluorescent protein tdTomato (tdT) after Cre-mediated recombination.
@@ -73,11 +73,11 @@ Furthermore, this operation allows the use of a _Shiny_ app that may be used to 
 Specifically, the app takes the set of signatures as well as the annotated object, and returns the updated set of signatures (i.e., renamed interactively in the app) upon closing the application.
 
 ```{r}
-allenHancock <- predict(
+allen.hancock <- predict(
     tgs, allen, assay.type = "tophat_counts", method = "ProportionPositive",
     cluster.col="driver_1_s")
 if (interactive()) {
     library(shiny)
-    x <- runApp(shinyLabels(tgs, allenHancock))
+    x <- runApp(shinyLabels(tgs, allen.hancock))
 }
 ```
