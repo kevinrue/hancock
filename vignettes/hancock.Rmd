@@ -32,7 +32,7 @@ bibliography: hancock.bib
 
 **License**: `r packageDescription("hancock")[["License"]]`
 
-# Running _hancock_
+# Quick start
 
 ## Setup
 
@@ -124,6 +124,41 @@ if (interactive()) {
     allen.hancock <- runApp(shinyLabels(tgs, allen.hancock))
 }
 ```
+
+# Types of signatures
+
+## Absolute markers
+
+As described in the accompanying vignette "concepts.Rmd", absolute markers may be defined as genes detected in each cluster, irrespective of their expression in the other clusters.
+
+For instance, the `"PositiveProportionDifference"` learning method can be used to identify such markers, by setting `min.diff=0` to annul any comparison between the detection frequency in the target cluster and all other clusters.
+
+As the numbers of genes detected in each cluster may be rather large, it is generally a good idea to restrict markers to be detected in a high fraction of the corresponding cluster, for instance `min.prop = 0.9`.
+In addition, the `threshold` argument may be used to define a minimal threshold of expression level 
+
+This ensures that for each cluster, the combined set of markers is simultaneously detected in at least 90% of cells in that cluster.
+
+```{r}
+tgs <- learnSignatures(
+    se = allen, assay.type = "cufflinks_fpkm", method = "PositiveProportionDifference",
+    cluster.col = "driver_1_s", min.diff = 0, min.prop = 0.9, threshold = 0)
+table(tgs$set)
+```
+
+## Relative markers
+
+As described in the accompanying vignette "concepts.Rmd", relative markers may be defined by _differential_ analysis against other cells in the same sample.
+
+For instance, the `"PositiveProportionDifference"` learning method can be used to identify such markers, by setting `min.diff` to a value greater than 0, in order to subset candidate markers to those detected at a rate at least 50% higher than the detection rate observed in any other cluster.
+
+```{r}
+tgs <- learnSignatures(
+    se = allen, assay.type = "tophat_counts", method = "PositiveProportionDifference",
+    cluster.col = "driver_1_s", min.diff = 0.5, diff.method = "min")
+table(tgs$set)
+```
+
+For instance, other methods to identify absolute markers could include differential expression between the target cluster and all other clusters to identify candidate markers significantly differentially expressed between clusters.
 
 # Additional information
 

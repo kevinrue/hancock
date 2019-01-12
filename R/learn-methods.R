@@ -158,7 +158,7 @@ learnMarkersByPositiveProportionDifference <- function(
             markerDetectionMatrix <- makeMarkerDetectionMatrix(seSubset, rownames(df), threshold, assay.type)
             # Identify the maximal number of markers simultaneously detected above the threshold
             proportionScree <- makeMarkerProportionScree(markerDetectionMatrix)
-            maxRow <- head(which(proportionScree$proportion > min.prop), 1)
+            maxRow <- head(which(proportionScree$proportion >= min.prop), 1)
             maxMarkers <- proportionScree[maxRow, "markers", drop=TRUE]
             maxProportion <- proportionScree[maxRow, "proportion", drop=TRUE]
             df <- head(df, maxMarkers)
