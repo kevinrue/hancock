@@ -26,9 +26,6 @@
 #' @return A \code{\link{tbl_geneset}}.
 #'
 #' @export
-#' @importFrom utils head
-#' @importFrom Matrix rowSums
-#' @importFrom Biobase rowMax
 #'
 #' @seealso \code{\link{learnMarkersByPositiveProportionDifference}}
 #'
@@ -90,6 +87,7 @@ learnSignatures <- function(
 #' @export
 #' @importFrom Biobase rowMax rowMin
 #' @importFrom matrixStats rowMedians
+#' @importFrom utils head
 #'
 #' @author Kevin Rue-Albrecht
 #'
@@ -158,7 +156,7 @@ learnMarkersByPositiveProportionDifference <- function(
             markerDetectionMatrix <- makeMarkerDetectionMatrix(seSubset, rownames(df), threshold, assay.type)
             # Identify the maximal number of markers simultaneously detected above the threshold
             proportionScree <- makeMarkerProportionScree(markerDetectionMatrix)
-            maxRow <- head(which(proportionScree$proportion > min.prop), 1)
+            maxRow <- head(which(proportionScree$proportion >= min.prop), 1)
             maxMarkers <- proportionScree[maxRow, "markers", drop=TRUE]
             maxProportion <- proportionScree[maxRow, "proportion", drop=TRUE]
             df <- head(df, maxMarkers)
