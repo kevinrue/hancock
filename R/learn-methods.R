@@ -26,9 +26,6 @@
 #' @return A \code{\link{tbl_geneset}}.
 #'
 #' @export
-#' @importFrom utils head
-#' @importFrom Matrix rowSums
-#' @importFrom Biobase rowMax
 #'
 #' @seealso \code{\link{learnMarkersByPositiveProportionDifference}}
 #'
@@ -90,6 +87,7 @@ learnSignatures <- function(
 #' @export
 #' @importFrom Biobase rowMax rowMin
 #' @importFrom matrixStats rowMedians
+#' @importFrom utils head
 #'
 #' @author Kevin Rue-Albrecht
 #'
