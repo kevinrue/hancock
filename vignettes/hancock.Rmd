@@ -134,14 +134,14 @@ As described in the accompanying vignette "concepts.Rmd", absolute markers may b
 For instance, the `"PositiveProportionDifference"` learning method can be used to identify such markers, by setting `min.diff=0` to annul any comparison between the detection frequency in the target cluster and all other clusters.
 
 As the numbers of genes detected in each cluster may be rather large, it is generally a good idea to restrict markers to be detected in a high fraction of the corresponding cluster, for instance `min.prop = 0.9`.
-In addition, the `threshold` argument may be used to define a minimal threshold of expression level 
+In addition, the `threshold` argument may be used to define a minimal threshold of expression level to consider a marker as "detected" in each sample.
 
 This ensures that for each cluster, the combined set of markers is simultaneously detected in at least 90% of cells in that cluster.
 
 ```{r}
 tgs <- learnSignatures(
-    se = allen, assay.type = "cufflinks_fpkm", method = "PositiveProportionDifference",
-    cluster.col = "driver_1_s", min.diff = 0, min.prop = 0.9, threshold = 0)
+    se = allen, assay.type = "rsem_tpm", method = "PositiveProportionDifference",
+    cluster.col = "driver_1_s", min.diff = 0, min.prop = 0.9, threshold = 1)
 table(tgs$set)
 ```
 
