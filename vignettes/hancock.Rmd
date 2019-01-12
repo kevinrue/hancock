@@ -34,11 +34,15 @@ bibliography: hancock.bib
 
 # Running _hancock_
 
+## Setup
+
 To run an analysis, the first step is to start R and load the `r Githubpkg("kevinrue/hancock")` package:
 
-```{r}
+```{r, message=FALSE}
 library(hancock)
 ```
+
+## Example data set
 
 As an initial example, we will demonstrate an analysis to find genes markers of three populations of neurons labelled by the fluorescent protein tdTomato (tdT) after Cre-mediated recombination.
 
@@ -57,8 +61,10 @@ The individual Cre line is indicated for each cell in the `"driver_1_s"` metadat
 table(allen$driver_1_s)
 ```
 
+## Learning signatures
+
 The learning method `"PositiveProportionDifference"` requires prior clustering information to be stored as a `factor` in a column of the `colData` slot.
-The method can then be applied to identify markers for each cluster, using a variety of filters on individual markers (e.g., minimal difference in detection rate between clusters) and on the combine set of markers (e.g., minimal detection rate in the target cluster).
+The method can then be applied to identify markers for each cluster, using a variety of filters on individual markers (e.g., minimal difference in detection rate between clusters) and on the combined set of markers (e.g., minimal proportion of samples in the target cluster where all markers are detected simultaneously).
 
 ```{r}
 allen$driver_1_s <- as.factor(allen$driver_1_s)
@@ -68,9 +74,46 @@ tgs <- learnSignatures(
 table(tgs$set)
 ```
 
-The markers identified above can then be applied on the training data set, to annotate each cluster with its corresponding signature.
-Furthermore, this operation allows the use of a _Shiny_ app that may be used to rename each signature.
-Specifically, the app takes the set of signatures as well as the annotated object, and returns the updated set of signatures (i.e., renamed interactively in the app) upon closing the application.
+## Applying signatures to predict labels
+
+The markers identified above may then be applied on the training data set itself, to annotate each cluster with its corresponding signature.
+
+```{r}
+allen.hancock <- predict(
+    tgs, allen, assay.type = "tophat_counts", method = "ProportionPositive",
+    cluster.col="driver_1_s")
+allen.hancock
+```
+
+In particular, the `predict` function populates:
+
+- the `hancock` column of `colData(allen.hancock)`
+- the `hancock` item of `metadata(allen.hancock)`
+
+```{r}
+summary(as.data.frame(colData(allen.hancock)[["hancock"]]))
+metadata(allen.hancock)[["hancock"]]
+```
+
+Similarly, the same markers may be applied to other data sets.
+
+## Renaming signatures
+
+### Manually
+
+Renaming a set of signatures is as simple as renaming the levels of the `factor` that stores the signature names.
+
+```{r}
+levels(tgs$set) <- gsub("_", " ", levels(tgs$set))
+table(tgs$set)
+```
+
+## Interactively
+
+In addition, the `r Githubpkg("kevinrue/hancock")` package includes a lightweight `r CRANpkg("shiny")` app that offers users the possibility to interactively rename signatures while inspecting their features in an `SummarizedExperiment` object (e.g., count of samples associated with each signature, distribution in reduced dimension).
+
+Specifically, the app requires a set of signatures and a `SummarizedExperiment` object that was previously annotated with those signatures using the `predict` function.
+When closed, the app returns the updated set of signatures.
 
 ```{r}
 allen.hancock <- predict(
@@ -78,6 +121,27 @@ allen.hancock <- predict(
     cluster.col="driver_1_s")
 if (interactive()) {
     library(shiny)
-    x <- runApp(shinyLabels(tgs, allen.hancock))
+    allen.hancock <- runApp(shinyLabels(tgs, allen.hancock))
 }
 ```
+
+# Additional information
+
+Bug reports can be posted as issues in the `r Githubpkg("kevinrue/hancock")` GitHub repository.
+The GitHub repository is the primary source for development versions of the package, where new functionality is added over time.
+The authors appreciate well-considered suggestions for improvements or new features, or even better, pull requests.
+
+If you use `r Githubpkg("kevinrue/hancock")` for your analysis, please cite it as shown below:
+
+```{r citation}
+citation("hancock")
+```
+
+# Session Info {.unnumbered}
+
+```{r sessioninfo}
+sessionInfo()
+# devtools::session_info()
+```
+
+# References {.unnumbered}
