@@ -1,0 +1,8 @@
+CD4 T cells	Seurat PBMC3k tutorial	IL7R
+CD14+ Monocytes	Seurat PBMC3k tutorial	CD14	LYZ
+B cells	Seurat PBMC3k tutorial	MS4A1
+CD8 T cells	Seurat PBMC3k tutorial	CD8A
+FCGR3A+ Monocytes	Seurat PBMC3k tutorial	FCGR3A	MS4A7
+NK cells	Seurat PBMC3k tutorial	GNLY	NKG7
+Dendritic Cells	Seurat PBMC3k tutorial	FCER1A	CST3
+Megakaryocytes	Seurat PBMC3k tutorial	PPBP

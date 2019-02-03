@@ -8,7 +8,9 @@
 * Added methods for the detection of markers and signatures:
     `positiveForMarker` (generic), `makeMarkerDetectionMatrix`,
     `makeSignatureDetectionMatrix`.
-* Added support for gene set classes: `GeneSetCollection`, `tbl_geneset`.
+* Added support for gene set classes
+    `GeneSetCollection`, `tbl_geneset`, and `BaseSets`
+    defined in packages `GSEABase`, `GeneSet`, and `unisets`.
 * Added prediction method `ProportionPositive`.
 * Added learning method `PositiveProportionDifference`.
 * Added plotting function `plotProportionPositive`.

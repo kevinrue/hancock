@@ -10,14 +10,14 @@ learnSignatures(se, assay.type = "counts",
 \arguments{
 \item{se}{An object of class inheriting from "\code{\link{SummarizedExperiment}}".}
 
-\item{assay.type}{A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".}
+\item{assay.type}{A string specifying which assay values to use, e.g., \code{"counts"} or \code{"logcounts"}.}
 
 \item{method}{Learning method. See section "Learning methods".}
 
 \item{...}{Additional arguments affecting the learning method.}
 }
 \value{
-A \code{\link{tbl_geneset}}.
+A \code{\link{BaseSets}} object.
 }
 \description{
 These method signatures learn gene set signatures optionally augmented with
@@ -47,10 +47,12 @@ se <- SummarizedExperiment(assays=list(counts=u))
 # Example usage ----
 se1 <- se
 colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace=TRUE))
-learnSignatures(se1, method="PositiveProportionDifference", cluster.col="cluster")
+gs <- learnSignatures(se1, method="PositiveProportionDifference", cluster.col="cluster")
+
+relations(gs)
 }
 \seealso{
-\code{\link{learnMarkersByPositiveProportionDifference}}
+\code{\link[=learnMarkersByPositiveProportionDifference]{learnMarkersByPositiveProportionDifference()}}
 }
 \author{
 Kevin Rue-Albrecht

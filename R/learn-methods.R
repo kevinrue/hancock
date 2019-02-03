@@ -5,29 +5,29 @@
 #'
 #' These method signatures learn gene set signatures optionally augmented with
 #' (semi-)quantitative information for the prediction of sample and cell identities
-#' in \code{SummarizedExperiment} objects.
+#' in `SummarizedExperiment` objects.
 #'
 #' @rdname learnSignatures
 #'
-#' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
-#' @param assay.type A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".
+#' @param se An object of class inheriting from "[`SummarizedExperiment`]".
+#' @param assay.type A string specifying which assay values to use, e.g., `"counts"` or `"logcounts"`.
 #' @param method Learning method. See section "Learning methods".
 #' @param ... Additional arguments affecting the learning method.
 #'
 #' @section Learning methods:
 #' \describe{
 #' \item{PositiveProportionDifference, PPD}{
-#' \emph{Requires prior cluster membership information.}
+#' _Requires prior cluster membership information._
 #' This method computes the proportion of samples positive for each feature in each cluster,
 #' and subsequently identifies for each cluster the features showing the maximal difference
 #' between the detection rate in the cluster of interest and the detection rate in all other clusters.}
 #' }
 #'
-#' @return A \code{\link{tbl_geneset}}.
+#' @return A [`BaseSets`] object.
 #'
 #' @export
 #'
-#' @seealso \code{\link{learnMarkersByPositiveProportionDifference}}
+#' @seealso [`learnMarkersByPositiveProportionDifference()`]
 #'
 #' @author Kevin Rue-Albrecht
 #'
@@ -43,7 +43,9 @@
 #' # Example usage ----
 #' se1 <- se
 #' colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace=TRUE))
-#' learnSignatures(se1, method="PositiveProportionDifference", cluster.col="cluster")
+#' gs <- learnSignatures(se1, method="PositiveProportionDifference", cluster.col="cluster")
+#'
+#' relations(gs)
 learnSignatures <- function(
     se, assay.type="counts", method=c("PositiveProportionDifference", "PPD"), ...
 ) {
@@ -63,26 +65,26 @@ learnSignatures <- function(
 #' This function computes the detection rate of each feature in each cluster.
 #' For each cluster, it ranks all the features by decreasing difference between
 #' the detection rate in the target cluster, and the detection rate in all other clusters.
-#' The function can limit results up to \code{n} markers for each cluster.
+#' The function can limit results up to `n` markers for each cluster.
 #'
-#' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
-#' @param cluster.col Name of a column in \code{colData(se)} that contains
-#' a factor indicating cluster membership for each column (i.e. sample) in \code{se}.
-#' @param assay.type A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".
-#' @param threshold Value \emph{above which} the marker is considered detected.
+#' @param se An object of class inheriting from "[`SummarizedExperiment`]".
+#' @param cluster.col Name of a column in `colData(se)` that contains
+#' a factor indicating cluster membership for each column (i.e. sample) in `se`.
+#' @param assay.type A string specifying which assay values to use, e.g., `"counts"` or `"logcounts"`.
+#' @param threshold Value _above which_ the marker is considered detected.
 #' @param n Maximal number of markers allowed for each signature.
 #' @param min.diff Minimal difference in detection rate between the target cluster
 #' and the summarized detection rate in any other cluster (in the range 0-1).
-#' See argument \code{diff.method} below.
+#' See argument `diff.method`.
 #' @param min.prop Minimal proportion of samples in the target cluster where the combined set of markers is detected.
 #' @param diff.method Method to contrast the detection rate in the target cluster to that of all other clusters.
 #' See Details section.
 #'
 #' @details
-#' \code{diff.method} affects how the detection rate in all clusters \emph{other than the target one} are summarized before comparison with the detection in the target cluster.
-#' It is possible to rank features using the minimal (\code{"min"}), \code{"mean"}, \code{"median"} (minimal), or maximal (\code{"max"}) difference between the detection rate in the target cluster and those of all other clusters.
+#' `diff.method` affects how the detection rate in all clusters _other than the target one_ are summarized before comparison with the detection in the target cluster.
+#' It is possible to rank features using the minimal (`"min"`), `"mean"`, `"median"`, or maximal (`"max"`) difference between the detection rate in the target cluster and those of all other clusters.
 #'
-#' @return A collection of signatures as a "\code{\link{tbl_geneset}}".
+#' @return A collection of signatures as a "[`BaseSets`]" object.
 #'
 #' @export
 #' @importFrom Biobase rowMax rowMin
@@ -91,7 +93,7 @@ learnSignatures <- function(
 #'
 #' @author Kevin Rue-Albrecht
 #'
-#' @seealso \code{\link{learnSignatures}}
+#' @seealso [`learnSignatures`].
 #'
 #' @examples
 #' # Example data ----
@@ -105,7 +107,10 @@ learnSignatures <- function(
 #' colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
 #'
 #' # Example usage ----
-#' tgs <- learnMarkersByPositiveProportionDifference(se, cluster.col="cluster")
+#'
+#' baseset <- learnMarkersByPositiveProportionDifference(se, cluster.col="cluster")
+#'
+#' relations(baseset)
 learnMarkersByPositiveProportionDifference <- function(
     se, cluster.col, assay.type="counts", threshold=0, n=Inf, min.diff=0.1, min.prop=0.1,
     diff.method=c("min", "mean", "median", "max")
@@ -167,22 +172,20 @@ learnMarkersByPositiveProportionDifference <- function(
         df <- df[order(df$diffFreq, decreasing=TRUE), , drop=FALSE]
         # Extract the request number of markers (default: all)
         out <- head(df[, c("freqTarget", "combinedProp"), drop=FALSE], top)
-        colnames(out) <- c("markerProp", "combinedProp")
+        colnames(out) <- c("markerProportion", "combinedProportion")
         out
     }
     # Compute the markers for each cluster
     clusterNames <- colnames(proportionPositiveByCluster)
     markerTables <- lapply(clusterNames, getTopMarkers)
-    # Make a tbl_geneset
-    markers <- lapply(markerTables, rownames)
-    names(markers) <- clusterNames
-    tbl <- do.call(tbl_geneset, markers)
-    # Annotate the tbl_geneset with the gene metadata
-    metadataToAdd <- do.call(rbind, markerTables)
-    # cbind would coerce the tbl_geneset to a data.frame (workaround)
-    for (columnName in colnames(metadataToAdd)) {
-        tbl[, columnName] <- metadataToAdd[, columnName]
-    }
-
-    tbl
+    # Make a BaseSets
+    markersList <- lapply(markerTables, rownames)
+    names(markersList) <- clusterNames
+    metadata <- do.call(rbind, markerTables)
+    markersTable <- DataFrame(
+        element=unlist(markersList, use.names=FALSE),
+        set=rep(names(markersList), lengths(markersList)),
+        metadata
+    )
+    BaseSets(markersTable)
 }

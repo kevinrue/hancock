@@ -11,16 +11,16 @@ predictByProportionPositive(object, se, cluster.col,
   assay.type = "counts", threshold = 0)
 }
 \arguments{
-\item{se}{An object of class inheriting from "\code{\link{SummarizedExperiment}}".}
+\item{se}{An object of class inheriting from \code{\link[=RangedSummarizedExperiment-class]{SummarizedExperiment}}.}
 
 \item{...}{Additional arguments to be passed to methods.}
 
-\item{object}{A collection of signatures inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".}
+\item{object}{A collection of signatures inheriting from \code{\linkS4class{BaseSets}} or \code{\linkS4class{GeneSetCollection}}".}
 
 \item{cluster.col}{Name of a column in \code{colData(se)} that contains
 a factor indicating cluster membership for each column (i.e. sample) in \code{se}.}
 
-\item{assay.type}{A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".}
+\item{assay.type}{A string specifying which assay values to use, e.g., \code{"counts"} or \code{"logcounts"}.}
 
 \item{threshold}{Value \emph{above which} the marker is considered detected.}
 }
@@ -33,23 +33,23 @@ This DataFrame contains predicted labels in the first and only column.
 }
 }
 \description{
-The \code{predictByProportionPositive} function computes the proportion of samples positive for each signature in each (predefined) cluster
+The \code{\link[=predictByProportionPositive]{predictByProportionPositive()}} function computes the proportion of samples positive for each signature in each (predefined) cluster
 and identifies the predominant signature in each cluster.
 The function stores information tracing the prediction process in the \code{metadata} slot. See Details.
 }
 \details{
-The function populates the \code{"hancock"} element of the \code{metadata} slot with the following values:
+The function populates the \code{"hancock"} element of the \code{metadata} slot with the following fields and values:
 \describe{
-\item{\code{GeneSets}}{Signatures used to make the predictions}
-\item{\code{method}}{Name of the method used to make the predictions}
-\item{\code{packageVersion}}{\code{hancock} version used to make the predictions}
-\item{\code{ProportionPositiveByCluster}}{Matrix indicating the proportion of samples in each cluster that are positive for each signature.}
-\item{\code{TopSignatureByCluster}}{Named vector indicating the predominant signature for each cluster.}
+\item{\code{"GeneSets"}}{Signatures used to make the predictions}
+\item{\code{"method"}}{Name of the method used to make the predictions}
+\item{\code{"packageVersion"}}{\code{hancock} version used to make the predictions}
+\item{\code{"ProportionPositiveByCluster"}}{Matrix indicating the proportion of samples in each cluster that are positive for each signature.}
+\item{\code{"TopSignatureByCluster"}}{Named vector indicating the predominant signature for each cluster.}
 }
 }
 \section{Functions}{
 \itemize{
-\item \code{plotProportionPositive}: Returns a \code{Heatmap} displaying the proportion (on a scale from 0 to 100) of samples that are positive for each individual signature in each cluster.
+\item \code{plotProportionPositive}: Returns a \code{\link{Heatmap}} displaying the proportion (on a scale from 0 to 100) of samples that are positive for each individual signature in each cluster.
 }}
 
 \examples{
@@ -61,23 +61,25 @@ rownames(u) <- paste0("Gene", sprintf("\%03d", seq_len(nrow(u))))
 colnames(u) <- paste0("Cell", sprintf("\%03d", seq_len(ncol(u))))
 se <- SummarizedExperiment(assays=list(counts=u))
 
-tgs <- tbl_geneset(
-    "Cell type 1"=c("Gene001", "Gene002"),
-    "Cell type 2"=c("Gene003", "Gene004")
+bs <- BaseSets(
+    relations=DataFrame(
+        element = c("Gene001", "Gene002", "Gene003", "Gene004"),
+        set     = c(rep("Cell type 1", 2), rep("Cell type 2", 2))
+    )
 )
 colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
 
 # Example usage ----
 library(circlize)
 # Identify the dominant signature in each cluster
-se <- predictByProportionPositive(tgs, se, cluster.col="cluster")
+se <- predictByProportionPositive(bs, se, cluster.col="cluster")
 # Visualise the proportion of samples positive for each signature in each cluster
 plotProportionPositive(
   se, cluster_rows=FALSE, cluster_columns=FALSE,
   col=colorRamp2(c(0, 100), c("white", "red")))
 }
 \seealso{
-\code{\link{predict.GeneSetCollection}}, \code{\link{predict.tbl_geneset}}
+\code{\link[=predict.GeneSetCollection]{predict.GeneSetCollection()}}, \code{\link[=predict.BaseSets]{predict.BaseSets()}}.
 }
 \author{
 Kevin Rue-Albrecht

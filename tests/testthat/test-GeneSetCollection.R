@@ -17,7 +17,7 @@ test_that(".makeFilterExpressionFromGeneSetCollection works", {
 # uniqueMarkers ----
 
 test_that("uniqueMarkers works", {
-    out <- uniqueMarkers(gsc)
+    out <- uniqueMarkerNames(gsc)
     expect_identical(out, c("Gene001", "Gene002", "Gene003", "Gene004"))
 })
 

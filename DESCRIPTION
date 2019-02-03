@@ -13,26 +13,29 @@ biocViews: GeneExpression, Transcriptomics, SingleCell, Sequencing,
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Depends: SummarizedExperiment, GSEABase, GeneSet
+Depends: SummarizedExperiment, unisets
 Imports:
     Biobase,
     BiocGenerics,
     ComplexHeatmap,
     cowplot,
     ggplot2,
+    GeneSet,
+    GSEABase,
     iSEE,
     Matrix,
     matrixStats,
     methods,
+    Rcpp,
     rintrojs,
     utils,
     S4Vectors,
     shiny,
     shinydashboard,
     scales,
-    SingleCellExperiment,
-    Rcpp
-Suggests: 
+    SingleCellExperiment
+Suggests:
+    beachmat,
     BiocStyle,
     circlize,
     covr,
@@ -40,12 +43,13 @@ Suggests:
     rmarkdown,
     Rtsne,
     scRNAseq,
-    testthat,
-    beachmat
+    scater,
+    testthat
 LinkingTo: Rcpp, beachmat, Rhdf5lib
 NeedsCompilation: yes
 SystemRequirements: C++11
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
+Roxygen: list(markdown = TRUE)
 URL: https://github.com/kevinrue/hancock
 BugReports: https://github.com/kevinrue/hancock/issues

@@ -10,12 +10,13 @@ Particular focus is given to single-cell data stored in objects derived from the
 
 # Prerequisites
 
-Several functions depend on the `GeneSet` package, currently only available from [GitHub](https://github.com/Kayla-Morrell/GeneSet).
+Several functions support the `tbl_geneset` class defined in the `GeneSet` package.
+This package is currently only available from [GitHub](https://github.com/Kayla-Morrell/GeneSet).
 The dependencies may be installed as follows:
 
 ```
 install.packages("devtools")
-devtools::install_github("Kayla-Morrell/GeneSet", "tibble_implement")
+devtools::install_github("Kayla-Morrell/GeneSet")
 ```
 
 # Installation
@@ -27,11 +28,17 @@ install.packages("devtools")
 devtools::install_github("kevinrue/hancock")
 ```
 
+To install the vignette as well (building it requires an additional minute or so), please use the following code:
+
+```
+devtools::install_github("kevinrue/hancock", build_opts = c("--no-resave-data", "--no-manual"))
+```
+
 # Usage
 
 Demonstration notebooks are available on the companion repository: https://github.com/kevinrue/hancock2018
 
 # Contributing
 
-Considerate contributions are more than welcome.
+Considerate contributions are very welcome!
 Please refer to the [contributing guidelines](https://github.com/kevinrue/hancock/blob/master/CONTRIBUTING.md) for more details.
