@@ -11,7 +11,7 @@ setMethod(
     function(object){
         # NOTE: later, we may trim gene sets to features present in `se`
         # NOTE: in which case, gene sets trimmed to length 0 would have to be dropped (!)
-        uniqueMarkerNames <- ids(elementData(object))
+        uniqueMarkerNames <- elementIds(object)
         uniqueMarkerNames
     }
 )
@@ -26,7 +26,7 @@ setMethod(
 setMethod(
     "uniqueSetNames", c("BaseSets"),
     function(object){
-        uniqueSetNames <- ids(setData(object))
+        uniqueSetNames <- setIds(object)
         uniqueSetNames
     }
 )
