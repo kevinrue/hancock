@@ -10,12 +10,20 @@ Particular focus is given to single-cell data stored in objects derived from the
 
 # Prerequisites
 
-Several functions support the `tbl_geneset` class defined in the `GeneSet` package.
-This package is currently only available from [GitHub](https://github.com/Kayla-Morrell/GeneSet).
-The dependencies may be installed as follows:
+`hancock` supports classes of gene sets defined in multiple packages.
+However, it uses classes defined in the `unisets` to return newly learned signatures with accompanying metadata.
+This dependency may be installed as follows:
 
 ```
 install.packages("devtools")
+devtools::install_github("kevinrue/unisets", build_opts = c("--no-resave-data", "--no-manual"))
+```
+
+Several functions support the `tbl_geneset` class defined in the `GeneSet` package.
+This package is currently only available from [GitHub](https://github.com/Kayla-Morrell/GeneSet).
+It may be installed as follows:
+
+```
 devtools::install_github("Kayla-Morrell/GeneSet")
 ```
 
