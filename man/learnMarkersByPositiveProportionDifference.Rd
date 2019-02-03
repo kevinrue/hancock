@@ -14,7 +14,7 @@ learnMarkersByPositiveProportionDifference(se, cluster.col,
 \item{cluster.col}{Name of a column in \code{colData(se)} that contains
 a factor indicating cluster membership for each column (i.e. sample) in \code{se}.}
 
-\item{assay.type}{A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".}
+\item{assay.type}{A string specifying which assay values to use, e.g., \code{"counts"} or \code{"logcounts"}.}
 
 \item{threshold}{Value \emph{above which} the marker is considered detected.}
 
@@ -22,7 +22,7 @@ a factor indicating cluster membership for each column (i.e. sample) in \code{se
 
 \item{min.diff}{Minimal difference in detection rate between the target cluster
 and the summarized detection rate in any other cluster (in the range 0-1).
-See argument \code{diff.method} below.}
+See argument \code{diff.method}.}
 
 \item{min.prop}{Minimal proportion of samples in the target cluster where the combined set of markers is detected.}
 
@@ -30,7 +30,7 @@ See argument \code{diff.method} below.}
 See Details section.}
 }
 \value{
-A collection of signatures as a "\code{\link{tbl_geneset}}".
+A collection of signatures as a "\code{\link{BaseSets}}" object.
 }
 \description{
 This function computes the detection rate of each feature in each cluster.
@@ -40,7 +40,7 @@ The function can limit results up to \code{n} markers for each cluster.
 }
 \details{
 \code{diff.method} affects how the detection rate in all clusters \emph{other than the target one} are summarized before comparison with the detection in the target cluster.
-It is possible to rank features using the minimal (\code{"min"}), \code{"mean"}, \code{"median"} (minimal), or maximal (\code{"max"}) difference between the detection rate in the target cluster and those of all other clusters.
+It is possible to rank features using the minimal (\code{"min"}), \code{"mean"}, \code{"median"}, or maximal (\code{"max"}) difference between the detection rate in the target cluster and those of all other clusters.
 }
 \examples{
 # Example data ----
@@ -54,10 +54,13 @@ se <- SummarizedExperiment(assays=list(counts=u))
 colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
 
 # Example usage ----
-tgs <- learnMarkersByPositiveProportionDifference(se, cluster.col="cluster")
+
+baseset <- learnMarkersByPositiveProportionDifference(se, cluster.col="cluster")
+
+relations(baseset)
 }
 \seealso{
-\code{\link{learnSignatures}}
+\code{\link{learnSignatures}}.
 }
 \author{
 Kevin Rue-Albrecht

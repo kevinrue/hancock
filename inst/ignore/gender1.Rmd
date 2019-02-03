@@ -1,0 +1,66 @@
+---
+title: "Predicting gender"
+author: "Kevin Rue-Albrecht"
+date: "07/12/2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Load the data.
+
+```{r}
+library(airway)
+data(airway)
+airway
+```
+
+Normalize in CPM.
+
+```{r}
+libSize <- colSums(assay(airway, "counts"))
+assay(airway, "CPM") <- t(t(assay(airway, "counts")) / libSize) * 1E6
+```
+
+Identify genes on the Y chromosome.
+
+```{r}
+Ygenes <- unique(names(which(table(seqnames(airway) == "Y")[, "TRUE"] > 0)))
+```
+
+Aggregate counts across all genes on the Y chromosome
+
+```{r}
+yCPM <- colSums(assay(airway, "CPM")[Ygenes, ])
+```
+
+```{r}
+# Cluster on the pairwise distance between total Y-chromosome CPM.
+hc <- hclust(dist(yCPM))
+plot(hc)
+```
+
+K-mean clustering with k=2 (expected number of genders)
+
+```{r}
+km <- kmeans(matrix(yCPM, ncol = 1), 2)
+```
+
+Test if the total Y-CPM of the two groups is significantly different
+
+```{r}
+testDataFrame <- data.frame(yCPM=yCPM, kmean=km$cluster)
+ttOut <- t.test(yCPM ~ kmean, testDataFrame)
+if (ttOut$p.value < 1E-3) {
+    # there are both genders
+    # return the group with the highest km$centers as male
+    # return the group with the highest km$centers as female
+} else {
+    # there is only one gender
+    # we can only tell which gender if we're given an idea of what either "low" or "high" means
+}
+```

@@ -68,10 +68,10 @@ The method can then be applied to identify markers for each cluster, using a var
 
 ```{r}
 allen$driver_1_s <- as.factor(allen$driver_1_s)
-tgs <- learnSignatures(
+baseset <- learnSignatures(
     se = allen, assay.type = "tophat_counts", method = "PositiveProportionDifference",
     cluster.col = "driver_1_s", min.diff = 0.3, min.prop = 0.5, diff.method = "min")
-table(tgs$set)
+relations(baseset)
 ```
 
 ## Applying signatures to predict labels
@@ -80,7 +80,7 @@ The markers identified above may then be applied on the training data set itself
 
 ```{r}
 allen.hancock <- predict(
-    tgs, allen, assay.type = "tophat_counts", method = "ProportionPositive",
+    baseset, allen, assay.type = "tophat_counts", method = "ProportionPositive",
     cluster.col="driver_1_s")
 allen.hancock
 ```
@@ -104,8 +104,8 @@ Similarly, the same markers may be applied to other data sets.
 Renaming a set of signatures is as simple as renaming the levels of the `factor` that stores the signature names.
 
 ```{r}
-levels(tgs$set) <- gsub("_", " ", levels(tgs$set))
-table(tgs$set)
+setIds(baseset) <- gsub("_", " ", setIds(baseset))
+table(ids(sets(baseset)))
 ```
 
 ## Interactively
@@ -117,11 +117,26 @@ When closed, the app returns the updated set of signatures.
 
 ```{r}
 allen.hancock <- predict(
-    tgs, allen, assay.type = "tophat_counts", method = "ProportionPositive",
+    baseset, allen, assay.type = "tophat_counts", method = "ProportionPositive",
     cluster.col="driver_1_s")
 if (interactive()) {
     library(shiny)
-    allen.hancock <- runApp(shinyLabels(tgs, allen.hancock))
+    allen.hancock <- runApp(shinyLabels(baseset, allen.hancock))
+}
+```
+
+Notably, this `r CRANpkg("shiny")` app automatically detects the presence of optional dimensionality reduction results in `r Biocpkg("SingleCellExperiment")` objects, allowing inspection and annotation of the gene signatures using that information.
+
+```{r}
+library(SingleCellExperiment)
+library(scater)
+allen.hancock <- as(allen.hancock, "SingleCellExperiment")
+allen.hancock <- normalize(allen.hancock, exprs_values="tophat_counts")
+allen.hancock <- runPCA(allen.hancock)
+allen.hancock <- runTSNE(allen.hancock)
+if (interactive()) {
+    library(shiny)
+    allen.hancock <- runApp(shinyLabels(baseset, allen.hancock))
 }
 ```
 
@@ -139,10 +154,10 @@ In addition, the `threshold` argument may be used to define a minimal threshold 
 This ensures that for each cluster, the combined set of markers is simultaneously detected in at least 90% of cells in that cluster.
 
 ```{r}
-tgs <- learnSignatures(
+baseset <- learnSignatures(
     se = allen, assay.type = "rsem_tpm", method = "PositiveProportionDifference",
     cluster.col = "driver_1_s", min.diff = 0, min.prop = 0.9, threshold = 1)
-table(tgs$set)
+table(ids(sets(baseset)))
 ```
 
 ## Relative markers
@@ -152,10 +167,10 @@ As described in the accompanying vignette "concepts.Rmd", relative markers may b
 For instance, the `"PositiveProportionDifference"` learning method can be used to identify such markers, by setting `min.diff` to a value greater than 0, in order to subset candidate markers to those detected at a rate at least 50% higher than the detection rate observed in any other cluster.
 
 ```{r}
-tgs <- learnSignatures(
+baseset <- learnSignatures(
     se = allen, assay.type = "tophat_counts", method = "PositiveProportionDifference",
     cluster.col = "driver_1_s", min.diff = 0.5, diff.method = "min")
-table(tgs$set)
+table(ids(sets(baseset)))
 ```
 
 For instance, other methods to identify absolute markers could include differential expression between the target cluster and all other clusters to identify candidate markers significantly differentially expressed between clusters.

@@ -1,6 +1,5 @@
 
-#' @describeIn predictByProportionPositive
-#' Returns a \code{Heatmap} displaying the proportion (on a scale from 0 to 100) of samples that are positive for each individual signature in each cluster.
+#' @describeIn predictByProportionPositive Returns a [`Heatmap`] displaying the proportion (on a scale from 0 to 100) of samples that are positive for each individual signature in each cluster.
 #'
 #' @aliases plotProportionPositive
 #'
@@ -18,7 +17,7 @@ plotProportionPositive <- function(
     Heatmap(matrix=t(ppbc*100), name="Proportion (%)", ...)
 }
 
-#' @describeIn predictSignatures Returns a \code{ggplot} bar plot displaying
+#' @describeIn predictSignatures Returns a `ggplot` bar plot displaying
 #' the count of samples predicted for each gene signature.
 #'
 #' @param highlight Character vector indicating names of signatures to highlight.
@@ -51,7 +50,7 @@ barplotPredictionCount <- function(
     gg
 }
 
-#' @describeIn predictSignatures Returns a \code{ggplot} bar plot displaying
+#' @describeIn predictSignatures Returns a `ggplot` bar plot displaying
 #' the proportion of samples predicted for each gene signature.
 #'
 #' @export
@@ -86,8 +85,8 @@ barplotPredictionProportion <- function(
     gg
 }
 
-#' @describeIn predictSignatures Returns a \code{ggplot} scatter plot displaying
-#' the first reduced dimension result in \code{reducedDims(se)}.
+#' @describeIn predictSignatures Returns a `ggplot` scatter plot displaying
+#' the first reduced dimension result in `reducedDims(se)`.
 #'
 #' @param redDimType Name of the reduced dimension result type to display.
 #' @param x Name of the covariate to display on the x-axis.
@@ -138,17 +137,17 @@ reducedDimPrediction <- function(
 #'
 #' @rdname INTERNAL_plotWrapper
 #'
-#' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
+#' @param se An object of class inheriting from [`SummarizedExperiment`][RangedSummarizedExperiment-class].
 #' @param highlight Character vector indicating names of signatures to highlight.
 #' @param plotType Name of a plot type. See Details.
 #' @param labels Logical value indicating whether to display prediction labels.
 #' @param ... Additional argument passed to individual plotting functions.
 #'
 #' @details
-#' The \code{plotType} argument should be the name of a plotting function:
-#' one of \code{"barplotPredictionCount"}, \code{"barplotPredictionProportion"}, \code{"reducedDimPrediction"}.
+#' The `plotType` argument should be the name of a plotting function:
+#' one of `"barplotPredictionCount"`, `"barplotPredictionProportion"`, `"reducedDimPrediction"`.
 #'
-#' @return A \code{ggplot} object.
+#' @return A `ggplot` object.
 #' @author Kevin Rue-Albrecht
 .plotWrapper <- function(se, highlight, plotType, labels=TRUE, ...) {
     dots <- list(...)

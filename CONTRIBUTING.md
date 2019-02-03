@@ -1,5 +1,5 @@
 
-## Considerate contributions are more than welcome!
+## Considerate contributions are very welcome!
 
 Here are a few guidelines to help develop and maintain a consistent coding style.
 

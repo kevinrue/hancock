@@ -1,0 +1,129 @@
+---
+title: "Predicting gender"
+author: "Kevin Rue-Albrecht"
+date: "07/12/2018"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Load the data.
+
+```{r}
+library(ExperimentHub)
+ehub <- ExperimentHub()
+EH1 <- ehub[["EH1"]]
+library(SummarizedExperiment)
+EH1 <- as(EH1, "SummarizedExperiment")
+EH1
+```
+
+Tabulate numbers of known male and female subjects.
+
+```{r}
+table(EH1$gender)
+```
+
+Normalize in CPM.
+
+```{r}
+libSize <- colSums(assay(EH1, "exprs"))
+assay(EH1, "CPM") <- t(t(assay(EH1, "exprs")) / libSize) * 1E6
+```
+
+Define a signature including all genes on the Y chromosome.
+
+```{r}
+library(EnsDb.Hsapiens.v86)
+columns(EnsDb.Hsapiens.v86)
+Ygenes <- unique(select(EnsDb.Hsapiens.v86, keys = "Y", "SYMBOL", "SEQNAME"))
+Ygenes <- Ygenes$SYMBOL
+table(Ygenes %in% rownames(EH1))
+```
+
+Let us use only the Y chromosome genes that are present in the data set.
+
+```{r}
+Ygenes <- intersect(Ygenes, rownames(EH1))
+```
+
+```{r}
+library(GSEABase)
+pbmc3k_markers_gsc <- GeneSetCollection(list(
+    GeneColorSet(
+        setName="Y chromosome expression in male", Ygenes, phenotype=c("Male"),
+        geneColor=factor(rep(TRUE, length(Ygenes))),
+        phenotypeColor=factor(rep(TRUE, length(Ygenes)))
+    ),
+    GeneColorSet(
+        setName="Y chromosome expression in female", Ygenes, phenotype=c("Female"),
+        geneColor=factor(rep(FALSE, length(Ygenes))),
+        phenotypeColor=factor(rep(FALSE, length(Ygenes)))
+    )
+))
+pbmc3k_markers_gsc
+```
+
+
+# Deprecate
+
+Aggregate counts across all genes on the Y chromosome
+
+```{r}
+yCPM <- colSums(assay(EH1, "CPM")[Ygenes, ])
+```
+
+```{r}
+# Cluster on the pairwise distance between total Y-chromosome CPM.
+hc <- hclust(dist(yCPM))
+plot(hc, labels=FALSE)
+```
+
+K-mean clustering with k=2 (expected number of genders)
+
+```{r}
+km <- kmeans(matrix(yCPM, ncol = 1), 2)
+```
+
+Test if the total Y-CPM of the two groups is significantly different
+
+```{r}
+testDataFrame <- data.frame(yCPM=yCPM, kmean=km$cluster)
+ttOut <- t.test(yCPM ~ kmean, testDataFrame)
+if (ttOut$p.value < 1E-3) {
+    # there are both genders
+    clusterMeans <- with(testDataFrame, tapply(yCPM, kmean, "mean"))
+    clusterFemale <- which.min(clusterMeans)
+    clusterMale <- which.max(clusterMeans)
+    # Annotate known gender
+    testDataFrame[colnames(EH1), "gender_annotated"] <- EH1$gender
+    # Annotate predicted gender
+    testDataFrame$gender_predicted <- factor(c("MALE", "FEMALE")[c(clusterMale, clusterFemale)][testDataFrame$kmean])
+    # return the group with the highest km$centers as male
+    # return the group with the highest km$centers as female
+} else {
+    # there is only one gender
+    # we can only tell which gender if we're given an idea of what either "low" or "high" means
+}
+# Tabulate the predictions against the annotations
+with(testDataFrame, table(gender_annotated, gender_predicted))
+```
+
+A large proportion of male subjects are classified as female.
+How does the distribution of summed CPM look between genders?
+
+```{r}
+yCpmDataFrame <- data.frame(
+    yCPM=yCPM,
+    gender=colData(EH1[, names(yCPM)])[, "gender"]
+)
+require(ggplot2)
+require(cowplot)
+ggplot(yCpmDataFrame, aes(gender, yCPM)) +
+    geom_point()
+```
+

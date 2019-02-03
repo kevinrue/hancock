@@ -5,12 +5,13 @@
 #' @aliases uniqueMarkerNames
 #'
 #' @export
+#' @importFrom unisets elementData ids
 setMethod(
-    "uniqueMarkerNames", c("tbl_geneset"),
+    "uniqueMarkerNames", c("BaseSets"),
     function(object){
         # NOTE: later, we may trim gene sets to features present in `se`
         # NOTE: in which case, gene sets trimmed to length 0 would have to be dropped (!)
-        uniqueMarkerNames <- unique(object$gene)
+        uniqueMarkerNames <- ids(elementData(object))
         uniqueMarkerNames
     }
 )
@@ -21,10 +22,11 @@ setMethod(
 #' @aliases uniqueSetNames
 #'
 #' @export
+#' @importFrom unisets setData ids
 setMethod(
-    "uniqueSetNames", c("tbl_geneset"),
+    "uniqueSetNames", c("BaseSets"),
     function(object){
-        uniqueSetNames <- levels(object$set)
+        uniqueSetNames <- ids(setData(object))
         uniqueSetNames
     }
 )
@@ -32,20 +34,22 @@ setMethod(
 # makeFilterExpression ----
 
 #' @rdname makeFilterExpression
+#' @importFrom unisets setData ids
 setMethod(
-    "makeFilterExpression", c("tbl_geneset"),
-    function(object){
+    "makeFilterExpression", c("BaseSets"), function(object){
+
+        xList <- as(object, "list")
 
         .buildSingleExpression <- function(setName) {
-            geneIds <- object[object$set == setName, "gene", drop=TRUE]
+            geneIds <- ids(xList[[setName]])
             parse(text=paste(sprintf("`%s`", geneIds), collapse=" & "))
         }
 
         filterExpressions <- lapply(
-            levels(object$set),
+            setIds(object),
             .buildSingleExpression
         )
-        names(filterExpressions) <- levels(object$set)
+        names(filterExpressions) <- setIds(object)
         filterExpressions
     }
 )
