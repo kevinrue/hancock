@@ -2,7 +2,7 @@
 # uniqueMarkerNames ----
 
 #' @rdname uniqueMarkerNames
-#' @aliases uniqueMarkerNames
+#' @aliases uniqueMarkerNames,GeneSetCollection-methods
 #'
 #' @export
 #' @importFrom GSEABase geneIds
@@ -19,7 +19,7 @@ setMethod(
 # uniqueSetNames ----
 
 #' @rdname uniqueMarkerNames
-#' @aliases uniqueSetNames
+#' @aliases uniqueSetNames,GeneSetCollection-methods
 #'
 #' @export
 setMethod(
@@ -33,6 +33,9 @@ setMethod(
 # makeFilterExpression ----
 
 #' @rdname makeFilterExpression
+#' @aliases makeFilterExpression,GeneSetCollection-methods
+#'
+#' @export
 #' @importFrom GSEABase geneIds
 setMethod(
     "makeFilterExpression", c("GeneSetCollection"),
