@@ -1,5 +1,5 @@
 ---
-title: "Vignette for the _hancock_ package"
+title: "Vignette for the hancock package"
 author:
 - name: Kevin Rue-Albrecht
   affiliation:
@@ -14,7 +14,7 @@ output:
   BiocStyle::html_document:
     toc_float: true
 abstract: |
-  Example usage of the _hancock_ package demonstrated using example data sets.
+  Example usage of the hancock package demonstrated using example data sets.
 vignette: |
     %\VignetteIndexEntry{Vignette for the hancock package}
     %\VignetteEncoding{UTF-8}
@@ -87,8 +87,8 @@ allen.hancock
 
 In particular, the `predict` function populates:
 
-- the `hancock` column of `colData(allen.hancock)`
-- the `hancock` item of `metadata(allen.hancock)`
+- the `"hancock"` column of `colData(allen.hancock)`
+- the `"hancock"` item of `metadata(allen.hancock)`
 
 ```{r}
 summary(as.data.frame(colData(allen.hancock)[["hancock"]]))

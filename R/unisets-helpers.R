@@ -2,7 +2,7 @@
 # uniqueMarkerNames ----
 
 #' @rdname uniqueMarkerNames
-#' @aliases uniqueMarkerNames
+#' @aliases uniqueMarkerNames,BaseSets-methods
 #'
 #' @export
 #' @importFrom unisets elementData ids
@@ -19,7 +19,7 @@ setMethod(
 # uniqueSetNames ----
 
 #' @rdname uniqueMarkerNames
-#' @aliases uniqueSetNames
+#' @aliases uniqueSetNames,BaseSets-methods
 #'
 #' @export
 #' @importFrom unisets setData ids
@@ -34,6 +34,9 @@ setMethod(
 # makeFilterExpression ----
 
 #' @rdname makeFilterExpression
+#' @aliases makeFilterExpression,BaseSets-methods
+#'
+#' @export
 #' @importFrom unisets setData ids
 setMethod(
     "makeFilterExpression", c("BaseSets"), function(object){

@@ -5,12 +5,12 @@
 
 # hancock
 
-The goal of the `hancock` package is to provide a collection of methods for learning and applying gene signatures associated with cellular phenotypes and identities.
+The goal of the [_hancock_](https://github.com/kevinrue/hancock) package is to provide a collection of methods for learning and applying gene signatures associated with cellular phenotypes and identities.
 Particular focus is given to single-cell data stored in objects derived from the [`SummarizedExperiment`](https://bioconductor.org/packages/release/bioc/html/SummarizedExperiment.html) class.
 
 # Prerequisites
 
-`hancock` supports classes of gene sets defined in multiple packages.
+The [_hancock_](https://github.com/kevinrue/hancock) package supports classes of gene sets defined in multiple packages.
 However, it uses classes defined in the `unisets` to return newly learned signatures with accompanying metadata.
 This dependency may be installed as follows:
 
@@ -29,7 +29,7 @@ devtools::install_github("Kayla-Morrell/GeneSet")
 
 # Installation
 
-The `hancock` package may be installed as follows:
+The [_hancock_](https://github.com/kevinrue/hancock) package may be installed as follows:
 
 ```
 install.packages("devtools")

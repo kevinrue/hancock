@@ -9,3 +9,4 @@ INTERNAL_*
 .DS_Store
 *.so
 *.o
+docs/

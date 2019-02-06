@@ -2,28 +2,28 @@
 # uniqueMarkerNames ----
 
 #' @rdname uniqueMarkerNames
-#' @aliases uniqueMarkerNames
+#' @aliases uniqueMarkerNames,tbl_geneset-methods
 #'
 #' @export
+#' @importFrom GeneSet tbl_geneset
 setMethod(
-    "uniqueMarkerNames", c("tbl_geneset"),
-    function(object){
-        # NOTE: later, we may trim gene sets to features present in `se`
-        # NOTE: in which case, gene sets trimmed to length 0 would have to be dropped (!)
-        uniqueMarkerNames <- unique(object$gene)
-        uniqueMarkerNames
+    "uniqueMarkerNames", "tbl_geneset", function(object) {
+      # NOTE: later, we may trim gene sets to features present in `se`
+      # NOTE: in which case, gene sets trimmed to length 0 would have to be dropped (!)
+      uniqueMarkerNames <- unique(object$gene)
+      uniqueMarkerNames
     }
 )
 
 # uniqueSetNames ----
 
 #' @rdname uniqueMarkerNames
-#' @aliases uniqueSetNames
+#' @aliases uniqueSetNames,tbl_geneset-methods
 #'
 #' @export
+#' @importFrom GeneSet tbl_geneset
 setMethod(
-    "uniqueSetNames", c("tbl_geneset"),
-    function(object){
+    "uniqueSetNames", "tbl_geneset", function(object) {
         uniqueSetNames <- levels(object$set)
         uniqueSetNames
     }
@@ -32,10 +32,13 @@ setMethod(
 # makeFilterExpression ----
 
 #' @rdname makeFilterExpression
+#' @aliases makeFilterExpression,tbl_geneset-methods
+#'
+#' @export
+#' @importFrom GeneSet tbl_geneset
 setMethod(
     "makeFilterExpression", c("tbl_geneset"),
     function(object){
-
         .buildSingleExpression <- function(setName) {
             geneIds <- object[object$set == setName, "gene", drop=TRUE]
             parse(text=paste(sprintf("`%s`", geneIds), collapse=" & "))

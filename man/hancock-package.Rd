@@ -12,12 +12,13 @@ Applies transcriptional signatures to assign cell identities.
 Useful links:
 \itemize{
   \item \url{https://github.com/kevinrue/hancock}
+  \item \url{http://kevinrue.github.io/hancock}
   \item Report bugs at \url{https://github.com/kevinrue/hancock/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Kevin Rue-Albrecht \email{kevinrue67@gmail.com}
+\strong{Maintainer}: Kevin Rue-Albrecht \email{kevin.rue-albrecht@kennedy.ox.ac.uk} (0000-0003-3899-3872)
 
 Authors:
 \itemize{
