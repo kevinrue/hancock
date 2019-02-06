@@ -5,6 +5,7 @@
 #' @aliases uniqueMarkerNames,tbl_geneset-methods
 #'
 #' @export
+#' @importFrom GeneSet tbl_geneset
 setMethod(
     "uniqueMarkerNames", "tbl_geneset", function(object) {
       # NOTE: later, we may trim gene sets to features present in `se`
@@ -20,6 +21,7 @@ setMethod(
 #' @aliases uniqueSetNames,tbl_geneset-methods
 #'
 #' @export
+#' @importFrom GeneSet tbl_geneset
 setMethod(
     "uniqueSetNames", "tbl_geneset", function(object) {
         uniqueSetNames <- levels(object$set)
@@ -33,6 +35,7 @@ setMethod(
 #' @aliases makeFilterExpression,tbl_geneset-methods
 #'
 #' @export
+#' @importFrom GeneSet tbl_geneset
 setMethod(
     "makeFilterExpression", c("tbl_geneset"),
     function(object){
