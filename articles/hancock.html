@@ -11,6 +11,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Vignette for the hancock package">
 <meta property="og:description" content="">
+<meta property="og:image" content="/logo.png">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -121,66 +122,66 @@
 <div id="example-data-set" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-data-set" class="anchor"></a>Example data set</h2>
-<p>As an initial example, we will demonstrate an analysis to find genes markers of three populations of neurons labelled by the fluorescent protein tdTomato (tdT) after Cre-mediated recombination.</p>
-<p>For this example, we will use a subset of single cell RNA-seq dataset from the Allen Brain Atlas <span class="citation">(Tasic et al. 2016)</span>. This dataset is available in the <em><a href="https://bioconductor.org/packages/3.9/scRNAseq">scRNAseq</a></em> Experiment data package:</p>
+<p>As an initial example, we demonstrate an analysis to find genes markers of three populations of neurons labelled by the fluorescent protein tdTomato (tdT) after Cre-mediated recombination.</p>
+<p>For this example, we use a subset of single cell RNA-seq dataset from the Allen Brain Atlas <span class="citation">(Tasic et al. 2016)</span>. This dataset is available in the <em><a href="https://bioconductor.org/packages/3.9/scRNAseq">scRNAseq</a></em> Experiment data package:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(scRNAseq)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(allen)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">allen</a></code></pre></div>
-<pre><code>## class: SummarizedExperiment 
-## dim: 20908 379 
-## metadata(2): SuppInfo which_qc
-## assays(4): tophat_counts cufflinks_fpkm rsem_counts rsem_tpm
-## rownames(20908): 0610007P14Rik 0610009B22Rik ... Zzef1 Zzz3
-## rowData names(0):
-## colnames(379): SRR2140028 SRR2140022 ... SRR2139341 SRR2139336
-## colData names(22): NREADS NALIGNED ... Animal.ID
-##   passes_qc_checks_s</code></pre>
+<a class="sourceLine" id="cb2-3" data-line-number="3">allen</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; class: SummarizedExperiment </span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; dim: 20908 379 </span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; metadata(2): SuppInfo which_qc</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; assays(4): tophat_counts cufflinks_fpkm rsem_counts rsem_tpm</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; rownames(20908): 0610007P14Rik 0610009B22Rik ... Zzef1 Zzz3</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; rowData names(0):</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; colnames(379): SRR2140028 SRR2140022 ... SRR2139341 SRR2139336</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; colData names(22): NREADS NALIGNED ... Animal.ID</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;   passes_qc_checks_s</span></a></code></pre></div>
 <p>The individual Cre line is indicated for each cell in the <code>"driver_1_s"</code> metadata.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(allen<span class="op">$</span>driver_<span class="dv">1</span>_s)</a></code></pre></div>
-<pre><code>## 
-## Ntsr1-Cre_GN220  Rbp4-Cre_KL100  Scnn1a-Tg3-Cre 
-##              79             190             110</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(allen<span class="op">$</span>driver_<span class="dv">1</span>_s)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; Ntsr1-Cre_GN220  Rbp4-Cre_KL100  Scnn1a-Tg3-Cre </span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;              79             190             110</span></a></code></pre></div>
 </div>
 <div id="learning-signatures" class="section level2">
 <h2 class="hasAnchor">
 <a href="#learning-signatures" class="anchor"></a>Learning signatures</h2>
 <p>The learning method <code>"PositiveProportionDifference"</code> requires prior clustering information to be stored as a <code>factor</code> in a column of the <code>colData</code> slot. The method can then be applied to identify markers for each cluster, using a variety of filters on individual markers (e.g., minimal difference in detection rate between clusters) and on the combined set of markers (e.g., minimal proportion of samples in the target cluster where all markers are detected simultaneously).</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">allen<span class="op">$</span>driver_<span class="dv">1</span>_s &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">as.factor</a></span>(allen<span class="op">$</span>driver_<span class="dv">1</span>_s)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">baseset &lt;-<span class="st"> </span><span class="kw"><a href="../reference/learnSignatures.html">learnSignatures</a></span>(</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">    <span class="dt">se =</span> allen, <span class="dt">assay.type =</span> <span class="st">"tophat_counts"</span>, <span class="dt">method =</span> <span class="st">"PositiveProportionDifference"</span>,</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">    <span class="dt">cluster.col =</span> <span class="st">"driver_1_s"</span>, <span class="dt">min.diff =</span> <span class="fl">0.3</span>, <span class="dt">min.prop =</span> <span class="fl">0.5</span>, <span class="dt">diff.method =</span> <span class="st">"min"</span>)</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="kw">relations</span>(baseset)</a></code></pre></div>
-<pre><code>## DataFrame with 31 rows and 4 columns
-##        element             set  markerProportion combinedProportion
-##     &lt;IdVector&gt;      &lt;IdVector&gt;         &lt;numeric&gt;          &lt;numeric&gt;
-## 1        Foxp2 Ntsr1-Cre_GN220                 1  0.556962025316456
-## 2         Rprm Ntsr1-Cre_GN220 0.974683544303797  0.556962025316456
-## 3      Gadd45a Ntsr1-Cre_GN220 0.974683544303797  0.556962025316456
-## 4        Ddah1 Ntsr1-Cre_GN220 0.974683544303797  0.556962025316456
-## 5         Tle4 Ntsr1-Cre_GN220                 1  0.556962025316456
-## ...        ...             ...               ...                ...
-## 27       Pvrl1  Scnn1a-Tg3-Cre 0.936363636363636  0.545454545454545
-## 28     S100a10  Scnn1a-Tg3-Cre 0.936363636363636  0.545454545454545
-## 29        Coch  Scnn1a-Tg3-Cre 0.954545454545455  0.545454545454545
-## 30       Dkkl1  Scnn1a-Tg3-Cre 0.872727272727273  0.545454545454545
-## 31       Rims3  Scnn1a-Tg3-Cre 0.981818181818182  0.545454545454545</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">allen<span class="op">$</span>driver_<span class="dv">1</span>_s &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">as.factor</a></span>(allen<span class="op">$</span>driver_<span class="dv">1</span>_s)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">baseset &lt;-<span class="st"> </span><span class="kw"><a href="../reference/learnSignatures.html">learnSignatures</a></span>(</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">    <span class="dt">se =</span> allen, <span class="dt">assay.type =</span> <span class="st">"tophat_counts"</span>, <span class="dt">method =</span> <span class="st">"PositiveProportionDifference"</span>,</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">    <span class="dt">cluster.col =</span> <span class="st">"driver_1_s"</span>, <span class="dt">min.diff =</span> <span class="fl">0.3</span>, <span class="dt">min.prop =</span> <span class="fl">0.5</span>, <span class="dt">diff.method =</span> <span class="st">"min"</span>)</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw">relations</span>(baseset)</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; DataFrame with 31 rows and 4 columns</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;        element             set  markerProportion combinedProportion</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt;     &lt;IdVector&gt;      &lt;IdVector&gt;         &lt;numeric&gt;          &lt;numeric&gt;</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 1        Foxp2 Ntsr1-Cre_GN220                 1  0.556962025316456</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; 2         Rprm Ntsr1-Cre_GN220 0.974683544303797  0.556962025316456</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; 3      Gadd45a Ntsr1-Cre_GN220 0.974683544303797  0.556962025316456</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; 4        Ddah1 Ntsr1-Cre_GN220 0.974683544303797  0.556962025316456</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; 5         Tle4 Ntsr1-Cre_GN220                 1  0.556962025316456</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; ...        ...             ...               ...                ...</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; 27       Pvrl1  Scnn1a-Tg3-Cre 0.936363636363636  0.545454545454545</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; 28     S100a10  Scnn1a-Tg3-Cre 0.936363636363636  0.545454545454545</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; 29        Coch  Scnn1a-Tg3-Cre 0.954545454545455  0.545454545454545</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; 30       Dkkl1  Scnn1a-Tg3-Cre 0.872727272727273  0.545454545454545</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; 31       Rims3  Scnn1a-Tg3-Cre 0.981818181818182  0.545454545454545</span></a></code></pre></div>
 </div>
 <div id="applying-signatures-to-predict-labels" class="section level2">
 <h2 class="hasAnchor">
 <a href="#applying-signatures-to-predict-labels" class="anchor"></a>Applying signatures to predict labels</h2>
 <p>The markers identified above may then be applied on the training data set itself, to annotate each cluster with its corresponding signature.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">allen.hancock &lt;-<span class="st"> </span><span class="kw"><a href="../reference/predictSignatures.html">predict</a></span>(</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">    baseset, allen, <span class="dt">assay.type =</span> <span class="st">"tophat_counts"</span>, <span class="dt">method =</span> <span class="st">"ProportionPositive"</span>,</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">    <span class="dt">cluster.col=</span><span class="st">"driver_1_s"</span>)</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">allen.hancock</a></code></pre></div>
-<pre><code>## class: SummarizedExperiment 
-## dim: 20908 379 
-## metadata(3): SuppInfo which_qc hancock
-## assays(4): tophat_counts cufflinks_fpkm rsem_counts rsem_tpm
-## rownames(20908): 0610007P14Rik 0610009B22Rik ... Zzef1 Zzz3
-## rowData names(0):
-## colnames(379): SRR2140028 SRR2140022 ... SRR2139341 SRR2139336
-## colData names(23): NREADS NALIGNED ... passes_qc_checks_s hancock</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">allen.hancock &lt;-<span class="st"> </span><span class="kw"><a href="../reference/predictSignatures.html">predict</a></span>(</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">    baseset, allen, <span class="dt">assay.type =</span> <span class="st">"tophat_counts"</span>, <span class="dt">method =</span> <span class="st">"ProportionPositive"</span>,</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">    <span class="dt">cluster.col=</span><span class="st">"driver_1_s"</span>)</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">allen.hancock</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; class: SummarizedExperiment </span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; dim: 20908 379 </span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; metadata(3): SuppInfo which_qc hancock</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; assays(4): tophat_counts cufflinks_fpkm rsem_counts rsem_tpm</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; rownames(20908): 0610007P14Rik 0610009B22Rik ... Zzef1 Zzz3</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; rowData names(0):</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; colnames(379): SRR2140028 SRR2140022 ... SRR2139341 SRR2139336</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; colData names(23): NREADS NALIGNED ... passes_qc_checks_s hancock</span></a></code></pre></div>
 <p>In particular, the <code>predict</code> function populates:</p>
 <ul>
 <li>the <code>"hancock"</code> column of <code>colData(allen.hancock)</code>
@@ -188,58 +189,58 @@
 <li>the <code>"hancock"</code> item of <code>metadata(allen.hancock)</code>
 </li>
 </ul>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>(<span class="kw">colData</span>(allen.hancock)[[<span class="st">"hancock"</span>]]))</a></code></pre></div>
-<pre><code>##            prediction 
-##  Ntsr1-Cre_GN220: 79  
-##  Rbp4-Cre_KL100 :190  
-##  Scnn1a-Tg3-Cre :110</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">metadata</span>(allen.hancock)[[<span class="st">"hancock"</span>]]</a></code></pre></div>
-<pre><code>## $GeneSets
-## BaseSets with 31 relations between 31 elements and 3 sets
-##      element             set                        relationData
-##   &lt;IdVector&gt;      &lt;IdVector&gt;                         &lt;DataFrame&gt;
-## 1      Foxp2 Ntsr1-Cre_GN220                 1:0.556962025316456
-## 2       Rprm Ntsr1-Cre_GN220 0.974683544303797:0.556962025316456
-## 3    Gadd45a Ntsr1-Cre_GN220 0.974683544303797:0.556962025316456
-## 4      Ddah1 Ntsr1-Cre_GN220 0.974683544303797:0.556962025316456
-## 5       Tle4 Ntsr1-Cre_GN220                 1:0.556962025316456
-##          ...             ...                                 ...
-## 1      Pvrl1  Scnn1a-Tg3-Cre 0.936363636363636:0.545454545454545
-## 2    S100a10  Scnn1a-Tg3-Cre 0.936363636363636:0.545454545454545
-## 3       Coch  Scnn1a-Tg3-Cre 0.954545454545455:0.545454545454545
-## 4      Dkkl1  Scnn1a-Tg3-Cre 0.872727272727273:0.545454545454545
-## 5      Rims3  Scnn1a-Tg3-Cre 0.981818181818182:0.545454545454545
-##   elementData     setData
-##   &lt;DataFrame&gt; &lt;DataFrame&gt;
-## 1                        
-## 2                        
-## 3                        
-## 4                        
-## 5                        
-##           ...         ...
-## 1                        
-## 2                        
-## 3                        
-## 4                        
-## 5                        
-## 
-## $method
-## [1] "ProportionPositive"
-## 
-## $packageVersion
-## [1] '0.99.0'
-## 
-## $ProportionPositiveByCluster
-##                  signature
-## cluster           Ntsr1-Cre_GN220 Rbp4-Cre_KL100 Scnn1a-Tg3-Cre
-##   Ntsr1-Cre_GN220     0.556962025     0.05063291     0.00000000
-##   Rbp4-Cre_KL100      0.010526316     0.50526316     0.08421053
-##   Scnn1a-Tg3-Cre      0.009090909     0.03636364     0.54545455
-## 
-## $TopSignatureByCluster
-## Ntsr1-Cre_GN220  Rbp4-Cre_KL100  Scnn1a-Tg3-Cre 
-## Ntsr1-Cre_GN220  Rbp4-Cre_KL100  Scnn1a-Tg3-Cre 
-## Levels: Ntsr1-Cre_GN220 Rbp4-Cre_KL100 Scnn1a-Tg3-Cre</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>(<span class="kw">colData</span>(allen.hancock)[[<span class="st">"hancock"</span>]]))</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt;            prediction </span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt;  Ntsr1-Cre_GN220: 79  </span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt;  Rbp4-Cre_KL100 :190  </span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt;  Scnn1a-Tg3-Cre :110</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="kw">metadata</span>(allen.hancock)[[<span class="st">"hancock"</span>]]</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; $GeneSets</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; BaseSets with 31 relations between 31 elements and 3 sets</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;      element             set                        relationData</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt;   &lt;IdVector&gt;      &lt;IdVector&gt;                         &lt;DataFrame&gt;</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; 1      Foxp2 Ntsr1-Cre_GN220                 1:0.556962025316456</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; 2       Rprm Ntsr1-Cre_GN220 0.974683544303797:0.556962025316456</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; 3    Gadd45a Ntsr1-Cre_GN220 0.974683544303797:0.556962025316456</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; 4      Ddah1 Ntsr1-Cre_GN220 0.974683544303797:0.556962025316456</span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; 5       Tle4 Ntsr1-Cre_GN220                 1:0.556962025316456</span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt;          ...             ...                                 ...</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; 1      Pvrl1  Scnn1a-Tg3-Cre 0.936363636363636:0.545454545454545</span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; 2    S100a10  Scnn1a-Tg3-Cre 0.936363636363636:0.545454545454545</span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; 3       Coch  Scnn1a-Tg3-Cre 0.954545454545455:0.545454545454545</span></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; 4      Dkkl1  Scnn1a-Tg3-Cre 0.872727272727273:0.545454545454545</span></a>
+<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; 5      Rims3  Scnn1a-Tg3-Cre 0.981818181818182:0.545454545454545</span></a>
+<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt;   elementData     setData</span></a>
+<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt;   &lt;DataFrame&gt; &lt;DataFrame&gt;</span></a>
+<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; 1                        </span></a>
+<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#&gt; 2                        </span></a>
+<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co">#&gt; 3                        </span></a>
+<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="co">#&gt; 4                        </span></a>
+<a class="sourceLine" id="cb6-28" data-line-number="28"><span class="co">#&gt; 5                        </span></a>
+<a class="sourceLine" id="cb6-29" data-line-number="29"><span class="co">#&gt;           ...         ...</span></a>
+<a class="sourceLine" id="cb6-30" data-line-number="30"><span class="co">#&gt; 1                        </span></a>
+<a class="sourceLine" id="cb6-31" data-line-number="31"><span class="co">#&gt; 2                        </span></a>
+<a class="sourceLine" id="cb6-32" data-line-number="32"><span class="co">#&gt; 3                        </span></a>
+<a class="sourceLine" id="cb6-33" data-line-number="33"><span class="co">#&gt; 4                        </span></a>
+<a class="sourceLine" id="cb6-34" data-line-number="34"><span class="co">#&gt; 5                        </span></a>
+<a class="sourceLine" id="cb6-35" data-line-number="35"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-36" data-line-number="36"><span class="co">#&gt; $method</span></a>
+<a class="sourceLine" id="cb6-37" data-line-number="37"><span class="co">#&gt; [1] "ProportionPositive"</span></a>
+<a class="sourceLine" id="cb6-38" data-line-number="38"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-39" data-line-number="39"><span class="co">#&gt; $packageVersion</span></a>
+<a class="sourceLine" id="cb6-40" data-line-number="40"><span class="co">#&gt; [1] '0.99.0'</span></a>
+<a class="sourceLine" id="cb6-41" data-line-number="41"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-42" data-line-number="42"><span class="co">#&gt; $ProportionPositiveByCluster</span></a>
+<a class="sourceLine" id="cb6-43" data-line-number="43"><span class="co">#&gt;                  signature</span></a>
+<a class="sourceLine" id="cb6-44" data-line-number="44"><span class="co">#&gt; cluster           Ntsr1-Cre_GN220 Rbp4-Cre_KL100 Scnn1a-Tg3-Cre</span></a>
+<a class="sourceLine" id="cb6-45" data-line-number="45"><span class="co">#&gt;   Ntsr1-Cre_GN220     0.556962025     0.05063291     0.00000000</span></a>
+<a class="sourceLine" id="cb6-46" data-line-number="46"><span class="co">#&gt;   Rbp4-Cre_KL100      0.010526316     0.50526316     0.08421053</span></a>
+<a class="sourceLine" id="cb6-47" data-line-number="47"><span class="co">#&gt;   Scnn1a-Tg3-Cre      0.009090909     0.03636364     0.54545455</span></a>
+<a class="sourceLine" id="cb6-48" data-line-number="48"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-49" data-line-number="49"><span class="co">#&gt; $TopSignatureByCluster</span></a>
+<a class="sourceLine" id="cb6-50" data-line-number="50"><span class="co">#&gt; Ntsr1-Cre_GN220  Rbp4-Cre_KL100  Scnn1a-Tg3-Cre </span></a>
+<a class="sourceLine" id="cb6-51" data-line-number="51"><span class="co">#&gt; Ntsr1-Cre_GN220  Rbp4-Cre_KL100  Scnn1a-Tg3-Cre </span></a>
+<a class="sourceLine" id="cb6-52" data-line-number="52"><span class="co">#&gt; Levels: Ntsr1-Cre_GN220 Rbp4-Cre_KL100 Scnn1a-Tg3-Cre</span></a></code></pre></div>
 <p>Similarly, the same markers may be applied to other data sets.</p>
 </div>
 <div id="renaming-signatures" class="section level2">
@@ -249,46 +250,36 @@
 <h3 class="hasAnchor">
 <a href="#manually" class="anchor"></a>Manually</h3>
 <p>Renaming a set of signatures is as simple as renaming the levels of the <code>factor</code> that stores the signature names.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">setIds</span>(baseset) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">gsub</a></span>(<span class="st">"_"</span>, <span class="st">" "</span>, <span class="kw">setIds</span>(baseset))</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(<span class="kw">ids</span>(<span class="kw">sets</span>(baseset)))</a></code></pre></div>
-<pre><code>## 
-## Ntsr1-Cre GN220  Rbp4-Cre KL100  Scnn1a-Tg3-Cre 
-##              15               6              10</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">setIds</span>(baseset) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">gsub</a></span>(<span class="st">"_"</span>, <span class="st">" "</span>, <span class="kw">setIds</span>(baseset))</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(<span class="kw">ids</span>(<span class="kw">sets</span>(baseset)))</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; Ntsr1-Cre GN220  Rbp4-Cre KL100  Scnn1a-Tg3-Cre </span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;              15               6              10</span></a></code></pre></div>
 </div>
 </div>
 <div id="interactively" class="section level2">
 <h2 class="hasAnchor">
 <a href="#interactively" class="anchor"></a>Interactively</h2>
-<p>In addition, the <em><a href="https://github.com/kevinrue/hancock">hancock</a></em> package includes a lightweight <em><a href="https://CRAN.R-project.org/package=shiny">shiny</a></em> app that offers users the possibility to interactively rename signatures while inspecting their features in an <code>SummarizedExperiment</code> object (e.g., count of samples associated with each signature, distribution in reduced dimension).</p>
+<p>In addition, the <em><a href="https://github.com/kevinrue/hancock">hancock</a></em> package includes a lightweight <em><a href="https://CRAN.R-project.org/package=shiny">shiny</a></em> app that offers users the possibility to interactively rename signatures while inspecting their features in a <code>SummarizedExperiment</code> object (e.g., count of samples associated with each signature, layout in reduced dimension).</p>
 <p>Specifically, the app requires a set of signatures and a <code>SummarizedExperiment</code> object that was previously annotated with those signatures using the <code>predict</code> function. When closed, the app returns the updated set of signatures.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">allen.hancock &lt;-<span class="st"> </span><span class="kw"><a href="../reference/predictSignatures.html">predict</a></span>(</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">    baseset, allen, <span class="dt">assay.type =</span> <span class="st">"tophat_counts"</span>, <span class="dt">method =</span> <span class="st">"ProportionPositive"</span>,</a>
-<a class="sourceLine" id="cb16-3" data-line-number="3">    <span class="dt">cluster.col=</span><span class="st">"driver_1_s"</span>)</a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/interactive">interactive</a></span>()) {</a>
-<a class="sourceLine" id="cb16-5" data-line-number="5">    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(shiny)</a>
-<a class="sourceLine" id="cb16-6" data-line-number="6">    allen.hancock &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/shiny/topics/runApp">runApp</a></span>(<span class="kw"><a href="../reference/shinyLabels.html">shinyLabels</a></span>(baseset, allen.hancock))</a>
-<a class="sourceLine" id="cb16-7" data-line-number="7">}</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">allen.hancock &lt;-<span class="st"> </span><span class="kw"><a href="../reference/predictSignatures.html">predict</a></span>(</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">    baseset, allen, <span class="dt">assay.type =</span> <span class="st">"tophat_counts"</span>, <span class="dt">method =</span> <span class="st">"ProportionPositive"</span>,</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">    <span class="dt">cluster.col=</span><span class="st">"driver_1_s"</span>)</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/interactive">interactive</a></span>()) {</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(shiny)</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">    allen.hancock &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/shiny/topics/runApp">runApp</a></span>(<span class="kw"><a href="../reference/shinyLabels.html">shinyLabels</a></span>(baseset, allen.hancock))</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">}</a></code></pre></div>
 <p>Notably, this <em><a href="https://CRAN.R-project.org/package=shiny">shiny</a></em> app automatically detects the presence of optional dimensionality reduction results in <em><a href="https://bioconductor.org/packages/3.9/SingleCellExperiment">SingleCellExperiment</a></em> objects, allowing inspection and annotation of the gene signatures using that information.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SingleCellExperiment)</a>
-<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(scater)</a></code></pre></div>
-<pre><code>## Loading required package: ggplot2</code></pre>
-<pre><code>## 
-## Attaching package: 'scater'</code></pre>
-<pre><code>## The following object is masked from 'package:S4Vectors':
-## 
-##     rename</code></pre>
-<pre><code>## The following object is masked from 'package:stats':
-## 
-##     filter</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">allen.hancock &lt;-<span class="st"> </span><span class="kw">as</span>(allen.hancock, <span class="st">"SingleCellExperiment"</span>)</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2">allen.hancock &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/normalize">normalize</a></span>(allen.hancock, <span class="dt">exprs_values=</span><span class="st">"tophat_counts"</span>)</a></code></pre></div>
-<pre><code>## Warning in .local(object, ...): using library sizes as size factors</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">allen.hancock &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(allen.hancock)</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2">allen.hancock &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/runTSNE">runTSNE</a></span>(allen.hancock)</a>
-<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/interactive">interactive</a></span>()) {</a>
-<a class="sourceLine" id="cb24-4" data-line-number="4">    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(shiny)</a>
-<a class="sourceLine" id="cb24-5" data-line-number="5">    allen.hancock &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/shiny/topics/runApp">runApp</a></span>(<span class="kw"><a href="../reference/shinyLabels.html">shinyLabels</a></span>(baseset, allen.hancock))</a>
-<a class="sourceLine" id="cb24-6" data-line-number="6">}</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(SingleCellExperiment)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(scater)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">allen.hancock &lt;-<span class="st"> </span><span class="kw">as</span>(allen.hancock, <span class="st">"SingleCellExperiment"</span>)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">allen.hancock &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/normalize">normalize</a></span>(allen.hancock, <span class="dt">exprs_values=</span><span class="st">"tophat_counts"</span>)</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">allen.hancock &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(allen.hancock)</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">allen.hancock &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/runTSNE">runTSNE</a></span>(allen.hancock)</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/interactive">interactive</a></span>()) {</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(shiny)</a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">    allen.hancock &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/shiny/topics/runApp">runApp</a></span>(<span class="kw"><a href="../reference/shinyLabels.html">shinyLabels</a></span>(baseset, allen.hancock))</a>
+<a class="sourceLine" id="cb9-10" data-line-number="10">}</a></code></pre></div>
 </div>
 </div>
 <div id="types-of-signatures" class="section level1">
@@ -297,30 +288,30 @@
 <div id="absolute-markers" class="section level2">
 <h2 class="hasAnchor">
 <a href="#absolute-markers" class="anchor"></a>Absolute markers</h2>
-<p>As described in the accompanying vignette “concepts.Rmd”, absolute markers may be defined as genes detected in each cluster, irrespective of their expression in the other clusters.</p>
+<p>As described in the accompanying <a href="concepts.html">concepts</a> vignette, absolute markers may be defined as genes detected in each cluster, irrespective of their expression in the other clusters.</p>
 <p>For instance, the <code>"PositiveProportionDifference"</code> learning method can be used to identify such markers, by setting <code>min.diff=0</code> to annul any comparison between the detection frequency in the target cluster and all other clusters.</p>
-<p>As the numbers of genes detected in each cluster may be rather large, it is generally a good idea to restrict markers to be detected in a high fraction of the corresponding cluster, for instance <code>min.prop = 0.9</code>. In addition, the <code>threshold</code> argument may be used to define a minimal threshold of expression level to consider a marker as “detected” in each sample.</p>
+<p>As the numbers of genes detected in each cluster may be rather large, it is generally a good idea to restrict markers to be detected in a very high fraction of the corresponding cluster, for instance <code>min.prop = 0.9</code>. In addition, the <code>threshold</code> argument may be used to define a minimal threshold of expression level to consider a marker as “detected” in each sample.</p>
 <p>This ensures that for each cluster, the combined set of markers is simultaneously detected in at least 90% of cells in that cluster.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">baseset &lt;-<span class="st"> </span><span class="kw"><a href="../reference/learnSignatures.html">learnSignatures</a></span>(</a>
-<a class="sourceLine" id="cb25-2" data-line-number="2">    <span class="dt">se =</span> allen, <span class="dt">assay.type =</span> <span class="st">"rsem_tpm"</span>, <span class="dt">method =</span> <span class="st">"PositiveProportionDifference"</span>,</a>
-<a class="sourceLine" id="cb25-3" data-line-number="3">    <span class="dt">cluster.col =</span> <span class="st">"driver_1_s"</span>, <span class="dt">min.diff =</span> <span class="dv">0</span>, <span class="dt">min.prop =</span> <span class="fl">0.9</span>, <span class="dt">threshold =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(<span class="kw">ids</span>(<span class="kw">sets</span>(baseset)))</a></code></pre></div>
-<pre><code>## 
-## Ntsr1-Cre_GN220  Rbp4-Cre_KL100  Scnn1a-Tg3-Cre 
-##             551             628             507</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">baseset &lt;-<span class="st"> </span><span class="kw"><a href="../reference/learnSignatures.html">learnSignatures</a></span>(</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">    <span class="dt">se =</span> allen, <span class="dt">assay.type =</span> <span class="st">"rsem_tpm"</span>, <span class="dt">method =</span> <span class="st">"PositiveProportionDifference"</span>,</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">    <span class="dt">cluster.col =</span> <span class="st">"driver_1_s"</span>, <span class="dt">min.diff =</span> <span class="dv">0</span>, <span class="dt">min.prop =</span> <span class="fl">0.9</span>, <span class="dt">threshold =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(<span class="kw">ids</span>(<span class="kw">sets</span>(baseset)))</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; Ntsr1-Cre_GN220  Rbp4-Cre_KL100  Scnn1a-Tg3-Cre </span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt;             551             628             507</span></a></code></pre></div>
 </div>
 <div id="relative-markers" class="section level2">
 <h2 class="hasAnchor">
 <a href="#relative-markers" class="anchor"></a>Relative markers</h2>
-<p>As described in the accompanying vignette “concepts.Rmd”, relative markers may be defined by <em>differential</em> analysis against other cells in the same sample.</p>
+<p>As described in the accompanying <a href="concepts.html">concepts</a> vignette, relative markers may be defined by <em>differential</em> analysis against other cells in the same sample.</p>
 <p>For instance, the <code>"PositiveProportionDifference"</code> learning method can be used to identify such markers, by setting <code>min.diff</code> to a value greater than 0, in order to subset candidate markers to those detected at a rate at least 50% higher than the detection rate observed in any other cluster.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">baseset &lt;-<span class="st"> </span><span class="kw"><a href="../reference/learnSignatures.html">learnSignatures</a></span>(</a>
-<a class="sourceLine" id="cb27-2" data-line-number="2">    <span class="dt">se =</span> allen, <span class="dt">assay.type =</span> <span class="st">"tophat_counts"</span>, <span class="dt">method =</span> <span class="st">"PositiveProportionDifference"</span>,</a>
-<a class="sourceLine" id="cb27-3" data-line-number="3">    <span class="dt">cluster.col =</span> <span class="st">"driver_1_s"</span>, <span class="dt">min.diff =</span> <span class="fl">0.5</span>, <span class="dt">diff.method =</span> <span class="st">"min"</span>)</a>
-<a class="sourceLine" id="cb27-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(<span class="kw">ids</span>(<span class="kw">sets</span>(baseset)))</a></code></pre></div>
-<pre><code>## 
-## Ntsr1-Cre_GN220  Rbp4-Cre_KL100  Scnn1a-Tg3-Cre 
-##              14               2               4</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">baseset &lt;-<span class="st"> </span><span class="kw"><a href="../reference/learnSignatures.html">learnSignatures</a></span>(</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">    <span class="dt">se =</span> allen, <span class="dt">assay.type =</span> <span class="st">"tophat_counts"</span>, <span class="dt">method =</span> <span class="st">"PositiveProportionDifference"</span>,</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">    <span class="dt">cluster.col =</span> <span class="st">"driver_1_s"</span>, <span class="dt">min.diff =</span> <span class="fl">0.5</span>, <span class="dt">diff.method =</span> <span class="st">"min"</span>)</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(<span class="kw">ids</span>(<span class="kw">sets</span>(baseset)))</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; Ntsr1-Cre_GN220  Rbp4-Cre_KL100  Scnn1a-Tg3-Cre </span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt;              14               2               4</span></a></code></pre></div>
 <p>For instance, other methods to identify absolute markers could include differential expression between the target cluster and all other clusters to identify candidate markers significantly differentially expressed between clusters.</p>
 </div>
 </div>
@@ -329,110 +320,110 @@
 <a href="#additional-information" class="anchor"></a>Additional information</h1>
 <p>Bug reports can be posted as issues in the <em><a href="https://github.com/kevinrue/hancock">hancock</a></em> GitHub repository. The GitHub repository is the primary source for development versions of the package, where new functionality is added over time. The authors appreciate well-considered suggestions for improvements or new features, or even better, pull requests.</p>
 <p>If you use <em><a href="https://github.com/kevinrue/hancock">hancock</a></em> for your analysis, please cite it as shown below:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/citation">citation</a></span>(<span class="st">"hancock"</span>)</a></code></pre></div>
-<pre><code>## 
-## To cite package 'hancock' in publications use:
-## 
-##   Kevin Rue-Albrecht, Robert Amezquita and Aaron Lun (2018).
-##   hancock: Learn and Apply Cell Type Signatures.
-##   https://github.com/kevinrue/hancock,
-##   http://kevinrue.github.io/hancock.
-## 
-## A BibTeX entry for LaTeX users is
-## 
-##   @Manual{,
-##     title = {hancock: Learn and Apply Cell Type Signatures},
-##     author = {Kevin Rue-Albrecht and Robert Amezquita and Aaron Lun},
-##     year = {2018},
-##     note = {https://github.com/kevinrue/hancock,
-## http://kevinrue.github.io/hancock},
-##   }</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/citation">citation</a></span>(<span class="st">"hancock"</span>)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt; To cite package 'hancock' in publications use:</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt;   Kevin Rue-Albrecht, Robert Amezquita and Aaron Lun (2018).</span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt;   hancock: Learn and Apply Cell Type Signatures.</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt;   https://github.com/kevinrue/hancock,</span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt;   http://kevinrue.github.io/hancock.</span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">#&gt; A BibTeX entry for LaTeX users is</span></a>
+<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="co">#&gt;   @Manual{,</span></a>
+<a class="sourceLine" id="cb12-13" data-line-number="13"><span class="co">#&gt;     title = {hancock: Learn and Apply Cell Type Signatures},</span></a>
+<a class="sourceLine" id="cb12-14" data-line-number="14"><span class="co">#&gt;     author = {Kevin Rue-Albrecht and Robert Amezquita and Aaron Lun},</span></a>
+<a class="sourceLine" id="cb12-15" data-line-number="15"><span class="co">#&gt;     year = {2018},</span></a>
+<a class="sourceLine" id="cb12-16" data-line-number="16"><span class="co">#&gt;     note = {https://github.com/kevinrue/hancock,</span></a>
+<a class="sourceLine" id="cb12-17" data-line-number="17"><span class="co">#&gt; http://kevinrue.github.io/hancock},</span></a>
+<a class="sourceLine" id="cb12-18" data-line-number="18"><span class="co">#&gt;   }</span></a></code></pre></div>
 </div>
 <div id="session-info" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session Info</h1>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()</a></code></pre></div>
-<pre><code>## R Under development (unstable) (2019-02-06 r76066)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 14.04.5 LTS
-## 
-## Matrix products: default
-## BLAS: /home/travis/R-bin/lib/R/lib/libRblas.so
-## LAPACK: /home/travis/R-bin/lib/R/lib/libRlapack.so
-## 
-## locale:
-##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
-##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
-##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
-## 
-## attached base packages:
-## [1] parallel  stats4    stats     graphics  grDevices utils     datasets 
-## [8] methods   base     
-## 
-## other attached packages:
-##  [1] scater_1.11.10              ggplot2_3.1.0              
-##  [3] SingleCellExperiment_1.5.2  scRNAseq_1.9.0             
-##  [5] hancock_0.99.0              unisets_0.99.0             
-##  [7] SummarizedExperiment_1.13.0 DelayedArray_0.9.8         
-##  [9] BiocParallel_1.17.9         matrixStats_0.54.0         
-## [11] Biobase_2.43.1              GenomicRanges_1.35.1       
-## [13] GenomeInfoDb_1.19.1         IRanges_2.17.4             
-## [15] S4Vectors_0.21.10           BiocGenerics_0.29.1        
-## [17] BiocStyle_2.11.0           
-## 
-## loaded via a namespace (and not attached):
-##  [1] Rtsne_0.15               ggbeeswarm_0.6.0        
-##  [3] colorspace_1.4-0         rjson_0.2.20            
-##  [5] rprojroot_1.3-2          circlize_0.4.5          
-##  [7] XVector_0.23.0           GlobalOptions_0.1.0     
-##  [9] BiocNeighbors_1.1.11     fs_1.2.6                
-## [11] roxygen2_6.1.1           bit64_0.9-7             
-## [13] AnnotationDbi_1.45.0     xml2_1.2.0              
-## [15] knitr_1.21               jsonlite_1.6            
-## [17] Rsamtools_1.35.2         annotate_1.61.0         
-## [19] shinydashboard_0.7.1     graph_1.61.0            
-## [21] shiny_1.2.0              BiocManager_1.30.4      
-## [23] compiler_3.6.0           backports_1.1.2         
-## [25] assertthat_0.2.0         Matrix_1.2-15           
-## [27] lazyeval_0.2.1           later_0.7.5             
-## [29] htmltools_0.3.6          tools_3.6.0             
-## [31] bindrcpp_0.2.2           gtable_0.2.0            
-## [33] glue_1.3.0               GenomeInfoDbData_1.2.0  
-## [35] reshape2_1.4.3           dplyr_0.7.8             
-## [37] Rcpp_1.0.0               pkgdown_1.3.0           
-## [39] Biostrings_2.51.2        rtracklayer_1.43.1      
-## [41] rintrojs_0.2.0           DelayedMatrixStats_1.5.2
-## [43] xfun_0.4                 stringr_1.3.1           
-## [45] mime_0.6                 XML_3.98-1.16           
-## [47] zlibbioc_1.29.0          MASS_7.3-51.1           
-## [49] scales_1.0.0             promises_1.0.1          
-## [51] RColorBrewer_1.1-2       ComplexHeatmap_1.99.5   
-## [53] yaml_2.2.0               GeneSet_0.0.1           
-## [55] memoise_1.1.0            gridExtra_2.3           
-## [57] stringi_1.2.4            RSQLite_2.1.1           
-## [59] desc_1.2.0               shape_1.4.4             
-## [61] rlang_0.3.1              pkgconfig_2.0.2         
-## [63] commonmark_1.7           bitops_1.0-6            
-## [65] evaluate_0.12            lattice_0.20-38         
-## [67] purrr_0.3.0              bindr_0.1.1             
-## [69] GenomicAlignments_1.19.1 cowplot_0.9.4           
-## [71] bit_1.1-14               tidyselect_0.2.5        
-## [73] GSEABase_1.45.0          plyr_1.8.4              
-## [75] magrittr_1.5             bookdown_0.9            
-## [77] R6_2.3.0                 DBI_1.0.0               
-## [79] pillar_1.3.1             withr_2.1.2             
-## [81] RCurl_1.95-4.11          tibble_2.0.1            
-## [83] crayon_1.3.4             rmarkdown_1.11          
-## [85] viridis_0.5.1            GetoptLong_0.1.7        
-## [87] grid_3.6.0               blob_1.1.1              
-## [89] digest_0.6.18            xtable_1.8-3            
-## [91] httpuv_1.4.5.1           munsell_0.5.0           
-## [93] beeswarm_0.2.3           viridisLite_0.3.0       
-## [95] vipor_0.4.5</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="co"># devtools::session_info()</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; R Under development (unstable) (2019-02-07 r76069)</span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt; Running under: Ubuntu 14.04.5 LTS</span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt; Matrix products: default</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt; BLAS: /home/travis/R-bin/lib/R/lib/libRblas.so</span></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt; LAPACK: /home/travis/R-bin/lib/R/lib/libRlapack.so</span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt; locale:</span></a>
+<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt;  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></a>
+<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co">#&gt;  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span></a>
+<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co">#&gt;  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span></a>
+<a class="sourceLine" id="cb13-14" data-line-number="14"><span class="co">#&gt;  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span></a>
+<a class="sourceLine" id="cb13-15" data-line-number="15"><span class="co">#&gt;  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></a>
+<a class="sourceLine" id="cb13-16" data-line-number="16"><span class="co">#&gt; [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span></a>
+<a class="sourceLine" id="cb13-17" data-line-number="17"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-18" data-line-number="18"><span class="co">#&gt; attached base packages:</span></a>
+<a class="sourceLine" id="cb13-19" data-line-number="19"><span class="co">#&gt; [1] parallel  stats4    stats     graphics  grDevices utils     datasets </span></a>
+<a class="sourceLine" id="cb13-20" data-line-number="20"><span class="co">#&gt; [8] methods   base     </span></a>
+<a class="sourceLine" id="cb13-21" data-line-number="21"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-22" data-line-number="22"><span class="co">#&gt; other attached packages:</span></a>
+<a class="sourceLine" id="cb13-23" data-line-number="23"><span class="co">#&gt;  [1] scater_1.11.10              ggplot2_3.1.0              </span></a>
+<a class="sourceLine" id="cb13-24" data-line-number="24"><span class="co">#&gt;  [3] SingleCellExperiment_1.5.2  scRNAseq_1.9.0             </span></a>
+<a class="sourceLine" id="cb13-25" data-line-number="25"><span class="co">#&gt;  [5] hancock_0.99.0              unisets_0.99.0             </span></a>
+<a class="sourceLine" id="cb13-26" data-line-number="26"><span class="co">#&gt;  [7] SummarizedExperiment_1.13.0 DelayedArray_0.9.8         </span></a>
+<a class="sourceLine" id="cb13-27" data-line-number="27"><span class="co">#&gt;  [9] BiocParallel_1.17.9         matrixStats_0.54.0         </span></a>
+<a class="sourceLine" id="cb13-28" data-line-number="28"><span class="co">#&gt; [11] Biobase_2.43.1              GenomicRanges_1.35.1       </span></a>
+<a class="sourceLine" id="cb13-29" data-line-number="29"><span class="co">#&gt; [13] GenomeInfoDb_1.19.1         IRanges_2.17.4             </span></a>
+<a class="sourceLine" id="cb13-30" data-line-number="30"><span class="co">#&gt; [15] S4Vectors_0.21.10           BiocGenerics_0.29.1        </span></a>
+<a class="sourceLine" id="cb13-31" data-line-number="31"><span class="co">#&gt; [17] BiocStyle_2.11.0           </span></a>
+<a class="sourceLine" id="cb13-32" data-line-number="32"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-33" data-line-number="33"><span class="co">#&gt; loaded via a namespace (and not attached):</span></a>
+<a class="sourceLine" id="cb13-34" data-line-number="34"><span class="co">#&gt;  [1] Rtsne_0.15               ggbeeswarm_0.6.0        </span></a>
+<a class="sourceLine" id="cb13-35" data-line-number="35"><span class="co">#&gt;  [3] colorspace_1.4-0         rjson_0.2.20            </span></a>
+<a class="sourceLine" id="cb13-36" data-line-number="36"><span class="co">#&gt;  [5] rprojroot_1.3-2          circlize_0.4.5          </span></a>
+<a class="sourceLine" id="cb13-37" data-line-number="37"><span class="co">#&gt;  [7] XVector_0.23.0           GlobalOptions_0.1.0     </span></a>
+<a class="sourceLine" id="cb13-38" data-line-number="38"><span class="co">#&gt;  [9] BiocNeighbors_1.1.11     fs_1.2.6                </span></a>
+<a class="sourceLine" id="cb13-39" data-line-number="39"><span class="co">#&gt; [11] roxygen2_6.1.1           bit64_0.9-7             </span></a>
+<a class="sourceLine" id="cb13-40" data-line-number="40"><span class="co">#&gt; [13] AnnotationDbi_1.45.0     xml2_1.2.0              </span></a>
+<a class="sourceLine" id="cb13-41" data-line-number="41"><span class="co">#&gt; [15] knitr_1.21               jsonlite_1.6            </span></a>
+<a class="sourceLine" id="cb13-42" data-line-number="42"><span class="co">#&gt; [17] Rsamtools_1.35.2         annotate_1.61.0         </span></a>
+<a class="sourceLine" id="cb13-43" data-line-number="43"><span class="co">#&gt; [19] shinydashboard_0.7.1     graph_1.61.0            </span></a>
+<a class="sourceLine" id="cb13-44" data-line-number="44"><span class="co">#&gt; [21] shiny_1.2.0              BiocManager_1.30.4      </span></a>
+<a class="sourceLine" id="cb13-45" data-line-number="45"><span class="co">#&gt; [23] compiler_3.6.0           backports_1.1.2         </span></a>
+<a class="sourceLine" id="cb13-46" data-line-number="46"><span class="co">#&gt; [25] assertthat_0.2.0         Matrix_1.2-15           </span></a>
+<a class="sourceLine" id="cb13-47" data-line-number="47"><span class="co">#&gt; [27] lazyeval_0.2.1           later_0.7.5             </span></a>
+<a class="sourceLine" id="cb13-48" data-line-number="48"><span class="co">#&gt; [29] htmltools_0.3.6          tools_3.6.0             </span></a>
+<a class="sourceLine" id="cb13-49" data-line-number="49"><span class="co">#&gt; [31] bindrcpp_0.2.2           gtable_0.2.0            </span></a>
+<a class="sourceLine" id="cb13-50" data-line-number="50"><span class="co">#&gt; [33] glue_1.3.0               GenomeInfoDbData_1.2.0  </span></a>
+<a class="sourceLine" id="cb13-51" data-line-number="51"><span class="co">#&gt; [35] reshape2_1.4.3           dplyr_0.7.8             </span></a>
+<a class="sourceLine" id="cb13-52" data-line-number="52"><span class="co">#&gt; [37] Rcpp_1.0.0               pkgdown_1.3.0           </span></a>
+<a class="sourceLine" id="cb13-53" data-line-number="53"><span class="co">#&gt; [39] Biostrings_2.51.2        rtracklayer_1.43.1      </span></a>
+<a class="sourceLine" id="cb13-54" data-line-number="54"><span class="co">#&gt; [41] rintrojs_0.2.0           DelayedMatrixStats_1.5.2</span></a>
+<a class="sourceLine" id="cb13-55" data-line-number="55"><span class="co">#&gt; [43] xfun_0.4                 stringr_1.3.1           </span></a>
+<a class="sourceLine" id="cb13-56" data-line-number="56"><span class="co">#&gt; [45] mime_0.6                 XML_3.98-1.16           </span></a>
+<a class="sourceLine" id="cb13-57" data-line-number="57"><span class="co">#&gt; [47] zlibbioc_1.29.0          MASS_7.3-51.1           </span></a>
+<a class="sourceLine" id="cb13-58" data-line-number="58"><span class="co">#&gt; [49] scales_1.0.0             promises_1.0.1          </span></a>
+<a class="sourceLine" id="cb13-59" data-line-number="59"><span class="co">#&gt; [51] RColorBrewer_1.1-2       ComplexHeatmap_1.99.5   </span></a>
+<a class="sourceLine" id="cb13-60" data-line-number="60"><span class="co">#&gt; [53] yaml_2.2.0               GeneSet_0.0.1           </span></a>
+<a class="sourceLine" id="cb13-61" data-line-number="61"><span class="co">#&gt; [55] memoise_1.1.0            gridExtra_2.3           </span></a>
+<a class="sourceLine" id="cb13-62" data-line-number="62"><span class="co">#&gt; [57] stringi_1.2.4            RSQLite_2.1.1           </span></a>
+<a class="sourceLine" id="cb13-63" data-line-number="63"><span class="co">#&gt; [59] desc_1.2.0               shape_1.4.4             </span></a>
+<a class="sourceLine" id="cb13-64" data-line-number="64"><span class="co">#&gt; [61] rlang_0.3.1              pkgconfig_2.0.2         </span></a>
+<a class="sourceLine" id="cb13-65" data-line-number="65"><span class="co">#&gt; [63] commonmark_1.7           bitops_1.0-6            </span></a>
+<a class="sourceLine" id="cb13-66" data-line-number="66"><span class="co">#&gt; [65] evaluate_0.12            lattice_0.20-38         </span></a>
+<a class="sourceLine" id="cb13-67" data-line-number="67"><span class="co">#&gt; [67] purrr_0.3.0              bindr_0.1.1             </span></a>
+<a class="sourceLine" id="cb13-68" data-line-number="68"><span class="co">#&gt; [69] GenomicAlignments_1.19.1 cowplot_0.9.4           </span></a>
+<a class="sourceLine" id="cb13-69" data-line-number="69"><span class="co">#&gt; [71] bit_1.1-14               tidyselect_0.2.5        </span></a>
+<a class="sourceLine" id="cb13-70" data-line-number="70"><span class="co">#&gt; [73] GSEABase_1.45.0          plyr_1.8.4              </span></a>
+<a class="sourceLine" id="cb13-71" data-line-number="71"><span class="co">#&gt; [75] magrittr_1.5             bookdown_0.9            </span></a>
+<a class="sourceLine" id="cb13-72" data-line-number="72"><span class="co">#&gt; [77] R6_2.3.0                 DBI_1.0.0               </span></a>
+<a class="sourceLine" id="cb13-73" data-line-number="73"><span class="co">#&gt; [79] pillar_1.3.1             withr_2.1.2             </span></a>
+<a class="sourceLine" id="cb13-74" data-line-number="74"><span class="co">#&gt; [81] RCurl_1.95-4.11          tibble_2.0.1            </span></a>
+<a class="sourceLine" id="cb13-75" data-line-number="75"><span class="co">#&gt; [83] crayon_1.3.4             rmarkdown_1.11          </span></a>
+<a class="sourceLine" id="cb13-76" data-line-number="76"><span class="co">#&gt; [85] viridis_0.5.1            GetoptLong_0.1.7        </span></a>
+<a class="sourceLine" id="cb13-77" data-line-number="77"><span class="co">#&gt; [87] grid_3.6.0               blob_1.1.1              </span></a>
+<a class="sourceLine" id="cb13-78" data-line-number="78"><span class="co">#&gt; [89] digest_0.6.18            xtable_1.8-3            </span></a>
+<a class="sourceLine" id="cb13-79" data-line-number="79"><span class="co">#&gt; [91] httpuv_1.4.5.1           munsell_0.5.0           </span></a>
+<a class="sourceLine" id="cb13-80" data-line-number="80"><span class="co">#&gt; [93] beeswarm_0.2.3           viridisLite_0.3.0       </span></a>
+<a class="sourceLine" id="cb13-81" data-line-number="81"><span class="co">#&gt; [95] vipor_0.4.5</span></a>
+<a class="sourceLine" id="cb13-82" data-line-number="82"><span class="co"># devtools::session_info()</span></a></code></pre></div>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
