@@ -32,12 +32,22 @@ bibliography: hancock.bib
 
 **License**: `r packageDescription("hancock")[["License"]]`
 
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    error = FALSE,
+    warning = FALSE,
+    message = FALSE
+)
+```
+
 # Definition of cell identity
 
 Discuss:
 
 - cell type is a continuum (e.g. differentiation, pseudotime)
-- in the same notion, all cells in an organism basically originate from a common progenitor (itself coming from two, etc.)
+- on a similar note, all cells in an organism basically originate from a common progenitor (itself coming from two, etc.)
 - cell "states" may be defined similarly to cell "types" (e.g. markers of activated/resting cells)
 
 # Definitions

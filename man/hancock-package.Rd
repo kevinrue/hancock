@@ -6,6 +6,8 @@
 \alias{hancock-package}
 \title{hancock: Learn and Apply Cell Type Signatures}
 \description{
+\if{html}{\figure{logo.png}{options: align='right'}}
+
 Applies transcriptional signatures to assign cell identities.
 }
 \seealso{
