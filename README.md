@@ -1,9 +1,7 @@
-<img src="inst/www/hancock_hexsticker.png" align="right" alt="" width="120" />
-
 [![Travis build status](https://travis-ci.org/kevinrue/hancock.svg?branch=master)](https://travis-ci.org/kevinrue/hancock)
 [![Coverage status](https://codecov.io/gh/kevinrue/hancock/branch/master/graph/badge.svg)](https://codecov.io/github/kevinrue/hancock?branch=master)
 
-# hancock
+# hancock <img src="man/figures/logo.png" align="right" width="120"/>
 
 The goal of the [_hancock_](https://github.com/kevinrue/hancock) package is to provide a collection of methods for learning and applying gene signatures associated with cellular phenotypes and identities.
 Particular focus is given to single-cell data stored in objects derived from the [`SummarizedExperiment`](https://bioconductor.org/packages/release/bioc/html/SummarizedExperiment.html) class.
@@ -36,7 +34,7 @@ install.packages("devtools")
 devtools::install_github("kevinrue/hancock")
 ```
 
-To install the vignette as well (building it requires an additional minute or so), please use the following code:
+To build the vignette as well, please use the following code:
 
 ```
 devtools::install_github("kevinrue/hancock", build_opts = c("--no-resave-data", "--no-manual"))
@@ -44,7 +42,7 @@ devtools::install_github("kevinrue/hancock", build_opts = c("--no-resave-data", 
 
 # Usage
 
-Demonstration notebooks are available on the companion repository: https://github.com/kevinrue/hancock2018
+Demonstration notebooks are available as vignettes and on the companion repository: https://github.com/kevinrue/hancock2018
 
 # Contributing
 
