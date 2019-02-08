@@ -187,7 +187,7 @@ See Details section.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>diff.method</code> affects how the detection rate in all clusters <em>other than the target one</em> are summarized before comparison with the detection in the target cluster.
+    <p><code>diff.method</code> controls how the detection rate in all clusters <em>other than the target one</em> are summarized before comparison with the detection in the target cluster.
 It is possible to rank features using the minimal (<code>"min"</code>), <code>"mean"</code>, <code>"median"</code>, or maximal (<code>"max"</code>) difference between the detection rate in the target cluster and those of all other clusters.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -211,19 +211,19 @@ It is possible to rank features using the minimal (<code>"min"</code>), <code>"m
 <span class='no'>baseset</span> <span class='kw'>&lt;-</span> <span class='fu'>learnMarkersByPositiveProportionDifference</span>(<span class='no'>se</span>, <span class='kw'>cluster.col</span><span class='kw'>=</span><span class='st'>"cluster"</span>)
 
 <span class='fu'>relations</span>(<span class='no'>baseset</span>)</div><div class='output co'>#&gt; DataFrame with 27 rows and 4 columns
-#&gt;        element        set  markerProportion combinedProportion
-#&gt;     &lt;IdVector&gt; &lt;IdVector&gt;         &lt;numeric&gt;          &lt;numeric&gt;
-#&gt; 1      Gene139          A 0.892857142857143  0.178571428571429
-#&gt; 2      Gene103          A 0.821428571428571  0.178571428571429
-#&gt; 3      Gene067          A 0.821428571428571  0.178571428571429
-#&gt; 4      Gene116          A 0.785714285714286  0.178571428571429
-#&gt; 5      Gene136          A 0.785714285714286  0.178571428571429
-#&gt; ...        ...        ...               ...                ...
-#&gt; 23     Gene086          C 0.714285714285714  0.114285714285714
-#&gt; 24     Gene112          C               0.8  0.114285714285714
-#&gt; 25     Gene178          C               0.8  0.114285714285714
-#&gt; 26     Gene047          C 0.742857142857143  0.114285714285714
-#&gt; 27     Gene048          C 0.714285714285714  0.114285714285714</div></pre>
+#&gt;        element        set ProportionPositive minDifferenceProportion
+#&gt;     &lt;IdVector&gt; &lt;IdVector&gt;          &lt;numeric&gt;               &lt;numeric&gt;
+#&gt; 1      Gene139          A  0.892857142857143       0.207142857142857
+#&gt; 2      Gene103          A  0.821428571428571        0.19980694980695
+#&gt; 3      Gene067          A  0.821428571428571       0.192857142857143
+#&gt; 4      Gene116          A  0.785714285714286       0.191119691119691
+#&gt; 5      Gene136          A  0.785714285714286       0.185714285714286
+#&gt; ...        ...        ...                ...                     ...
+#&gt; 23     Gene086          C  0.714285714285714       0.142857142857143
+#&gt; 24     Gene112          C                0.8       0.121428571428571
+#&gt; 25     Gene178          C                0.8       0.121428571428571
+#&gt; 26     Gene047          C  0.742857142857143       0.121235521235521
+#&gt; 27     Gene048          C  0.714285714285714        0.11969111969112</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
