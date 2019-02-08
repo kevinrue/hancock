@@ -168,6 +168,7 @@ baseset <- learnSignatures(
     se = allen, assay.type = "rsem_tpm", method = "PositiveProportionDifference",
     cluster.col = "driver_1_s", min.diff = 0, min.prop = 0.9, threshold = 1)
 table(ids(sets(baseset)))
+relations(baseset)
 ```
 
 ## Relative markers
@@ -181,6 +182,7 @@ baseset <- learnSignatures(
     se = allen, assay.type = "tophat_counts", method = "PositiveProportionDifference",
     cluster.col = "driver_1_s", min.diff = 0.5, diff.method = "min")
 table(ids(sets(baseset)))
+relations(baseset)
 ```
 
 For instance, other methods to identify absolute markers could include differential expression between the target cluster and all other clusters to identify candidate markers significantly differentially expressed between clusters.

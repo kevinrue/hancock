@@ -39,7 +39,7 @@ the detection rate in the target cluster, and the detection rate in all other cl
 The function can limit results up to \code{n} markers for each cluster.
 }
 \details{
-\code{diff.method} affects how the detection rate in all clusters \emph{other than the target one} are summarized before comparison with the detection in the target cluster.
+\code{diff.method} controls how the detection rate in all clusters \emph{other than the target one} are summarized before comparison with the detection in the target cluster.
 It is possible to rank features using the minimal (\code{"min"}), \code{"mean"}, \code{"median"}, or maximal (\code{"max"}) difference between the detection rate in the target cluster and those of all other clusters.
 }
 \examples{

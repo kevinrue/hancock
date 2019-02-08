@@ -81,7 +81,7 @@ learnSignatures <- function(
 #' See Details section.
 #'
 #' @details
-#' `diff.method` affects how the detection rate in all clusters _other than the target one_ are summarized before comparison with the detection in the target cluster.
+#' `diff.method` controls how the detection rate in all clusters _other than the target one_ are summarized before comparison with the detection in the target cluster.
 #' It is possible to rank features using the minimal (`"min"`), `"mean"`, `"median"`, or maximal (`"max"`) difference between the detection rate in the target cluster and those of all other clusters.
 #'
 #' @return A collection of signatures as a "[`BaseSets`]" object.
@@ -123,41 +123,42 @@ learnMarkersByPositiveProportionDifference <- function(
         stop("min.diff must be a scalar in the range [0,1].")
     }
     diff.method <- match.arg(diff.method)
-    diffMethods <- c(
-        "min"=Biobase::rowMax,# minimal difference: compare to the maximal value
+    diffMethodsMap <- c(
+        "min"=Biobase::rowMax,# minimal difference: compare to the maximal other value
         "mean"=Matrix::rowMeans,
         "median"=matrixStats::rowMedians,
-        "max"=Biobase::rowMin # maximal difference: compare to the minimal value
+        "max"=Biobase::rowMin # maximal difference: compare to the minimal other value
         )
-    diff.method <- diffMethods[[diff.method]]
+    diff.FUN <- diffMethodsMap[[diff.method]]
+    diffProportionFieldName <- paste0(diff.method, "DifferenceProportion")
 
     proportionPositiveByCluster <- makeMarkerProportionMatrix(se, cluster.col, assay.type, threshold)
 
-    getTopMarkers <- function(clusterName, top=n) {
+    computeClusterMarkers <- function(clusterName, top=n) {
         # Detection rate in the target cluster, and maximum in any other cluster
         df <- data.frame(
-            freqTarget=proportionPositiveByCluster[, clusterName, drop=TRUE],
-            freqOtherMax=diff.method(proportionPositiveByCluster[
+            ProportionPositive=proportionPositiveByCluster[, clusterName, drop=TRUE],
+            ProportionOthers=diff.FUN(proportionPositiveByCluster[
                 , setdiff(colnames(proportionPositiveByCluster), clusterName),
                 drop=FALSE]),
             row.names=rownames(se)
         )
         # Difference of detection rate
-        df$diffFreq <- df$freqTarget - df$freqOtherMax
+        df[[diffProportionFieldName]] <- df[["ProportionPositive"]] - df[["ProportionOthers"]]
         # Exclude markers below the minimal difference threshold
         if (!is.na(min.diff)) {
-            df <- df[df$diffFreq >= min.diff, , drop=FALSE]
+            df <- df[df[[diffProportionFieldName]] >= min.diff, , drop=FALSE]
         }
         # 'Combinatorial' detection rate in the target cluster
         # Do not move above the exclusion on min.diff, to save time
-        df$combinedProp <- NA_real_
-        if (!is.na(min.prop)) {
+        combinedProportion <- NA_real_
+        if (min.prop > 0) {
             # Exclude markers detected alone below the threshold
-            df <- df[df$freqTarget >= min.prop, , drop=FALSE]
+            df <- df[df[["ProportionPositive"]] >= min.prop, , drop=FALSE]
             # Order markers by decreasing detection rate
-            df <- df[order(df$freqTarget, decreasing=TRUE), ]
+            df <- df[order(df[["ProportionPositive"]], decreasing=TRUE), ]
             # Compute which of the remaining markers are detected in each sample
-            seSubset <- se[, colData(se)[, cluster.col] == clusterName]
+            seSubset <- se[, colData(se)[[cluster.col]] == clusterName]
             markerDetectionMatrix <- makeMarkerDetectionMatrix(seSubset, rownames(df), threshold, assay.type)
             # Identify the maximal number of markers simultaneously detected above the threshold
             proportionScree <- makeMarkerProportionScree(markerDetectionMatrix)
@@ -165,27 +166,39 @@ learnMarkersByPositiveProportionDifference <- function(
             maxMarkers <- proportionScree[maxRow, "markers", drop=TRUE]
             maxProportion <- proportionScree[maxRow, "proportion", drop=TRUE]
             df <- head(df, maxMarkers)
-            df$combinedProp <- maxProportion
+            combinedProportion <- maxProportion
         }
         # Reorder the remaining markers by differential detection rate
         # Do not move higher above, it saves time.
-        df <- df[order(df$diffFreq, decreasing=TRUE), , drop=FALSE]
+        df <- df[order(df[[diffProportionFieldName]], decreasing=TRUE), , drop=FALSE]
         # Extract the request number of markers (default: all)
-        out <- head(df[, c("freqTarget", "combinedProp"), drop=FALSE], top)
-        colnames(out) <- c("markerProportion", "combinedProportion")
+        out <- list(
+            table=head(df, top),
+            combinedProportion=combinedProportion
+        )
         out
     }
     # Compute the markers for each cluster
     clusterNames <- colnames(proportionPositiveByCluster)
-    markerTables <- lapply(clusterNames, getTopMarkers)
-    # Make a BaseSets
-    markersList <- lapply(markerTables, rownames)
+    clusterResults <- lapply(clusterNames, "computeClusterMarkers")
+    # Extract tables of marker metadata
+    markersTables <- lapply(clusterResults, function(x){x[["table"]]})
+    # Extract gene sets
+    markersList <- lapply(markersTables, "rownames")
     names(markersList) <- clusterNames
-    metadata <- do.call(rbind, markerTables)
+    # Extract combine detection rate of each signature
+    setDetectionRates <- lapply(clusterResults, function(x){x[["combinedProportion"]]})
+    names(setDetectionRates) <- clusterNames
+    # Combine tables of marker metadata
+    metadata <- do.call(rbind, markersTables)
     markersTable <- DataFrame(
         element=unlist(markersList, use.names=FALSE),
         set=rep(names(markersList), lengths(markersList)),
-        metadata
+        metadata[, c("ProportionPositive", diffProportionFieldName), drop=FALSE]
     )
-    BaseSets(markersTable)
+    setMetadata <- IdVector(unique(names(markersList)))
+    mcols(setMetadata) <- DataFrame(
+        ProportionPositive=unlist(setDetectionRates)[ids(setMetadata)]
+    )
+    BaseSets(relations = markersTable, setData = setMetadata)
 }
