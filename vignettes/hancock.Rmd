@@ -182,7 +182,27 @@ baseset <- learnSignatures(
     se = allen, assay.type = "tophat_counts", method = "PositiveProportionDifference",
     cluster.col = "driver_1_s", min.diff = 0.5, diff.method = "min")
 table(ids(sets(baseset)))
+```
+
+Information on each relation between a marker gene and the associated set may be stored as relation metadata accessible using the `relations` method.
+Notably, this view highlights how `"minDifferenceProportion"` reflects the `min.diff=0.5` threshold applied when learning the signatures.
+
+```{r}
 relations(baseset)
+```
+
+Information about individual markers may be stored as element metadata accessible using the `elementData` and `mcols` methods as shown below.
+For instance, the proportion of cells positive for each marker across the entire data set.
+
+```{r}
+mcols(elementData(baseset))
+```
+
+Similarly, information about individual sets may be stored as set metadata accessible using the `setData` and `mcols` methods as shown below.
+For instance, the proportion of samples simultaneously positive for all markers in the cluster where this signature was defined.
+
+```{r}
+mcols(setData(baseset))
 ```
 
 For instance, other methods to identify absolute markers could include differential expression between the target cluster and all other clusters to identify candidate markers significantly differentially expressed between clusters.

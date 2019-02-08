@@ -131,9 +131,9 @@ learnMarkersByPositiveProportionDifference <- function(
         )
     diff.FUN <- diffMethodsMap[[diff.method]]
     diffProportionFieldName <- paste0(diff.method, "DifferenceProportion")
-
+    # Compute the proportion of each cluster positive for each marker
     proportionPositiveByCluster <- makeMarkerProportionMatrix(se, cluster.col, assay.type, threshold)
-
+    # Helper function. Consider refactoring.
     computeClusterMarkers <- function(clusterName, top=n) {
         # Detection rate in the target cluster, and maximum in any other cluster
         df <- data.frame(
@@ -189,16 +189,23 @@ learnMarkersByPositiveProportionDifference <- function(
     # Extract combine detection rate of each signature
     setDetectionRates <- lapply(clusterResults, function(x){x[["combinedProportion"]]})
     names(setDetectionRates) <- clusterNames
-    # Combine tables of marker metadata
+    # Combine tables of marker metadata (relations metadata)
     metadata <- do.call(rbind, markersTables)
     markersTable <- DataFrame(
         element=unlist(markersList, use.names=FALSE),
         set=rep(names(markersList), lengths(markersList)),
         metadata[, c("ProportionPositive", diffProportionFieldName), drop=FALSE]
     )
-    setMetadata <- IdVector(unique(names(markersList)))
-    mcols(setMetadata) <- DataFrame(
-        ProportionPositive=unlist(setDetectionRates)[ids(setMetadata)]
+    # Collect set metadata
+    setData <- IdVector(unique(names(markersList)))
+    mcols(setData) <- DataFrame(
+        ProportionPositive=unlist(setDetectionRates)[ids(setData)]
     )
-    BaseSets(relations = markersTable, setData = setMetadata)
+    # Collect element metadata
+    elementData <- IdVector(unique(unlist(markersList)))
+    mcols(elementData) <- DataFrame(
+        ProportionPositive=rowSums(assay(se[ids(elementData), ], assay.type) > threshold) / ncol(se)
+    )
+    # Make a BaseSets
+    BaseSets(relations=markersTable, elementData=elementData, setData=setData)
 }
