@@ -95,7 +95,7 @@ All prediction methods must accept `object` and `se` as their first two argument
 
 Additional, method-specific parameters may be accepted from the third argument onward.
 
-Once implemented as its own function, a new method should be made available through the `predict.GeneSetCollection` function using a unique `method` identifier.
+Once implemented as its own function, a new method should be made available through the `predict` S3 method using a unique `method` identifier.
 Make sure the new identifier and method are documented in the `?predictSignatures` man page.
 
 Prediction methods should return the input `SummarizedExperiment` object updated as follows:
@@ -128,10 +128,10 @@ Similarly to [new prediction methods](#new-prediction-methods), new learning met
 All prediction methods must accept `se` as their first argument, namely the `SummarizedExperiment` from which to learn signatures.
 Additional method-specific parameters may be accepted from the second argument onward.
 
-Once implemented as its own function, a new method should be made available through the `learnSignatures` function using a unique `method` identifier.
+Once implemented as its own function, a new method should be made available through the `learnSignatures` method using a unique `method` identifier.
 Make sure the new identifier and method are documented in the `?learnSignatures` man page.
 
-Learning methods should return an object inheriting from the `BaseSets` class, defined in the [unisets](https://github.com/kevinrue/unisets) package.
+Learning methods should return an object inheriting from the `BaseSets` class, defined in the [_unisets_](https://github.com/kevinrue/unisets) package.
 
 For an example template, please refer to the prediction method [`learnMarkersByPositiveProportionDifference`](https://github.com/kevinrue/hancock/blob/master/R/learn-methods.R#L114), made available using the [`"PositiveProportionDifference"` or `"PPD"`](https://github.com/kevinrue/hancock/blob/master/R/learn-methods.R#L54) identifiers.
 
@@ -140,4 +140,4 @@ Metadata produced by learning methods may be stored as [additional columns](http
 ## Terminology
 
 Until the [Cell Ontology](https://www.ebi.ac.uk/ols/ontologies/cl) or [Human Cell Atlas](https://www.humancellatlas.org) come up with some reference terminology, avoid the use of "cell type" and "(sub-)<sub>n</sub>types" in the code and accompanying documentation.
-Those terms are increasingly confusing and open for interpretation as single-cell technologies advance our understanding of _cell differentiation_ into functionally distinct _cell populations_ or _compartments_ currently discriminated by their respective canonical set of _cell surface proteins_ and _transcriptional profiles_ (a few examples of terms that more specifically address individual aspects of the definition of "cell types").
+Those terms are increasingly confusing and open for interpretation as single-cell technologies continuously advance our understanding of _cell differentiation_ into functionally distinct _cell populations_ or _compartments_ currently discriminated by their respective canonical set of _cell surface proteins_ and _transcriptional profiles_ (a few examples of terms that more specifically address individual aspects of the definition of "cell types").
