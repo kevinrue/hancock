@@ -214,7 +214,7 @@ report(pc)</a></code></pre>
 </li>
 </ol>
 <p>Additional, method-specific parameters may be accepted from the third argument onward.</p>
-<p>Once implemented as its own function, a new method should be made available through the <code>predict</code> S3 method using a unique <code>method</code> identifier. Make sure the new identifier and method are documented in the <code>?predictSignatures</code> man page.</p>
+<p>Once implemented as its own function, a new method should be made available through the <a href="https://github.com/kevinrue/hancock/blob/c70f7a86026e2ec1d6d54b1d6d732d2a07320c89/R/predict-methods.R#L114"><code>.predictAnyGeneSetClass</code></a> function using a unique <code>method</code> identifier. Make sure the new identifier and method are documented in the <code>?predictSignatures</code> man page.</p>
 <p>Prediction methods should return the input <code>SummarizedExperiment</code> object updated as follows:</p>
 <ul>
 <li>In the <code>colData</code> slot, a <code>DataFrame</code> nested in a new (or updated) <code>"hancock"</code> column should contain at least a first column called <code>prediction</code>. This column should be populated with the highest-confidence prediction for each sample. Additional, method-specific columns may be present from the second column onward.</li>
@@ -244,7 +244,7 @@ report(pc)</a></code></pre>
 <h2 class="hasAnchor">
 <a href="#new-learning-methods" class="anchor"></a>New learning methods</h2>
 <p>Similarly to <a href="#new-prediction-methods">new prediction methods</a>, new learning methods should be first implemented as a separate functions, individually exported in the <code>NAMESPACE</code> file. All prediction methods must accept <code>se</code> as their first argument, namely the <code>SummarizedExperiment</code> from which to learn signatures. Additional method-specific parameters may be accepted from the second argument onward.</p>
-<p>Once implemented as its own function, a new method should be made available through the <code>learnSignatures</code> method using a unique <code>method</code> identifier. Make sure the new identifier and method are documented in the <code><a href="reference/learnSignatures.html">?learnSignatures</a></code> man page.</p>
+<p>Once implemented as its own function, a new method should be made available through the <a href="https://github.com/kevinrue/hancock/blob/c70f7a86026e2ec1d6d54b1d6d732d2a07320c89/R/learn-methods.R#L49"><code>learnSignatures</code></a> method using a unique <code>method</code> identifier. Make sure the new identifier and method are documented in the <code><a href="reference/learnSignatures.html">?learnSignatures</a></code> man page.</p>
 <p>Learning methods should return an object inheriting from the <code>BaseSets</code> class, defined in the <a href="https://github.com/kevinrue/unisets"><em>unisets</em></a> package.</p>
 <p>For an example template, please refer to the prediction method <a href="https://github.com/kevinrue/hancock/blob/master/R/learn-methods.R#L114"><code>learnMarkersByPositiveProportionDifference</code></a>, made available using the <a href="https://github.com/kevinrue/hancock/blob/master/R/learn-methods.R#L54"><code>"PositiveProportionDifference"</code> or <code>"PPD"</code></a> identifiers.</p>
 <p>Metadata produced by learning methods may be stored as <a href="https://github.com/kevinrue/hancock/blob/master/R/learn-methods.R#L188">additional columns</a> of the <code>BaseSets</code> returned.</p>
