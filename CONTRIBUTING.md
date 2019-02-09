@@ -44,8 +44,8 @@ This package adheres to the _Bioconductor_ coding style (https://bioconductor.or
 Please use common _Bioconductor_ methods and classes, in particular `SummarizedExperiment` and `GeneSetCollection`.
 Note that new data structures for gene sets and signatures are under active development.
 Those include:
-- `BaseSets`  ([GeneSet](https://github.com/kevinrue/unisets) package)
-- `tbl_geneset` ([GeneSet](https://github.com/Kayla-Morrell/GeneSet) package)
+- `BaseSets`  ([_unisets_](https://github.com/kevinrue/unisets) package)
+- `tbl_geneset` ([_GeneSet_](https://github.com/Kayla-Morrell/GeneSet) package)
 
 More details are available at https://bioconductor.org/developers/how-to/commonMethodsAndClasses/.
 
