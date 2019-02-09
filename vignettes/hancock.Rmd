@@ -42,7 +42,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Quick start
+# Overview
+
+The goal of the `r Githubpkg("kevinrue/hancock")` package is to provide a collection of methods for learning and applying gene signatures associated with cellular phenotypes and identities.
+Particular focus is given to single-cell data stored in objects derived from the `r Biocpkg("SummarizedExperiment")` class.
+
+# Getting started
 
 ## Setup
 
