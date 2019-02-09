@@ -46,4 +46,4 @@ Demonstration notebooks are available as vignettes and on the companion reposito
 # Contributing
 
 Considerate contributions are very welcome!
-Please refer to the [contributing guidelines](https://github.com/kevinrue/hancock/blob/master/CONTRIBUTING.md) for more details.
+Please refer to the [contributing guidelines](CONTRIBUTING.md) for more details.
