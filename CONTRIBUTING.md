@@ -95,7 +95,7 @@ All prediction methods must accept `object` and `se` as their first two argument
 
 Additional, method-specific parameters may be accepted from the third argument onward.
 
-Once implemented as its own function, a new method should be made available through the `predict` S3 method using a unique `method` identifier.
+Once implemented as its own function, a new method should be made available through the [`.predictAnyGeneSetClass`](https://github.com/kevinrue/hancock/blob/c70f7a86026e2ec1d6d54b1d6d732d2a07320c89/R/predict-methods.R#L114) function using a unique `method` identifier.
 Make sure the new identifier and method are documented in the `?predictSignatures` man page.
 
 Prediction methods should return the input `SummarizedExperiment` object updated as follows:
@@ -128,7 +128,7 @@ Similarly to [new prediction methods](#new-prediction-methods), new learning met
 All prediction methods must accept `se` as their first argument, namely the `SummarizedExperiment` from which to learn signatures.
 Additional method-specific parameters may be accepted from the second argument onward.
 
-Once implemented as its own function, a new method should be made available through the `learnSignatures` method using a unique `method` identifier.
+Once implemented as its own function, a new method should be made available through the [`learnSignatures`](https://github.com/kevinrue/hancock/blob/c70f7a86026e2ec1d6d54b1d6d732d2a07320c89/R/learn-methods.R#L49) method using a unique `method` identifier.
 Make sure the new identifier and method are documented in the `?learnSignatures` man page.
 
 Learning methods should return an object inheriting from the `BaseSets` class, defined in the [_unisets_](https://github.com/kevinrue/unisets) package.
