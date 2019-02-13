@@ -119,7 +119,7 @@ Similarly, the same markers may be applied to other data sets.
 Renaming a set of signatures is as simple as renaming the levels of the `factor` that stores the signature names.
 
 ```{r}
-setIds(baseset) <- gsub("_", " ", setIds(baseset))
+ids(setData(baseset)) <- gsub("_", " ", ids(setData(baseset)))
 table(ids(sets(baseset)))
 ```
 
@@ -136,7 +136,7 @@ allen.hancock <- predict(
     cluster.col="driver_1_s")
 if (interactive()) {
     library(shiny)
-    allen.hancock <- runApp(shinyLabels(baseset, allen.hancock))
+    baseset <- runApp(shinyLabels(baseset, allen.hancock))
 }
 ```
 
