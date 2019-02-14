@@ -54,11 +54,11 @@ Discuss:
 
 ## Definitions of absolute and relative markers and signatures
 
-**Absolute markers** may be defined as molecules (e.g. protein, transcripts) known to be present or absent in a given population of cells, _irrespective of their expression in other cells of the same sample_.
+**Absolute markers** (also known as "pan markers") may be defined as molecules (e.g. protein, transcripts) known to be present or absent in a given population of cells, _irrespective of their expression in other cells of the same sample_.
 For instance, T helper lymphocytes can be defined by the presence of surface proteins Cd3 and Cd4, while T cytotoxic lymphocytes are defined by the presence of surface proteins Cd3 and Cd8.
 To assess whether a cell is likely a T helper lymphocyte, one does not need to know the markers of T cytotoxic lymphocytes, nor that the two cell types have the Cd3 marker in common.
 
-**Relative markers** may be defined by _differential_ expression against other cells in the same sample.
+**Relative markers** (also known as "key markers") may be defined by _differential_ expression against other cells in the same sample.
 For instance, in a biological sample including both T helper and T cytotoxic lymphocytes, differential expression between the two lypmphocyte subsets would highlight Cd4 protein as a (relative) marker of T helper lymphocytes and Cd8 protein as a (relative) marker of T cytotoxic lymphocytes.
 In contrast, Cd3 protein may be considered as a marker of either cell type only if its expression level or frequency significantly differs between the two cell types.
 
