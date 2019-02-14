@@ -4,17 +4,16 @@
 #'
 #' @aliases plotProportionPositive
 #'
+#' @param ... Additional arguments to be passed to methods.
 #' @param row_title,row_title_side,column_title,column_title_side
 #' See [`Heatmap()`].
-#' @param ... Additional arguments to be passed to methods.
 #'
 #' @export
 #' @importFrom ComplexHeatmap Heatmap
 plotProportionPositive <- function(
-    se,
+    se, ...,
     row_title="Cluster", row_title_side="left",
-    column_title="Signature", column_title_side="top",
-    ...
+    column_title="Signature", column_title_side="top"
 ){
     ppbc <- metadata(se)[[getPackageName()]][["ProportionPositiveByCluster"]]
     if (is.null(ppbc)) {
