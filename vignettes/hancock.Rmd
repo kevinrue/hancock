@@ -241,7 +241,7 @@ baseset <- learnSignatures(
     method = "PositiveProportionDifference", cluster.col = "driver_1_s",
     min.diff = 0, min.prop = 0.9, threshold = 1)
 table(ids(sets(baseset)))
-relations(baseset)
+head(as.data.frame(baseset))
 ```
 
 ## Relative markers
