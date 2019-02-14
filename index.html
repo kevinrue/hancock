@@ -94,7 +94,7 @@
 <div id="prerequisites" class="section level1">
 <h1 class="hasAnchor">
 <a href="#prerequisites" class="anchor"></a>Prerequisites</h1>
-<p>The <a href="https://github.com/kevinrue/hancock"><em>hancock</em></a> package supports classes of gene sets defined in multiple packages. However, it uses classes defined in the <a href="https://github.com/kevinrue/unisets"><em>unisets</em></a> package to return newly learned signatures with accompanying metadata. This dependency may be installed as follows:</p>
+<p>The <a href="https://github.com/kevinrue/hancock"><em>hancock</em></a> package supports classes of gene sets defined in multiple packages. However, it uses <code>BaseSets</code> classes defined in the <a href="https://github.com/kevinrue/unisets"><em>unisets</em></a> package to return newly learned signatures with accompanying metadata. This dependency may be installed as follows:</p>
 <pre><code><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages("devtools")
 devtools::install_github("kevinrue/unisets", build_opts = c("--no-resave-data", "--no-manual"))</a></code></pre>
 <p>Several functions support the <code>tbl_geneset</code> class defined in the <a href="https://github.com/Kayla-Morrell/GeneSet"><em>GeneSet</em></a> package. This package may be installed as follows:</p>

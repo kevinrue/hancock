@@ -94,7 +94,7 @@
       Second Author’s Affiliation<br><a class="author_email" href="mailto:#"></a><a href="mailto:corresponding@author.com">corresponding@author.com</a>
       </address>
                   
-            <h4 class="date">9 February 2019</h4>
+            <h4 class="date">14 February 2019</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kevinrue/hancock/blob/master/vignettes/concepts.Rmd"><code>vignettes/concepts.Rmd</code></a></small>
       <div class="hidden name"><code>concepts.Rmd</code></div>
@@ -107,7 +107,7 @@
       A discussion of concepts associated with cell types and transcriptional signatures.
     </div>
     
-<p><strong>Compiled date</strong>: 2019-02-09</p>
+<p><strong>Compiled date</strong>: 2019-02-14</p>
 <p><strong>Last edited</strong>: 2018-03-08</p>
 <p><strong>License</strong>: MIT + file LICENSE</p>
 <div id="definition-of-cell-identity" class="section level1">
@@ -126,8 +126,8 @@
 <div id="definitions-of-absolute-and-relative-markers-and-signatures" class="section level2">
 <h2 class="hasAnchor">
 <a href="#definitions-of-absolute-and-relative-markers-and-signatures" class="anchor"></a>Definitions of absolute and relative markers and signatures</h2>
-<p><strong>Absolute markers</strong> may be defined as molecules (e.g. protein, transcripts) known to be present or absent in a given population of cells, <em>irrespective of their expression in other cells of the same sample</em>. For instance, T helper lymphocytes can be defined by the presence of surface proteins Cd3 and Cd4, while T cytotoxic lymphocytes are defined by the presence of surface proteins Cd3 and Cd8. To assess whether a cell is likely a T helper lymphocyte, one does not need to know the markers of T cytotoxic lymphocytes, nor that the two cell types have the Cd3 marker in common.</p>
-<p><strong>Relative markers</strong> may be defined by <em>differential</em> expression against other cells in the same sample. For instance, in a biological sample including both T helper and T cytotoxic lymphocytes, differential expression between the two lypmphocyte subsets would highlight Cd4 protein as a (relative) marker of T helper lymphocytes and Cd8 protein as a (relative) marker of T cytotoxic lymphocytes. In contrast, Cd3 protein may be considered as a marker of either cell type only if its expression level or frequency significantly differs between the two cell types.</p>
+<p><strong>Absolute markers</strong> (also known as “pan markers”) may be defined as molecules (e.g. protein, transcripts) known to be present or absent in a given population of cells, <em>irrespective of their expression in other cells of the same sample</em>. For instance, T helper lymphocytes can be defined by the presence of surface proteins Cd3 and Cd4, while T cytotoxic lymphocytes are defined by the presence of surface proteins Cd3 and Cd8. To assess whether a cell is likely a T helper lymphocyte, one does not need to know the markers of T cytotoxic lymphocytes, nor that the two cell types have the Cd3 marker in common.</p>
+<p><strong>Relative markers</strong> (also known as “key markers”) may be defined by <em>differential</em> expression against other cells in the same sample. For instance, in a biological sample including both T helper and T cytotoxic lymphocytes, differential expression between the two lypmphocyte subsets would highlight Cd4 protein as a (relative) marker of T helper lymphocytes and Cd8 protein as a (relative) marker of T cytotoxic lymphocytes. In contrast, Cd3 protein may be considered as a marker of either cell type only if its expression level or frequency significantly differs between the two cell types.</p>
 <p>Note that sets of <strong>absolute markers</strong> may also be trimmed to markers <em>specific</em> to each cell population (i.e., excluding markers present in other signatures), either to increase stringency (due to their specificity) or sensitivity (due to their smaller number). For instance, Cd3 protein being a marker of both T helper and T cytotoxic lymphocytes, one may wish to exclude it from both signatures, in a manner similar–yet more stringent–to <strong>relative markers</strong>. Such markers may be called <strong>relative sets of absolute markers</strong>, as they are composed of <strong>absolute markers</strong> compared to one another in order to identify specific subsets of markers.</p>
 </div>
 <div id="definitions-qualititative-and-quantitative-signatures" class="section level2">
@@ -353,7 +353,7 @@
 <div id="session-info" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h1>
-<pre><code>#&gt; R Under development (unstable) (2019-02-08 r76078)
+<pre><code>#&gt; R Under development (unstable) (2019-02-14 r76101)
 #&gt; Platform: x86_64-pc-linux-gnu (64-bit)
 #&gt; Running under: Ubuntu 14.04.5 LTS
 #&gt; 
@@ -382,7 +382,7 @@
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] bit64_0.9-7                 assertthat_0.2.0           
 #&gt;  [3] BiocManager_1.30.4          blob_1.1.1                 
-#&gt;  [5] GenomeInfoDbData_1.2.0      Rsamtools_1.35.2           
+#&gt;  [5] GenomeInfoDbData_1.2.0      Rsamtools_1.99.1           
 #&gt;  [7] yaml_2.2.0                  pillar_1.3.1               
 #&gt;  [9] RSQLite_2.1.1               backports_1.1.2            
 #&gt; [11] lattice_0.20-38             glue_1.3.0                 
@@ -391,17 +391,17 @@
 #&gt; [17] Matrix_1.2-15               plyr_1.8.4                 
 #&gt; [19] pkgconfig_2.0.2             bookdown_0.9               
 #&gt; [21] zlibbioc_1.29.0             purrr_0.3.0                
-#&gt; [23] xtable_1.8-3                BiocParallel_1.17.12       
+#&gt; [23] xtable_1.8-3                BiocParallel_1.17.13       
 #&gt; [25] tibble_2.0.1                SummarizedExperiment_1.13.0
 #&gt; [27] cli_1.0.1                   magrittr_1.5               
 #&gt; [29] crayon_1.3.4                memoise_1.1.0              
-#&gt; [31] evaluate_0.12               fansi_0.4.0                
+#&gt; [31] evaluate_0.13               fansi_0.4.0                
 #&gt; [33] fs_1.2.6                    MASS_7.3-51.1              
 #&gt; [35] xml2_1.2.0                  tools_3.6.0                
-#&gt; [37] matrixStats_0.54.0          stringr_1.3.1              
+#&gt; [37] matrixStats_0.54.0          stringr_1.4.0              
 #&gt; [39] DelayedArray_0.9.8          bindrcpp_0.2.2             
 #&gt; [41] Biostrings_2.51.2           compiler_3.6.0             
-#&gt; [43] pkgdown_1.3.0               GenomeInfoDb_1.19.1        
+#&gt; [43] pkgdown_1.3.0               GenomeInfoDb_1.19.2        
 #&gt; [45] rlang_0.3.1                 grid_3.6.0                 
 #&gt; [47] RCurl_1.95-4.11             bitops_1.0-6               
 #&gt; [49] rmarkdown_1.11              DBI_1.0.0                  
@@ -411,7 +411,7 @@
 #&gt; [57] rtracklayer_1.43.1          utf8_1.1.4                 
 #&gt; [59] bit_1.1-14                  bindr_0.1.1                
 #&gt; [61] commonmark_1.7              rprojroot_1.3-2            
-#&gt; [63] desc_1.2.0                  stringi_1.2.4              
+#&gt; [63] desc_1.2.0                  stringi_1.3.1              
 #&gt; [65] Rcpp_1.0.0                  tidyselect_0.2.5           
 #&gt; [67] xfun_0.4</code></pre>
 </div>

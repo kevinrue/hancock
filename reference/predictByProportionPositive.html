@@ -134,7 +134,9 @@ The function stores information tracing the prediction process in the <code>meta
     
     </div>
 
-    <pre class="usage"><span class='fu'>plotProportionPositive</span>(<span class='no'>se</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>plotProportionPositive</span>(<span class='no'>se</span>, <span class='no'>...</span>, <span class='kw'>row_title</span> <span class='kw'>=</span> <span class='st'>"Cluster"</span>,
+  <span class='kw'>row_title_side</span> <span class='kw'>=</span> <span class='st'>"left"</span>, <span class='kw'>column_title</span> <span class='kw'>=</span> <span class='st'>"Signature"</span>,
+  <span class='kw'>column_title_side</span> <span class='kw'>=</span> <span class='st'>"top"</span>)
 
 <span class='fu'>predictByProportionPositive</span>(<span class='no'>object</span>, <span class='no'>se</span>, <span class='no'>cluster.col</span>,
   <span class='kw'>assay.type</span> <span class='kw'>=</span> <span class='st'>"counts"</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
@@ -149,6 +151,10 @@ The function stores information tracing the prediction process in the <code>meta
     <tr>
       <th>...</th>
       <td><p>Additional arguments to be passed to methods.</p></td>
+    </tr>
+    <tr>
+      <th>row_title, row_title_side, column_title, column_title_side</th>
+      <td><p>See <code>Heatmap()</code>.</p></td>
     </tr>
     <tr>
       <th>object</th>
