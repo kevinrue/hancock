@@ -403,23 +403,14 @@
 <a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt; Ntsr1-Cre_GN220  Rbp4-Cre_KL100  Scnn1a-Tg3-Cre </span></a>
 <a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt;             551             628             507</span></a>
-<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="kw">relations</span>(baseset)</a>
-<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">#&gt; Hits object with 1686 hits and 2 metadata columns:</span></a>
-<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="co">#&gt;               from        to | ProportionPositive minDifferenceProportion</span></a>
-<a class="sourceLine" id="cb15-12" data-line-number="12"><span class="co">#&gt;          &lt;integer&gt; &lt;integer&gt; |          &lt;numeric&gt;               &lt;numeric&gt;</span></a>
-<a class="sourceLine" id="cb15-13" data-line-number="13"><span class="co">#&gt;      [1]         1         1 |                  1        0.91578947368421</span></a>
-<a class="sourceLine" id="cb15-14" data-line-number="14"><span class="co">#&gt;      [2]         2         1 |                  1       0.478947368421053</span></a>
-<a class="sourceLine" id="cb15-15" data-line-number="15"><span class="co">#&gt;      [3]         3         1 |                  1       0.136842105263158</span></a>
-<a class="sourceLine" id="cb15-16" data-line-number="16"><span class="co">#&gt;      [4]         4         1 |                  1       0.126315789473684</span></a>
-<a class="sourceLine" id="cb15-17" data-line-number="17"><span class="co">#&gt;      [5]         5         1 |                  1                     0.1</span></a>
-<a class="sourceLine" id="cb15-18" data-line-number="18"><span class="co">#&gt;      ...       ...       ... .                ...                     ...</span></a>
-<a class="sourceLine" id="cb15-19" data-line-number="19"><span class="co">#&gt;   [1682]       815         3 |                  1                       0</span></a>
-<a class="sourceLine" id="cb15-20" data-line-number="20"><span class="co">#&gt;   [1683]       547         3 |                  1                       0</span></a>
-<a class="sourceLine" id="cb15-21" data-line-number="21"><span class="co">#&gt;   [1684]       549         3 |                  1                       0</span></a>
-<a class="sourceLine" id="cb15-22" data-line-number="22"><span class="co">#&gt;   [1685]       550         3 |                  1                       0</span></a>
-<a class="sourceLine" id="cb15-23" data-line-number="23"><span class="co">#&gt;   [1686]       551         3 |                  1                       0</span></a>
-<a class="sourceLine" id="cb15-24" data-line-number="24"><span class="co">#&gt;   -------</span></a>
-<a class="sourceLine" id="cb15-25" data-line-number="25"><span class="co">#&gt;   nLnode: 897 / nRnode: 3</span></a></code></pre></div>
+<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>(baseset))</a>
+<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">#&gt;   element             set ProportionPositive minDifferenceProportion</span></a>
+<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="co">#&gt; 1   Foxp2 Ntsr1-Cre_GN220          1.0000000              0.91578947</span></a>
+<a class="sourceLine" id="cb15-12" data-line-number="12"><span class="co">#&gt; 2    Nfia Ntsr1-Cre_GN220          1.0000000              0.47894737</span></a>
+<a class="sourceLine" id="cb15-13" data-line-number="13"><span class="co">#&gt; 3 Sparcl1 Ntsr1-Cre_GN220          1.0000000              0.13684211</span></a>
+<a class="sourceLine" id="cb15-14" data-line-number="14"><span class="co">#&gt; 4   Med10 Ntsr1-Cre_GN220          1.0000000              0.12631579</span></a>
+<a class="sourceLine" id="cb15-15" data-line-number="15"><span class="co">#&gt; 5   Cplx2 Ntsr1-Cre_GN220          1.0000000              0.10000000</span></a>
+<a class="sourceLine" id="cb15-16" data-line-number="16"><span class="co">#&gt; 6   Efhd2 Ntsr1-Cre_GN220          0.9873418              0.09260493</span></a></code></pre></div>
 </div>
 <div id="relative-markers" class="section level2">
 <h2 class="hasAnchor">
@@ -493,7 +484,7 @@
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session Info</h1>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="co">#&gt; R Under development (unstable) (2019-02-14 r76101)</span></a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="co">#&gt; R Under development (unstable) (2019-02-14 r76102)</span></a>
 <a class="sourceLine" id="cb21-3" data-line-number="3"><span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span></a>
 <a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co">#&gt; Running under: Ubuntu 14.04.5 LTS</span></a>
 <a class="sourceLine" id="cb21-5" data-line-number="5"><span class="co">#&gt; </span></a>
@@ -525,55 +516,54 @@
 <a class="sourceLine" id="cb21-31" data-line-number="31"><span class="co">#&gt; [17] BiocStyle_2.11.0           </span></a>
 <a class="sourceLine" id="cb21-32" data-line-number="32"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb21-33" data-line-number="33"><span class="co">#&gt; loaded via a namespace (and not attached):</span></a>
-<a class="sourceLine" id="cb21-34" data-line-number="34"><span class="co">#&gt;  [1] Rtsne_0.15               ggbeeswarm_0.6.0        </span></a>
-<a class="sourceLine" id="cb21-35" data-line-number="35"><span class="co">#&gt;  [3] colorspace_1.4-0         rjson_0.2.20            </span></a>
-<a class="sourceLine" id="cb21-36" data-line-number="36"><span class="co">#&gt;  [5] rprojroot_1.3-2          circlize_0.4.5          </span></a>
-<a class="sourceLine" id="cb21-37" data-line-number="37"><span class="co">#&gt;  [7] XVector_0.23.0           GlobalOptions_0.1.0     </span></a>
-<a class="sourceLine" id="cb21-38" data-line-number="38"><span class="co">#&gt;  [9] BiocNeighbors_1.1.11     fs_1.2.6                </span></a>
-<a class="sourceLine" id="cb21-39" data-line-number="39"><span class="co">#&gt; [11] roxygen2_6.1.1           bit64_0.9-7             </span></a>
-<a class="sourceLine" id="cb21-40" data-line-number="40"><span class="co">#&gt; [13] AnnotationDbi_1.45.0     xml2_1.2.0              </span></a>
-<a class="sourceLine" id="cb21-41" data-line-number="41"><span class="co">#&gt; [15] knitr_1.21               jsonlite_1.6            </span></a>
-<a class="sourceLine" id="cb21-42" data-line-number="42"><span class="co">#&gt; [17] Rsamtools_1.99.1         annotate_1.61.0         </span></a>
-<a class="sourceLine" id="cb21-43" data-line-number="43"><span class="co">#&gt; [19] shinydashboard_0.7.1     graph_1.61.0            </span></a>
-<a class="sourceLine" id="cb21-44" data-line-number="44"><span class="co">#&gt; [21] shiny_1.2.0              BiocManager_1.30.4      </span></a>
-<a class="sourceLine" id="cb21-45" data-line-number="45"><span class="co">#&gt; [23] compiler_3.6.0           backports_1.1.2         </span></a>
-<a class="sourceLine" id="cb21-46" data-line-number="46"><span class="co">#&gt; [25] assertthat_0.2.0         Matrix_1.2-15           </span></a>
-<a class="sourceLine" id="cb21-47" data-line-number="47"><span class="co">#&gt; [27] lazyeval_0.2.1           later_0.8.0             </span></a>
-<a class="sourceLine" id="cb21-48" data-line-number="48"><span class="co">#&gt; [29] htmltools_0.3.6          tools_3.6.0             </span></a>
-<a class="sourceLine" id="cb21-49" data-line-number="49"><span class="co">#&gt; [31] bindrcpp_0.2.2           gtable_0.2.0            </span></a>
-<a class="sourceLine" id="cb21-50" data-line-number="50"><span class="co">#&gt; [33] glue_1.3.0               GenomeInfoDbData_1.2.0  </span></a>
-<a class="sourceLine" id="cb21-51" data-line-number="51"><span class="co">#&gt; [35] reshape2_1.4.3           dplyr_0.7.8             </span></a>
-<a class="sourceLine" id="cb21-52" data-line-number="52"><span class="co">#&gt; [37] Rcpp_1.0.0               pkgdown_1.3.0           </span></a>
-<a class="sourceLine" id="cb21-53" data-line-number="53"><span class="co">#&gt; [39] Biostrings_2.51.2        rtracklayer_1.43.1      </span></a>
-<a class="sourceLine" id="cb21-54" data-line-number="54"><span class="co">#&gt; [41] rintrojs_0.2.0           DelayedMatrixStats_1.5.2</span></a>
-<a class="sourceLine" id="cb21-55" data-line-number="55"><span class="co">#&gt; [43] xfun_0.4                 stringr_1.4.0           </span></a>
-<a class="sourceLine" id="cb21-56" data-line-number="56"><span class="co">#&gt; [45] mime_0.6                 XML_3.98-1.17           </span></a>
-<a class="sourceLine" id="cb21-57" data-line-number="57"><span class="co">#&gt; [47] zlibbioc_1.29.0          MASS_7.3-51.1           </span></a>
-<a class="sourceLine" id="cb21-58" data-line-number="58"><span class="co">#&gt; [49] scales_1.0.0             promises_1.0.1          </span></a>
-<a class="sourceLine" id="cb21-59" data-line-number="59"><span class="co">#&gt; [51] RColorBrewer_1.1-2       ComplexHeatmap_1.99.5   </span></a>
-<a class="sourceLine" id="cb21-60" data-line-number="60"><span class="co">#&gt; [53] yaml_2.2.0               GeneSet_0.0.1           </span></a>
-<a class="sourceLine" id="cb21-61" data-line-number="61"><span class="co">#&gt; [55] memoise_1.1.0            gridExtra_2.3           </span></a>
-<a class="sourceLine" id="cb21-62" data-line-number="62"><span class="co">#&gt; [57] stringi_1.3.1            RSQLite_2.1.1           </span></a>
-<a class="sourceLine" id="cb21-63" data-line-number="63"><span class="co">#&gt; [59] desc_1.2.0               shape_1.4.4             </span></a>
-<a class="sourceLine" id="cb21-64" data-line-number="64"><span class="co">#&gt; [61] rlang_0.3.1              pkgconfig_2.0.2         </span></a>
-<a class="sourceLine" id="cb21-65" data-line-number="65"><span class="co">#&gt; [63] commonmark_1.7           bitops_1.0-6            </span></a>
-<a class="sourceLine" id="cb21-66" data-line-number="66"><span class="co">#&gt; [65] evaluate_0.13            lattice_0.20-38         </span></a>
-<a class="sourceLine" id="cb21-67" data-line-number="67"><span class="co">#&gt; [67] purrr_0.3.0              bindr_0.1.1             </span></a>
-<a class="sourceLine" id="cb21-68" data-line-number="68"><span class="co">#&gt; [69] GenomicAlignments_1.19.1 cowplot_0.9.4           </span></a>
-<a class="sourceLine" id="cb21-69" data-line-number="69"><span class="co">#&gt; [71] bit_1.1-14               tidyselect_0.2.5        </span></a>
-<a class="sourceLine" id="cb21-70" data-line-number="70"><span class="co">#&gt; [73] GSEABase_1.45.0          plyr_1.8.4              </span></a>
-<a class="sourceLine" id="cb21-71" data-line-number="71"><span class="co">#&gt; [75] magrittr_1.5             bookdown_0.9            </span></a>
-<a class="sourceLine" id="cb21-72" data-line-number="72"><span class="co">#&gt; [77] R6_2.3.0                 DBI_1.0.0               </span></a>
-<a class="sourceLine" id="cb21-73" data-line-number="73"><span class="co">#&gt; [79] pillar_1.3.1             withr_2.1.2             </span></a>
-<a class="sourceLine" id="cb21-74" data-line-number="74"><span class="co">#&gt; [81] RCurl_1.95-4.11          tibble_2.0.1            </span></a>
-<a class="sourceLine" id="cb21-75" data-line-number="75"><span class="co">#&gt; [83] crayon_1.3.4             rmarkdown_1.11          </span></a>
-<a class="sourceLine" id="cb21-76" data-line-number="76"><span class="co">#&gt; [85] viridis_0.5.1            GetoptLong_0.1.7        </span></a>
-<a class="sourceLine" id="cb21-77" data-line-number="77"><span class="co">#&gt; [87] grid_3.6.0               blob_1.1.1              </span></a>
-<a class="sourceLine" id="cb21-78" data-line-number="78"><span class="co">#&gt; [89] digest_0.6.18            xtable_1.8-3            </span></a>
-<a class="sourceLine" id="cb21-79" data-line-number="79"><span class="co">#&gt; [91] httpuv_1.4.5.1           munsell_0.5.0           </span></a>
-<a class="sourceLine" id="cb21-80" data-line-number="80"><span class="co">#&gt; [93] beeswarm_0.2.3           viridisLite_0.3.0       </span></a>
-<a class="sourceLine" id="cb21-81" data-line-number="81"><span class="co">#&gt; [95] vipor_0.4.5</span></a>
-<a class="sourceLine" id="cb21-82" data-line-number="82"><span class="co"># devtools::session_info()</span></a></code></pre></div>
+<a class="sourceLine" id="cb21-34" data-line-number="34"><span class="co">#&gt;  [1] bitops_1.0-6             fs_1.2.6                </span></a>
+<a class="sourceLine" id="cb21-35" data-line-number="35"><span class="co">#&gt;  [3] bit64_0.9-7              RColorBrewer_1.1-2      </span></a>
+<a class="sourceLine" id="cb21-36" data-line-number="36"><span class="co">#&gt;  [5] rprojroot_1.3-2          tools_3.6.0             </span></a>
+<a class="sourceLine" id="cb21-37" data-line-number="37"><span class="co">#&gt;  [7] backports_1.1.2          R6_2.4.0                </span></a>
+<a class="sourceLine" id="cb21-38" data-line-number="38"><span class="co">#&gt;  [9] vipor_0.4.5              DBI_1.0.0               </span></a>
+<a class="sourceLine" id="cb21-39" data-line-number="39"><span class="co">#&gt; [11] lazyeval_0.2.1           colorspace_1.4-0        </span></a>
+<a class="sourceLine" id="cb21-40" data-line-number="40"><span class="co">#&gt; [13] GetoptLong_0.1.7         withr_2.1.2             </span></a>
+<a class="sourceLine" id="cb21-41" data-line-number="41"><span class="co">#&gt; [15] gridExtra_2.3            tidyselect_0.2.5        </span></a>
+<a class="sourceLine" id="cb21-42" data-line-number="42"><span class="co">#&gt; [17] bit_1.1-14               compiler_3.6.0          </span></a>
+<a class="sourceLine" id="cb21-43" data-line-number="43"><span class="co">#&gt; [19] graph_1.61.0             BiocNeighbors_1.1.11    </span></a>
+<a class="sourceLine" id="cb21-44" data-line-number="44"><span class="co">#&gt; [21] xml2_1.2.0               desc_1.2.0              </span></a>
+<a class="sourceLine" id="cb21-45" data-line-number="45"><span class="co">#&gt; [23] rtracklayer_1.43.1       bookdown_0.9            </span></a>
+<a class="sourceLine" id="cb21-46" data-line-number="46"><span class="co">#&gt; [25] scales_1.0.0             pkgdown_1.3.0           </span></a>
+<a class="sourceLine" id="cb21-47" data-line-number="47"><span class="co">#&gt; [27] commonmark_1.7           stringr_1.4.0           </span></a>
+<a class="sourceLine" id="cb21-48" data-line-number="48"><span class="co">#&gt; [29] digest_0.6.18            Rsamtools_1.99.1        </span></a>
+<a class="sourceLine" id="cb21-49" data-line-number="49"><span class="co">#&gt; [31] rmarkdown_1.11           XVector_0.23.0          </span></a>
+<a class="sourceLine" id="cb21-50" data-line-number="50"><span class="co">#&gt; [33] pkgconfig_2.0.2          htmltools_0.3.6         </span></a>
+<a class="sourceLine" id="cb21-51" data-line-number="51"><span class="co">#&gt; [35] rlang_0.3.1              GlobalOptions_0.1.0     </span></a>
+<a class="sourceLine" id="cb21-52" data-line-number="52"><span class="co">#&gt; [37] RSQLite_2.1.1            DelayedMatrixStats_1.5.2</span></a>
+<a class="sourceLine" id="cb21-53" data-line-number="53"><span class="co">#&gt; [39] shiny_1.2.0              shape_1.4.4             </span></a>
+<a class="sourceLine" id="cb21-54" data-line-number="54"><span class="co">#&gt; [41] jsonlite_1.6             dplyr_0.8.0             </span></a>
+<a class="sourceLine" id="cb21-55" data-line-number="55"><span class="co">#&gt; [43] RCurl_1.95-4.11          magrittr_1.5            </span></a>
+<a class="sourceLine" id="cb21-56" data-line-number="56"><span class="co">#&gt; [45] GenomeInfoDbData_1.2.0   Matrix_1.2-15           </span></a>
+<a class="sourceLine" id="cb21-57" data-line-number="57"><span class="co">#&gt; [47] ggbeeswarm_0.6.0         Rcpp_1.0.0              </span></a>
+<a class="sourceLine" id="cb21-58" data-line-number="58"><span class="co">#&gt; [49] munsell_0.5.0            GeneSet_0.0.1           </span></a>
+<a class="sourceLine" id="cb21-59" data-line-number="59"><span class="co">#&gt; [51] viridis_0.5.1            rintrojs_0.2.0          </span></a>
+<a class="sourceLine" id="cb21-60" data-line-number="60"><span class="co">#&gt; [53] stringi_1.3.1            yaml_2.2.0              </span></a>
+<a class="sourceLine" id="cb21-61" data-line-number="61"><span class="co">#&gt; [55] MASS_7.3-51.1            zlibbioc_1.29.0         </span></a>
+<a class="sourceLine" id="cb21-62" data-line-number="62"><span class="co">#&gt; [57] Rtsne_0.15               plyr_1.8.4              </span></a>
+<a class="sourceLine" id="cb21-63" data-line-number="63"><span class="co">#&gt; [59] grid_3.6.0               blob_1.1.1              </span></a>
+<a class="sourceLine" id="cb21-64" data-line-number="64"><span class="co">#&gt; [61] promises_1.0.1           shinydashboard_0.7.1    </span></a>
+<a class="sourceLine" id="cb21-65" data-line-number="65"><span class="co">#&gt; [63] crayon_1.3.4             lattice_0.20-38         </span></a>
+<a class="sourceLine" id="cb21-66" data-line-number="66"><span class="co">#&gt; [65] Biostrings_2.51.2        cowplot_0.9.4           </span></a>
+<a class="sourceLine" id="cb21-67" data-line-number="67"><span class="co">#&gt; [67] annotate_1.61.0          circlize_0.4.5          </span></a>
+<a class="sourceLine" id="cb21-68" data-line-number="68"><span class="co">#&gt; [69] knitr_1.21               ComplexHeatmap_1.99.5   </span></a>
+<a class="sourceLine" id="cb21-69" data-line-number="69"><span class="co">#&gt; [71] pillar_1.3.1             rjson_0.2.20            </span></a>
+<a class="sourceLine" id="cb21-70" data-line-number="70"><span class="co">#&gt; [73] reshape2_1.4.3           XML_3.98-1.17           </span></a>
+<a class="sourceLine" id="cb21-71" data-line-number="71"><span class="co">#&gt; [75] glue_1.3.0               evaluate_0.13           </span></a>
+<a class="sourceLine" id="cb21-72" data-line-number="72"><span class="co">#&gt; [77] BiocManager_1.30.4       httpuv_1.4.5.1          </span></a>
+<a class="sourceLine" id="cb21-73" data-line-number="73"><span class="co">#&gt; [79] gtable_0.2.0             purrr_0.3.0             </span></a>
+<a class="sourceLine" id="cb21-74" data-line-number="74"><span class="co">#&gt; [81] assertthat_0.2.0         xfun_0.4                </span></a>
+<a class="sourceLine" id="cb21-75" data-line-number="75"><span class="co">#&gt; [83] mime_0.6                 xtable_1.8-3            </span></a>
+<a class="sourceLine" id="cb21-76" data-line-number="76"><span class="co">#&gt; [85] later_0.8.0              roxygen2_6.1.1          </span></a>
+<a class="sourceLine" id="cb21-77" data-line-number="77"><span class="co">#&gt; [87] viridisLite_0.3.0        tibble_2.0.1            </span></a>
+<a class="sourceLine" id="cb21-78" data-line-number="78"><span class="co">#&gt; [89] beeswarm_0.2.3           GenomicAlignments_1.19.1</span></a>
+<a class="sourceLine" id="cb21-79" data-line-number="79"><span class="co">#&gt; [91] AnnotationDbi_1.45.0     memoise_1.1.0           </span></a>
+<a class="sourceLine" id="cb21-80" data-line-number="80"><span class="co">#&gt; [93] GSEABase_1.45.0</span></a>
+<a class="sourceLine" id="cb21-81" data-line-number="81"><span class="co"># devtools::session_info()</span></a></code></pre></div>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
