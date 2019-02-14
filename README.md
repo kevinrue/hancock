@@ -9,7 +9,7 @@ Particular focus is given to single-cell data stored in objects derived from the
 # Prerequisites
 
 The [_hancock_](https://github.com/kevinrue/hancock) package supports classes of gene sets defined in multiple packages.
-However, it uses classes defined in the [_unisets_](https://github.com/kevinrue/unisets) package to return newly learned signatures with accompanying metadata.
+However, it uses `BaseSets` classes defined in the [_unisets_](https://github.com/kevinrue/unisets) package to return newly learned signatures with accompanying metadata.
 This dependency may be installed as follows:
 
 ```

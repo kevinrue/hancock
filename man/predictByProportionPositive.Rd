@@ -5,7 +5,9 @@
 \alias{predictByProportionPositive}
 \title{Identify the Dominant Signatures in Clusters of Samples}
 \usage{
-plotProportionPositive(se, ...)
+plotProportionPositive(se, ..., row_title = "Cluster",
+  row_title_side = "left", column_title = "Signature",
+  column_title_side = "top")
 
 predictByProportionPositive(object, se, cluster.col,
   assay.type = "counts", threshold = 0)
@@ -14,6 +16,8 @@ predictByProportionPositive(object, se, cluster.col,
 \item{se}{An object of class inheriting from \code{\link[=RangedSummarizedExperiment-class]{SummarizedExperiment}}.}
 
 \item{...}{Additional arguments to be passed to methods.}
+
+\item{row_title, row_title_side, column_title, column_title_side}{See \code{\link[=Heatmap]{Heatmap()}}.}
 
 \item{object}{A collection of signatures inheriting from \code{\linkS4class{BaseSets}} or \code{\linkS4class{GeneSetCollection}}".}
 

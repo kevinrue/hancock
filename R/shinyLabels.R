@@ -20,6 +20,7 @@
 #' @importFrom SingleCellExperiment SingleCellExperiment reducedDimNames
 #' @importFrom rintrojs introjsUI introjs
 #' @importFrom utils read.delim
+#' @importFrom unisets setData ids
 #'
 #' @examples
 #' # Example data ----
@@ -57,7 +58,7 @@
 shinyLabels <- function(gs, se) {
 
     stopifnot(is(gs, "BaseSets"))
-    stopifnot(all(levels(colData(se)[[getPackageName()]][["prediction"]]) %in% setIds(gs)))
+    stopifnot(all(levels(colData(se)[[getPackageName()]][["prediction"]]) %in% ids(setData(gs))))
 
     se <- as(se, "SingleCellExperiment")
 
@@ -148,7 +149,7 @@ shinyLabels <- function(gs, se) {
                 id0 <- id
                 plotName0 <- paste0(.plotOutput, id0)
                 output[[plotName0]] <- renderPlot({
-                    geneSetName0 <- setIds(REACTIVE$GS)[id0]
+                    geneSetName0 <- ids(setData(REACTIVE$GS))[id0]
                     .plotWrapper(
                         REACTIVE$SE, geneSetName0,
                         plotType=input[[.plotFunction]],
@@ -168,7 +169,7 @@ shinyLabels <- function(gs, se) {
             setList <- as(gs, "list")
             for (id in seq_len(nSets(gs))) {
                 id0 <- id
-                geneSetName0 <- setIds(gs)[id0]
+                geneSetName0 <- ids(setData(gs))[id0]
                 geneIds0 <- ids(setList[[geneSetName0]])
                 geneIdText <- head(paste(geneIds0, collapse=", "), 50) # TODO: change 50
                 plotName0 <- paste0(.plotOutput, id0)
@@ -200,7 +201,7 @@ shinyLabels <- function(gs, se) {
                 inputId0 <- paste0(.geneSetNameInput, id0)
                 observeEvent(input[[inputId0]], {
                     newValue <- input[[inputId0]]
-                    setIds(REACTIVE$GS)[id0] <- as.character(newValue)
+                    ids(setData(REACTIVE$GS))[id0] <- as.character(newValue)
                     levels(colData(REACTIVE$SE)[[getPackageName()]][["prediction"]])[id0] <- as.character(newValue)
                 })
             })
@@ -260,7 +261,7 @@ shinyLabels <- function(gs, se) {
                 local({
                     id0 <- id
                     inputId0 <- paste0(.geneSetNameInput, id0)
-                    updateTextInput(session, inputId0, value=setIds(gs)[id0])
+                    updateTextInput(session, inputId0, value=ids(setData(gs))[id0])
                 })
             }
         })

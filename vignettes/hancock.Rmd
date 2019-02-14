@@ -61,8 +61,8 @@ library(hancock)
 
 As an initial example, we demonstrate an analysis to find genes markers of three populations of neurons labelled by the fluorescent protein tdTomato (tdT) after Cre-mediated recombination.
 
-For this example, we use a subset of single cell RNA-seq dataset from the Allen Brain Atlas [@tasic2016].
-This dataset is available in the `r Biocpkg("scRNAseq")` Experiment data package:
+For this example, we use a subset of single-cell RNA-seq dataset from the Allen Brain Atlas [@tasic2016].
+This dataset is available in the `r Biocpkg("scRNAseq")` experiment data package:
 
 ```{r}
 library(scRNAseq)
@@ -76,56 +76,123 @@ The individual Cre line is indicated for each cell in the `"driver_1_s"` metadat
 table(allen$driver_1_s)
 ```
 
-## Learning signatures
+## Learning signatures {#learning-signatures}
 
-The learning method `"PositiveProportionDifference"` requires prior clustering information to be stored as a `factor` in a column of the `colData` slot.
-The method can then be applied to identify markers for each cluster, using a variety of filters on individual markers (e.g., minimal difference in detection rate between clusters) and on the combined set of markers (e.g., minimal proportion of samples in the target cluster where all markers are detected simultaneously).
+For instance, the learning method `"PositiveProportionDifference"` requires prior clustering information to be stored as a `factor` in a column of the `colData` slot.
+The method can then be applied to identify markers for each cluster, using a variety of filters on individual markers (e.g., minimal difference in detection rate between the target cluster and any other cluster) and on the combined set of markers (e.g., minimal proportion of cells in the target cluster where all markers are detected simultaneously).
+Here, we use the Cre line information to find genes markers of the three populations of neurons.
 
 ```{r}
 allen$driver_1_s <- as.factor(allen$driver_1_s)
 baseset <- learnSignatures(
-    se = allen, assay.type = "tophat_counts", method = "PositiveProportionDifference",
-    cluster.col = "driver_1_s", min.diff = 0.3, min.prop = 0.5, diff.method = "min")
-relations(baseset)
+    se = allen, assay.type = "tophat_counts",
+    method = "PositiveProportionDifference", cluster.col = "driver_1_s",
+    min.prop = 0.5, min.diff = 0.3,  diff.method = "min")
+baseset
 ```
 
-## Applying signatures to predict labels
+In `r Githubpkg("kevinrue/hancock")`, learning methods return `BaseSets` objects, defined in the `r Githubpkg("kevinrue/unisets")` package.
+This container stores relations between elements (e.g., genes) and sets (e.g., signatures), along with optional metadata associated with each relation.
+In the next section, we explore the various pieces of information populated by `method = "PositiveProportionDifference")`.
 
-The markers identified above may then be applied on the training data set itself, to annotate each cluster with its corresponding signature.
+## Visualizing learning outputs {#visualise-learning}
+
+### Relation metadata
+
+Notably, the metadata associated with each relation between a marker (`"element"`) and the signature (`"set"`) can be flattened in a `data.frame` format.
+Specifically, the `"PositiveProportionDifference"` describes two pieces of information:
+
+- `"ProportionPositive"`, the proportion of cells with detectable expression of the marker in the associated cluster
+- `"minDifferenceProportion"`, the minimal difference betwween the detection rate in the associated cluster compared with that of each other cluster
+
+```{r}
+head(as.data.frame(baseset))
+```
+
+### Marker metadata
+
+In addition, metadata associated with each unique marker--irrespective of its specific relationships with individual signature--are stored in the metadata columns of the `elementData` slot.
+Specifically, the `"PositiveProportionDifference"` describes `"ProportionPositive"`, the proportion of cells with detectable expression of the markers across the entire data set.
+
+```{r}
+mcols(elementData(baseset))
+```
+
+### Set metadata
+
+Finally, metadata associated with each unique signature--irrespective of its specific relationships with individual markers--are stored in the metadata columns of the `setData` slot.
+Specifically, the `"PositiveProportionDifference"` describes `"ProportionPositive"`, the proportion of cells with detectable expression of all markers associated with each signature across the entire data set.
+
+```{r}
+mcols(setData(baseset))
+```
+
+## Applying signatures to predict labels {#predict-proportion-positive}
+
+Markers [learned previously](#learning-signatures) may then be applied on the training data set itself, to annotate each cluster with its corresponding signature.
 
 ```{r}
 allen.hancock <- predict(
-    baseset, allen, assay.type = "tophat_counts", method = "ProportionPositive",
-    cluster.col="driver_1_s")
+    baseset, allen, assay.type = "tophat_counts",
+    method = "ProportionPositive", cluster.col="driver_1_s")
 allen.hancock
 ```
 
-In particular, the `predict` function populates:
+In `r Githubpkg("kevinrue/hancock")`, the `predict` function populates:
 
 - the `"hancock"` column of `colData(allen.hancock)`
 - the `"hancock"` item of `metadata(allen.hancock)`
 
+In the next section, we explore the various pieces of information populated by `method = "ProportionPositive"`.
+
+## Visualizing prediction outputs {#visualise-prediction}
+
+### Predicted cell label
+
+The key output of every prediction method is the cell identity predicted for each cell in the object.
+All prediction methods store this information in  `colData(sce)[["hancock"]][["prediction"]]`, or `sce$hancock$prediction`, in short.
+
 ```{r}
 summary(as.data.frame(colData(allen.hancock)[["hancock"]]))
+```
+
+The `metadata` slot is used to store some required information:
+
+- `"GeneSets"`, the signatures used in the prediction process
+- `"method"`, the unique identifier of the prediction method
+- `"packageVersion"`, the version of the `r Githubpkg("kevinrue/hancock")` package that performed the prediction
+
+Optional method-specific information may be added by each prediction method.
+For `method="ProportionPositive"`, those are:
+
+- `"ProportionPositiveByCluster"`, the proportion of cells in each cluster that express all markers in each signature
+- `"TopSignatureByCluster"`, the most frequently detected signature in each cluster
+
+```{r}
 metadata(allen.hancock)[["hancock"]]
 ```
 
-Similarly, the same markers may be applied to other data sets.
+In particular, `"ProportionPositiveByCluster"` may be visualized as a heat map using the `plotProportionPositive` method.
+This view is useful to examine the specificity of each signature for each cluster.
+
+```{r}
+plotProportionPositive(allen.hancock)
+```
 
 ## Renaming signatures
 
 ### Manually
 
-Renaming a set of signatures is as simple as renaming the levels of the `factor` that stores the signature names.
+Renaming a set of signatures is as simple as renaming the identifiers of the `setData` slot that stores the signatures.
 
 ```{r}
-setIds(baseset) <- gsub("_", " ", setIds(baseset))
+ids(setData(baseset)) <- gsub("_", " ", ids(setData(baseset)))
 table(ids(sets(baseset)))
 ```
 
 ## Interactively
 
-In addition, the `r Githubpkg("kevinrue/hancock")` package includes a lightweight `r CRANpkg("shiny")` app that offers users the possibility to interactively rename signatures while inspecting their features in a `SummarizedExperiment` object (e.g., count of samples associated with each signature, layout in reduced dimension).
+In addition, the `r Githubpkg("kevinrue/hancock")` package includes a lightweight `r CRANpkg("shiny")` app that offers users the possibility to interactively rename signatures while inspecting their features in a `SummarizedExperiment` object (e.g., count of cells associated with each signature, layout in reduced dimension).
 
 Specifically, the app requires a set of signatures and a `SummarizedExperiment` object that was previously annotated with those signatures using the `predict` function.
 When closed, the app returns the updated set of signatures.
@@ -136,7 +203,7 @@ allen.hancock <- predict(
     cluster.col="driver_1_s")
 if (interactive()) {
     library(shiny)
-    allen.hancock <- runApp(shinyLabels(baseset, allen.hancock))
+    baseset <- runApp(shinyLabels(baseset, allen.hancock))
 }
 ```
 
@@ -151,7 +218,7 @@ allen.hancock <- runPCA(allen.hancock)
 allen.hancock <- runTSNE(allen.hancock)
 if (interactive()) {
     library(shiny)
-    allen.hancock <- runApp(shinyLabels(baseset, allen.hancock))
+    baseset <- runApp(shinyLabels(baseset, allen.hancock))
 }
 ```
 
@@ -159,44 +226,45 @@ if (interactive()) {
 
 ## Absolute markers
 
-As described in the accompanying [concepts](concepts.html) vignette, absolute markers may be defined as genes detected in each cluster, irrespective of their expression in the other clusters.
+As described in the accompanying [concepts](concepts.html) vignette, absolute markers (also known as "pan markers") may be defined as genes detected in each cluster, irrespective of their expression in the other clusters.
 
 For instance, the `"PositiveProportionDifference"` learning method can be used to identify such markers, by setting `min.diff=0` to annul any comparison between the detection frequency in the target cluster and all other clusters.
 
 As the numbers of genes detected in each cluster may be rather large, it is generally a good idea to restrict markers to be detected in a very high fraction of the corresponding cluster, for instance `min.prop = 0.9`.
-In addition, the `threshold` argument may be used to define a minimal threshold of expression level to consider a marker as "detected" in each sample.
+In addition, the `threshold` argument may be used to define a minimal threshold of expression level to consider a marker as "detected" in each cell, and the `assay.type` argument declares the assay to use (e.g., "counts", "logcouts", "TPM").
 
-This ensures that for each cluster, the combined set of markers is simultaneously detected in at least 90% of cells in that cluster.
+This ensures that for each cluster, the combined set of markers is simultaneously detected above 1 transcript per million (TPM) in at least 90% of cells in that cluster.
 
 ```{r}
 baseset <- learnSignatures(
-    se = allen, assay.type = "rsem_tpm", method = "PositiveProportionDifference",
-    cluster.col = "driver_1_s", min.diff = 0, min.prop = 0.9, threshold = 1)
+    se = allen, assay.type = "rsem_tpm",
+    method = "PositiveProportionDifference", cluster.col = "driver_1_s",
+    min.diff = 0, min.prop = 0.9, threshold = 1)
 table(ids(sets(baseset)))
 relations(baseset)
 ```
 
 ## Relative markers
 
-As described in the accompanying [concepts](concepts.html) vignette, relative markers may be defined by _differential_ analysis against other cells in the same sample.
+As described in the accompanying [concepts](concepts.html) vignette, relative markers (also known as "key markers") may be defined by _differential_ analysis against other cells in the same sample.
 
 For instance, the `"PositiveProportionDifference"` learning method can be used to identify such markers, by setting `min.diff` to a value greater than 0, in order to subset candidate markers to those detected at a rate at least 50% higher than the detection rate observed in any other cluster.
 
 ```{r}
 baseset <- learnSignatures(
-    se = allen, assay.type = "tophat_counts", method = "PositiveProportionDifference",
-    cluster.col = "driver_1_s", min.diff = 0.5, diff.method = "min")
+    se = allen, assay.type = "tophat_counts",
+    method = "PositiveProportionDifference", cluster.col = "driver_1_s",
+    min.diff = 0.5, diff.method = "min")
 table(ids(sets(baseset)))
 ```
 
-Information on each relation between a marker gene and the associated set may be stored as relation metadata accessible using the `relations` method.
-Notably, this view highlights how `"minDifferenceProportion"` reflects the `min.diff=0.5` threshold applied when learning the signatures.
+Among the learning outputs stored in the `BaseSets` metadata information, the relation metadata column `"minDifferenceProportion"` reflects the `min.diff=0.5` threshold applied when learning the signatures.
 
 ```{r}
-relations(baseset)
+summary(mcols(relations(baseset))[["minDifferenceProportion"]])
 ```
 
-Information about individual markers may be stored as element metadata accessible using the `elementData` and `mcols` methods as shown below.
+In addition, information about individual markers may be stored as element metadata accessible using the `elementData` and `mcols` methods as shown below.
 For instance, the proportion of cells positive for each marker across the entire data set.
 
 ```{r}
@@ -204,13 +272,13 @@ mcols(elementData(baseset))
 ```
 
 Similarly, information about individual sets may be stored as set metadata accessible using the `setData` and `mcols` methods as shown below.
-For instance, the proportion of samples simultaneously positive for all markers in the cluster where this signature was defined.
+For instance, the proportion of cells simultaneously positive for all markers in the cluster where this signature was defined.
 
 ```{r}
 mcols(setData(baseset))
 ```
 
-For instance, other methods to identify absolute markers could include differential expression between the target cluster and all other clusters to identify candidate markers significantly differentially expressed between clusters.
+For instance, future methods to identify absolute markers could include differential expression between the target cluster and all other clusters to identify candidate markers significantly differentially expressed between clusters.
 
 # Additional information
 

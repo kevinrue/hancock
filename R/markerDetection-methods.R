@@ -51,7 +51,7 @@
 #'
 #' # Example usage ----
 #'
-#' markerMatrix <- makeMarkerDetectionMatrix(se, elementIds(bs))
+#' markerMatrix <- makeMarkerDetectionMatrix(se, ids(elementData(bs)))
 #' signatureMatrix <- makeSignatureDetectionMatrix(markerMatrix, bs)
 #'
 #' tab <- makeMarkerProportionScree(markerMatrix)

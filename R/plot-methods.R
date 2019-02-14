@@ -1,20 +1,30 @@
 
-#' @describeIn predictByProportionPositive Returns a [`Heatmap`] displaying the proportion (on a scale from 0 to 100) of samples that are positive for each individual signature in each cluster.
+#' @describeIn predictByProportionPositive
+#' Returns a [`Heatmap`] displaying the proportion (on a scale from 0 to 100) of samples that are positive for each individual signature in each cluster.
 #'
 #' @aliases plotProportionPositive
 #'
 #' @param ... Additional arguments to be passed to methods.
+#' @param row_title,row_title_side,column_title,column_title_side
+#' See [`Heatmap()`].
 #'
 #' @export
 #' @importFrom ComplexHeatmap Heatmap
 plotProportionPositive <- function(
-    se, ...
+    se, ...,
+    row_title="Cluster", row_title_side="left",
+    column_title="Signature", column_title_side="top"
 ){
     ppbc <- metadata(se)[[getPackageName()]][["ProportionPositiveByCluster"]]
     if (is.null(ppbc)) {
         stop("Method 'ProportionPositive' was not run yet.")
     }
-    Heatmap(matrix=t(ppbc*100), name="Proportion (%)", ...)
+    Heatmap(
+        matrix=t(ppbc*100), name="Proportion (%)",
+        row_title=row_title, row_title_side=row_title_side,
+        column_title=column_title, column_title_side=column_title_side,
+        ...
+    )
 }
 
 #' @describeIn predictSignatures Returns a `ggplot` bar plot displaying
