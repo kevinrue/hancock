@@ -50,8 +50,8 @@ test_that("predict.GeneSetCollection works for method ProportionPositive", {
 
     ProportionPositiveByCluster <- metadata(out)[["hancock"]][["ProportionPositiveByCluster"]]
     expect_is(ProportionPositiveByCluster, "matrix")
-    expect_identical(nrow(ProportionPositiveByCluster), nlevels(sce$cluster))
-    expect_identical(ncol(ProportionPositiveByCluster), length(gsc))
+    expect_identical(nrow(ProportionPositiveByCluster), length(gsc))
+    expect_identical(ncol(ProportionPositiveByCluster), nlevels(sce$cluster))
 
     TopSignatureByCluster <- metadata(out)[["hancock"]][["TopSignatureByCluster"]]
     expect_s3_class(TopSignatureByCluster, "factor")
@@ -101,8 +101,8 @@ test_that("predict.tbl_geneset works for method ProportionPositive", {
 
     ProportionPositiveByCluster <- metadata(out)[["hancock"]][["ProportionPositiveByCluster"]]
     expect_is(ProportionPositiveByCluster, "matrix")
-    expect_identical(nrow(ProportionPositiveByCluster), nlevels(sce$cluster))
-    expect_identical(ncol(ProportionPositiveByCluster), length(gsc))
+    expect_identical(nrow(ProportionPositiveByCluster), length(gsc))
+    expect_identical(ncol(ProportionPositiveByCluster), nlevels(sce$cluster))
 
     TopSignatureByCluster <- metadata(out)[["hancock"]][["TopSignatureByCluster"]]
     expect_s3_class(TopSignatureByCluster, "factor")
@@ -152,8 +152,8 @@ test_that("predict.BaseSets works for method ProportionPositive", {
 
     ProportionPositiveByCluster <- metadata(out)[["hancock"]][["ProportionPositiveByCluster"]]
     expect_is(ProportionPositiveByCluster, "matrix")
-    expect_identical(nrow(ProportionPositiveByCluster), nlevels(sce$cluster))
-    expect_identical(ncol(ProportionPositiveByCluster), length(gsc))
+    expect_identical(nrow(ProportionPositiveByCluster), length(gsc))
+    expect_identical(ncol(ProportionPositiveByCluster), nlevels(sce$cluster))
 
     TopSignatureByCluster <- metadata(out)[["hancock"]][["TopSignatureByCluster"]]
     expect_s3_class(TopSignatureByCluster, "factor")

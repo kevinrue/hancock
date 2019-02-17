@@ -203,8 +203,9 @@ learnMarkersByPositiveProportionDifference <- function(
     )
     # Collect element metadata
     elementData <- IdVector(unique(unlist(markersList)))
+    detectionMatrix <- as(assay(se[ids(elementData), ], assay.type) > threshold, "Matrix")
     mcols(elementData) <- DataFrame(
-        ProportionPositive=rowSums(assay(se[ids(elementData), ], assay.type) > threshold) / ncol(se)
+        ProportionPositive=rowSums(detectionMatrix) / ncol(se)
     )
     # Make a BaseSets
     BaseSets(relations=markersTable, elementData=elementData, setData=setData)

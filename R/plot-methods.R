@@ -12,15 +12,15 @@
 #' @importFrom ComplexHeatmap Heatmap
 plotProportionPositive <- function(
     se, ...,
-    row_title="Cluster", row_title_side="left",
-    column_title="Signature", column_title_side="top"
+    row_title="Signature", row_title_side="left",
+    column_title="Cluster", column_title_side="top"
 ){
     ppbc <- metadata(se)[[getPackageName()]][["ProportionPositiveByCluster"]]
     if (is.null(ppbc)) {
         stop("Method 'ProportionPositive' was not run yet.")
     }
     Heatmap(
-        matrix=t(ppbc*100), name="Proportion (%)",
+        matrix=ppbc*100, name="Proportion (%)",
         row_title=row_title, row_title_side=row_title_side,
         column_title=column_title, column_title_side=column_title_side,
         ...

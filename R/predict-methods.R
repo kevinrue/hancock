@@ -212,7 +212,7 @@ predictByProportionPositive <- function(
     }
     stopifnot(!missing(cluster.col))
     stopifnot(is.factor(colData(se)[, cluster.col, drop=TRUE]))
-    clusterData <- colData(se)[, cluster.col, drop=TRUE]
+    clusterData <- colData(se)[[cluster.col]]
 
     # Compute the proportion of each cluster positive for each signature
     uniqueMarkersIds <- uniqueMarkerNames(object)
@@ -226,27 +226,28 @@ predictByProportionPositive <- function(
 
     proportionPositiveByCluster <- matrix(
         data=0,
-        nrow=length(clusterNames),
-        ncol=ncol(signatureMatrix),
-        dimnames=list(cluster=clusterNames, signature=colnames(signatureMatrix)))
+        nrow=ncol(signatureMatrix),
+        ncol=length(clusterNames),
+        dimnames=list(signature=colnames(signatureMatrix), cluster=clusterNames))
     for (signatureName in colnames(signatureMatrix)) {
         countSignatureTable <- table(clusterData, signatureMatrix[, signatureName])
         if ("TRUE" %in% colnames(countSignatureTable)) {
-            proportionPositiveByCluster[, signatureName] <- countSignatureTable[, "TRUE"] / numberCellsInCluster
+            proportionPositiveByCluster[signatureName, ] <- countSignatureTable[, "TRUE"] / numberCellsInCluster
         }
     }
 
     # For each cluster, identify the most frequent signature
     # TODO: warning if ties
-    maxColIdx <- max.col(proportionPositiveByCluster, ties.method="first")
+    maxSignatureIdx <- max.col(t(proportionPositiveByCluster), ties.method="first")
     maxSignatureName <- factor(
-        x=colnames(proportionPositiveByCluster)[maxColIdx],
+        x=rownames(proportionPositiveByCluster)[maxSignatureIdx],
         levels=signatureNames)
-    names(maxSignatureName) <- rownames(proportionPositiveByCluster)
+    names(maxSignatureName) <- colnames(proportionPositiveByCluster)
 
     # Assign most frequent signature to every cell in each cluster
     newColData <- DataFrame(
-        prediction=maxSignatureName[colData(se)[, cluster.col, drop=TRUE]]
+        prediction=maxSignatureName[colData(se)[, cluster.col, drop=TRUE]],
+        row.names = NULL
     )
     colData(se)[[getPackageName()]] <- newColData
 

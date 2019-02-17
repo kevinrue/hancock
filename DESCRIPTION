@@ -42,11 +42,13 @@ Suggests:
     BiocStyle,
     circlize,
     covr,
+    irlba,
     knitr,
     rmarkdown,
     Rtsne,
     scRNAseq,
     scater,
+    TENxPBMCData,
     testthat
 LinkingTo: Rcpp, beachmat, Rhdf5lib
 NeedsCompilation: yes
