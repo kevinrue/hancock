@@ -81,7 +81,7 @@ table(tenx_pbmc3k$seurat.ident)
 ```
 
 In addition, we store manually curated cell type annotations in the `"seurat.celltype"` cell metadata.
-Those will be used below to learn signatures associated with well characterized populations cell.
+Those will be used below to learn signatures associated with well characterized cell populations.
 
 ```{r}
 tenx_pbmc3k$seurat.celltype <- factor(tenx_pbmc3k$seurat.ident, labels = c(
