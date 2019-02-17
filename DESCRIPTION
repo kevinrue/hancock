@@ -42,6 +42,7 @@ Suggests:
     BiocStyle,
     circlize,
     covr,
+    irlba,
     knitr,
     rmarkdown,
     Rtsne,
