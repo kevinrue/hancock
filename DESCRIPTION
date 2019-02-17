@@ -47,6 +47,7 @@ Suggests:
     Rtsne,
     scRNAseq,
     scater,
+    TENxPBMCData,
     testthat
 LinkingTo: Rcpp, beachmat, Rhdf5lib
 NeedsCompilation: yes
