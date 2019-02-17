@@ -101,8 +101,8 @@ In particular, this method offers a variety of filters on individual markers (e.
 
 Here, we use the manually curated cell type labels to find genes markers for each population of cells in the PBMC.
 Specifically, we require markers to detected (strictly more than 0 counts; `assay.type = "counts", threshold = 0`) at least 20% more frequently in the target cluster than any other cluster (`min.diff = 0.2, diff.method = "min"`).
-Furthermore, we also require the combined set of markers to be detected in at least 10% of the target cluster (`min.prop = 0.1`).
-Lastly, we request the method to return a maximum of 2 markers per signature (n = 2).
+Furthermore, we also require the combined set of markers to be codetected in at least 10% of the target cluster (`min.prop = 0.1`).
+Lastly, we request the method to return a maximum of 2 markers per signature (`n = 2`).
 
 ```{r}
 basesets <- learnSignatures(
