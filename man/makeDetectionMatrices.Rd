@@ -26,9 +26,9 @@ makeMarkerProportionMatrix(se, cluster.col, assay.type = "counts",
 
 \item{assay.type}{A string specifying which assay values to use, e.g., \code{"counts"} or \code{"logcounts"}.}
 
-\item{matrix}{A logical matrix indicating the presence of each marker in each sample.}
+\item{matrix}{A logical matrix indicating the presence of each marker (row) in each sample (column).}
 
-\item{object}{A collection of signatures inheriting from "\code{\link{BaseSets}}" or "\code{\link{GeneSetCollection}}".}
+\item{object}{A collection of signatures inheriting from "\code{\link{GeneSetCollection}}" , "\code{\link{BaseSets}}", or "\code{\link{tbl_geneset}}".}
 
 \item{cluster.col}{Name of a column in \code{colData(se)} that contains
 a factor indicating cluster membership for each column (i.e. sample) in \code{se}.}
@@ -45,11 +45,11 @@ a factor indicating cluster membership for each column (i.e. sample) in \code{se
 Create matrices of detection events for individual gene features or combination thereof (i.e., signatures).
 }
 \details{
-The \code{makeMarkerDetectionMatrix} function declares a feature as detected if it is detected above a given threshold in a specific assay (e.g., count or UMI matrix).
+The \code{makeMarkerDetectionMatrix} function returns a marker by sample matrix declaring a feature as detected if it is detected above a given threshold in a specific assay (e.g., \code{"counts"}, \code{"logcounts"}).
 
-The \code{makeSignatureDetectionMatrix} function declares a signature (composed of one or more gene features) as detected if all the associated features are detected.
+The \code{makeSignatureDetectionMatrix} function returns a sample by signature matrix declaring a signature (composed of one or more gene features) as detected if all the associated features are detected.
 
-The \code{makeMarkerProportionMatrix} function computes the proportion of samples expressing detectable levels of each marker in individual predefined clusters.
+The \code{makeMarkerProportionMatrix} function returns a signature by cluster matrix indicating the proportion of samples expressing detectable levels of each marker in individual predefined clusters.
 
 The \code{makeMarkerProportionScree} function compute the 'cumulative' (i.e., combined) detection rate of markers:
 the proportion of samples with detectable levels of the first marker, both of the first two markers, etc.

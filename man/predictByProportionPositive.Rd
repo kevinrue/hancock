@@ -5,8 +5,8 @@
 \alias{predictByProportionPositive}
 \title{Identify the Dominant Signatures in Clusters of Samples}
 \usage{
-plotProportionPositive(se, ..., row_title = "Cluster",
-  row_title_side = "left", column_title = "Signature",
+plotProportionPositive(se, ..., row_title = "Signature",
+  row_title_side = "left", column_title = "Cluster",
   column_title_side = "top")
 
 predictByProportionPositive(object, se, cluster.col,

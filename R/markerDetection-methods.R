@@ -8,11 +8,11 @@
 #' @rdname makeDetectionMatrices
 #'
 #' @details
-#' The `makeMarkerDetectionMatrix` function declares a feature as detected if it is detected above a given threshold in a specific assay (e.g., count or UMI matrix).
+#' The `makeMarkerDetectionMatrix` function returns a marker by sample matrix declaring a feature as detected if it is detected above a given threshold in a specific assay (e.g., `"counts"`, `"logcounts"`).
 #'
-#' The `makeSignatureDetectionMatrix` function declares a signature (composed of one or more gene features) as detected if all the associated features are detected.
+#' The `makeSignatureDetectionMatrix` function returns a sample by signature matrix declaring a signature (composed of one or more gene features) as detected if all the associated features are detected.
 #'
-#' The `makeMarkerProportionMatrix` function computes the proportion of samples expressing detectable levels of each marker in individual predefined clusters.
+#' The `makeMarkerProportionMatrix` function returns a signature by cluster matrix indicating the proportion of samples expressing detectable levels of each marker in individual predefined clusters.
 #'
 #' The `makeMarkerProportionScree` function compute the 'cumulative' (i.e., combined) detection rate of markers:
 #' the proportion of samples with detectable levels of the first marker, both of the first two markers, etc.
@@ -94,8 +94,8 @@ makeMarkerProportionScree <- function(matrix) {
 
 #' @rdname makeDetectionMatrices
 #'
-#' @param matrix A logical matrix indicating the presence of each marker in each sample.
-#' @param object A collection of signatures inheriting from "[`BaseSets`]" or "[`GeneSetCollection`]".
+#' @param matrix A logical matrix indicating the presence of each marker (row) in each sample (column).
+#' @param object A collection of signatures inheriting from "[`GeneSetCollection`]" , "[`BaseSets`]", or "[`tbl_geneset`]".
 #'
 #' @export
 #'
@@ -141,7 +141,8 @@ makeMarkerProportionMatrix <- function(
     assayMatrix <- assay(se, assay.type)
     for (clusterName in clusterNames) {
         clusterSamples <- which(colData(se)[, cluster.col] == clusterName)
-        nDetected <- Matrix::rowSums(assayMatrix[, clusterSamples] > threshold)
+        detectionMatrix <- as(assayMatrix[, clusterSamples] > threshold, "Matrix")
+        nDetected <- rowSums(detectionMatrix)
         proportionPositiveByCluster[, clusterName] <- nDetected / length(clusterSamples)
     }
 
