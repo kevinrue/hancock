@@ -7,6 +7,9 @@ sudo: false
 cache: packages
 
 before_install:
+  - mkdir -p ~/.R
+  - echo -e 'MAKEFLAGS = -j2' > ~/.R/Makevars
+  - echo 'options(Ncpus = 2)' > ~/.Rprofile
   - Rscript -e 'install.packages("devtools")'
   - Rscript -e 'devtools::install_github("Kayla-Morrell/GeneSet")'
   - Rscript -e 'devtools::install_github("kevinrue/unisets")'
