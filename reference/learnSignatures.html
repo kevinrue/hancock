@@ -191,22 +191,22 @@ between the detection rate in the cluster of interest and the detection rate in 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/SummarizedExperiment/topics/SummarizedExperiment-class'>colData</a></span>(<span class='no'>se1</span>)[, <span class='st'>"cluster"</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>LETTERS</span>, <span class='fl'>3</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>ncol</a></span>(<span class='no'>se1</span>), <span class='kw'>replace</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
 <span class='no'>gs</span> <span class='kw'>&lt;-</span> <span class='fu'>learnSignatures</span>(<span class='no'>se1</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"PositiveProportionDifference"</span>, <span class='kw'>cluster.col</span><span class='kw'>=</span><span class='st'>"cluster"</span>)
 
-<span class='fu'>relations</span>(<span class='no'>gs</span>)</div><div class='output co'>#&gt; Hits object with 22 hits and 2 metadata columns:
+<span class='fu'>relations</span>(<span class='no'>gs</span>)</div><div class='output co'>#&gt; Hits object with 15 hits and 2 metadata columns:
 #&gt;             from        to | ProportionPositive minDifferenceProportion
 #&gt;        &lt;integer&gt; &lt;integer&gt; |          &lt;numeric&gt;               &lt;numeric&gt;
-#&gt;    [1]         1         1 |  0.970588235294118       0.137254901960784
-#&gt;    [2]         2         1 |  0.970588235294118       0.137254901960784
-#&gt;    [3]         3         1 |  0.911764705882353       0.111764705882353
-#&gt;    [4]         4         1 |  0.911764705882353       0.111764705882353
-#&gt;    [5]         5         1 |  0.941176470588235       0.107843137254902
+#&gt;    [1]         1         1 |   0.96969696969697        0.16969696969697
+#&gt;    [2]         2         1 |  0.848484848484849       0.129734848484849
+#&gt;    [3]         3         1 |   0.96969696969697        0.12594696969697
+#&gt;    [4]         4         1 |                  1       0.114285714285714
+#&gt;    [5]         5         1 |  0.909090909090909       0.109090909090909
 #&gt;    ...       ...       ... .                ...                     ...
-#&gt;   [18]        18         3 |  0.916666666666667       0.122549019607843
-#&gt;   [19]        19         3 |                  1       0.117647058823529
-#&gt;   [20]        20         3 |  0.916666666666667       0.116666666666667
-#&gt;   [21]        21         3 |  0.944444444444444       0.111111111111111
-#&gt;   [22]        22         3 |  0.972222222222222       0.105555555555556
+#&gt;   [11]        11         3 |  0.914285714285714       0.164285714285714
+#&gt;   [12]        12         3 |  0.942857142857143       0.130357142857143
+#&gt;   [13]        13         3 |  0.914285714285714       0.126406926406926
+#&gt;   [14]        14         3 |  0.942857142857143       0.124675324675325
+#&gt;   [15]        15         3 |                  1       0.121212121212121
 #&gt;   -------
-#&gt;   nLnode: 22 / nRnode: 3</div></pre>
+#&gt;   nLnode: 15 / nRnode: 3</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

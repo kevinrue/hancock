@@ -162,7 +162,7 @@ The resulting expressions can be evaluated as <code>FilterRules</code> inside an
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>unisets</span>)
 <span class='no'>gmt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"hancock"</span>, <span class='st'>"extdata"</span>, <span class='st'>"seurat_pbmc3k.gmt"</span>)
-<span class='no'>genesets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/unisets/topics/import'>import</a></span>(<span class='no'>gmt</span>)
+<span class='no'>genesets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/unisets/topics/io'>import</a></span>(<span class='no'>gmt</span>)
 
 <span class='co'># Example usage ----</span>
 <span class='no'>fe</span> <span class='kw'>&lt;-</span> <span class='fu'>makeFilterExpression</span>(<span class='no'>genesets</span>)</div></pre>

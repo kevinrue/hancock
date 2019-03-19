@@ -171,7 +171,7 @@
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>unisets</span>)
 <span class='no'>gmt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"hancock"</span>, <span class='st'>"extdata"</span>, <span class='st'>"seurat_pbmc3k.gmt"</span>)
-<span class='no'>genesets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/unisets/topics/import'>import</a></span>(<span class='no'>gmt</span>)
+<span class='no'>genesets</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/unisets/topics/io'>import</a></span>(<span class='no'>gmt</span>)
 
 <span class='co'># Usage ----</span>
 <span class='no'>um</span> <span class='kw'>&lt;-</span> <span class='fu'>uniqueMarkerNames</span>(<span class='no'>genesets</span>)

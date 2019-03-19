@@ -94,7 +94,7 @@
       Second Author’s Affiliation<br><a class="author_email" href="mailto:#"></a><a href="mailto:corresponding@author.com">corresponding@author.com</a>
       </address>
                   
-            <h4 class="date">17 February 2019</h4>
+            <h4 class="date">19 March 2019</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kevinrue/hancock/blob/master/vignettes/hancock.Rmd"><code>vignettes/hancock.Rmd</code></a></small>
       <div class="hidden name"><code>hancock.Rmd</code></div>
@@ -107,7 +107,7 @@
       Example usage of the hancock package demonstrated using example data sets.
     </div>
     
-<p><strong>Compiled date</strong>: 2019-02-17</p>
+<p><strong>Compiled date</strong>: 2019-03-19</p>
 <p><strong>Last edited</strong>: 2018-03-08</p>
 <p><strong>License</strong>: MIT + file LICENSE</p>
 <div id="overview" class="section level1">
@@ -605,7 +605,7 @@
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(scater)</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2">tenx_pbmc3k &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/normalize">normalize</a></span>(tenx_pbmc3k)</a>
 <a class="sourceLine" id="cb16-3" data-line-number="3"><span class="kw">assay</span>(tenx_pbmc3k, <span class="st">"logcounts"</span>) &lt;-<span class="st"> </span><span class="kw">as</span>(<span class="kw">assay</span>(tenx_pbmc3k, <span class="st">"logcounts"</span>), <span class="st">"Matrix"</span>)</a>
-<a class="sourceLine" id="cb16-4" data-line-number="4">tenx_pbmc3k &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/runPCA">runPCA</a></span>(tenx_pbmc3k, <span class="dt">method=</span><span class="st">"irlba"</span>)</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">tenx_pbmc3k &lt;-<span class="st"> </span><span class="kw">runPCA</span>(tenx_pbmc3k, <span class="dt">method=</span><span class="st">"irlba"</span>)</a>
 <a class="sourceLine" id="cb16-5" data-line-number="5">tenx_pbmc3k &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/scater/topics/runTSNE">runTSNE</a></span>(tenx_pbmc3k)</a></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">tenx_pbmc3k.hancock &lt;-<span class="st"> </span><span class="kw"><a href="../reference/predictSignatures.html">predict</a></span>(</a>
 <a class="sourceLine" id="cb17-2" data-line-number="2">    basesets, tenx_pbmc3k, <span class="dt">assay.type =</span> <span class="st">"counts"</span>, <span class="dt">method =</span> <span class="st">"ProportionPositive"</span>,</a>
@@ -740,14 +740,17 @@
 <a class="sourceLine" id="cb22-15" data-line-number="15"><span class="co">#&gt; ENSG00000115758   0.100833965125095</span></a></code></pre></div>
 <p>Similarly, information about individual sets may be stored as set metadata accessible using the <code>setData</code> and <code>mcols</code> methods as shown below. For instance, the proportion of cells simultaneously positive for all markers in the cluster where this signature was defined.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw">setData</span>(basesets))</a>
-<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="co">#&gt; DataFrame with 5 rows and 1 column</span></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="co">#&gt; DataFrame with 8 rows and 1 column</span></a>
 <a class="sourceLine" id="cb23-3" data-line-number="3"><span class="co">#&gt;                   ProportionPositive</span></a>
 <a class="sourceLine" id="cb23-4" data-line-number="4"><span class="co">#&gt;                            &lt;numeric&gt;</span></a>
-<a class="sourceLine" id="cb23-5" data-line-number="5"><span class="co">#&gt; B cells            0.304093567251462</span></a>
-<a class="sourceLine" id="cb23-6" data-line-number="6"><span class="co">#&gt; FCGR3A+ Monocytes  0.426751592356688</span></a>
-<a class="sourceLine" id="cb23-7" data-line-number="7"><span class="co">#&gt; NK cells           0.612903225806452</span></a>
-<a class="sourceLine" id="cb23-8" data-line-number="8"><span class="co">#&gt; Dendritic Cells               0.6875</span></a>
-<a class="sourceLine" id="cb23-9" data-line-number="9"><span class="co">#&gt; Megakaryocytes     0.142857142857143</span></a></code></pre></div>
+<a class="sourceLine" id="cb23-5" data-line-number="5"><span class="co">#&gt; CD4 T cells                        1</span></a>
+<a class="sourceLine" id="cb23-6" data-line-number="6"><span class="co">#&gt; CD14+ Monocytes                    1</span></a>
+<a class="sourceLine" id="cb23-7" data-line-number="7"><span class="co">#&gt; B cells            0.304093567251462</span></a>
+<a class="sourceLine" id="cb23-8" data-line-number="8"><span class="co">#&gt; CD8 T cells                        1</span></a>
+<a class="sourceLine" id="cb23-9" data-line-number="9"><span class="co">#&gt; FCGR3A+ Monocytes  0.426751592356688</span></a>
+<a class="sourceLine" id="cb23-10" data-line-number="10"><span class="co">#&gt; NK cells           0.612903225806452</span></a>
+<a class="sourceLine" id="cb23-11" data-line-number="11"><span class="co">#&gt; Dendritic Cells               0.6875</span></a>
+<a class="sourceLine" id="cb23-12" data-line-number="12"><span class="co">#&gt; Megakaryocytes     0.142857142857143</span></a></code></pre></div>
 <p>For instance, future methods to identify absolute markers could include differential expression between the target cluster and all other clusters to identify candidate markers significantly differentially expressed between clusters.</p>
 </div>
 </div>
@@ -779,12 +782,12 @@
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session Info</h1>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/sessionInfo">sessionInfo</a></span>()</a>
-<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="co">#&gt; R Under development (unstable) (2019-02-17 r76111)</span></a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="co">#&gt; R Under development (unstable) (2019-03-19 r76252)</span></a>
 <a class="sourceLine" id="cb25-3" data-line-number="3"><span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span></a>
 <a class="sourceLine" id="cb25-4" data-line-number="4"><span class="co">#&gt; Running under: Ubuntu 14.04.5 LTS</span></a>
 <a class="sourceLine" id="cb25-5" data-line-number="5"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb25-6" data-line-number="6"><span class="co">#&gt; Matrix products: default</span></a>
-<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="co">#&gt; BLAS: /home/travis/R-bin/lib/R/lib/libRblas.so</span></a>
+<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="co">#&gt; BLAS:   /home/travis/R-bin/lib/R/lib/libRblas.so</span></a>
 <a class="sourceLine" id="cb25-8" data-line-number="8"><span class="co">#&gt; LAPACK: /home/travis/R-bin/lib/R/lib/libRlapack.so</span></a>
 <a class="sourceLine" id="cb25-9" data-line-number="9"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb25-10" data-line-number="10"><span class="co">#&gt; locale:</span></a>
@@ -800,71 +803,72 @@
 <a class="sourceLine" id="cb25-20" data-line-number="20"><span class="co">#&gt; [8] methods   base     </span></a>
 <a class="sourceLine" id="cb25-21" data-line-number="21"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb25-22" data-line-number="22"><span class="co">#&gt; other attached packages:</span></a>
-<a class="sourceLine" id="cb25-23" data-line-number="23"><span class="co">#&gt;  [1] scater_1.11.10              ggplot2_3.1.0              </span></a>
+<a class="sourceLine" id="cb25-23" data-line-number="23"><span class="co">#&gt;  [1] scater_1.11.12              ggplot2_3.1.0              </span></a>
 <a class="sourceLine" id="cb25-24" data-line-number="24"><span class="co">#&gt;  [3] TENxPBMCData_1.1.0          HDF5Array_1.11.10          </span></a>
-<a class="sourceLine" id="cb25-25" data-line-number="25"><span class="co">#&gt;  [5] rhdf5_2.27.12               SingleCellExperiment_1.5.2 </span></a>
+<a class="sourceLine" id="cb25-25" data-line-number="25"><span class="co">#&gt;  [5] rhdf5_2.27.15               SingleCellExperiment_1.5.2 </span></a>
 <a class="sourceLine" id="cb25-26" data-line-number="26"><span class="co">#&gt;  [7] hancock_0.99.0              unisets_0.99.0             </span></a>
 <a class="sourceLine" id="cb25-27" data-line-number="27"><span class="co">#&gt;  [9] SummarizedExperiment_1.13.0 DelayedArray_0.9.8         </span></a>
-<a class="sourceLine" id="cb25-28" data-line-number="28"><span class="co">#&gt; [11] BiocParallel_1.17.13        matrixStats_0.54.0         </span></a>
+<a class="sourceLine" id="cb25-28" data-line-number="28"><span class="co">#&gt; [11] BiocParallel_1.17.17        matrixStats_0.54.0         </span></a>
 <a class="sourceLine" id="cb25-29" data-line-number="29"><span class="co">#&gt; [13] Biobase_2.43.1              GenomicRanges_1.35.1       </span></a>
 <a class="sourceLine" id="cb25-30" data-line-number="30"><span class="co">#&gt; [15] GenomeInfoDb_1.19.2         IRanges_2.17.4             </span></a>
-<a class="sourceLine" id="cb25-31" data-line-number="31"><span class="co">#&gt; [17] S4Vectors_0.21.10           BiocGenerics_0.29.1        </span></a>
+<a class="sourceLine" id="cb25-31" data-line-number="31"><span class="co">#&gt; [17] S4Vectors_0.21.13           BiocGenerics_0.29.2        </span></a>
 <a class="sourceLine" id="cb25-32" data-line-number="32"><span class="co">#&gt; [19] BiocStyle_2.11.0           </span></a>
 <a class="sourceLine" id="cb25-33" data-line-number="33"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb25-34" data-line-number="34"><span class="co">#&gt; loaded via a namespace (and not attached):</span></a>
 <a class="sourceLine" id="cb25-35" data-line-number="35"><span class="co">#&gt;   [1] Rtsne_0.15                    ggbeeswarm_0.6.0             </span></a>
-<a class="sourceLine" id="cb25-36" data-line-number="36"><span class="co">#&gt;   [3] colorspace_1.4-0              rjson_0.2.20                 </span></a>
+<a class="sourceLine" id="cb25-36" data-line-number="36"><span class="co">#&gt;   [3] colorspace_1.4-1              rjson_0.2.20                 </span></a>
 <a class="sourceLine" id="cb25-37" data-line-number="37"><span class="co">#&gt;   [5] rprojroot_1.3-2               circlize_0.4.5               </span></a>
-<a class="sourceLine" id="cb25-38" data-line-number="38"><span class="co">#&gt;   [7] XVector_0.23.0                GlobalOptions_0.1.0          </span></a>
-<a class="sourceLine" id="cb25-39" data-line-number="39"><span class="co">#&gt;   [9] BiocNeighbors_1.1.11          fs_1.2.6                     </span></a>
+<a class="sourceLine" id="cb25-38" data-line-number="38"><span class="co">#&gt;   [7] XVector_0.23.2                GlobalOptions_0.1.0          </span></a>
+<a class="sourceLine" id="cb25-39" data-line-number="39"><span class="co">#&gt;   [9] BiocNeighbors_1.1.12          fs_1.2.6                     </span></a>
 <a class="sourceLine" id="cb25-40" data-line-number="40"><span class="co">#&gt;  [11] roxygen2_6.1.1                bit64_0.9-7                  </span></a>
-<a class="sourceLine" id="cb25-41" data-line-number="41"><span class="co">#&gt;  [13] interactiveDisplayBase_1.21.0 AnnotationDbi_1.45.0         </span></a>
-<a class="sourceLine" id="cb25-42" data-line-number="42"><span class="co">#&gt;  [15] xml2_1.2.0                    knitr_1.21                   </span></a>
-<a class="sourceLine" id="cb25-43" data-line-number="43"><span class="co">#&gt;  [17] jsonlite_1.6                  Rsamtools_1.99.1             </span></a>
-<a class="sourceLine" id="cb25-44" data-line-number="44"><span class="co">#&gt;  [19] annotate_1.61.0               shinydashboard_0.7.1         </span></a>
+<a class="sourceLine" id="cb25-41" data-line-number="41"><span class="co">#&gt;  [13] interactiveDisplayBase_1.21.0 AnnotationDbi_1.45.1         </span></a>
+<a class="sourceLine" id="cb25-42" data-line-number="42"><span class="co">#&gt;  [15] xml2_1.2.0                    knitr_1.22                   </span></a>
+<a class="sourceLine" id="cb25-43" data-line-number="43"><span class="co">#&gt;  [17] jsonlite_1.6                  Rsamtools_1.99.3             </span></a>
+<a class="sourceLine" id="cb25-44" data-line-number="44"><span class="co">#&gt;  [19] annotate_1.61.1               shinydashboard_0.7.1         </span></a>
 <a class="sourceLine" id="cb25-45" data-line-number="45"><span class="co">#&gt;  [21] graph_1.61.0                  shiny_1.2.0                  </span></a>
 <a class="sourceLine" id="cb25-46" data-line-number="46"><span class="co">#&gt;  [23] BiocManager_1.30.4            compiler_3.6.0               </span></a>
-<a class="sourceLine" id="cb25-47" data-line-number="47"><span class="co">#&gt;  [25] httr_1.4.0                    backports_1.1.2              </span></a>
-<a class="sourceLine" id="cb25-48" data-line-number="48"><span class="co">#&gt;  [27] assertthat_0.2.0              Matrix_1.2-15                </span></a>
-<a class="sourceLine" id="cb25-49" data-line-number="49"><span class="co">#&gt;  [29] lazyeval_0.2.1                later_0.8.0                  </span></a>
-<a class="sourceLine" id="cb25-50" data-line-number="50"><span class="co">#&gt;  [31] htmltools_0.3.6               tools_3.6.0                  </span></a>
-<a class="sourceLine" id="cb25-51" data-line-number="51"><span class="co">#&gt;  [33] gtable_0.2.0                  glue_1.3.0                   </span></a>
-<a class="sourceLine" id="cb25-52" data-line-number="52"><span class="co">#&gt;  [35] GenomeInfoDbData_1.2.0        reshape2_1.4.3               </span></a>
-<a class="sourceLine" id="cb25-53" data-line-number="53"><span class="co">#&gt;  [37] dplyr_0.8.0.1                 Rcpp_1.0.0                   </span></a>
-<a class="sourceLine" id="cb25-54" data-line-number="54"><span class="co">#&gt;  [39] pkgdown_1.3.0                 Biostrings_2.51.2            </span></a>
-<a class="sourceLine" id="cb25-55" data-line-number="55"><span class="co">#&gt;  [41] ExperimentHub_1.9.1           rtracklayer_1.43.1           </span></a>
-<a class="sourceLine" id="cb25-56" data-line-number="56"><span class="co">#&gt;  [43] DelayedMatrixStats_1.5.2      rintrojs_0.2.0               </span></a>
-<a class="sourceLine" id="cb25-57" data-line-number="57"><span class="co">#&gt;  [45] xfun_0.4                      stringr_1.4.0                </span></a>
-<a class="sourceLine" id="cb25-58" data-line-number="58"><span class="co">#&gt;  [47] beachmat_1.5.4                irlba_2.3.3                  </span></a>
-<a class="sourceLine" id="cb25-59" data-line-number="59"><span class="co">#&gt;  [49] mime_0.6                      XML_3.98-1.17                </span></a>
-<a class="sourceLine" id="cb25-60" data-line-number="60"><span class="co">#&gt;  [51] AnnotationHub_2.15.5          zlibbioc_1.29.0              </span></a>
-<a class="sourceLine" id="cb25-61" data-line-number="61"><span class="co">#&gt;  [53] MASS_7.3-51.1                 scales_1.0.0                 </span></a>
-<a class="sourceLine" id="cb25-62" data-line-number="62"><span class="co">#&gt;  [55] promises_1.0.1                RColorBrewer_1.1-2           </span></a>
-<a class="sourceLine" id="cb25-63" data-line-number="63"><span class="co">#&gt;  [57] ComplexHeatmap_1.99.5         yaml_2.2.0                   </span></a>
-<a class="sourceLine" id="cb25-64" data-line-number="64"><span class="co">#&gt;  [59] GeneSet_0.0.1                 curl_3.3                     </span></a>
-<a class="sourceLine" id="cb25-65" data-line-number="65"><span class="co">#&gt;  [61] gridExtra_2.3                 memoise_1.1.0                </span></a>
-<a class="sourceLine" id="cb25-66" data-line-number="66"><span class="co">#&gt;  [63] stringi_1.3.1                 RSQLite_2.1.1                </span></a>
-<a class="sourceLine" id="cb25-67" data-line-number="67"><span class="co">#&gt;  [65] highr_0.7                     desc_1.2.0                   </span></a>
-<a class="sourceLine" id="cb25-68" data-line-number="68"><span class="co">#&gt;  [67] shape_1.4.4                   rlang_0.3.1                  </span></a>
-<a class="sourceLine" id="cb25-69" data-line-number="69"><span class="co">#&gt;  [69] pkgconfig_2.0.2               commonmark_1.7               </span></a>
-<a class="sourceLine" id="cb25-70" data-line-number="70"><span class="co">#&gt;  [71] bitops_1.0-6                  evaluate_0.13                </span></a>
-<a class="sourceLine" id="cb25-71" data-line-number="71"><span class="co">#&gt;  [73] lattice_0.20-38               purrr_0.3.0                  </span></a>
-<a class="sourceLine" id="cb25-72" data-line-number="72"><span class="co">#&gt;  [75] Rhdf5lib_1.5.1                labeling_0.3                 </span></a>
-<a class="sourceLine" id="cb25-73" data-line-number="73"><span class="co">#&gt;  [77] GenomicAlignments_1.19.1      cowplot_0.9.4                </span></a>
-<a class="sourceLine" id="cb25-74" data-line-number="74"><span class="co">#&gt;  [79] bit_1.1-14                    tidyselect_0.2.5             </span></a>
-<a class="sourceLine" id="cb25-75" data-line-number="75"><span class="co">#&gt;  [81] GSEABase_1.45.0               plyr_1.8.4                   </span></a>
-<a class="sourceLine" id="cb25-76" data-line-number="76"><span class="co">#&gt;  [83] magrittr_1.5                  bookdown_0.9                 </span></a>
-<a class="sourceLine" id="cb25-77" data-line-number="77"><span class="co">#&gt;  [85] R6_2.4.0                      DBI_1.0.0                    </span></a>
-<a class="sourceLine" id="cb25-78" data-line-number="78"><span class="co">#&gt;  [87] pillar_1.3.1                  withr_2.1.2                  </span></a>
-<a class="sourceLine" id="cb25-79" data-line-number="79"><span class="co">#&gt;  [89] RCurl_1.95-4.11               tibble_2.0.1                 </span></a>
-<a class="sourceLine" id="cb25-80" data-line-number="80"><span class="co">#&gt;  [91] crayon_1.3.4                  rmarkdown_1.11               </span></a>
-<a class="sourceLine" id="cb25-81" data-line-number="81"><span class="co">#&gt;  [93] viridis_0.5.1                 GetoptLong_0.1.7             </span></a>
-<a class="sourceLine" id="cb25-82" data-line-number="82"><span class="co">#&gt;  [95] grid_3.6.0                    blob_1.1.1                   </span></a>
-<a class="sourceLine" id="cb25-83" data-line-number="83"><span class="co">#&gt;  [97] digest_0.6.18                 xtable_1.8-3                 </span></a>
-<a class="sourceLine" id="cb25-84" data-line-number="84"><span class="co">#&gt;  [99] httpuv_1.4.5.1                munsell_0.5.0                </span></a>
-<a class="sourceLine" id="cb25-85" data-line-number="85"><span class="co">#&gt; [101] viridisLite_0.3.0             beeswarm_0.2.3               </span></a>
-<a class="sourceLine" id="cb25-86" data-line-number="86"><span class="co">#&gt; [103] vipor_0.4.5</span></a>
-<a class="sourceLine" id="cb25-87" data-line-number="87"><span class="co"># devtools::session_info()</span></a></code></pre></div>
+<a class="sourceLine" id="cb25-47" data-line-number="47"><span class="co">#&gt;  [25] httr_1.4.0                    backports_1.1.3              </span></a>
+<a class="sourceLine" id="cb25-48" data-line-number="48"><span class="co">#&gt;  [27] assertthat_0.2.0              Matrix_1.2-16                </span></a>
+<a class="sourceLine" id="cb25-49" data-line-number="49"><span class="co">#&gt;  [29] lazyeval_0.2.2                BiocSingular_0.99.13         </span></a>
+<a class="sourceLine" id="cb25-50" data-line-number="50"><span class="co">#&gt;  [31] later_0.8.0                   htmltools_0.3.6              </span></a>
+<a class="sourceLine" id="cb25-51" data-line-number="51"><span class="co">#&gt;  [33] tools_3.6.0                   rsvd_1.0.0                   </span></a>
+<a class="sourceLine" id="cb25-52" data-line-number="52"><span class="co">#&gt;  [35] gtable_0.2.0                  glue_1.3.1                   </span></a>
+<a class="sourceLine" id="cb25-53" data-line-number="53"><span class="co">#&gt;  [37] GenomeInfoDbData_1.2.0        reshape2_1.4.3               </span></a>
+<a class="sourceLine" id="cb25-54" data-line-number="54"><span class="co">#&gt;  [39] dplyr_0.8.0.1                 Rcpp_1.0.1                   </span></a>
+<a class="sourceLine" id="cb25-55" data-line-number="55"><span class="co">#&gt;  [41] pkgdown_1.3.0                 Biostrings_2.51.5            </span></a>
+<a class="sourceLine" id="cb25-56" data-line-number="56"><span class="co">#&gt;  [43] ExperimentHub_1.9.1           rtracklayer_1.43.3           </span></a>
+<a class="sourceLine" id="cb25-57" data-line-number="57"><span class="co">#&gt;  [45] DelayedMatrixStats_1.5.2      rintrojs_0.2.0               </span></a>
+<a class="sourceLine" id="cb25-58" data-line-number="58"><span class="co">#&gt;  [47] xfun_0.5                      stringr_1.4.0                </span></a>
+<a class="sourceLine" id="cb25-59" data-line-number="59"><span class="co">#&gt;  [49] beachmat_1.5.4                irlba_2.3.3                  </span></a>
+<a class="sourceLine" id="cb25-60" data-line-number="60"><span class="co">#&gt;  [51] mime_0.6                      XML_3.98-1.19                </span></a>
+<a class="sourceLine" id="cb25-61" data-line-number="61"><span class="co">#&gt;  [53] AnnotationHub_2.15.8          zlibbioc_1.29.0              </span></a>
+<a class="sourceLine" id="cb25-62" data-line-number="62"><span class="co">#&gt;  [55] MASS_7.3-51.2                 scales_1.0.0                 </span></a>
+<a class="sourceLine" id="cb25-63" data-line-number="63"><span class="co">#&gt;  [57] promises_1.0.1                RColorBrewer_1.1-2           </span></a>
+<a class="sourceLine" id="cb25-64" data-line-number="64"><span class="co">#&gt;  [59] ComplexHeatmap_1.99.6         yaml_2.2.0                   </span></a>
+<a class="sourceLine" id="cb25-65" data-line-number="65"><span class="co">#&gt;  [61] GeneSet_0.0.1                 curl_3.3                     </span></a>
+<a class="sourceLine" id="cb25-66" data-line-number="66"><span class="co">#&gt;  [63] gridExtra_2.3                 memoise_1.1.0                </span></a>
+<a class="sourceLine" id="cb25-67" data-line-number="67"><span class="co">#&gt;  [65] stringi_1.4.3                 RSQLite_2.1.1                </span></a>
+<a class="sourceLine" id="cb25-68" data-line-number="68"><span class="co">#&gt;  [67] highr_0.7                     desc_1.2.0                   </span></a>
+<a class="sourceLine" id="cb25-69" data-line-number="69"><span class="co">#&gt;  [69] shape_1.4.4                   rlang_0.3.1                  </span></a>
+<a class="sourceLine" id="cb25-70" data-line-number="70"><span class="co">#&gt;  [71] pkgconfig_2.0.2               commonmark_1.7               </span></a>
+<a class="sourceLine" id="cb25-71" data-line-number="71"><span class="co">#&gt;  [73] bitops_1.0-6                  evaluate_0.13                </span></a>
+<a class="sourceLine" id="cb25-72" data-line-number="72"><span class="co">#&gt;  [75] lattice_0.20-38               purrr_0.3.2                  </span></a>
+<a class="sourceLine" id="cb25-73" data-line-number="73"><span class="co">#&gt;  [77] Rhdf5lib_1.5.1                labeling_0.3                 </span></a>
+<a class="sourceLine" id="cb25-74" data-line-number="74"><span class="co">#&gt;  [79] GenomicAlignments_1.19.1      cowplot_0.9.4                </span></a>
+<a class="sourceLine" id="cb25-75" data-line-number="75"><span class="co">#&gt;  [81] bit_1.1-14                    tidyselect_0.2.5             </span></a>
+<a class="sourceLine" id="cb25-76" data-line-number="76"><span class="co">#&gt;  [83] GSEABase_1.45.0               plyr_1.8.4                   </span></a>
+<a class="sourceLine" id="cb25-77" data-line-number="77"><span class="co">#&gt;  [85] magrittr_1.5                  bookdown_0.9                 </span></a>
+<a class="sourceLine" id="cb25-78" data-line-number="78"><span class="co">#&gt;  [87] R6_2.4.0                      DBI_1.0.0                    </span></a>
+<a class="sourceLine" id="cb25-79" data-line-number="79"><span class="co">#&gt;  [89] pillar_1.3.1                  withr_2.1.2                  </span></a>
+<a class="sourceLine" id="cb25-80" data-line-number="80"><span class="co">#&gt;  [91] RCurl_1.95-4.12               tibble_2.1.1                 </span></a>
+<a class="sourceLine" id="cb25-81" data-line-number="81"><span class="co">#&gt;  [93] crayon_1.3.4                  rmarkdown_1.12               </span></a>
+<a class="sourceLine" id="cb25-82" data-line-number="82"><span class="co">#&gt;  [95] viridis_0.5.1                 GetoptLong_0.1.7             </span></a>
+<a class="sourceLine" id="cb25-83" data-line-number="83"><span class="co">#&gt;  [97] grid_3.6.0                    blob_1.1.1                   </span></a>
+<a class="sourceLine" id="cb25-84" data-line-number="84"><span class="co">#&gt;  [99] digest_0.6.18                 xtable_1.8-3                 </span></a>
+<a class="sourceLine" id="cb25-85" data-line-number="85"><span class="co">#&gt; [101] httpuv_1.5.0                  munsell_0.5.0                </span></a>
+<a class="sourceLine" id="cb25-86" data-line-number="86"><span class="co">#&gt; [103] viridisLite_0.3.0             beeswarm_0.2.3               </span></a>
+<a class="sourceLine" id="cb25-87" data-line-number="87"><span class="co">#&gt; [105] vipor_0.4.5</span></a>
+<a class="sourceLine" id="cb25-88" data-line-number="88"><span class="co"># devtools::session_info()</span></a></code></pre></div>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">

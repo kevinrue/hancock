@@ -237,7 +237,7 @@ report(pc)</a></code></pre>
 <a href="#new-plotting-functions" class="anchor"></a>New plotting functions</h2>
 <p>New plotting functions should accept <code>se</code> as their first argument, namely a <code>SummarizedExperiment</code> returned by any prediction method (see above).</p>
 <p>Most importantly, plotting function should first check that the input <code>se</code> object contains the results of the associated prediction method(s). In the future, this requirement may be deprecated by the definition of <code>SummarizedExperiment</code> subclasses, “flagging” the presence of specific prediction results.</p>
-<p>Plotting functions should return a minimal <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot2::ggplot</a></code> or <code><a href="https://www.rdocumentation.org/packages/ComplexHeatmap/topics/Heatmap">ComplexHeatmap::Heatmap</a></code> object, giving users maximal freedom to customize the plot.</p>
+<p>Plotting functions should return a minimal <code><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot2::ggplot</a></code> or <code><a href="https://www.rdocumentation.org/packages/ComplexHeatmap/topics/Heatmap">ComplexHeatmap::Heatmap</a></code> object, giving users maximal freedom to customize the plot.</p>
 <p>For an example, please refer to <a href="https://github.com/kevinrue/hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/plot-methods.R#L11"><code>plotProportionPositive</code></a>, using the result of the <a href="https://github.com/kevinrue/hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/predict-methods.R#L176"><code>"ProportionPositive"</code> or <code>"PP"</code></a> method.</p>
 </div>
 <div id="new-learning-methods" class="section level2">
