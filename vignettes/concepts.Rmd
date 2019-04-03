@@ -9,7 +9,7 @@ author:
   affiliation: Second Author's Affiliation
   email: corresponding@author.com
 date: "`r BiocStyle::doc_date()`"
-package: Hancock
+package: hancock
 output: 
   BiocStyle::html_document:
     toc_float: true
@@ -18,42 +18,53 @@ abstract: |
 vignette: |
     %\VignetteIndexEntry{Concepts on cell types and signatures}
     %\VignetteEncoding{UTF-8}
-    %\VignettePackage{Hancock}
+    %\VignettePackage{hancock}
     %\VignetteKeywords{GeneExpression, RNASeq, Sequencing}
     %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
-bibliography: Hancock.bib
+bibliography: hancock.bib
 ---
 
 **Compiled date**: `r Sys.Date()`
 
 **Last edited**: 2018-03-08
 
-**License**: `r packageDescription("Hancock")[["License"]]`
+**License**: `r packageDescription("hancock")[["License"]]`
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    error = FALSE,
+    warning = FALSE,
+    message = FALSE
+)
+```
 
 # Definition of cell identity
 
 Discuss:
 
 - cell type is a continuum (e.g. differentiation, pseudotime)
-- in the same notion, all cells in an organism basically originate from a common progenitor (itself coming from two, etc.)
+- on a similar note, all cells in an organism basically originate from a common progenitor (itself coming from two, etc.)
 - cell "states" may be defined similarly to cell "types" (e.g. markers of activated/resting cells)
 
 # Definitions
 
 ## Definitions of absolute and relative markers and signatures
 
-**Absolute markers** may be defined as molecules (e.g. protein, transcripts) known to be present or absent in a given population of cells, _irrespective of their expression in other cells of the same sample_.
+**Absolute markers** (also known as "pan markers") may be defined as molecules (e.g. protein, transcripts) known to be present or absent in a given population of cells, _irrespective of their expression in other cells of the same sample_.
 For instance, T helper lymphocytes can be defined by the presence of surface proteins Cd3 and Cd4, while T cytotoxic lymphocytes are defined by the presence of surface proteins Cd3 and Cd8.
 To assess whether a cell is likely a T helper lymphocyte, one does not need to know the markers of T cytotoxic lymphocytes, nor that the two cell types have the Cd3 marker in common.
 
-**Relative markers** may be defined by _differential_ expression against other cells in the same sample.
-For instance, in a biological sample including both T helper and T cytotoxic lymphocytes, differential expression between the two lypmphocyte subsets would highlight Cd4 as a (relative) marker of T helper lymphocytes and Cd8 as a (relative) marker of T cytotoxic lymphocytes.
+**Relative markers** (also known as "key markers") may be defined by _differential_ expression against other cells in the same sample.
+For instance, in a biological sample including both T helper and T cytotoxic lymphocytes, differential expression between the two lypmphocyte subsets would highlight Cd4 protein as a (relative) marker of T helper lymphocytes and Cd8 protein as a (relative) marker of T cytotoxic lymphocytes.
+In contrast, Cd3 protein may be considered as a marker of either cell type only if its expression level or frequency significantly differs between the two cell types.
 
-Note that sets of **absolute markers** may also be trimmed to markers _specific_ (i.e., unique) to each cell population, either to increase stringency (due to their specificity) or sensitivity (due to their smaller number).
-For instance, Cd3 being a marker of both T helper and T cytotoxic lymphocytes, one may wish to exclude it from both signatures, in a manner similar to **relative markers**.
-Such markers may be called **relative absolute markers**, as they are composed of **absolute markers** compared to one another in order to identify specific subsets of markers.
+Note that sets of **absolute markers** may also be trimmed to markers _specific_ to each cell population (i.e., excluding markers present in other signatures), either to increase stringency (due to their specificity) or sensitivity (due to their smaller number).
+For instance, Cd3 protein being a marker of both T helper and T cytotoxic lymphocytes, one may wish to exclude it from both signatures, in a manner similar--yet more stringent--to **relative markers**.
+Such markers may be called **relative sets of absolute markers**, as they are composed of **absolute markers** compared to one another in order to identify specific subsets of markers.
 
 ## Definitions qualititative and quantitative signatures
 
@@ -72,12 +83,12 @@ The origin of markers and signatures dictates how they should be used in downstr
 **Absolute markers** present the advantage of allowing the immediate characterization of any cell or cluster, without the need of a reference cell of cluster.
 In this case, each cell or cluster may be screened for the presence of absolute markers, and assigned an identity independently of all other cells in the sample.
 
-**Relative markers** can be advantageous when the general cell type composition of a given sample is known in advance, and the problem is only to assign a predefined set of identities to a similar number of cell clusters in a new sample.
+**Relative markers** can be advantageous when the general cell type composition of a given sample is known in advance, and the problem is only to distribute a predefined set of identities expected in a given sample to a similar number of cell clusters.
 In this case, differential expression analysis may be performed between clusters of cells in the new sample, and markers of each cluster may be compared to a similar reference sample to assign identities defined in the reference sample to each of the cells or clusters in the new sample.
 However, cells within a given sample are generally the result of sorting (e.g. FACS) and enriching a population of interest on a set of (protein) markers.
 In those cases, the markers used for sorting the cells generally appear as highly expressed in all cells, making it difficult or impossible to identify as relative markers.
 
-**Relative absolute markers** may be advantageous when dealing with closely related cell populations or novel populations defined by new markers relative to canonical markers and cell types.
+**Relative sets of absolute markers** may be advantageous when dealing with closely related cell populations or novel populations defined by new markers relative to canonical markers and cell types.
 
 ### Signatures
 
@@ -96,7 +107,7 @@ For instance, such signatures may be used to identify the most correlated refere
 
 # Representation of signatures
 
-## Lists of marker names {#usinglist}
+## Lists of marker names {#using-list}
 
 At its simplest a signature could list _positive_ markers that are known to be expressed in each cell type.
 For instance, the PBMC signatures used in the Seurat [PBMC 3k tutorial](https://satijalab.org/seurat/pbmc3k_tutorial.html) may be represented as follows:
@@ -115,9 +126,9 @@ pbmc3k_markers_list <- list(
 pbmc3k_markers_list
 ```
 
-## Using `GSEABase` {#usinggseabase}
+## Using GSEABase `GeneSetCollection` {#using-gseabase}
 
-The `GSEABase` package provides infrastructure for enumerating pathways and their contents
+The `r Biocpkg("GSEABase")` package provides infrastructure for enumerating pathways and their contents
 and facilitating translations among the different nomenclatures that
 are used to describe contents of pathways ([source](https://support.bioconductor.org/p/27770/)).
 
@@ -138,7 +149,7 @@ pbmc3k_markers_gsc <- GeneSetCollection(list(
 pbmc3k_markers_gsc
 ```
 
-Note that generic R lists can easily be packaged into `r Biocpkg("GSEABase")` `GeneSetCollection` objects as documented in `?GeneSetCollection`, for instance:
+Note that generic R lists can easily be packaged into `r Biocpkg("GSEABase")` `GeneSetCollection` objects, for instance:
 
 ```{r}
 pbmc3k_markers_gsc <- GeneSetCollection(mapply(function(geneIds, geneSetId) {
@@ -148,17 +159,45 @@ pbmc3k_markers_gsc <- GeneSetCollection(mapply(function(geneIds, geneSetId) {
     }, pbmc3k_markers_list, names(pbmc3k_markers_list)))
 ```
 
-## Tibbles of markers using `GeneSet` {#usingtibble}
+## Using unisets `BaseSets` {#using-unisets}
 
-The `r Githubpkg("Kayla-Morrell/GeneSet")` package is being actively developped as a `tibble` expansion of the `GSEABase` package.
+The `r Githubpkg("kevinrue/unisets")` package is being developed using `r Biocpkg("S4Vectors")` `Hits` to associate identifiers in a vector of elements to identifiers in a vector of sets.
 
-The relevant version can be installed as follows:
+The package can be installed as follows:
 
 ```{r, eval=FALSE}
-devtools::install_github("Kayla-Morrell/GeneSet", "tibble_implement")
+devtools::install_github("kevinrue/unisets")
 ```
 
-Conveniently, this package makes the definition of gene sets as simple as the use of `list` described [above](#usinglist).
+Conveniently, this package supports multiple source formats to create gene sets, including `list` described [above](#using-list).
+
+```{r}
+library(unisets)
+inputList <- list(
+    "CD4 T cells" = c("IL7R"),
+    "CD14+ Monocytes" = c("CD14", "LYZ"),
+    "B cells" = c("MS4A1"),
+    "CD8 T cells" = c("CD8A"),
+    "FCGR3A+ Monocytes" = c("FCGR3A", "MS4A7"),
+    "NK cells" = c("GNLY", "NKG7"),
+    "Dendritic Cells" = c("FCER1A", "CST3"),
+    "Megakaryocytes" = c("PPBP")
+)
+pbmc3k_markers_tbl <- as(inputList, "BaseSets")
+pbmc3k_markers_tbl
+```
+
+## Tibbles of markers using GeneSet {#usingtibble}
+
+The `r Githubpkg("Kayla-Morrell/GeneSet")` package is being developped as a `tibble` expansion of the `r Biocpkg("GSEABase")` package.
+
+The package can be installed as follows:
+
+```{r, eval=FALSE}
+devtools::install_github("Kayla-Morrell/GeneSet")
+```
+
+Conveniently, this package makes the definition of gene sets as simple as the use of `list` described [above](#using-list).
 
 ```{r}
 library(GeneSet)
@@ -177,12 +216,12 @@ pbmc3k_markers_tbl
 
 ## Combinations of positive and negative markers using the `GeneColorSet` class
 
-"Colored" gene sets, implemented in the `GeneColorSet` class, can store information about the relation between each gene and a given phenotype.
+"Colored" gene sets, implemented in the `r Biocpkg("GSEABase")` `GeneColorSet` class, can store information about the relation between each gene and a given phenotype.
 Here, "colors" are `factor` levels used to represent the "state" of each gene (e.g., expression levels "up", "down", or "unchanged"), and a phenotypic consequence (e.g., the phenotype is "enhanced" or "reduced").
 For the purpose of signatures associated with individual cell types, we may consider the identity of a differentiated cell as the phenotype of interest.
 
-In particular, individual genes may be positively _or_ negatively associated with certain populations of cells.
-Such genes may be called **positive markers** or **negative markers** for the associated cell population.
+In particular, individual genes may be positively or negatively associated with certain populations of cells.
+Such genes may be called **positive** or **negative** markers for the associated cell population.
 
 For instance, the differentiation of monocytes into mature F4/80^hi^ CX3CR1^hi^ MHCII^+^ macrophages in the murine colonic mucosa is described as a "waterfall" that visually describes the concomitant downregulation of Ly6C and upregulation of MHCII
 [@monocytewaterfall2012].

@@ -4,9 +4,12 @@
 \alias{barplotPredictionCount}
 \alias{barplotPredictionProportion}
 \alias{reducedDimPrediction}
+\alias{predict-hancock}
 \alias{predict.GeneSetCollection}
 \alias{predict}
+\alias{predict-methods}
 \alias{predict.tbl_geneset}
+\alias{predict.BaseSets}
 \title{Predict Method for Collection of Gene Set Signatures}
 \usage{
 barplotPredictionCount(se, highlight = character(0), labels = TRUE)
@@ -22,9 +25,12 @@ reducedDimPrediction(se, highlight = character(0), redDimType = "PCA",
 
 \method{predict}{tbl_geneset}(object, se, assay.type = "counts",
   method = c("ProportionPositive", "PP"), ...)
+
+\method{predict}{BaseSets}(object, se, assay.type = "counts",
+  method = c("ProportionPositive", "PP"), ...)
 }
 \arguments{
-\item{se}{An object of class inheriting from "\code{\link{SummarizedExperiment}}".}
+\item{se}{An object of class inheriting from \code{\link[=RangedSummarizedExperiment-class]{SummarizedExperiment}}.}
 
 \item{highlight}{Character vector indicating names of signatures to highlight.}
 
@@ -36,9 +42,9 @@ reducedDimPrediction(se, highlight = character(0), redDimType = "PCA",
 
 \item{y}{Name of the covariate to display on the y-axis.}
 
-\item{object}{A set of signatures of class inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".}
+\item{object}{A set of signatures of class inheriting from \code{\linkS4class{BaseSets}} or \code{\linkS4class{GeneSetCollection}}.}
 
-\item{assay.type}{A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".}
+\item{assay.type}{A string specifying which assay values to use, e.g., \code{"counts"} or \code{"logcounts"}.}
 
 \item{method}{Prediction method. See section "Prediction methods".}
 
@@ -47,15 +53,15 @@ reducedDimPrediction(se, highlight = character(0), redDimType = "PCA",
 \value{
 The object \code{se}, updated as follows:
 \itemize{
-\item in the \code{metadata} slot, a \code{"Hancock"} item is added (or updated) with information tracing the prediction process (e.g., method, signatures).
-\item in the \code{colData} slot, a \code{DataFrame} is nested in a new (or updated) \code{"Hancock"} column.
+\item in the \code{metadata} slot, a \code{"hancock"} item is added (or updated) with information tracing the prediction process (e.g., method, signatures).
+\item in the \code{"colData"} slot, a \code{DataFrame} is nested in a new (or updated) \code{"hancock"} column.
 This DataFrame contains predicted labels in the first column and additional information in further columns for each column in \code{se}.
 }
 }
 \description{
 These method signatures apply gene set signatures optionally augmented with
 (semi-)quantitative information to the prediction of sample and cell identities
-in \code{SummarizedExperiment} objects.
+in \code{\link[=RangedSummarizedExperiment-class]{SummarizedExperiment}} objects.
 }
 \section{Functions}{
 \itemize{
@@ -88,15 +94,18 @@ rownames(u) <- paste0("Gene", sprintf("\%03d", seq_len(nrow(u))))
 colnames(u) <- paste0("Cell", sprintf("\%03d", seq_len(ncol(u))))
 se <- SummarizedExperiment(assays=list(counts=u))
 
-tgs <- tbl_geneset(
-    "Cell type 1"=c("Gene001", "Gene002"),
-    "Cell type 2"=c("Gene003", "Gene004")
+bs <- BaseSets(
+    relations=DataFrame(
+        element = c("Gene001", "Gene002", "Gene003", "Gene004"),
+        set     = c(rep("Cell type 1", 2), rep("Cell type 2", 2))
+    )
 )
 
 # Example usage ----
+
 se1 <- se
 colData(se1)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se1), replace=TRUE))
-se1 <- predict(tgs, se1, method="ProportionPositive", cluster.col="cluster")
+se1 <- predict(bs, se1, method="ProportionPositive", cluster.col="cluster")
 # Visualise the count of samples predicted for each signature in each cluster
 barplotPredictionCount(se1, highlight=c("Cell type 1"))
 
@@ -108,7 +117,7 @@ reducedDim(sce1, "PCA") <- prcomp(t(assay(sce1)))$x
 reducedDimPrediction(sce1, highlight="Cell type 1", redDimType="PCA", x=1, y=2)
 }
 \seealso{
-\code{\link{predictByProportionPositive}}
+\code{\link{predictByProportionPositive}}.
 }
 \author{
 Kevin Rue-Albrecht

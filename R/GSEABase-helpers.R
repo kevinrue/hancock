@@ -1,21 +1,27 @@
 
-# uniqueMarkers ----
+# uniqueMarkerNames ----
 
-#' @rdname uniqueMarkers
+#' @rdname uniqueMarkerNames
+#' @aliases uniqueMarkerNames,GeneSetCollection-methods
+#'
+#' @export
 #' @importFrom GSEABase geneIds
 setMethod(
-    "uniqueMarkers", c("GeneSetCollection"),
+    "uniqueMarkerNames", c("GeneSetCollection"),
     function(object){
         # NOTE: later, we may trim gene sets to features present in `se`
         # NOTE: in which case, gene sets trimmed to length 0 would have to be dropped (!)
-        uniqueMarkers <- unique(unlist(geneIds(object)))
-        uniqueMarkers
+        uniqueMarkerNames <- unique(unlist(geneIds(object)))
+        uniqueMarkerNames
     }
 )
 
 # uniqueSetNames ----
 
-#' @rdname uniqueSetNames
+#' @rdname uniqueMarkerNames
+#' @aliases uniqueSetNames,GeneSetCollection-methods
+#'
+#' @export
 setMethod(
     "uniqueSetNames", c("GeneSetCollection"),
     function(object){
@@ -27,6 +33,9 @@ setMethod(
 # makeFilterExpression ----
 
 #' @rdname makeFilterExpression
+#' @aliases makeFilterExpression,GeneSetCollection-methods
+#'
+#' @export
 #' @importFrom GSEABase geneIds
 setMethod(
     "makeFilterExpression", c("GeneSetCollection"),

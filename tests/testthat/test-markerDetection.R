@@ -67,38 +67,38 @@ test_that("num_detected_markers works correctly", {
         })
 
         expect_identical(typeof(Y), "integer")
-        iout <- .Call(Hancock:::cxx_num_detected_markers, Y, o-1L, 1L)
+        iout <- .Call(hancock:::cxx_num_detected_markers, Y, o-1L, 1L)
         expect_identical(ref, iout)
 
         Z <- Y
         storage.mode(Z) <- "double"
-        dout <- .Call(Hancock:::cxx_num_detected_markers, Z, o-1L, 1e-8)
+        dout <- .Call(hancock:::cxx_num_detected_markers, Z, o-1L, 1e-8)
         expect_identical(ref, dout)
 
         # logical
-        lout <- .Call(Hancock:::cxx_num_detected_markers, Y>0L, o-1L, 1L)
-        expect_identical(ref, lout) 
-        
+        lout <- .Call(hancock:::cxx_num_detected_markers, Y>0L, o-1L, 1L)
+        expect_identical(ref, lout)
+
         # Works with alternative matrices.
         M <- as(Y, "dgCMatrix")
-        mout <- .Call(Hancock:::cxx_num_detected_markers, M, o-1L, 1L)
+        mout <- .Call(hancock:::cxx_num_detected_markers, M, o-1L, 1L)
         expect_identical(ref, mout)
     }
-    
+
     # Expect valid (0-indexed) rows
     expect_error(
-        .Call(Hancock:::cxx_num_detected_markers, Y, -1L, 1L)
+        .Call(hancock:::cxx_num_detected_markers, Y, -1L, 1L)
     )
     expect_error(
-        .Call(Hancock:::cxx_num_detected_markers, Y, nrow(Y), 1L)
+        .Call(hancock:::cxx_num_detected_markers, Y, nrow(Y), 1L)
     )
-    
+
     # Threhsolds should be scalar values
     expect_error(
-        .Call(Hancock:::cxx_num_detected_markers, Y, 0L, integer(0))
+        .Call(hancock:::cxx_num_detected_markers, Y, 0L, integer(0))
     )
     expect_error(
-        .Call(Hancock:::cxx_num_detected_markers, log(Y+1), 0L, integer(0))
+        .Call(hancock:::cxx_num_detected_markers, log(Y+1), 0L, integer(0))
     )
 })
 

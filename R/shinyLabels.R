@@ -1,14 +1,14 @@
 #nocov start
 #' Interactively Inspect and Name Gene Signatures
 #'
-#' This function launches a Shiny app to inspect the gene signatures defined in a \code{tbl_geneset}
+#' This function launches a Shiny app to inspect the gene signatures defined in a `BaseSets`
 #' for the purpose of (re-)naming those signatures interactively.
-#' The app returns the updated \code{tbl_geneset} when closed using the \code{"Done"} button.
+#' The app returns the updated `BaseSets` when closed using the "Done" button.
 #'
-#' @param gs A set of gene signatures inheriting from \code{\link{tbl_geneset}}.
-#' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
+#' @param gs A set of gene signatures inheriting from [`BaseSets`].
+#' @param se An object of class inheriting from [`SummarizedExperiment`][RangedSummarizedExperiment-class].
 #'
-#' @return The updated set of gene signatures as a \code{\link{tbl_geneset}}.
+#' @return The updated set of gene signatures as a [`BaseSets`].
 #' @export
 #' @importFrom methods is as
 #' @importFrom shiny shinyApp reactiveValues observeEvent stopApp isolate
@@ -20,13 +20,16 @@
 #' @importFrom SingleCellExperiment SingleCellExperiment reducedDimNames
 #' @importFrom rintrojs introjsUI introjs
 #' @importFrom utils read.delim
+#' @importFrom unisets setData ids
 #'
 #' @examples
 #' # Example data ----
-#' library(GeneSet)
-#' tgs <- tbl_geneset(
-#'     "Cell type 1"=c("Gene001", "Gene002"),
-#'     "Cell type 2"=c("Gene003", "Gene004")
+#'
+#' bs <- BaseSets(
+#'     relations=DataFrame(
+#'         element = c("Gene001", "Gene002", "Gene003", "Gene004"),
+#'         set     = c(rep("Cell type 1", 2), rep("Cell type 2", 2))
+#'     )
 #' )
 #'
 #' library(SummarizedExperiment)
@@ -37,7 +40,7 @@
 #' se <- SummarizedExperiment(assays=list(counts=u))
 #' colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
 #'
-#' se1 <- predict(tgs, se, method="ProportionPositive", cluster.col="cluster")
+#' se1 <- predict(bs, se, method="ProportionPositive", cluster.col="cluster")
 #'
 #' # Add reduced dimension results to enable app features
 #' library(SingleCellExperiment)
@@ -47,17 +50,15 @@
 #' reducedDim(sce1, "TSNE") <- Rtsne(X=reducedDim(sce1, "PCA"))$Y
 #'
 #' # Example usage ----
+#'
 #' if (interactive()){
 #'     library(shiny)
-#'     x <- runApp(shinyLabels(tgs, sce1))
+#'     x <- runApp(shinyLabels(bs, sce1))
 #' }
 shinyLabels <- function(gs, se) {
 
-    stopifnot(is(gs, "tbl_geneset"))
-    stopifnot(identical(
-        levels(gs$set),
-        levels(se$Hancock$prediction)
-    ))
+    stopifnot(is(gs, "BaseSets"))
+    stopifnot(all(levels(colData(se)[[getPackageName()]][["prediction"]]) %in% ids(setData(gs))))
 
     se <- as(se, "SingleCellExperiment")
 
@@ -118,20 +119,18 @@ shinyLabels <- function(gs, se) {
             introjsUI(), # must be included in UI
             uiOutput("mainPanels")
         ),
-        title="Hancock: Label signatures"
+        title="hancock: Label signatures"
     )
 
     app_server <- function(input, output, session) {
 
         # Initialization of non-reactive values ----
 
-        NSETS <- nlevels(gs$set)
-
         # Storage for persistent non-reactive objects.
         pObjects <- new.env()
 
         # TODO: "expand all"/"collapse all" button
-        pObjects[[.boxOpen]] <- c(TRUE, rep(FALSE, NSETS-1))
+        pObjects[[.boxOpen]] <- c(TRUE, rep(FALSE, nSets(gs)-1))
 
         # Initialization of reactive values ----
 
@@ -145,12 +144,12 @@ shinyLabels <- function(gs, se) {
         # Main panels ----
 
         panelList <- list()
-        for (id in seq_len(NSETS)) {
+        for (id in seq_len(nSets(gs))) {
             local({
                 id0 <- id
                 plotName0 <- paste0(.plotOutput, id0)
                 output[[plotName0]] <- renderPlot({
-                    geneSetName0 <- levels(REACTIVE$GS$set)[id0]
+                    geneSetName0 <- ids(setData(REACTIVE$GS))[id0]
                     .plotWrapper(
                         REACTIVE$SE, geneSetName0,
                         plotType=input[[.plotFunction]],
@@ -166,12 +165,12 @@ shinyLabels <- function(gs, se) {
         output$mainPanels <- renderUI({
             force(REACTIVE$refresh)
 
-            NSETS <- nlevels(gs$set)
             panelList <- list()
-            for (id in seq_len(NSETS)) {
+            setList <- as(gs, "list")
+            for (id in seq_len(nSets(gs))) {
                 id0 <- id
-                geneSetName0 <- levels(gs$set)[id0]
-                geneIds0 <- gs[gs$set == geneSetName0, "gene", drop=TRUE]
+                geneSetName0 <- ids(setData(gs))[id0]
+                geneIds0 <- ids(setList[[geneSetName0]])
                 geneIdText <- head(paste(geneIds0, collapse=", "), 50) # TODO: change 50
                 plotName0 <- paste0(.plotOutput, id0)
                 signaturePlot <- plotOutput(plotName0, height="400px")
@@ -196,21 +195,21 @@ shinyLabels <- function(gs, se) {
 
         # Observers for the gene set names ----
 
-        for (id in seq_len(NSETS)) {
+        for (id in seq_len(nSets(gs))) {
             local({
                 id0 <- id
                 inputId0 <- paste0(.geneSetNameInput, id0)
                 observeEvent(input[[inputId0]], {
                     newValue <- input[[inputId0]]
-                    levels(REACTIVE$GS$set)[id0] <- as.character(newValue)
-                    levels(REACTIVE$SE$Hancock$prediction)[id0] <- as.character(newValue)
+                    ids(setData(REACTIVE$GS))[id0] <- as.character(newValue)
+                    levels(colData(REACTIVE$SE)[[getPackageName()]][["prediction"]])[id0] <- as.character(newValue)
                 })
             })
         }
 
         # Observers for the collapsible panels ----
 
-        for (id in seq_len(NSETS)) {
+        for (id in seq_len(nSets(gs))) {
             local({
                 id0 <- id
                 open_field <- paste0(.boxOpen, id0)
@@ -221,12 +220,12 @@ shinyLabels <- function(gs, se) {
         }
 
         observeEvent(input[[.collapseAllInput]], {
-            pObjects[[.boxOpen]] <- rep(FALSE, NSETS)
+            pObjects[[.boxOpen]] <- rep(FALSE, nSets(gs))
             REACTIVE$refresh <- REACTIVE$refresh + 1
         })
 
         observeEvent(input[[.expandAllInput]], {
-            pObjects[[.boxOpen]] <- rep(TRUE, NSETS)
+            pObjects[[.boxOpen]] <- rep(TRUE, nSets(gs))
             REACTIVE$refresh <- REACTIVE$refresh + 1
         })
 
@@ -248,7 +247,7 @@ shinyLabels <- function(gs, se) {
 
         observeEvent(input[[.tourInput]], {
             tour <- read.delim(
-                system.file("extdata", "intro_shinyLabels.txt", package="Hancock"),
+                system.file("extdata", "intro_shinyLabels.txt", package=getPackageName()),
                 sep=";", stringsAsFactors=FALSE, row.names=NULL, quote="")
             introjs(session, options=list(steps=tour))
         })
@@ -258,11 +257,11 @@ shinyLabels <- function(gs, se) {
         observeEvent(input[[.resetInput]], {
             REACTIVE$GS <- gs
             REACTIVE$SE <- se
-            for (id in seq_len(NSETS)) {
+            for (id in seq_len(nSets(gs))) {
                 local({
                     id0 <- id
                     inputId0 <- paste0(.geneSetNameInput, id0)
-                    updateTextInput(session, inputId0, value=levels(gs$set)[id0])
+                    updateTextInput(session, inputId0, value=ids(setData(gs))[id0])
                 })
             }
         })

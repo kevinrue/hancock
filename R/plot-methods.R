@@ -1,24 +1,33 @@
 
 #' @describeIn predictByProportionPositive
-#' Returns a \code{Heatmap} displaying the proportion (on a scale from 0 to 100) of samples that are positive for each individual signature in each cluster.
+#' Returns a [`Heatmap`] displaying the proportion (on a scale from 0 to 100) of samples that are positive for each individual signature in each cluster.
 #'
 #' @aliases plotProportionPositive
 #'
 #' @param ... Additional arguments to be passed to methods.
+#' @param row_title,row_title_side,column_title,column_title_side
+#' See [`Heatmap()`].
 #'
 #' @export
 #' @importFrom ComplexHeatmap Heatmap
 plotProportionPositive <- function(
-    se, ...
+    se, ...,
+    row_title="Signature", row_title_side="left",
+    column_title="Cluster", column_title_side="top"
 ){
-    ppbc <- metadata(se)[["Hancock"]][["ProportionPositiveByCluster"]]
+    ppbc <- metadata(se)[[getPackageName()]][["ProportionPositiveByCluster"]]
     if (is.null(ppbc)) {
         stop("Method 'ProportionPositive' was not run yet.")
     }
-    Heatmap(matrix=t(ppbc*100), name="Proportion (%)", ...)
+    Heatmap(
+        matrix=ppbc*100, name="Proportion (%)",
+        row_title=row_title, row_title_side=row_title_side,
+        column_title=column_title, column_title_side=column_title_side,
+        ...
+    )
 }
 
-#' @describeIn predictHancock Returns a \code{ggplot} bar plot displaying
+#' @describeIn predictSignatures Returns a `ggplot` bar plot displaying
 #' the count of samples predicted for each gene signature.
 #'
 #' @param highlight Character vector indicating names of signatures to highlight.
@@ -33,7 +42,7 @@ plotProportionPositive <- function(
 barplotPredictionCount <- function(
     se, highlight=character(0), labels=TRUE
 ) {
-    ggFrame <- as.data.frame(colData(se)[, "Hancock"], row.names=seq_len(ncol(se)))
+    ggFrame <- as.data.frame(colData(se)[[getPackageName()]], row.names=seq_len(ncol(se)))
     ggFrame$highlight <- FALSE
     if (length(highlight) > 0) {
         ggFrame[which(ggFrame$prediction %in% highlight), "highlight"] <- TRUE
@@ -51,7 +60,7 @@ barplotPredictionCount <- function(
     gg
 }
 
-#' @describeIn predictHancock Returns a \code{ggplot} bar plot displaying
+#' @describeIn predictSignatures Returns a `ggplot` bar plot displaying
 #' the proportion of samples predicted for each gene signature.
 #'
 #' @export
@@ -66,7 +75,7 @@ barplotPredictionProportion <- function(
     se, highlight=character(0), labels=TRUE
 ) {
     # TODO: refactor with barplotPredictionCount above
-    ggFrame <- as.data.frame(table(colData(se)$Hancock$prediction))
+    ggFrame <- as.data.frame(table(colData(se)[[getPackageName()]][["prediction"]]))
     ggFrame$Proportion <- ggFrame$Freq / sum(ggFrame$Freq)
     ggFrame$highlight <- FALSE
     if (length(highlight) > 0) {
@@ -86,8 +95,8 @@ barplotPredictionProportion <- function(
     gg
 }
 
-#' @describeIn predictHancock Returns a \code{ggplot} scatter plot displaying
-#' the first reduced dimension result in \code{reducedDims(se)}.
+#' @describeIn predictSignatures Returns a `ggplot` scatter plot displaying
+#' the first reduced dimension result in `reducedDims(se)`.
 #'
 #' @param redDimType Name of the reduced dimension result type to display.
 #' @param x Name of the covariate to display on the x-axis.
@@ -107,7 +116,7 @@ reducedDimPrediction <- function(
     ggFrame <- as.data.frame(reducedDim(se, redDimType))
     ggFrame <- ggFrame[, c(x, y)]
     colnames(ggFrame) <- c("X", "Y")
-    ggFrame$prediction <- se$Hancock$prediction
+    ggFrame$prediction <- colData(se)[[getPackageName()]][["prediction"]]
     ggFrame$highlight <- FALSE
     if (length(highlight) > 0) {
         ggFrame[which(ggFrame$prediction %in% highlight), "highlight"] <- TRUE
@@ -138,17 +147,17 @@ reducedDimPrediction <- function(
 #'
 #' @rdname INTERNAL_plotWrapper
 #'
-#' @param se An object of class inheriting from "\code{\link{SummarizedExperiment}}".
+#' @param se An object of class inheriting from [`SummarizedExperiment`][RangedSummarizedExperiment-class].
 #' @param highlight Character vector indicating names of signatures to highlight.
 #' @param plotType Name of a plot type. See Details.
 #' @param labels Logical value indicating whether to display prediction labels.
 #' @param ... Additional argument passed to individual plotting functions.
 #'
 #' @details
-#' The \code{plotType} argument should be the name of a plotting function:
-#' one of \code{"barplotPredictionCount"}, \code{"barplotPredictionProportion"}, \code{"reducedDimPrediction"}.
+#' The `plotType` argument should be the name of a plotting function:
+#' one of `"barplotPredictionCount"`, `"barplotPredictionProportion"`, `"reducedDimPrediction"`.
 #'
-#' @return A \code{ggplot} object.
+#' @return A `ggplot` object.
 #' @author Kevin Rue-Albrecht
 .plotWrapper <- function(se, highlight, plotType, labels=TRUE, ...) {
     dots <- list(...)

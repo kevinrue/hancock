@@ -18,17 +18,17 @@ makeMarkerProportionMatrix(se, cluster.col, assay.type = "counts",
   threshold = 0)
 }
 \arguments{
-\item{se}{An object of class inheriting from "\code{\link{SummarizedExperiment}}".}
+\item{se}{An object of class inheriting from \code{\link[=RangedSummarizedExperiment-class]{SummarizedExperiment}}.}
 
 \item{markers}{A character vector, subset of \code{rownames(se)}.}
 
 \item{threshold}{Value \emph{above which} the marker is considered detected.}
 
-\item{assay.type}{A string specifying which assay values to use, e.g., "\code{counts}" or "\code{logcounts}".}
+\item{assay.type}{A string specifying which assay values to use, e.g., \code{"counts"} or \code{"logcounts"}.}
 
-\item{matrix}{A logical matrix indicating the presence of each marker in each sample.}
+\item{matrix}{A logical matrix indicating the presence of each marker (row) in each sample (column).}
 
-\item{object}{A collection of signatures inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{tbl_geneset}}".}
+\item{object}{A collection of signatures inheriting from "\code{\link{GeneSetCollection}}" , "\code{\link{BaseSets}}", or "\code{\link{tbl_geneset}}".}
 
 \item{cluster.col}{Name of a column in \code{colData(se)} that contains
 a factor indicating cluster membership for each column (i.e. sample) in \code{se}.}
@@ -45,11 +45,11 @@ a factor indicating cluster membership for each column (i.e. sample) in \code{se
 Create matrices of detection events for individual gene features or combination thereof (i.e., signatures).
 }
 \details{
-The \code{makeMarkerDetectionMatrix} function declares a feature as detected if it is detected above a given threshold in a specific assay (e.g., count or UMI matrix).
+The \code{makeMarkerDetectionMatrix} function returns a marker by sample matrix declaring a feature as detected if it is detected above a given threshold in a specific assay (e.g., \code{"counts"}, \code{"logcounts"}).
 
-The \code{makeSignatureDetectionMatrix} function declares a signature (composed of one or more gene features) as detected if all the associated features are detected.
+The \code{makeSignatureDetectionMatrix} function returns a sample by signature matrix declaring a signature (composed of one or more gene features) as detected if all the associated features are detected.
 
-The \code{makeMarkerProportionMatrix} function computes the proportion of samples expressing detectable levels of each marker in individual predefined clusters.
+The \code{makeMarkerProportionMatrix} function returns a signature by cluster matrix indicating the proportion of samples expressing detectable levels of each marker in individual predefined clusters.
 
 The \code{makeMarkerProportionScree} function compute the 'cumulative' (i.e., combined) detection rate of markers:
 the proportion of samples with detectable levels of the first marker, both of the first two markers, etc.
@@ -62,17 +62,24 @@ u <- matrix(rpois(20000, 2), ncol=nsamples)
 rownames(u) <- paste0("Gene", sprintf("\%03d", seq_len(nrow(u))))
 se <- SummarizedExperiment(assays=list(counts=u))
 
-gsc <- GeneSetCollection(list(
-  GeneSet(setName="Cell type 1", c("Gene001", "Gene002")),
-  GeneSet(setName="Cell type 2", c("Gene003", "Gene004"))
-))
+geneLists <- list(
+  "Cell type 1" = c("Gene001", "Gene002"),
+  "Cell type 2" = c("Gene003", "Gene004")
+)
+bs <- as(geneLists, "BaseSets")
 
 # Example usage ----
-markerMatrix <- makeMarkerDetectionMatrix(se, unique(unlist(geneIds(gsc))))
-signatureMatrix <- makeSignatureDetectionMatrix(markerMatrix, gsc)
+
+markerMatrix <- makeMarkerDetectionMatrix(se, ids(elementData(bs)))
+signatureMatrix <- makeSignatureDetectionMatrix(markerMatrix, bs)
 
 tab <- makeMarkerProportionScree(markerMatrix)
 plot(tab$markers, tab$proportion, ylim=c(0, 1), main="Combined detection scree")
+
+se$cluster <- factor(sample(c("A", "B"), ncol(se), TRUE))
+proportionMatrix <- makeMarkerProportionMatrix(
+    se, cluster.col="cluster", assay.type="counts", threshold=0)
+head(proportionMatrix)
 }
 \author{
 Kevin Rue-Albrecht, with C++ code by Aaron Lun

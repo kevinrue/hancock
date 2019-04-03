@@ -1,56 +1,42 @@
 
-# uniqueMarkers ----
+# uniqueMarkerNames ----
 
-#' Extract Unique Markers from a Collection of Gene Sets
+#' Extract Unique Signature Names from a Collection of Gene Sets
 #'
-#' @rdname uniqueMarkers
+#' `uniqueMarkerNames` and `uniqueSetNames` extract the character vectors of unique marker and set names from objects that store collections of gene sets.
 #'
-#' @param object A \code{\link{tbl_geneset}} or \code{GeneSetCollection}.
+#' @rdname uniqueMarkerNames
+#' @aliases uniqueMarkerNames
 #'
-#' @return A character vector of unique markers across all gene sets.
+#' @param object An object of class inheriting from [`BaseSets-class`] or [`GeneSetCollection-class`].
+#'
+#' @return A character vector of unique set or marker names across all gene sets.
 #' @export
 #'
 #' @author Kevin Rue-Albrecht
 #'
 #' @examples
 #' # Example data ----
-#' library(GeneSet)
-#' tgs <- tbl_geneset(
-#'     "Cell type 1"=c("Gene001", "Gene002"),
-#'     "Cell type 2"=c("Gene002", "Gene003", "Gene004")
-#' )
 #'
-#' # Example usage ----
-#' uniqueMarkers(tgs)
+#' library(unisets)
+#' gmt <- system.file(package = "hancock", "extdata", "seurat_pbmc3k.gmt")
+#' genesets <- import(gmt)
+#'
+#' # Usage ----
+#' um <- uniqueMarkerNames(genesets)
+#' us <- uniqueSetNames(genesets)
 setGeneric(
-    "uniqueMarkers", signature=c("object"),
+    "uniqueMarkerNames", signature=c("object"),
     function(object)
-        standardGeneric("uniqueMarkers")
+        standardGeneric("uniqueMarkerNames")
 )
 
 # uniqueSetNames ----
 
-#' Extract Unique Signature Names from a Collection of Gene Sets
+#' @rdname uniqueMarkerNames
+#' @aliases uniqueSetNames
 #'
-#' @rdname uniqueSetNames
-#'
-#' @param object A \code{\link{tbl_geneset}} or \code{GeneSetCollection}.
-#'
-#' @return A character vector of unique set names across all gene sets.
 #' @export
-#'
-#' @author Kevin Rue-Albrecht
-#'
-#' @examples
-#' # Example data ----
-#' library(GeneSet)
-#' tgs <- tbl_geneset(
-#'     "Cell type 1"=c("Gene001", "Gene002"),
-#'     "Cell type 2"=c("Gene002", "Gene003", "Gene004")
-#' )
-#'
-#' # Example usage ----
-#' uniqueSetNames(tgs)
 setGeneric(
     "uniqueSetNames", signature=c("object"),
     function(object)
@@ -59,31 +45,29 @@ setGeneric(
 
 # makeFilterExpression ----
 
-#' Build Filter Expressions from GeneSetCollection objects
+#' Build Filter Expressions from `GeneSetCollection` objects
 #'
 #' This function create a list of unevaluated expressions representing a collection of signatures.
-#' The resulting expressions can be evaluated as \code{FilterRules} inside an environment such as a \code{data.frame} of sample-by-gene detection events.
+#' The resulting expressions can be evaluated as `FilterRules` inside an environment such as a `data.frame` of sample-by-gene detection events.
 #'
 #' @rdname makeFilterExpression
 #'
-#' @param object A \code{\link{tbl_geneset}} or \code{\link{GeneSetCollection}}.
+#' @param object An object of class inheriting from [`BaseSets`] or [`GeneSetCollection`].
 #'
-#' @return A list of \code{\link{expression}} that combines the markers
-#' listed in each gene set.
+#' @return A list of [`expression`] that combines the markers listed in each gene set.
 #'
 #' @export
 #' @author Kevin Rue-Albrecht
 #'
 #' @examples
 #' # Example data ----
-#' library(GeneSet)
-#' tgs <- tbl_geneset(
-#'     "Cell type 1"=c("Gene001", "Gene002"),
-#'     "Cell type 2"=c("Gene002", "Gene003", "Gene004")
-#' )
+#'
+#' library(unisets)
+#' gmt <- system.file(package = "hancock", "extdata", "seurat_pbmc3k.gmt")
+#' genesets <- import(gmt)
 #'
 #' # Example usage ----
-#' makeFilterExpression(tgs)
+#' fe <- makeFilterExpression(genesets)
 setGeneric(
     "makeFilterExpression", signature=c("object"),
     function(object)

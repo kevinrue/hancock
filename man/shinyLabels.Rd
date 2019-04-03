@@ -7,24 +7,26 @@
 shinyLabels(gs, se)
 }
 \arguments{
-\item{gs}{A set of gene signatures inheriting from \code{\link{tbl_geneset}}.}
+\item{gs}{A set of gene signatures inheriting from \code{\link{BaseSets}}.}
 
-\item{se}{An object of class inheriting from "\code{\link{SummarizedExperiment}}".}
+\item{se}{An object of class inheriting from \code{\link[=RangedSummarizedExperiment-class]{SummarizedExperiment}}.}
 }
 \value{
-The updated set of gene signatures as a \code{\link{tbl_geneset}}.
+The updated set of gene signatures as a \code{\link{BaseSets}}.
 }
 \description{
-This function launches a Shiny app to inspect the gene signatures defined in a \code{tbl_geneset}
+This function launches a Shiny app to inspect the gene signatures defined in a \code{BaseSets}
 for the purpose of (re-)naming those signatures interactively.
-The app returns the updated \code{tbl_geneset} when closed using the \code{"Done"} button.
+The app returns the updated \code{BaseSets} when closed using the "Done" button.
 }
 \examples{
 # Example data ----
-library(GeneSet)
-tgs <- tbl_geneset(
-    "Cell type 1"=c("Gene001", "Gene002"),
-    "Cell type 2"=c("Gene003", "Gene004")
+
+bs <- BaseSets(
+    relations=DataFrame(
+        element = c("Gene001", "Gene002", "Gene003", "Gene004"),
+        set     = c(rep("Cell type 1", 2), rep("Cell type 2", 2))
+    )
 )
 
 library(SummarizedExperiment)
@@ -35,7 +37,7 @@ colnames(u) <- paste0("Cell", sprintf("\%03d", seq_len(ncol(u))))
 se <- SummarizedExperiment(assays=list(counts=u))
 colData(se)[, "cluster"] <- factor(sample(head(LETTERS, 3), ncol(se), replace=TRUE))
 
-se1 <- predict(tgs, se, method="ProportionPositive", cluster.col="cluster")
+se1 <- predict(bs, se, method="ProportionPositive", cluster.col="cluster")
 
 # Add reduced dimension results to enable app features
 library(SingleCellExperiment)
@@ -45,8 +47,9 @@ reducedDim(sce1, "PCA") <- prcomp(t(assay(sce1)))$x
 reducedDim(sce1, "TSNE") <- Rtsne(X=reducedDim(sce1, "PCA"))$Y
 
 # Example usage ----
+
 if (interactive()){
     library(shiny)
-    x <- runApp(shinyLabels(tgs, sce1))
+    x <- runApp(shinyLabels(bs, sce1))
 }
 }

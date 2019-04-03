@@ -1,0 +1,349 @@
+---
+title: "Vignette for the hancock package"
+author:
+- name: Kevin Rue-Albrecht
+  affiliation:
+  - &id1 Kennedy Institute of Rheumatology, University of Oxford, Headington, Oxford OX3 7FY, UK.
+  email: kevin.rue-albrecht@kennedy.ox.ac.uk
+- name: Second Author
+  affiliation: Second Author's Affiliation
+  email: corresponding@author.com
+date: "`r BiocStyle::doc_date()`"
+package: hancock
+output: 
+  BiocStyle::html_document:
+    toc_float: true
+abstract: |
+  Example usage of the hancock package demonstrated using example data sets.
+vignette: |
+    %\VignetteIndexEntry{Vignette for the hancock package}
+    %\VignetteEncoding{UTF-8}
+    %\VignettePackage{hancock}
+    %\VignetteKeywords{GeneExpression, RNASeq, Sequencing}
+    %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: inline
+bibliography: hancock.bib
+---
+
+**Compiled date**: `r Sys.Date()`
+
+**Last edited**: 2018-03-08
+
+**License**: `r packageDescription("hancock")[["License"]]`
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>",
+    error = FALSE,
+    warning = FALSE,
+    message = FALSE
+)
+```
+
+# Overview
+
+The goal of the `r Githubpkg("kevinrue/hancock")` package is to provide a collection of methods for learning and applying gene signatures associated with cellular phenotypes and identities.
+Particular focus is given to single-cell data stored in objects derived from the `r Biocpkg("SummarizedExperiment")` class.
+
+# Getting started
+
+## Setup
+
+To run an analysis, the first step is to start R and load the `r Githubpkg("kevinrue/hancock")` package:
+
+```{r, message=FALSE}
+library(hancock)
+```
+
+## Example data set
+
+In this example, we use count data for 2,700 peripheral blood mononuclear cells (PBMC) obtained using the [10X Genomics](www.10xgenomics.com) platform.
+
+First, we fetch the data as a `r Biocpkg("SingleCellExperiment")` object using the `r Biocpkg("TENxPBMCData")` package.
+The first time that the following code chunk is run, users should expect it to take additional time as it downloads data from the web and caches it on their local machine; subsequent evaluations of the same code chunk should only take a few seconds as the data set is then loaded from the local cache.
+
+```{r, message=FALSE}
+library(TENxPBMCData)
+tenx_pbmc3k <- TENxPBMCData(dataset="pbmc3k")
+tenx_pbmc3k
+```
+
+To enter more rapidly into the subject of learning and applying gene signatures, we provide the cluster assignment of cells produced by the [Guided Clustering Tutorial](https://satijalab.org/seurat/pbmc3k_tutorial_1_4.html) of the `r CRANpkg("Seurat")` package.
+
+```{r}
+colnames(tenx_pbmc3k) <- paste0("Cell", seq_len(ncol(tenx_pbmc3k)))
+ident <- readRDS(system.file(package = "hancock", "extdata", "pbmc3k.ident.rds"))
+tenx_pbmc3k <- tenx_pbmc3k[, names(ident)]
+tenx_pbmc3k$seurat.ident <- ident
+table(tenx_pbmc3k$seurat.ident)
+```
+
+In addition, we store manually curated cell type annotations in the `"seurat.celltype"` cell metadata.
+Those will be used below to learn signatures associated with well characterized cell populations.
+
+```{r}
+tenx_pbmc3k$seurat.celltype <- factor(tenx_pbmc3k$seurat.ident, labels = c(
+    "CD4 T cells", "CD14+ Monocytes", "B cells", "CD8 T cells",
+    "FCGR3A+ Monocytes", "NK cells", "Dendritic Cells", "Megakaryocytes"
+))
+table(tenx_pbmc3k$seurat.celltype)
+```
+
+## Learning signatures {#learning-signatures}
+
+In order to find markers that discriminate subsets of cells from each other, learning methods typically require prior clustering information.
+In `r Biocpkg("SingleCellExperiment")` objects, this information is easily stored as a `factor` in a column of the `colData` slot.
+
+For instance, the learning method `"PositiveProportionDifference"` can be applied to identify markers for a set of cell populations.
+In particular, this method offers a variety of filters on individual markers (e.g., minimal difference in detection rate between the target cluster and any other cluster), and on the combined set of markers (e.g., minimal proportion of cells in the target cluster where all markers are detected simultaneously).
+
+Here, we use the manually curated cell type labels to find genes markers for each population of cells in the PBMC.
+Specifically, we require markers to detected (strictly more than 0 counts; `assay.type = "counts", threshold = 0`) at least 20% more frequently in the target cluster than any other cluster (`min.diff = 0.2, diff.method = "min"`).
+Furthermore, we also require the combined set of markers to be codetected in at least 10% of the target cluster (`min.prop = 0.1`).
+Lastly, we request the method to return a maximum of 2 markers per signature (`n = 2`).
+
+```{r}
+basesets <- learnSignatures(
+    se = tenx_pbmc3k, assay.type = "counts",
+    method = "PositiveProportionDifference", cluster.col = "seurat.celltype",
+    threshold = 0, n = 2, min.diff = 0.2, diff.method = "min", min.prop = 0.1)
+basesets
+```
+
+In `r Githubpkg("kevinrue/hancock")`, learning methods return `BaseSets` objects, defined in the `r Githubpkg("kevinrue/unisets")` package.
+This container stores relations between elements (e.g., genes) and sets (e.g., signatures), along with optional metadata associated with each relation.
+In the next section, we explore the various pieces of information populated by `method = "PositiveProportionDifference")`.
+
+## Visualizing learning outputs {#visualise-learning}
+
+### Relation metadata
+
+Notably, the metadata associated with each relation between a marker (`"element"`) and the signature (`"set"`) can be flattened in a `data.frame` format.
+Specifically, the `"PositiveProportionDifference"` describes two pieces of information:
+
+- `"ProportionPositive"`, the proportion of cells with detectable expression of the marker in the associated cluster
+- `"minDifferenceProportion"`, the minimal difference betwween the detection rate in the associated cluster compared with that of each other cluster
+
+```{r}
+knitr::kable(head(as.data.frame(basesets)))
+```
+
+Specifically, we can extract the relationships between markers and clusters and annotate them with gene metadata such as gene symbol, stored in the `rowData` slot of the `tenx_pbmc3k` object.
+
+```{r, results='asis'}
+markerTable <- merge(
+    x = as.data.frame(basesets), y = as.data.frame(rowData(tenx_pbmc3k)[, "Symbol", drop=FALSE]),
+    by.x="element", by.y="row.names", sort=FALSE
+)
+knitr::kable(markerTable)
+```
+
+### Marker metadata
+
+In addition, metadata associated with each unique marker--irrespective of its specific relationships with individual signature--are stored in the metadata columns of the `elementData` slot.
+Specifically, the `"PositiveProportionDifference"` describes `"ProportionPositive"`, the proportion of cells with detectable expression of the markers across the entire data set.
+
+```{r}
+mcols(elementData(basesets))
+```
+
+Using the gene metadata available in the `rowData` slot of the `tenx_pbmc3k` object, we can add the gene symbol associated with each marker to the marker metadata.
+
+```{r}
+mcols(elementData(basesets)) <- cbind(
+    mcols(elementData(basesets)),
+    rowData(tenx_pbmc3k)[
+        ids(elementData(basesets)),
+        c("Symbol", "ENSEMBL_ID", "Symbol_TENx")]
+)
+mcols(elementData(basesets))
+```
+
+### Set metadata
+
+Similarly, metadata associated with each unique signature--irrespective of its specific relationships with individual markers--are stored in the metadata columns of the `setData` slot.
+Specifically, the `"PositiveProportionDifference"` describes `"ProportionPositive"`, the proportion of cells with detectable expression of all markers associated with each signature across the entire data set.
+
+```{r}
+mcols(setData(basesets))
+```
+
+## Applying signatures to predict labels {#predict-proportion-positive}
+
+Markers [learned previously](#learning-signatures) may then be applied on any data set with compatible gene identifiers.
+Here, we apply the signatures learned above to the training data set itself, to annotate each cluster with its corresponding signature.
+In particular, we intentionally use the unsupervised cluster assignment rather instead of the manually curated cell type annotation, to simulate the scenario where users wish to automatically annotate unlabelled populations of cells.
+
+```{r}
+tenx_pbmc3k.hancock <- predict(
+    basesets, tenx_pbmc3k, assay.type = "counts",
+    method = "ProportionPositive", cluster.col="seurat.ident")
+tenx_pbmc3k.hancock
+```
+
+In `r Githubpkg("kevinrue/hancock")`, the `predict` function populates:
+
+- the `"hancock"` column of `colData(tenx_pbmc3k.hancock)`
+- the `"hancock"` item of `metadata(tenx_pbmc3k.hancock)`
+
+In the next section, we explore the various pieces of information populated by `method = "ProportionPositive"`.
+
+## Visualizing prediction outputs {#visualise-prediction}
+
+### Predicted cell label
+
+The key output of every prediction method is the cell identity predicted for each cell in the object.
+All prediction methods store this information in  `colData(sce)[["hancock"]][["prediction"]]`, or `sce$hancock$prediction`, in short.
+
+```{r}
+summary(as.data.frame(colData(tenx_pbmc3k.hancock)[["hancock"]]))
+```
+
+The `metadata` slot is used to store some required information:
+
+- `"GeneSets"`, the signatures used in the prediction process
+- `"method"`, the unique identifier of the prediction method
+- `"packageVersion"`, the version of the `r Githubpkg("kevinrue/hancock")` package that performed the prediction
+
+Optional method-specific information may be added by each prediction method.
+For `method="ProportionPositive"`, those are:
+
+- `"ProportionPositiveByCluster"`, the proportion of cells in each cluster that express all markers in each signature
+- `"TopSignatureByCluster"`, the most frequently detected signature in each cluster
+
+```{r}
+metadata(tenx_pbmc3k.hancock)[["hancock"]]
+```
+
+In particular, `"ProportionPositiveByCluster"` may be visualized as a heat map using the `plotProportionPositive` method.
+This view is useful to examine the specificity of each signature for each cluster.
+
+```{r}
+plotProportionPositive(tenx_pbmc3k.hancock, cluster_rows=FALSE, cluster_columns=FALSE)
+```
+
+## Renaming signatures
+
+### Manually
+
+Renaming a set of signatures is as simple as renaming the identifiers of the `setData` slot that stores the signatures.
+For instance, here we prefix each signature by a unique integer identifier.
+
+```{r}
+ids(setData(basesets)) <- paste0(seq_along(setData(basesets)), ". ", ids(setData(basesets)))
+ids(setData(basesets))
+```
+
+### Interactively
+
+In addition, the `r Githubpkg("kevinrue/hancock")` package includes a lightweight `r CRANpkg("shiny")` app that offers users the possibility to interactively rename signatures while inspecting their features in a `SummarizedExperiment` object (e.g., count of cells associated with each signature, layout in reduced dimension).
+
+Specifically, the app requires a set of signatures and a `SummarizedExperiment` object that was previously annotated with those signatures using the `predict` function.
+When closed, the app returns the updated set of signatures.
+
+Furthermore, this `r CRANpkg("shiny")` app automatically detects the presence of optional dimensionality reduction results in `r Biocpkg("SingleCellExperiment")` objects, allowing inspection and annotation of the gene signatures using that information.
+
+```{r, message=FALSE}
+library(scater)
+tenx_pbmc3k <- normalize(tenx_pbmc3k)
+assay(tenx_pbmc3k, "logcounts") <- as(assay(tenx_pbmc3k, "logcounts"), "Matrix")
+tenx_pbmc3k <- runPCA(tenx_pbmc3k, method="irlba")
+tenx_pbmc3k <- runTSNE(tenx_pbmc3k)
+```
+
+```{r}
+tenx_pbmc3k.hancock <- predict(
+    basesets, tenx_pbmc3k, assay.type = "counts", method = "ProportionPositive",
+    cluster.col="seurat.celltype")
+if (interactive()) {
+    library(shiny)
+    basesets <- runApp(shinyLabels(basesets, tenx_pbmc3k.hancock))
+}
+ids(setData(basesets))
+```
+
+As an example of plot available in the app, dimensionality reduction may facilitate the identification of cell populations more similar or related to each other.
+
+```{r}
+reducedDimPrediction(tenx_pbmc3k.hancock, highlight = "6. NK cells", redDimType = "TSNE")
+```
+
+# Types of signatures
+
+## Absolute markers
+
+As described in the accompanying [concepts](concepts.html) vignette, absolute markers (also known as "pan markers") may be defined as genes detected in each cluster, irrespective of their expression in the other clusters.
+
+For instance, the `"PositiveProportionDifference"` learning method can be used to identify such markers, by setting `min.diff=0` to annul any comparison between the detection frequency in the target cluster and all other clusters.
+
+As the numbers of genes detected in each cluster may be rather large, it is generally a good idea to restrict markers to be detected in a very high fraction of the corresponding cluster, for instance `min.prop = 0.9`.
+In addition, the `threshold` argument may be used to define a minimal threshold of expression level to consider a marker as "detected" in each cell, and the `assay.type` argument declares the assay to use (e.g., "counts", "logcouts", "TPM").
+
+This ensures that for each cluster, the combined set of markers is simultaneously detected above 1 transcript per million (TPM) in at least 90% of cells in that cluster.
+
+```{r}
+basesets <- learnSignatures(
+    se = tenx_pbmc3k, assay.type = "counts",
+    method = "PositiveProportionDifference", cluster.col = "seurat.celltype",
+    min.diff = 0, min.prop = 0.9, threshold = 1)
+knitr::kable(table(ids(sets(basesets))), col.names = c("Signature", "Genes"))
+```
+
+## Relative markers
+
+As described in the accompanying [concepts](concepts.html) vignette, relative markers (also known as "key markers") may be defined by _differential_ analysis against other cells in the same sample.
+
+For instance, the `"PositiveProportionDifference"` learning method can be used to identify such markers, by setting `min.diff` to a value greater than 0, in order to subset candidate markers to those detected at a rate at least 50% higher than the detection rate observed in any other cluster.
+
+```{r}
+basesets <- learnSignatures(
+    se = tenx_pbmc3k, assay.type = "counts",
+    method = "PositiveProportionDifference", cluster.col = "seurat.celltype",
+    min.diff = 0.5, diff.method = "min")
+knitr::kable(table(ids(sets(basesets))), col.names = c("Signature", "Genes"))
+```
+
+Among the learning outputs stored in the `BaseSets` metadata information, the relation metadata column `"minDifferenceProportion"` reflects the `min.diff=0.5` threshold applied when learning the signatures.
+
+```{r}
+summary(mcols(relations(basesets))[["minDifferenceProportion"]])
+```
+
+In addition, information about individual markers may be stored as element metadata accessible using the `elementData` and `mcols` methods as shown below.
+For instance, the proportion of cells positive for each marker across the entire data set.
+
+```{r}
+mcols(elementData(basesets))
+```
+
+Similarly, information about individual sets may be stored as set metadata accessible using the `setData` and `mcols` methods as shown below.
+For instance, the proportion of cells simultaneously positive for all markers in the cluster where this signature was defined.
+
+```{r}
+mcols(setData(basesets))
+```
+
+For instance, future methods to identify absolute markers could include differential expression between the target cluster and all other clusters to identify candidate markers significantly differentially expressed between clusters.
+
+# Additional information
+
+Bug reports can be posted as issues in the `r Githubpkg("kevinrue/hancock")` GitHub repository.
+The GitHub repository is the primary source for development versions of the package, where new functionality is added over time.
+The authors appreciate well-considered suggestions for improvements or new features, or even better, pull requests.
+
+If you use `r Githubpkg("kevinrue/hancock")` for your analysis, please cite it as shown below:
+
+```{r citation}
+citation("hancock")
+```
+
+# Session Info {.unnumbered}
+
+```{r sessioninfo}
+sessionInfo()
+# devtools::session_info()
+```
+
+# References {.unnumbered}
