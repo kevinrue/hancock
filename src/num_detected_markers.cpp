@@ -1,10 +1,14 @@
 #include "hancock.h"
+#include "beachmat/integer_matrix.h"
+#include "beachmat/numeric_matrix.h"
+#include "beachmat/logical_matrix.h"
+#include "beachmat/utils/const_column.h"
 #include "utils.h"
 
-template<class V, typename T, class M>
-Rcpp::IntegerVector num_detected_markers_internal(M ptr, Rcpp::IntegerVector markers, T threshold) {
+template<class M>
+Rcpp::IntegerVector num_detected_markers_internal(Rcpp::RObject mat, Rcpp::IntegerVector markers, typename M::type threshold) {
+    auto ptr=beachmat::create_matrix<M>(mat);
     const size_t Ncells=ptr->get_ncol();
-    
     const int Ngenes=ptr->get_nrow();
     for (auto m : markers) {
         if (m<0 || m>=Ngenes) {
@@ -13,10 +17,11 @@ Rcpp::IntegerVector num_detected_markers_internal(M ptr, Rcpp::IntegerVector mar
     }
 
     Rcpp::IntegerVector output(Ncells);
-    V tmp(Ngenes);
+    beachmat::const_column<M> col_holder(ptr.get(), false); // need indexing, so no sparsity allowed.
 
     for (size_t c=0; c<Ncells; ++c) {
-        auto cIt=ptr->get_const_col(c, tmp.begin());
+        col_holder.fill(c);
+        auto cIt=col_holder.get_values();
 
         int& counter=output[c];
         for (auto m : markers) {
@@ -34,16 +39,13 @@ SEXP num_detected_markers(SEXP mat, SEXP markers, SEXP threshold) {
     BEGIN_RCPP
     int rtype=beachmat::find_sexp_type(mat);
     if (rtype==INTSXP) {
-        auto input=beachmat::create_integer_matrix(mat);
         int limit=check_integer_scalar(threshold, "threshold");
-        return num_detected_markers_internal<Rcpp::IntegerVector>(input.get(), markers, limit);
+        return num_detected_markers_internal<beachmat::integer_matrix>(mat, markers, limit);
     } else if (rtype==REALSXP) {
-        auto input=beachmat::create_numeric_matrix(mat);
         double limit=check_numeric_scalar(threshold, "threshold");
-        return num_detected_markers_internal<Rcpp::NumericVector>(input.get(), markers, limit);
+        return num_detected_markers_internal<beachmat::numeric_matrix>(mat, markers, limit);
     } else {
-        auto input=beachmat::create_logical_matrix(mat);
-        return num_detected_markers_internal<Rcpp::LogicalVector, int>(input.get(), markers, 1);
+        return num_detected_markers_internal<beachmat::logical_matrix>(mat, markers, 1);
     }
     END_RCPP
 }
