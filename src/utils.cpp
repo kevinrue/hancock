@@ -1,4 +1,4 @@
-#include "hancock.h"
+#include "Rcpp.h"
 
 // Checking for scalar inputs.
 
