@@ -8,7 +8,6 @@
 \alias{predict.GeneSetCollection}
 \alias{predict}
 \alias{predict-methods}
-\alias{predict.tbl_geneset}
 \alias{predict.BaseSets}
 \title{Predict Method for Collection of Gene Set Signatures}
 \usage{
@@ -21,9 +20,6 @@ reducedDimPrediction(se, highlight = character(0), redDimType = "PCA",
   x = 1, y = 2, labels = TRUE)
 
 \method{predict}{GeneSetCollection}(object, se, assay.type = "counts",
-  method = c("ProportionPositive", "PP"), ...)
-
-\method{predict}{tbl_geneset}(object, se, assay.type = "counts",
   method = c("ProportionPositive", "PP"), ...)
 
 \method{predict}{BaseSets}(object, se, assay.type = "counts",

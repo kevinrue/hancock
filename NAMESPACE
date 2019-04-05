@@ -2,7 +2,6 @@
 
 S3method(predict,BaseSets)
 S3method(predict,GeneSetCollection)
-S3method(predict,tbl_geneset)
 export(barplotPredictionCount)
 export(barplotPredictionProportion)
 export(learnMarkersByPositiveProportionDifference)
