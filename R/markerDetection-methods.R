@@ -95,7 +95,7 @@ makeMarkerProportionScree <- function(matrix) {
 #' @rdname makeDetectionMatrices
 #'
 #' @param matrix A logical matrix indicating the presence of each marker (row) in each sample (column).
-#' @param object A collection of signatures inheriting from "[`GeneSetCollection`]" , "[`BaseSets`]", or "[`tbl_geneset`]".
+#' @param object A collection of signatures inheriting from "[`GeneSetCollection`]" or "[`BaseSets`]".
 #'
 #' @export
 #'

@@ -187,33 +187,6 @@ pbmc3k_markers_tbl <- as(inputList, "BaseSets")
 pbmc3k_markers_tbl
 ```
 
-## Tibbles of markers using GeneSet {#usingtibble}
-
-The `r Githubpkg("Kayla-Morrell/GeneSet")` package is being developped as a `tibble` expansion of the `r Biocpkg("GSEABase")` package.
-
-The package can be installed as follows:
-
-```{r, eval=FALSE}
-devtools::install_github("Kayla-Morrell/GeneSet")
-```
-
-Conveniently, this package makes the definition of gene sets as simple as the use of `list` described [above](#using-list).
-
-```{r}
-library(GeneSet)
-pbmc3k_markers_tbl <- tbl_geneset(
-    "CD4 T cells" = c("IL7R"),
-    "CD14+ Monocytes" = c("CD14", "LYZ"),
-    "B cells" = c("MS4A1"),
-    "CD8 T cells" = c("CD8A"),
-    "FCGR3A+ Monocytes" = c("FCGR3A", "MS4A7"),
-    "NK cells" = c("GNLY", "NKG7"),
-    "Dendritic Cells" = c("FCER1A", "CST3"),
-    "Megakaryocytes" = c("PPBP")
-)
-pbmc3k_markers_tbl
-```
-
 ## Combinations of positive and negative markers using the `GeneColorSet` class
 
 "Colored" gene sets, implemented in the `r Biocpkg("GSEABase")` `GeneColorSet` class, can store information about the relation between each gene and a given phenotype.

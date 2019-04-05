@@ -76,17 +76,6 @@ predict.GeneSetCollection <- function(
 }
 
 #' @rdname predictSignatures
-#'
-#' @export
-#'
-#' @method predict tbl_geneset
-predict.tbl_geneset <- function(
-    object, se, assay.type="counts", method=c("ProportionPositive", "PP"), ...
-) {
-    .predictAnyGeneSetClass(object, se, assay.type, method, ...)
-}
-
-#' @rdname predictSignatures
 #' @export
 predict.BaseSets <- function(
     object, se, assay.type="counts", method=c("ProportionPositive", "PP"), ...

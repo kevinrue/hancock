@@ -28,7 +28,7 @@ makeMarkerProportionMatrix(se, cluster.col, assay.type = "counts",
 
 \item{matrix}{A logical matrix indicating the presence of each marker (row) in each sample (column).}
 
-\item{object}{A collection of signatures inheriting from "\code{\link{GeneSetCollection}}" , "\code{\link{BaseSets}}", or "\code{\link{tbl_geneset}}".}
+\item{object}{A collection of signatures inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{BaseSets}}".}
 
 \item{cluster.col}{Name of a column in \code{colData(se)} that contains
 a factor indicating cluster membership for each column (i.e. sample) in \code{se}.}
