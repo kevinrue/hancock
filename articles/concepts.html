@@ -94,7 +94,7 @@
       Second Author’s Affiliation<br><a class="author_email" href="mailto:#"></a><a href="mailto:corresponding@author.com">corresponding@author.com</a>
       </address>
                   
-            <h4 class="date">29 April 2019</h4>
+            <h4 class="date">8 May 2019</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kevinrue/hancock/blob/master/vignettes/concepts.Rmd"><code>vignettes/concepts.Rmd</code></a></small>
       <div class="hidden name"><code>concepts.Rmd</code></div>
@@ -107,7 +107,7 @@
       A discussion of concepts associated with cell types and transcriptional signatures.
     </div>
     
-<p><strong>Compiled date</strong>: 2019-04-29</p>
+<p><strong>Compiled date</strong>: 2019-05-08</p>
 <p><strong>Last edited</strong>: 2018-03-08</p>
 <p><strong>License</strong>: MIT + file LICENSE</p>
 <div id="definition-of-cell-identity" class="section level1">
@@ -207,7 +207,7 @@
 <h2 class="hasAnchor">
 <a href="#using-gseabase" class="anchor"></a>Using GSEABase <code>GeneSetCollection</code>
 </h2>
-<p>The <em><a href="https://bioconductor.org/packages/3.9/GSEABase">GSEABase</a></em> package provides infrastructure for enumerating pathways and their contents and facilitating translations among the different nomenclatures that are used to describe contents of pathways (<a href="https://support.bioconductor.org/p/27770/">source</a>).</p>
+<p>The <em><a href="https://bioconductor.org/packages/3.10/GSEABase">GSEABase</a></em> package provides infrastructure for enumerating pathways and their contents and facilitating translations among the different nomenclatures that are used to describe contents of pathways (<a href="https://support.bioconductor.org/p/27770/">source</a>).</p>
 <p>The above list may be more formally (and elegantly) represented as follows:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(GSEABase)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">pbmc3k_markers_gsc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/GSEABase/topics/GeneSetCollection-methods">GeneSetCollection</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
@@ -227,7 +227,7 @@
 <a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt;   types in collection:</span></a>
 <a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt;     geneIdType: NullIdentifier (1 total)</span></a>
 <a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt;     collectionType: NullCollection (1 total)</span></a></code></pre></div>
-<p>Note that generic R lists can easily be packaged into <em><a href="https://bioconductor.org/packages/3.9/GSEABase">GSEABase</a></em> <code>GeneSetCollection</code> objects, for instance:</p>
+<p>Note that generic R lists can easily be packaged into <em><a href="https://bioconductor.org/packages/3.10/GSEABase">GSEABase</a></em> <code>GeneSetCollection</code> objects, for instance:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">pbmc3k_markers_gsc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/GSEABase/topics/GeneSetCollection-methods">GeneSetCollection</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mapply">mapply</a></span>(<span class="cf">function</span>(geneIds, geneSetId) {</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">        <span class="kw"><a href="https://www.rdocumentation.org/packages/GSEABase/topics/GeneSet-methods">GeneSet</a></span>(geneIds, <span class="dt">geneIdType=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/GSEABase/topics/GeneIdentifierType-constructors">EntrezIdentifier</a></span>(),</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">                <span class="dt">collectionType=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/GSEABase/topics/CollectionType-constructors">NullCollection</a></span>(),</a>
@@ -238,7 +238,7 @@
 <h2 class="hasAnchor">
 <a href="#using-unisets" class="anchor"></a>Using unisets <code>BaseSets</code>
 </h2>
-<p>The <em><a href="https://github.com/kevinrue/unisets">unisets</a></em> package is being developed using <em><a href="https://bioconductor.org/packages/3.9/S4Vectors">S4Vectors</a></em> <code>Hits</code> to associate identifiers in a vector of elements to identifiers in a vector of sets.</p>
+<p>The <em><a href="https://github.com/kevinrue/unisets">unisets</a></em> package is being developed using <em><a href="https://bioconductor.org/packages/3.10/S4Vectors">S4Vectors</a></em> <code>Hits</code> to associate identifiers in a vector of elements to identifiers in a vector of sets.</p>
 <p>The package can be installed as follows:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"kevinrue/unisets"</span>)</a></code></pre></div>
 <p>Conveniently, this package supports multiple source formats to create gene sets, including <code>list</code> described <a href="#using-list">above</a>.</p>
@@ -283,7 +283,7 @@
 <div id="combinations-of-positive-and-negative-markers-using-the-genecolorset-class" class="section level2">
 <h2 class="hasAnchor">
 <a href="#combinations-of-positive-and-negative-markers-using-the-genecolorset-class" class="anchor"></a>Combinations of positive and negative markers using the <code>GeneColorSet</code> class</h2>
-<p>“Colored” gene sets, implemented in the <em><a href="https://bioconductor.org/packages/3.9/GSEABase">GSEABase</a></em> <code>GeneColorSet</code> class, can store information about the relation between each gene and a given phenotype. Here, “colors” are <code>factor</code> levels used to represent the “state” of each gene (e.g., expression levels “up”, “down”, or “unchanged”), and a phenotypic consequence (e.g., the phenotype is “enhanced” or “reduced”). For the purpose of signatures associated with individual cell types, we may consider the identity of a differentiated cell as the phenotype of interest.</p>
+<p>“Colored” gene sets, implemented in the <em><a href="https://bioconductor.org/packages/3.10/GSEABase">GSEABase</a></em> <code>GeneColorSet</code> class, can store information about the relation between each gene and a given phenotype. Here, “colors” are <code>factor</code> levels used to represent the “state” of each gene (e.g., expression levels “up”, “down”, or “unchanged”), and a phenotypic consequence (e.g., the phenotype is “enhanced” or “reduced”). For the purpose of signatures associated with individual cell types, we may consider the identity of a differentiated cell as the phenotype of interest.</p>
 <p>In particular, individual genes may be positively or negatively associated with certain populations of cells. Such genes may be called <strong>positive</strong> or <strong>negative</strong> markers for the associated cell population.</p>
 <p>For instance, the differentiation of monocytes into mature F4/80<sup>hi</sup> CX3CR1<sup>hi</sup> MHCII<sup>+</sup> macrophages in the murine colonic mucosa is described as a “waterfall” that visually describes the concomitant downregulation of Ly6C and upregulation of MHCII <span class="citation">(Tamoutounour et al. 2012)</span>.</p>
 <p>Conceptually, the transcriptional signatures of Ly6C<sup>hi</sup> monocytes and mature F4/80<sup>hi</sup> CX3CR1<sup>hi</sup> MHCII<sup>+</sup> macrophages may be represented as follows:</p>
@@ -328,7 +328,7 @@
 <div id="session-info" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h1>
-<pre><code>#&gt; R Under development (unstable) (2019-04-29 r76435)
+<pre><code>#&gt; R Under development (unstable) (2019-05-08 r76474)
 #&gt; Platform: x86_64-pc-linux-gnu (64-bit)
 #&gt; Running under: Ubuntu 14.04.5 LTS
 #&gt; 
@@ -349,32 +349,32 @@
 #&gt; [8] methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt;  [1] unisets_0.99.0       GSEABase_1.45.1      graph_1.61.1        
-#&gt;  [4] annotate_1.61.1      XML_3.98-1.19        AnnotationDbi_1.45.1
-#&gt;  [7] IRanges_2.17.5       S4Vectors_0.21.24    Biobase_2.43.1      
-#&gt; [10] BiocGenerics_0.29.2  BiocStyle_2.11.0    
+#&gt;  [1] unisets_0.99.0       GSEABase_1.47.0      graph_1.63.0        
+#&gt;  [4] annotate_1.63.0      XML_3.98-1.19        AnnotationDbi_1.47.0
+#&gt;  [7] IRanges_2.19.0       S4Vectors_0.23.0     Biobase_2.45.0      
+#&gt; [10] BiocGenerics_0.31.0  BiocStyle_2.13.0    
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] SummarizedExperiment_1.13.0 xfun_0.6                   
+#&gt;  [1] SummarizedExperiment_1.15.0 xfun_0.6                   
 #&gt;  [3] reshape2_1.4.3              lattice_0.20-38            
 #&gt;  [5] htmltools_0.3.6             rtracklayer_1.43.3         
 #&gt;  [7] yaml_2.2.0                  blob_1.1.1                 
 #&gt;  [9] rlang_0.3.4                 pkgdown_1.3.0              
-#&gt; [11] DBI_1.0.0                   BiocParallel_1.17.19       
+#&gt; [11] DBI_1.0.0                   BiocParallel_1.19.0        
 #&gt; [13] bit64_0.9-7                 matrixStats_0.54.0         
 #&gt; [15] GenomeInfoDbData_1.2.1      plyr_1.8.4                 
-#&gt; [17] stringr_1.4.0               zlibbioc_1.29.0            
+#&gt; [17] stringr_1.4.0               zlibbioc_1.31.0            
 #&gt; [19] Biostrings_2.51.5           commonmark_1.7             
 #&gt; [21] memoise_1.1.0               evaluate_0.13              
-#&gt; [23] knitr_1.22                  GenomeInfoDb_1.19.3        
+#&gt; [23] knitr_1.22                  GenomeInfoDb_1.21.0        
 #&gt; [25] Rcpp_1.0.1                  xtable_1.8-4               
 #&gt; [27] backports_1.1.3             BiocManager_1.30.4         
-#&gt; [29] DelayedArray_0.9.9          desc_1.2.0                 
-#&gt; [31] XVector_0.23.2              fs_1.2.6                   
+#&gt; [29] DelayedArray_0.11.0         desc_1.2.0                 
+#&gt; [31] XVector_0.25.0              fs_1.2.6                   
 #&gt; [33] bit_1.1-14                  Rsamtools_1.99.5           
 #&gt; [35] digest_0.6.18               stringi_1.4.3              
 #&gt; [37] bookdown_0.9                grid_3.7.0                 
-#&gt; [39] GenomicRanges_1.35.1        rprojroot_1.3-2            
+#&gt; [39] GenomicRanges_1.37.0        rprojroot_1.3-2            
 #&gt; [41] tools_3.7.0                 bitops_1.0-6               
 #&gt; [43] magrittr_1.5                RCurl_1.95-4.12            
 #&gt; [45] RSQLite_2.1.1               crayon_1.3.4               
