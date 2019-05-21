@@ -248,9 +248,8 @@ Furthermore, this `r CRANpkg("shiny")` app automatically detects the presence of
 ```{r, message=FALSE}
 library(scater)
 tenx_pbmc3k <- normalize(tenx_pbmc3k)
-assay(tenx_pbmc3k, "logcounts") <- as(assay(tenx_pbmc3k, "logcounts"), "Matrix")
-tenx_pbmc3k <- runPCA(tenx_pbmc3k, method="irlba")
-tenx_pbmc3k <- runTSNE(tenx_pbmc3k)
+tenx_pbmc3k <- scater::runPCA(tenx_pbmc3k)
+tenx_pbmc3k <- scater::runTSNE(tenx_pbmc3k)
 ```
 
 ```{r}
