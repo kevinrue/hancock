@@ -79,8 +79,6 @@ makeMarkerDetectionMatrix <- function(
 #' @rdname makeDetectionMatrices
 #'
 #' @export
-#'
-#' @importFrom Matrix colSums
 makeMarkerProportionScree <- function(matrix) {
     topDetected <- .Call(cxx_num_detected_markers, matrix, seq_len(nrow(matrix))-1L, 1L)
     tab <- rle(sort(topDetected, decreasing=TRUE))
@@ -119,6 +117,7 @@ makeSignatureDetectionMatrix <- function(
 #' @export
 #'
 #' @importFrom SummarizedExperiment colData assay
+#' @importFrom BiocGenerics rowSums
 #' @importFrom Matrix rowSums
 makeMarkerProportionMatrix <- function(
     se, cluster.col, assay.type="counts", threshold=0
@@ -141,7 +140,7 @@ makeMarkerProportionMatrix <- function(
     assayMatrix <- assay(se, assay.type)
     for (clusterName in clusterNames) {
         clusterSamples <- which(colData(se)[, cluster.col] == clusterName)
-        detectionMatrix <- as(assayMatrix[, clusterSamples] > threshold, "Matrix")
+        detectionMatrix <- assayMatrix[, clusterSamples] > threshold
         nDetected <- rowSums(detectionMatrix)
         proportionPositiveByCluster[, clusterName] <- nDetected / length(clusterSamples)
     }
