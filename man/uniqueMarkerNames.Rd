@@ -9,10 +9,10 @@
 \alias{uniqueMarkerNames,GeneSetCollection-methods}
 \alias{uniqueSetNames,GeneSetCollection-method}
 \alias{uniqueSetNames,GeneSetCollection-methods}
-\alias{uniqueMarkerNames,BaseSets-method}
-\alias{uniqueMarkerNames,BaseSets-methods}
-\alias{uniqueSetNames,BaseSets-method}
-\alias{uniqueSetNames,BaseSets-methods}
+\alias{uniqueMarkerNames,Sets-method}
+\alias{uniqueMarkerNames,Sets-methods}
+\alias{uniqueSetNames,Sets-method}
+\alias{uniqueSetNames,Sets-methods}
 \title{Extract Unique Signature Names from a Collection of Gene Sets}
 \usage{
 uniqueMarkerNames(object)
@@ -23,12 +23,12 @@ uniqueSetNames(object)
 
 \S4method{uniqueSetNames}{GeneSetCollection}(object)
 
-\S4method{uniqueMarkerNames}{BaseSets}(object)
+\S4method{uniqueMarkerNames}{Sets}(object)
 
-\S4method{uniqueSetNames}{BaseSets}(object)
+\S4method{uniqueSetNames}{Sets}(object)
 }
 \arguments{
-\item{object}{An object of class inheriting from \code{\linkS4class{BaseSets}} or \code{\linkS4class{GeneSetCollection}}.}
+\item{object}{An object of class inheriting from \code{\linkS4class{Sets}} or \code{\linkS4class{GeneSetCollection}}.}
 }
 \value{
 A character vector of unique set or marker names across all gene sets.

@@ -112,7 +112,7 @@ basesets <- learnSignatures(
 basesets
 ```
 
-In `r Githubpkg("kevinrue/hancock")`, learning methods return `BaseSets` objects, defined in the `r Githubpkg("kevinrue/unisets")` package.
+In `r Githubpkg("kevinrue/hancock")`, learning methods return `Sets` objects, defined in the `r Githubpkg("kevinrue/unisets")` package.
 This container stores relations between elements (e.g., genes) and sets (e.g., signatures), along with optional metadata associated with each relation.
 In the next section, we explore the various pieces of information populated by `method = "PositiveProportionDifference")`.
 
@@ -304,7 +304,7 @@ basesets <- learnSignatures(
 knitr::kable(table(ids(sets(basesets))), col.names = c("Signature", "Genes"))
 ```
 
-Among the learning outputs stored in the `BaseSets` metadata information, the relation metadata column `"minDifferenceProportion"` reflects the `min.diff=0.5` threshold applied when learning the signatures.
+Among the learning outputs stored in the `Sets` metadata information, the relation metadata column `"minDifferenceProportion"` reflects the `min.diff=0.5` threshold applied when learning the signatures.
 
 ```{r}
 summary(mcols(relations(basesets))[["minDifferenceProportion"]])

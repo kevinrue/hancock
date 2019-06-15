@@ -47,7 +47,7 @@
 #'   "Cell type 1" = c("Gene001", "Gene002"),
 #'   "Cell type 2" = c("Gene003", "Gene004")
 #' )
-#' bs <- as(geneLists, "BaseSets")
+#' bs <- as(geneLists, "Sets")
 #'
 #' # Example usage ----
 #'
@@ -95,7 +95,7 @@ makeMarkerProportionScree <- function(matrix) {
 #' @rdname makeDetectionMatrices
 #'
 #' @param matrix A logical matrix indicating the presence of each marker (row) in each sample (column).
-#' @param object A collection of signatures inheriting from "[`GeneSetCollection`]" or "[`BaseSets`]".
+#' @param object A collection of signatures inheriting from "[`GeneSetCollection`]" or "[`Sets`]".
 #'
 #' @export
 #'

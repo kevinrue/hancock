@@ -7,22 +7,22 @@
 shinyLabels(gs, se)
 }
 \arguments{
-\item{gs}{A set of gene signatures inheriting from \code{\link{BaseSets}}.}
+\item{gs}{A set of gene signatures inheriting from \code{\link{Sets}}.}
 
 \item{se}{An object of class inheriting from \code{\link[=RangedSummarizedExperiment-class]{SummarizedExperiment}}.}
 }
 \value{
-The updated set of gene signatures as a \code{\link{BaseSets}}.
+The updated set of gene signatures as a \code{\link{Sets}}.
 }
 \description{
-This function launches a Shiny app to inspect the gene signatures defined in a \code{BaseSets}
+This function launches a Shiny app to inspect the gene signatures defined in a \code{Sets}
 for the purpose of (re-)naming those signatures interactively.
-The app returns the updated \code{BaseSets} when closed using the "Done" button.
+The app returns the updated \code{Sets} when closed using the "Done" button.
 }
 \examples{
 # Example data ----
 
-bs <- BaseSets(
+bs <- Sets(
     relations=DataFrame(
         element = c("Gene001", "Gene002", "Gene003", "Gene004"),
         set     = c(rep("Cell type 1", 2), rep("Cell type 2", 2))

@@ -8,7 +8,7 @@
 \alias{predict.GeneSetCollection}
 \alias{predict}
 \alias{predict-methods}
-\alias{predict.BaseSets}
+\alias{predict.Sets}
 \title{Predict Method for Collection of Gene Set Signatures}
 \usage{
 barplotPredictionCount(se, highlight = character(0), labels = TRUE)
@@ -22,7 +22,7 @@ reducedDimPrediction(se, highlight = character(0), redDimType = "PCA",
 \method{predict}{GeneSetCollection}(object, se, assay.type = "counts",
   method = c("ProportionPositive", "PP"), ...)
 
-\method{predict}{BaseSets}(object, se, assay.type = "counts",
+\method{predict}{Sets}(object, se, assay.type = "counts",
   method = c("ProportionPositive", "PP"), ...)
 }
 \arguments{
@@ -38,7 +38,7 @@ reducedDimPrediction(se, highlight = character(0), redDimType = "PCA",
 
 \item{y}{Name of the covariate to display on the y-axis.}
 
-\item{object}{A set of signatures of class inheriting from \code{\linkS4class{BaseSets}} or \code{\linkS4class{GeneSetCollection}}.}
+\item{object}{A set of signatures of class inheriting from \code{\linkS4class{Sets}} or \code{\linkS4class{GeneSetCollection}}.}
 
 \item{assay.type}{A string specifying which assay values to use, e.g., \code{"counts"} or \code{"logcounts"}.}
 
@@ -90,7 +90,7 @@ rownames(u) <- paste0("Gene", sprintf("\%03d", seq_len(nrow(u))))
 colnames(u) <- paste0("Cell", sprintf("\%03d", seq_len(ncol(u))))
 se <- SummarizedExperiment(assays=list(counts=u))
 
-bs <- BaseSets(
+bs <- Sets(
     relations=DataFrame(
         element = c("Gene001", "Gene002", "Gene003", "Gene004"),
         set     = c(rep("Cell type 1", 2), rep("Cell type 2", 2))

@@ -19,7 +19,7 @@ predictByProportionPositive(object, se, cluster.col,
 
 \item{row_title, row_title_side, column_title, column_title_side}{See \code{\link[=Heatmap]{Heatmap()}}.}
 
-\item{object}{A collection of signatures inheriting from \code{\linkS4class{BaseSets}} or \code{\linkS4class{GeneSetCollection}}".}
+\item{object}{A collection of signatures inheriting from \code{\linkS4class{Sets}} or \code{\linkS4class{GeneSetCollection}}".}
 
 \item{cluster.col}{Name of a column in \code{colData(se)} that contains
 a factor indicating cluster membership for each column (i.e. sample) in \code{se}.}
@@ -65,7 +65,7 @@ rownames(u) <- paste0("Gene", sprintf("\%03d", seq_len(nrow(u))))
 colnames(u) <- paste0("Cell", sprintf("\%03d", seq_len(ncol(u))))
 se <- SummarizedExperiment(assays=list(counts=u))
 
-bs <- BaseSets(
+bs <- Sets(
     relations=DataFrame(
         element = c("Gene001", "Gene002", "Gene003", "Gene004"),
         set     = c(rep("Cell type 1", 2), rep("Cell type 2", 2))
@@ -83,7 +83,7 @@ plotProportionPositive(
   col=colorRamp2(c(0, 100), c("white", "red")))
 }
 \seealso{
-\code{\link[=predict.GeneSetCollection]{predict.GeneSetCollection()}}, \code{\link[=predict.BaseSets]{predict.BaseSets()}}.
+\code{\link[=predict.GeneSetCollection]{predict.GeneSetCollection()}}, \code{\link[=predict.Sets]{predict.Sets()}}.
 }
 \author{
 Kevin Rue-Albrecht

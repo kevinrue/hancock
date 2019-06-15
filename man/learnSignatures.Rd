@@ -17,7 +17,7 @@ learnSignatures(se, assay.type = "counts",
 \item{...}{Additional arguments affecting the learning method.}
 }
 \value{
-A \code{\link{BaseSets}} object.
+A \code{\link{Sets}} object.
 }
 \description{
 These method signatures learn gene set signatures optionally augmented with

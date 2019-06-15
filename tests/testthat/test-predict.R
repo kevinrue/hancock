@@ -17,7 +17,7 @@ gsc <- GeneSetCollection(list(
 bs <- as(list(
     "Cell type 1"=c("Gene001", "Gene002"),
     "Cell type 2"=c("Gene003", "Gene004")
-), "BaseSets")
+), "Sets")
 
 # predict.GeneSetCollection ----
 
@@ -70,9 +70,9 @@ test_that("predict.GeneSetCollection works for method ProportionPositive", {
     expect_s3_class(plotOut, "ggplot")
 })
 
-# predict.BaseSets ----
+# predict.Sets ----
 
-test_that("predict.BaseSets works for method ProportionPositive", {
+test_that("predict.Sets works for method ProportionPositive", {
     dummyCluster <- factor(sample(head(LETTERS, 3), ncol(sce), replace=TRUE))
     colData(sce)[, "cluster"] <- dummyCluster
 
@@ -88,7 +88,7 @@ test_that("predict.BaseSets works for method ProportionPositive", {
         c("GeneSets", "method", "packageVersion", "ProportionPositiveByCluster",  "TopSignatureByCluster")
     )
 
-    expect_s4_class(metadata(out)[["hancock"]][["GeneSets"]], "BaseSets")
+    expect_s4_class(metadata(out)[["hancock"]][["GeneSets"]], "Sets")
 
     expect_identical(metadata(out)[["hancock"]][["method"]], "ProportionPositive")
 

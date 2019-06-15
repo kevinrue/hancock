@@ -28,7 +28,7 @@ makeMarkerProportionMatrix(se, cluster.col, assay.type = "counts",
 
 \item{matrix}{A logical matrix indicating the presence of each marker (row) in each sample (column).}
 
-\item{object}{A collection of signatures inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{BaseSets}}".}
+\item{object}{A collection of signatures inheriting from "\code{\link{GeneSetCollection}}" or "\code{\link{Sets}}".}
 
 \item{cluster.col}{Name of a column in \code{colData(se)} that contains
 a factor indicating cluster membership for each column (i.e. sample) in \code{se}.}
@@ -66,7 +66,7 @@ geneLists <- list(
   "Cell type 1" = c("Gene001", "Gene002"),
   "Cell type 2" = c("Gene003", "Gene004")
 )
-bs <- as(geneLists, "BaseSets")
+bs <- as(geneLists, "Sets")
 
 # Example usage ----
 

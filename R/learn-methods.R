@@ -23,7 +23,7 @@
 #' between the detection rate in the cluster of interest and the detection rate in all other clusters.}
 #' }
 #'
-#' @return A [`BaseSets`] object.
+#' @return A [`Sets`] object.
 #'
 #' @export
 #'
@@ -84,7 +84,7 @@ learnSignatures <- function(
 #' `diff.method` controls how the detection rate in all clusters _other than the target one_ are summarized before comparison with the detection in the target cluster.
 #' It is possible to rank features using the minimal (`"min"`), `"mean"`, `"median"`, or maximal (`"max"`) difference between the detection rate in the target cluster and those of all other clusters.
 #'
-#' @return A collection of signatures as a "[`BaseSets`]" object.
+#' @return A collection of signatures as a "[`Sets`]" object.
 #'
 #' @export
 #' @importFrom Biobase rowMax rowMin
@@ -207,6 +207,6 @@ learnMarkersByPositiveProportionDifference <- function(
     mcols(elementData) <- DataFrame(
         ProportionPositive=rowSums(detectionMatrix) / ncol(se)
     )
-    # Make a BaseSets
-    BaseSets(relations=markersTable, elementData=elementData, setData=setData)
+    # Make a Sets
+    Sets(relations=markersTable, elementData=elementData, setData=setData)
 }

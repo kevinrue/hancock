@@ -11,7 +11,7 @@
 #' @rdname predictSignatures
 #' @aliases predict predict-methods
 #'
-#' @param object A set of signatures of class inheriting from [`BaseSets-class`] or [`GeneSetCollection-class`].
+#' @param object A set of signatures of class inheriting from [`Sets-class`] or [`GeneSetCollection-class`].
 #' @param se An object of class inheriting from [`SummarizedExperiment`][RangedSummarizedExperiment-class].
 #' @param assay.type A string specifying which assay values to use, e.g., `"counts"` or `"logcounts"`.
 #' @param method Prediction method. See section "Prediction methods".
@@ -48,7 +48,7 @@
 #' colnames(u) <- paste0("Cell", sprintf("%03d", seq_len(ncol(u))))
 #' se <- SummarizedExperiment(assays=list(counts=u))
 #'
-#' bs <- BaseSets(
+#' bs <- Sets(
 #'     relations=DataFrame(
 #'         element = c("Gene001", "Gene002", "Gene003", "Gene004"),
 #'         set     = c(rep("Cell type 1", 2), rep("Cell type 2", 2))
@@ -77,7 +77,7 @@ predict.GeneSetCollection <- function(
 
 #' @rdname predictSignatures
 #' @export
-predict.BaseSets <- function(
+predict.Sets <- function(
     object, se, assay.type="counts", method=c("ProportionPositive", "PP"), ...
 ) {
     .predictAnyGeneSetClass(object, se, assay.type, method, ...)
@@ -85,10 +85,10 @@ predict.BaseSets <- function(
 
 #' Internal Predict Method for Any Type of Gene Set Collection
 #'
-#' This function is called by both [`BaseSets-class`] or [`GeneSetCollection-class`] signatures.
+#' This function is called by both [`Sets-class`] or [`GeneSetCollection-class`] signatures.
 #' Dispatch occurs in downstream functions (e.g., [`uniqueMarkerNames()`], [`uniqueSetNames()`]).
 #'
-#' @param object A collection of signatures inheriting from [`BaseSets-class`] or [`GeneSetCollection-class`].
+#' @param object A collection of signatures inheriting from [`Sets-class`] or [`GeneSetCollection-class`].
 #' @param se An object of class inheriting from [`SummarizedExperiment`][RangedSummarizedExperiment-class].
 #' @param assay.type A string specifying which assay values to use, e.g., `"counts"` or `"logcounts"`.
 #' @param method Prediction method. See section "Prediction methods".
@@ -144,7 +144,7 @@ predict.BaseSets <- function(
 #' \item{`"TopSignatureByCluster"`}{Named vector indicating the predominant signature for each cluster.}
 #' }
 #'
-#' @param object A collection of signatures inheriting from [`BaseSets-class`] or [`GeneSetCollection-class`]".
+#' @param object A collection of signatures inheriting from [`Sets-class`] or [`GeneSetCollection-class`]".
 #' @param se An object of class inheriting from [`SummarizedExperiment`][RangedSummarizedExperiment-class].
 #' @param cluster.col Name of a column in `colData(se)` that contains
 #' a factor indicating cluster membership for each column (i.e. sample) in `se`.
@@ -165,7 +165,7 @@ predict.BaseSets <- function(
 #'
 #' @author Kevin Rue-Albrecht
 #'
-#' @seealso [`predict.GeneSetCollection()`], [`predict.BaseSets()`].
+#' @seealso [`predict.GeneSetCollection()`], [`predict.Sets()`].
 #'
 #' @examples
 #' # Example data ----
@@ -176,7 +176,7 @@ predict.BaseSets <- function(
 #' colnames(u) <- paste0("Cell", sprintf("%03d", seq_len(ncol(u))))
 #' se <- SummarizedExperiment(assays=list(counts=u))
 #'
-#' bs <- BaseSets(
+#' bs <- Sets(
 #'     relations=DataFrame(
 #'         element = c("Gene001", "Gene002", "Gene003", "Gene004"),
 #'         set     = c(rep("Cell type 1", 2), rep("Cell type 2", 2))

@@ -159,7 +159,7 @@ pbmc3k_markers_gsc <- GeneSetCollection(mapply(function(geneIds, geneSetId) {
     }, pbmc3k_markers_list, names(pbmc3k_markers_list)))
 ```
 
-## Using unisets `BaseSets` {#using-unisets}
+## Using unisets `Sets` {#using-unisets}
 
 The `r Githubpkg("kevinrue/unisets")` package is being developed using `r Biocpkg("S4Vectors")` `Hits` to associate identifiers in a vector of elements to identifiers in a vector of sets.
 
@@ -183,7 +183,7 @@ inputList <- list(
     "Dendritic Cells" = c("FCER1A", "CST3"),
     "Megakaryocytes" = c("PPBP")
 )
-pbmc3k_markers_tbl <- as(inputList, "BaseSets")
+pbmc3k_markers_tbl <- as(inputList, "Sets")
 pbmc3k_markers_tbl
 ```
 

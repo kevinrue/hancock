@@ -1,14 +1,14 @@
 #nocov start
 #' Interactively Inspect and Name Gene Signatures
 #'
-#' This function launches a Shiny app to inspect the gene signatures defined in a `BaseSets`
+#' This function launches a Shiny app to inspect the gene signatures defined in a `Sets`
 #' for the purpose of (re-)naming those signatures interactively.
-#' The app returns the updated `BaseSets` when closed using the "Done" button.
+#' The app returns the updated `Sets` when closed using the "Done" button.
 #'
-#' @param gs A set of gene signatures inheriting from [`BaseSets`].
+#' @param gs A set of gene signatures inheriting from [`Sets`].
 #' @param se An object of class inheriting from [`SummarizedExperiment`][RangedSummarizedExperiment-class].
 #'
-#' @return The updated set of gene signatures as a [`BaseSets`].
+#' @return The updated set of gene signatures as a [`Sets`].
 #' @export
 #' @importFrom methods is as
 #' @importFrom shiny shinyApp reactiveValues observeEvent stopApp isolate
@@ -25,7 +25,7 @@
 #' @examples
 #' # Example data ----
 #'
-#' bs <- BaseSets(
+#' bs <- Sets(
 #'     relations=DataFrame(
 #'         element = c("Gene001", "Gene002", "Gene003", "Gene004"),
 #'         set     = c(rep("Cell type 1", 2), rep("Cell type 2", 2))
@@ -57,7 +57,7 @@
 #' }
 shinyLabels <- function(gs, se) {
 
-    stopifnot(is(gs, "BaseSets"))
+    stopifnot(is(gs, "Sets"))
     stopifnot(all(levels(colData(se)[[getPackageName()]][["prediction"]]) %in% ids(setData(gs))))
 
     se <- as(se, "SingleCellExperiment")

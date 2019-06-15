@@ -8,7 +8,7 @@
 #' @rdname uniqueMarkerNames
 #' @aliases uniqueMarkerNames
 #'
-#' @param object An object of class inheriting from [`BaseSets-class`] or [`GeneSetCollection-class`].
+#' @param object An object of class inheriting from [`Sets-class`] or [`GeneSetCollection-class`].
 #'
 #' @return A character vector of unique set or marker names across all gene sets.
 #' @export
@@ -52,7 +52,7 @@ setGeneric(
 #'
 #' @rdname makeFilterExpression
 #'
-#' @param object An object of class inheriting from [`BaseSets`] or [`GeneSetCollection`].
+#' @param object An object of class inheriting from [`Sets`] or [`GeneSetCollection`].
 #'
 #' @return A list of [`expression`] that combines the markers listed in each gene set.
 #'
