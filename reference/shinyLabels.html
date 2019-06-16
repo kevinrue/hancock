@@ -32,9 +32,9 @@
 
 <meta property="og:title" content="Interactively Inspect and Name Gene Signatures — shinyLabels" />
 
-<meta property="og:description" content="This function launches a Shiny app to inspect the gene signatures defined in a BaseSets
+<meta property="og:description" content="This function launches a Shiny app to inspect the gene signatures defined in a Sets
 for the purpose of (re-)naming those signatures interactively.
-The app returns the updated BaseSets when closed using the &quot;Done&quot; button." />
+The app returns the updated Sets when closed using the &quot;Done&quot; button." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -128,9 +128,9 @@ The app returns the updated BaseSets when closed using the &quot;Done&quot; butt
 
     <div class="ref-description">
     
-    <p>This function launches a Shiny app to inspect the gene signatures defined in a <code>BaseSets</code>
+    <p>This function launches a Shiny app to inspect the gene signatures defined in a <code>Sets</code>
 for the purpose of (re-)naming those signatures interactively.
-The app returns the updated <code>BaseSets</code> when closed using the "Done" button.</p>
+The app returns the updated <code>Sets</code> when closed using the "Done" button.</p>
     
     </div>
 
@@ -141,7 +141,7 @@ The app returns the updated <code>BaseSets</code> when closed using the "Done" b
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>gs</th>
-      <td><p>A set of gene signatures inheriting from <code>BaseSets</code>.</p></td>
+      <td><p>A set of gene signatures inheriting from <code>Sets</code>.</p></td>
     </tr>
     <tr>
       <th>se</th>
@@ -151,13 +151,13 @@ The app returns the updated <code>BaseSets</code> when closed using the "Done" b
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The updated set of gene signatures as a <code>BaseSets</code>.</p>
+    <p>The updated set of gene signatures as a <code>Sets</code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Example data ----</span>
 
-<span class='no'>bs</span> <span class='kw'>&lt;-</span> <span class='fu'>BaseSets</span>(
+<span class='no'>bs</span> <span class='kw'>&lt;-</span> <span class='fu'>Sets</span>(
     <span class='kw'>relations</span><span class='kw'>=</span><span class='fu'>DataFrame</span>(
         <span class='kw'>element</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Gene001"</span>, <span class='st'>"Gene002"</span>, <span class='st'>"Gene003"</span>, <span class='st'>"Gene004"</span>),
         <span class='kw'>set</span>     <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"Cell type 1"</span>, <span class='fl'>2</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"Cell type 2"</span>, <span class='fl'>2</span>))

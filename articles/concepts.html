@@ -94,7 +94,7 @@
       Second Author’s Affiliation<br><a class="author_email" href="mailto:#"></a><a href="mailto:corresponding@author.com">corresponding@author.com</a>
       </address>
                   
-            <h4 class="date">15 June 2019</h4>
+            <h4 class="date">16 June 2019</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kevinrue/hancock/blob/master/vignettes/concepts.Rmd"><code>vignettes/concepts.Rmd</code></a></small>
       <div class="hidden name"><code>concepts.Rmd</code></div>
@@ -107,7 +107,7 @@
       A discussion of concepts associated with cell types and transcriptional signatures.
     </div>
     
-<p><strong>Compiled date</strong>: 2019-06-15</p>
+<p><strong>Compiled date</strong>: 2019-06-16</p>
 <p><strong>Last edited</strong>: 2018-03-08</p>
 <p><strong>License</strong>: MIT + file LICENSE</p>
 <div id="definition-of-cell-identity" class="section level1">
@@ -236,7 +236,7 @@
 </div>
 <div id="using-unisets" class="section level2">
 <h2 class="hasAnchor">
-<a href="#using-unisets" class="anchor"></a>Using unisets <code>BaseSets</code>
+<a href="#using-unisets" class="anchor"></a>Using unisets <code>Sets</code>
 </h2>
 <p>The <em><a href="https://github.com/kevinrue/unisets">unisets</a></em> package is being developed using <em><a href="https://bioconductor.org/packages/3.10/S4Vectors">S4Vectors</a></em> <code>Hits</code> to associate identifiers in a vector of elements to identifiers in a vector of sets.</p>
 <p>The package can be installed as follows:</p>
@@ -253,22 +253,22 @@
 <a class="sourceLine" id="cb5-9" data-line-number="9">    <span class="st">"Dendritic Cells"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"FCER1A"</span>, <span class="st">"CST3"</span>),</a>
 <a class="sourceLine" id="cb5-10" data-line-number="10">    <span class="st">"Megakaryocytes"</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"PPBP"</span>)</a>
 <a class="sourceLine" id="cb5-11" data-line-number="11">)</a>
-<a class="sourceLine" id="cb5-12" data-line-number="12">pbmc3k_markers_tbl &lt;-<span class="st"> </span><span class="kw">as</span>(inputList, <span class="st">"BaseSets"</span>)</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12">pbmc3k_markers_tbl &lt;-<span class="st"> </span><span class="kw">as</span>(inputList, <span class="st">"Sets"</span>)</a>
 <a class="sourceLine" id="cb5-13" data-line-number="13">pbmc3k_markers_tbl</a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; BaseSets with 12 relations between 12 elements and 8 sets</span></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt;       element             set</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt;   &lt;character&gt;     &lt;character&gt;</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; 1        IL7R     CD4 T cells</span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; 2        CD14 CD14+ Monocytes</span></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; 3         LYZ CD14+ Monocytes</span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; 4       MS4A1         B cells</span></a>
-<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt; 5        CD8A     CD8 T cells</span></a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt;           ...             ...</span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; 1        GNLY        NK cells</span></a>
-<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; 2        NKG7        NK cells</span></a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; 3      FCER1A Dendritic Cells</span></a>
-<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; 4        CST3 Dendritic Cells</span></a>
-<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; 5        PPBP  Megakaryocytes</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; Sets with 12 relations between 12 elements and 8 sets</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt;         element             set</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt;      &lt;IdVector&gt;      &lt;IdVector&gt;</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt;  [1]       IL7R     CD4 T cells</span></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt;  [2]       CD14 CD14+ Monocytes</span></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt;  [3]        LYZ CD14+ Monocytes</span></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt;  [4]      MS4A1         B cells</span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt;  [5]       CD8A     CD8 T cells</span></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt;  ...        ...             ...</span></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt;  [8]       GNLY        NK cells</span></a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt;  [9]       NKG7        NK cells</span></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; [10]     FCER1A Dendritic Cells</span></a>
+<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; [11]       CST3 Dendritic Cells</span></a>
+<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; [12]       PPBP  Megakaryocytes</span></a>
 <a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt; @elementData</span></a>
 <a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt; IdVector of length 12 with 12 unique identifiers</span></a>
@@ -412,7 +412,7 @@
 <a href="#representation-of-signatures">Representation of signatures</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#using-list">Lists of marker names</a></li>
       <li><a href="#using-gseabase">Using GSEABase <code>GeneSetCollection</code></a></li>
-      <li><a href="#using-unisets">Using unisets <code>BaseSets</code></a></li>
+      <li><a href="#using-unisets">Using unisets <code>Sets</code></a></li>
       <li><a href="#combinations-of-positive-and-negative-markers-using-the-genecolorset-class">Combinations of positive and negative markers using the <code>GeneColorSet</code> class</a></li>
       </ul>
 </li>

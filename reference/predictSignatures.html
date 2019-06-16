@@ -146,7 +146,7 @@ in <code>SummarizedExperiment</code> objects.</p>
 <span class='fu'>predict</span>(<span class='no'>object</span>, <span class='no'>se</span>, <span class='kw'>assay.type</span> <span class='kw'>=</span> <span class='st'>"counts"</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"ProportionPositive"</span>, <span class='st'>"PP"</span>), <span class='no'>...</span>)
 
-<span class='co'># S3 method for BaseSets</span>
+<span class='co'># S3 method for Sets</span>
 <span class='fu'>predict</span>(<span class='no'>object</span>, <span class='no'>se</span>, <span class='kw'>assay.type</span> <span class='kw'>=</span> <span class='st'>"counts"</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"ProportionPositive"</span>, <span class='st'>"PP"</span>), <span class='no'>...</span>)</pre>
     
@@ -179,7 +179,7 @@ in <code>SummarizedExperiment</code> objects.</p>
     </tr>
     <tr>
       <th>object</th>
-      <td><p>A set of signatures of class inheriting from <code>BaseSets</code> or <code>GeneSetCollection</code>.</p></td>
+      <td><p>A set of signatures of class inheriting from <code>Sets</code> or <code>GeneSetCollection</code>.</p></td>
     </tr>
     <tr>
       <th>assay.type</th>
@@ -238,7 +238,7 @@ Assigns to each cluster the signature detected in the highest proportion of samp
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>colnames</a></span>(<span class='no'>u</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"Cell"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sprintf'>sprintf</a></span>(<span class='st'>"%03d"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>ncol</a></span>(<span class='no'>u</span>))))
 <span class='no'>se</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/SummarizedExperiment/topics/RangedSummarizedExperiment-class'>SummarizedExperiment</a></span>(<span class='kw'>assays</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>counts</span><span class='kw'>=</span><span class='no'>u</span>))
 
-<span class='no'>bs</span> <span class='kw'>&lt;-</span> <span class='fu'>BaseSets</span>(
+<span class='no'>bs</span> <span class='kw'>&lt;-</span> <span class='fu'>Sets</span>(
     <span class='kw'>relations</span><span class='kw'>=</span><span class='fu'>DataFrame</span>(
         <span class='kw'>element</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Gene001"</span>, <span class='st'>"Gene002"</span>, <span class='st'>"Gene003"</span>, <span class='st'>"Gene004"</span>),
         <span class='kw'>set</span>     <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"Cell type 1"</span>, <span class='fl'>2</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"Cell type 2"</span>, <span class='fl'>2</span>))
