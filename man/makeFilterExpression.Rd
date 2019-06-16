@@ -6,18 +6,18 @@
 \alias{makeFilterExpression}
 \alias{makeFilterExpression,GeneSetCollection-method}
 \alias{makeFilterExpression,GeneSetCollection-methods}
-\alias{makeFilterExpression,BaseSets-method}
-\alias{makeFilterExpression,BaseSets-methods}
+\alias{makeFilterExpression,Sets-method}
+\alias{makeFilterExpression,Sets-methods}
 \title{Build Filter Expressions from \code{GeneSetCollection} objects}
 \usage{
 makeFilterExpression(object)
 
 \S4method{makeFilterExpression}{GeneSetCollection}(object)
 
-\S4method{makeFilterExpression}{BaseSets}(object)
+\S4method{makeFilterExpression}{Sets}(object)
 }
 \arguments{
-\item{object}{An object of class inheriting from \code{\link{BaseSets}} or \code{\link{GeneSetCollection}}.}
+\item{object}{An object of class inheriting from \code{\link{Sets}} or \code{\link{GeneSetCollection}}.}
 }
 \value{
 A list of \code{\link{expression}} that combines the markers listed in each gene set.
