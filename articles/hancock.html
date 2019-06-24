@@ -94,7 +94,7 @@
       Second Author’s Affiliation<br><a class="author_email" href="mailto:#"></a><a href="mailto:corresponding@author.com">corresponding@author.com</a>
       </address>
                   
-            <h4 class="date">17 June 2019</h4>
+            <h4 class="date">24 June 2019</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kevinrue/hancock/blob/master/vignettes/hancock.Rmd"><code>vignettes/hancock.Rmd</code></a></small>
       <div class="hidden name"><code>hancock.Rmd</code></div>
@@ -107,7 +107,7 @@
       Example usage of the hancock package demonstrated using example data sets.
     </div>
     
-<p><strong>Compiled date</strong>: 2019-06-17</p>
+<p><strong>Compiled date</strong>: 2019-06-24</p>
 <p><strong>Last edited</strong>: 2018-03-08</p>
 <p><strong>License</strong>: MIT + file LICENSE</p>
 <div id="overview" class="section level1">
@@ -177,7 +177,7 @@
 <a class="sourceLine" id="cb5-5" data-line-number="5">basesets</a>
 <a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; Sets with 16 relations between 16 elements and 8 sets</span></a>
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;              element             set | ProportionPositive</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;           &lt;IdVector&gt;      &lt;IdVector&gt; |          &lt;numeric&gt;</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;          &lt;character&gt;     &lt;character&gt; |          &lt;numeric&gt;</span></a>
 <a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;  [1] ENSG00000142546     CD4 T cells |  0.648132059079062</span></a>
 <a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt;  [2] ENSG00000100100     CD4 T cells |  0.417897480451781</span></a>
 <a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt;  [3] ENSG00000143546 CD14+ Monocytes |   0.97286012526096</span></a>
@@ -202,16 +202,9 @@
 <a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt; [14]       0.438884665508254</span></a>
 <a class="sourceLine" id="cb5-31" data-line-number="31"><span class="co">#&gt; [15]       0.942675159235669</span></a>
 <a class="sourceLine" id="cb5-32" data-line-number="32"><span class="co">#&gt; [16]                  0.9375</span></a>
-<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="co">#&gt; @elementData</span></a>
-<a class="sourceLine" id="cb5-35" data-line-number="35"><span class="co">#&gt; IdVector of length 16 with 16 unique identifiers</span></a>
-<a class="sourceLine" id="cb5-36" data-line-number="36"><span class="co">#&gt; Ids: ENSG00000142546, ENSG00000100100, ENSG00000143546, ENSG00000170458, ...</span></a>
-<a class="sourceLine" id="cb5-37" data-line-number="37"><span class="co">#&gt; Metadata: ProportionPositive (1 column)</span></a>
-<a class="sourceLine" id="cb5-38" data-line-number="38"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-39" data-line-number="39"><span class="co">#&gt; @setData</span></a>
-<a class="sourceLine" id="cb5-40" data-line-number="40"><span class="co">#&gt; IdVector of length 8 with 8 unique identifiers</span></a>
-<a class="sourceLine" id="cb5-41" data-line-number="41"><span class="co">#&gt; Ids: CD4 T cells, CD14+ Monocytes, B cells, CD8 T cells, ...</span></a>
-<a class="sourceLine" id="cb5-42" data-line-number="42"><span class="co">#&gt; Metadata: ProportionPositive (1 column)</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#&gt; -----------</span></a>
+<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="co">#&gt; elementInfo: IdVector with 1 metadata (ProportionPositive)</span></a>
+<a class="sourceLine" id="cb5-35" data-line-number="35"><span class="co">#&gt;     setInfo: IdVector with 1 metadata (ProportionPositive)</span></a></code></pre></div>
 <p>In <em><a href="https://github.com/kevinrue/hancock">hancock</a></em>, learning methods return <code>Sets</code> objects, defined in the <em><a href="https://github.com/kevinrue/unisets">unisets</a></em> package. This container stores relations between elements (e.g., genes) and sets (e.g., signatures), along with optional metadata associated with each relation. In the next section, we explore the various pieces of information populated by <code>method = "PositiveProportionDifference")</code>.</p>
 </div>
 <div id="visualise-learning" class="section level2">
@@ -407,8 +400,8 @@
 <div id="marker-metadata" class="section level3">
 <h3 class="hasAnchor">
 <a href="#marker-metadata" class="anchor"></a>Marker metadata</h3>
-<p>In addition, metadata associated with each unique marker–irrespective of its specific relationships with individual signature–are stored in the metadata columns of the <code>elementData</code> slot. Specifically, the <code>"PositiveProportionDifference"</code> describes <code>"ProportionPositive"</code>, the proportion of cells with detectable expression of the markers across the entire data set.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw">elementData</span>(basesets))</a>
+<p>In addition, metadata associated with each unique marker–irrespective of its specific relationships with individual signature–are stored in the metadata columns of the <code>elementInfo</code> slot. Specifically, the <code>"PositiveProportionDifference"</code> describes <code>"ProportionPositive"</code>, the proportion of cells with detectable expression of the markers across the entire data set.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw">elementInfo</span>(basesets))</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; DataFrame with 16 rows and 1 column</span></a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;                 ProportionPositive</span></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;                          &lt;numeric&gt;</span></a>
@@ -424,13 +417,13 @@
 <a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; ENSG00000163736 0.0288097043214556</span></a>
 <a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; ENSG00000163737 0.0155420773313116</span></a></code></pre></div>
 <p>Using the gene metadata available in the <code>rowData</code> slot of the <code>tenx_pbmc3k</code> object, we can add the gene symbol associated with each marker to the marker metadata.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw">elementData</span>(basesets)) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">    <span class="kw">mcols</span>(<span class="kw">elementData</span>(basesets)),</a>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw">elementInfo</span>(basesets)) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">    <span class="kw">mcols</span>(<span class="kw">elementInfo</span>(basesets)),</a>
 <a class="sourceLine" id="cb9-3" data-line-number="3">    <span class="kw">rowData</span>(tenx_pbmc3k)[</a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">        <span class="kw">ids</span>(<span class="kw">elementData</span>(basesets)),</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">        <span class="kw">ids</span>(<span class="kw">elementInfo</span>(basesets)),</a>
 <a class="sourceLine" id="cb9-5" data-line-number="5">        <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Symbol"</span>, <span class="st">"ENSEMBL_ID"</span>, <span class="st">"Symbol_TENx"</span>)]</a>
 <a class="sourceLine" id="cb9-6" data-line-number="6">)</a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="kw">mcols</span>(<span class="kw">elementData</span>(basesets))</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="kw">mcols</span>(<span class="kw">elementInfo</span>(basesets))</a>
 <a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; DataFrame with 16 rows and 4 columns</span></a>
 <a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;                 ProportionPositive      Symbol      ENSEMBL_ID Symbol_TENx</span></a>
 <a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;                          &lt;numeric&gt; &lt;character&gt;     &lt;character&gt; &lt;character&gt;</span></a>
@@ -449,8 +442,8 @@
 <div id="set-metadata" class="section level3">
 <h3 class="hasAnchor">
 <a href="#set-metadata" class="anchor"></a>Set metadata</h3>
-<p>Similarly, metadata associated with each unique signature–irrespective of its specific relationships with individual markers–are stored in the metadata columns of the <code>setData</code> slot. Specifically, the <code>"PositiveProportionDifference"</code> describes <code>"ProportionPositive"</code>, the proportion of cells with detectable expression of all markers associated with each signature across the entire data set.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw">setData</span>(basesets))</a>
+<p>Similarly, metadata associated with each unique signature–irrespective of its specific relationships with individual markers–are stored in the metadata columns of the <code>setInfo</code> slot. Specifically, the <code>"PositiveProportionDifference"</code> describes <code>"ProportionPositive"</code>, the proportion of cells with detectable expression of all markers associated with each signature across the entire data set.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw">setInfo</span>(basesets))</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; DataFrame with 8 rows and 1 column</span></a>
 <a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt;                   ProportionPositive</span></a>
 <a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt;                            &lt;numeric&gt;</span></a>
@@ -528,7 +521,7 @@
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; $GeneSets</span></a>
 <a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt; Sets with 16 relations between 16 elements and 8 sets</span></a>
 <a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt;              element             set | ProportionPositive</span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt;           &lt;IdVector&gt;      &lt;IdVector&gt; |          &lt;numeric&gt;</span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt;          &lt;character&gt;     &lt;character&gt; |          &lt;numeric&gt;</span></a>
 <a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt;  [1] ENSG00000142546     CD4 T cells |  0.648132059079062</span></a>
 <a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt;  [2] ENSG00000100100     CD4 T cells |  0.417897480451781</span></a>
 <a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt;  [3] ENSG00000143546 CD14+ Monocytes |   0.97286012526096</span></a>
@@ -553,51 +546,44 @@
 <a class="sourceLine" id="cb13-27" data-line-number="27"><span class="co">#&gt; [14]       0.438884665508254</span></a>
 <a class="sourceLine" id="cb13-28" data-line-number="28"><span class="co">#&gt; [15]       0.942675159235669</span></a>
 <a class="sourceLine" id="cb13-29" data-line-number="29"><span class="co">#&gt; [16]                  0.9375</span></a>
-<a class="sourceLine" id="cb13-30" data-line-number="30"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb13-31" data-line-number="31"><span class="co">#&gt; @elementData</span></a>
-<a class="sourceLine" id="cb13-32" data-line-number="32"><span class="co">#&gt; IdVector of length 16 with 16 unique identifiers</span></a>
-<a class="sourceLine" id="cb13-33" data-line-number="33"><span class="co">#&gt; Ids: ENSG00000142546, ENSG00000100100, ENSG00000143546, ENSG00000170458, ...</span></a>
-<a class="sourceLine" id="cb13-34" data-line-number="34"><span class="co">#&gt; Metadata: ProportionPositive, Symbol, ENSEMBL_ID, Symbol_TENx (4 columns)</span></a>
-<a class="sourceLine" id="cb13-35" data-line-number="35"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb13-36" data-line-number="36"><span class="co">#&gt; @setData</span></a>
-<a class="sourceLine" id="cb13-37" data-line-number="37"><span class="co">#&gt; IdVector of length 8 with 8 unique identifiers</span></a>
-<a class="sourceLine" id="cb13-38" data-line-number="38"><span class="co">#&gt; Ids: CD4 T cells, CD14+ Monocytes, B cells, CD8 T cells, ...</span></a>
-<a class="sourceLine" id="cb13-39" data-line-number="39"><span class="co">#&gt; Metadata: ProportionPositive (1 column)</span></a>
-<a class="sourceLine" id="cb13-40" data-line-number="40"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb13-41" data-line-number="41"><span class="co">#&gt; $method</span></a>
-<a class="sourceLine" id="cb13-42" data-line-number="42"><span class="co">#&gt; [1] "ProportionPositive"</span></a>
-<a class="sourceLine" id="cb13-43" data-line-number="43"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb13-44" data-line-number="44"><span class="co">#&gt; $packageVersion</span></a>
-<a class="sourceLine" id="cb13-45" data-line-number="45"><span class="co">#&gt; [1] '0.99.0'</span></a>
-<a class="sourceLine" id="cb13-46" data-line-number="46"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb13-47" data-line-number="47"><span class="co">#&gt; $ProportionPositiveByCluster</span></a>
-<a class="sourceLine" id="cb13-48" data-line-number="48"><span class="co">#&gt;                    cluster</span></a>
-<a class="sourceLine" id="cb13-49" data-line-number="49"><span class="co">#&gt; signature                     0           1           2           3</span></a>
-<a class="sourceLine" id="cb13-50" data-line-number="50"><span class="co">#&gt;   CD4 T cells       0.284100782 0.025052192 0.014619883 0.077922078</span></a>
-<a class="sourceLine" id="cb13-51" data-line-number="51"><span class="co">#&gt;   CD14+ Monocytes   0.003475239 0.651356994 0.002923977 0.000000000</span></a>
-<a class="sourceLine" id="cb13-52" data-line-number="52"><span class="co">#&gt;   B cells           0.003475239 0.000000000 0.809941520 0.003246753</span></a>
-<a class="sourceLine" id="cb13-53" data-line-number="53"><span class="co">#&gt;   CD8 T cells       0.005212858 0.000000000 0.000000000 0.292207792</span></a>
-<a class="sourceLine" id="cb13-54" data-line-number="54"><span class="co">#&gt;   FCGR3A+ Monocytes 0.002606429 0.079331942 0.000000000 0.000000000</span></a>
-<a class="sourceLine" id="cb13-55" data-line-number="55"><span class="co">#&gt;   NK cells          0.003475239 0.010438413 0.002923977 0.129870130</span></a>
-<a class="sourceLine" id="cb13-56" data-line-number="56"><span class="co">#&gt;   Dendritic Cells   0.006081668 0.004175365 0.002923977 0.006493506</span></a>
-<a class="sourceLine" id="cb13-57" data-line-number="57"><span class="co">#&gt;   Megakaryocytes    0.000000000 0.004175365 0.000000000 0.006493506</span></a>
-<a class="sourceLine" id="cb13-58" data-line-number="58"><span class="co">#&gt;                    cluster</span></a>
-<a class="sourceLine" id="cb13-59" data-line-number="59"><span class="co">#&gt; signature                    4           5       6          7</span></a>
-<a class="sourceLine" id="cb13-60" data-line-number="60"><span class="co">#&gt;   CD4 T cells       0.05095541 0.032258065 0.03125 0.00000000</span></a>
-<a class="sourceLine" id="cb13-61" data-line-number="61"><span class="co">#&gt;   CD14+ Monocytes   0.07643312 0.000000000 0.21875 0.07142857</span></a>
-<a class="sourceLine" id="cb13-62" data-line-number="62"><span class="co">#&gt;   B cells           0.00000000 0.000000000 0.03125 0.00000000</span></a>
-<a class="sourceLine" id="cb13-63" data-line-number="63"><span class="co">#&gt;   CD8 T cells       0.00000000 0.006451613 0.03125 0.00000000</span></a>
-<a class="sourceLine" id="cb13-64" data-line-number="64"><span class="co">#&gt;   FCGR3A+ Monocytes 0.67515924 0.000000000 0.00000 0.07142857</span></a>
-<a class="sourceLine" id="cb13-65" data-line-number="65"><span class="co">#&gt;   NK cells          0.00000000 0.916129032 0.00000 0.07142857</span></a>
-<a class="sourceLine" id="cb13-66" data-line-number="66"><span class="co">#&gt;   Dendritic Cells   0.00000000 0.012903226 0.68750 0.00000000</span></a>
-<a class="sourceLine" id="cb13-67" data-line-number="67"><span class="co">#&gt;   Megakaryocytes    0.01910828 0.000000000 0.00000 1.00000000</span></a>
-<a class="sourceLine" id="cb13-68" data-line-number="68"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb13-69" data-line-number="69"><span class="co">#&gt; $TopSignatureByCluster</span></a>
-<a class="sourceLine" id="cb13-70" data-line-number="70"><span class="co">#&gt;                 0                 1                 2                 3 </span></a>
-<a class="sourceLine" id="cb13-71" data-line-number="71"><span class="co">#&gt;       CD4 T cells   CD14+ Monocytes           B cells       CD8 T cells </span></a>
-<a class="sourceLine" id="cb13-72" data-line-number="72"><span class="co">#&gt;                 4                 5                 6                 7 </span></a>
-<a class="sourceLine" id="cb13-73" data-line-number="73"><span class="co">#&gt; FCGR3A+ Monocytes          NK cells   Dendritic Cells    Megakaryocytes </span></a>
-<a class="sourceLine" id="cb13-74" data-line-number="74"><span class="co">#&gt; 8 Levels: CD4 T cells CD14+ Monocytes B cells ... Megakaryocytes</span></a></code></pre></div>
+<a class="sourceLine" id="cb13-30" data-line-number="30"><span class="co">#&gt; -----------</span></a>
+<a class="sourceLine" id="cb13-31" data-line-number="31"><span class="co">#&gt; elementInfo: IdVector with 4 metadata (ProportionPositive, Symbol, ...)</span></a>
+<a class="sourceLine" id="cb13-32" data-line-number="32"><span class="co">#&gt;     setInfo: IdVector with 1 metadata (ProportionPositive)</span></a>
+<a class="sourceLine" id="cb13-33" data-line-number="33"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-34" data-line-number="34"><span class="co">#&gt; $method</span></a>
+<a class="sourceLine" id="cb13-35" data-line-number="35"><span class="co">#&gt; [1] "ProportionPositive"</span></a>
+<a class="sourceLine" id="cb13-36" data-line-number="36"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-37" data-line-number="37"><span class="co">#&gt; $packageVersion</span></a>
+<a class="sourceLine" id="cb13-38" data-line-number="38"><span class="co">#&gt; [1] '0.99.0'</span></a>
+<a class="sourceLine" id="cb13-39" data-line-number="39"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-40" data-line-number="40"><span class="co">#&gt; $ProportionPositiveByCluster</span></a>
+<a class="sourceLine" id="cb13-41" data-line-number="41"><span class="co">#&gt;                    cluster</span></a>
+<a class="sourceLine" id="cb13-42" data-line-number="42"><span class="co">#&gt; signature                     0           1           2           3</span></a>
+<a class="sourceLine" id="cb13-43" data-line-number="43"><span class="co">#&gt;   CD4 T cells       0.284100782 0.025052192 0.014619883 0.077922078</span></a>
+<a class="sourceLine" id="cb13-44" data-line-number="44"><span class="co">#&gt;   CD14+ Monocytes   0.003475239 0.651356994 0.002923977 0.000000000</span></a>
+<a class="sourceLine" id="cb13-45" data-line-number="45"><span class="co">#&gt;   B cells           0.003475239 0.000000000 0.809941520 0.003246753</span></a>
+<a class="sourceLine" id="cb13-46" data-line-number="46"><span class="co">#&gt;   CD8 T cells       0.005212858 0.000000000 0.000000000 0.292207792</span></a>
+<a class="sourceLine" id="cb13-47" data-line-number="47"><span class="co">#&gt;   FCGR3A+ Monocytes 0.002606429 0.079331942 0.000000000 0.000000000</span></a>
+<a class="sourceLine" id="cb13-48" data-line-number="48"><span class="co">#&gt;   NK cells          0.003475239 0.010438413 0.002923977 0.129870130</span></a>
+<a class="sourceLine" id="cb13-49" data-line-number="49"><span class="co">#&gt;   Dendritic Cells   0.006081668 0.004175365 0.002923977 0.006493506</span></a>
+<a class="sourceLine" id="cb13-50" data-line-number="50"><span class="co">#&gt;   Megakaryocytes    0.000000000 0.004175365 0.000000000 0.006493506</span></a>
+<a class="sourceLine" id="cb13-51" data-line-number="51"><span class="co">#&gt;                    cluster</span></a>
+<a class="sourceLine" id="cb13-52" data-line-number="52"><span class="co">#&gt; signature                    4           5       6          7</span></a>
+<a class="sourceLine" id="cb13-53" data-line-number="53"><span class="co">#&gt;   CD4 T cells       0.05095541 0.032258065 0.03125 0.00000000</span></a>
+<a class="sourceLine" id="cb13-54" data-line-number="54"><span class="co">#&gt;   CD14+ Monocytes   0.07643312 0.000000000 0.21875 0.07142857</span></a>
+<a class="sourceLine" id="cb13-55" data-line-number="55"><span class="co">#&gt;   B cells           0.00000000 0.000000000 0.03125 0.00000000</span></a>
+<a class="sourceLine" id="cb13-56" data-line-number="56"><span class="co">#&gt;   CD8 T cells       0.00000000 0.006451613 0.03125 0.00000000</span></a>
+<a class="sourceLine" id="cb13-57" data-line-number="57"><span class="co">#&gt;   FCGR3A+ Monocytes 0.67515924 0.000000000 0.00000 0.07142857</span></a>
+<a class="sourceLine" id="cb13-58" data-line-number="58"><span class="co">#&gt;   NK cells          0.00000000 0.916129032 0.00000 0.07142857</span></a>
+<a class="sourceLine" id="cb13-59" data-line-number="59"><span class="co">#&gt;   Dendritic Cells   0.00000000 0.012903226 0.68750 0.00000000</span></a>
+<a class="sourceLine" id="cb13-60" data-line-number="60"><span class="co">#&gt;   Megakaryocytes    0.01910828 0.000000000 0.00000 1.00000000</span></a>
+<a class="sourceLine" id="cb13-61" data-line-number="61"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-62" data-line-number="62"><span class="co">#&gt; $TopSignatureByCluster</span></a>
+<a class="sourceLine" id="cb13-63" data-line-number="63"><span class="co">#&gt;                 0                 1                 2                 3 </span></a>
+<a class="sourceLine" id="cb13-64" data-line-number="64"><span class="co">#&gt;       CD4 T cells   CD14+ Monocytes           B cells       CD8 T cells </span></a>
+<a class="sourceLine" id="cb13-65" data-line-number="65"><span class="co">#&gt;                 4                 5                 6                 7 </span></a>
+<a class="sourceLine" id="cb13-66" data-line-number="66"><span class="co">#&gt; FCGR3A+ Monocytes          NK cells   Dendritic Cells    Megakaryocytes </span></a>
+<a class="sourceLine" id="cb13-67" data-line-number="67"><span class="co">#&gt; 8 Levels: CD4 T cells CD14+ Monocytes B cells ... Megakaryocytes</span></a></code></pre></div>
 <p>In particular, <code>"ProportionPositiveByCluster"</code> may be visualized as a heat map using the <code>plotProportionPositive</code> method. This view is useful to examine the specificity of each signature for each cluster.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="../reference/predictByProportionPositive.html">plotProportionPositive</a></span>(tenx_pbmc3k.hancock, <span class="dt">cluster_rows=</span><span class="ot">FALSE</span>, <span class="dt">cluster_columns=</span><span class="ot">FALSE</span>)</a></code></pre></div>
 <p><img src="hancock_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
@@ -609,9 +595,9 @@
 <div id="manually" class="section level3">
 <h3 class="hasAnchor">
 <a href="#manually" class="anchor"></a>Manually</h3>
-<p>Renaming a set of signatures is as simple as renaming the identifiers of the <code>setData</code> slot that stores the signatures. For instance, here we prefix each signature by a unique integer identifier.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">ids</span>(<span class="kw">setData</span>(basesets)) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_along</a></span>(<span class="kw">setData</span>(basesets)), <span class="st">". "</span>, <span class="kw">ids</span>(<span class="kw">setData</span>(basesets)))</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw">ids</span>(<span class="kw">setData</span>(basesets))</a>
+<p>Renaming a set of signatures is as simple as renaming the identifiers of the <code>setInfo</code> slot that stores the signatures. For instance, here we prefix each signature by a unique integer identifier.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">ids</span>(<span class="kw">setInfo</span>(basesets)) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_along</a></span>(<span class="kw">setInfo</span>(basesets)), <span class="st">". "</span>, <span class="kw">ids</span>(<span class="kw">setInfo</span>(basesets)))</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw">ids</span>(<span class="kw">setInfo</span>(basesets))</a>
 <a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">#&gt; [1] "1. CD4 T cells"       "2. CD14+ Monocytes"   "3. B cells"          </span></a>
 <a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co">#&gt; [4] "4. CD8 T cells"       "5. FCGR3A+ Monocytes" "6. NK cells"         </span></a>
 <a class="sourceLine" id="cb15-5" data-line-number="5"><span class="co">#&gt; [7] "7. Dendritic Cells"   "8. Megakaryocytes"</span></a></code></pre></div>
@@ -633,7 +619,7 @@
 <a class="sourceLine" id="cb17-5" data-line-number="5">    <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(shiny)</a>
 <a class="sourceLine" id="cb17-6" data-line-number="6">    basesets &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/shiny/topics/runApp">runApp</a></span>(<span class="kw"><a href="../reference/shinyLabels.html">shinyLabels</a></span>(basesets, tenx_pbmc3k.hancock))</a>
 <a class="sourceLine" id="cb17-7" data-line-number="7">}</a>
-<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="kw">ids</span>(<span class="kw">setData</span>(basesets))</a>
+<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="kw">ids</span>(<span class="kw">setInfo</span>(basesets))</a>
 <a class="sourceLine" id="cb17-9" data-line-number="9"><span class="co">#&gt; [1] "1. CD4 T cells"       "2. CD14+ Monocytes"   "3. B cells"          </span></a>
 <a class="sourceLine" id="cb17-10" data-line-number="10"><span class="co">#&gt; [4] "4. CD8 T cells"       "5. FCGR3A+ Monocytes" "6. NK cells"         </span></a>
 <a class="sourceLine" id="cb17-11" data-line-number="11"><span class="co">#&gt; [7] "7. Dendritic Cells"   "8. Megakaryocytes"</span></a></code></pre></div>
@@ -741,8 +727,8 @@
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(<span class="kw">mcols</span>(<span class="kw">relations</span>(basesets))[[<span class="st">"minDifferenceProportion"</span>]])</a>
 <a class="sourceLine" id="cb21-2" data-line-number="2"><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></a>
 <a class="sourceLine" id="cb21-3" data-line-number="3"><span class="co">#&gt;  0.5087  0.5918  0.7482  0.7287  0.8536  0.9427</span></a></code></pre></div>
-<p>In addition, information about individual markers may be stored as element metadata accessible using the <code>elementData</code> and <code>mcols</code> methods as shown below. For instance, the proportion of cells positive for each marker across the entire data set.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw">elementData</span>(basesets))</a>
+<p>In addition, information about individual markers may be stored as element metadata accessible using the <code>elementInfo</code> and <code>mcols</code> methods as shown below. For instance, the proportion of cells positive for each marker across the entire data set.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw">elementInfo</span>(basesets))</a>
 <a class="sourceLine" id="cb22-2" data-line-number="2"><span class="co">#&gt; DataFrame with 35 rows and 1 column</span></a>
 <a class="sourceLine" id="cb22-3" data-line-number="3"><span class="co">#&gt;                  ProportionPositive</span></a>
 <a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co">#&gt;                           &lt;numeric&gt;</span></a>
@@ -757,8 +743,8 @@
 <a class="sourceLine" id="cb22-13" data-line-number="13"><span class="co">#&gt; ENSG00000166333   0.112964366944655</span></a>
 <a class="sourceLine" id="cb22-14" data-line-number="14"><span class="co">#&gt; ENSG00000145335  0.0212282031842305</span></a>
 <a class="sourceLine" id="cb22-15" data-line-number="15"><span class="co">#&gt; ENSG00000115758   0.100833965125095</span></a></code></pre></div>
-<p>Similarly, information about individual sets may be stored as set metadata accessible using the <code>setData</code> and <code>mcols</code> methods as shown below. For instance, the proportion of cells simultaneously positive for all markers in the cluster where this signature was defined.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw">setData</span>(basesets))</a>
+<p>Similarly, information about individual sets may be stored as set metadata accessible using the <code>setInfo</code> and <code>mcols</code> methods as shown below. For instance, the proportion of cells simultaneously positive for all markers in the cluster where this signature was defined.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">mcols</span>(<span class="kw">setInfo</span>(basesets))</a>
 <a class="sourceLine" id="cb23-2" data-line-number="2"><span class="co">#&gt; DataFrame with 8 rows and 1 column</span></a>
 <a class="sourceLine" id="cb23-3" data-line-number="3"><span class="co">#&gt;                   ProportionPositive</span></a>
 <a class="sourceLine" id="cb23-4" data-line-number="4"><span class="co">#&gt;                            &lt;numeric&gt;</span></a>
@@ -822,15 +808,15 @@
 <a class="sourceLine" id="cb25-20" data-line-number="20"><span class="co">#&gt; [8] methods   base     </span></a>
 <a class="sourceLine" id="cb25-21" data-line-number="21"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb25-22" data-line-number="22"><span class="co">#&gt; other attached packages:</span></a>
-<a class="sourceLine" id="cb25-23" data-line-number="23"><span class="co">#&gt;  [1] scater_1.13.7               ggplot2_3.2.0              </span></a>
+<a class="sourceLine" id="cb25-23" data-line-number="23"><span class="co">#&gt;  [1] scater_1.13.8               ggplot2_3.2.0              </span></a>
 <a class="sourceLine" id="cb25-24" data-line-number="24"><span class="co">#&gt;  [3] TENxPBMCData_1.3.0          HDF5Array_1.13.2           </span></a>
 <a class="sourceLine" id="cb25-25" data-line-number="25"><span class="co">#&gt;  [5] rhdf5_2.29.0                SingleCellExperiment_1.7.0 </span></a>
 <a class="sourceLine" id="cb25-26" data-line-number="26"><span class="co">#&gt;  [7] hancock_0.99.0              unisets_0.99.0             </span></a>
-<a class="sourceLine" id="cb25-27" data-line-number="27"><span class="co">#&gt;  [9] SummarizedExperiment_1.15.2 DelayedArray_0.11.0        </span></a>
+<a class="sourceLine" id="cb25-27" data-line-number="27"><span class="co">#&gt;  [9] SummarizedExperiment_1.15.5 DelayedArray_0.11.2        </span></a>
 <a class="sourceLine" id="cb25-28" data-line-number="28"><span class="co">#&gt; [11] BiocParallel_1.19.0         matrixStats_0.54.0         </span></a>
-<a class="sourceLine" id="cb25-29" data-line-number="29"><span class="co">#&gt; [13] Biobase_2.45.0              GenomicRanges_1.37.11      </span></a>
+<a class="sourceLine" id="cb25-29" data-line-number="29"><span class="co">#&gt; [13] Biobase_2.45.0              GenomicRanges_1.37.12      </span></a>
 <a class="sourceLine" id="cb25-30" data-line-number="30"><span class="co">#&gt; [15] GenomeInfoDb_1.21.1         IRanges_2.19.10            </span></a>
-<a class="sourceLine" id="cb25-31" data-line-number="31"><span class="co">#&gt; [17] S4Vectors_0.23.12           BiocGenerics_0.31.4        </span></a>
+<a class="sourceLine" id="cb25-31" data-line-number="31"><span class="co">#&gt; [17] S4Vectors_0.23.17           BiocGenerics_0.31.4        </span></a>
 <a class="sourceLine" id="cb25-32" data-line-number="32"><span class="co">#&gt; [19] BiocStyle_2.13.2           </span></a>
 <a class="sourceLine" id="cb25-33" data-line-number="33"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb25-34" data-line-number="34"><span class="co">#&gt; loaded via a namespace (and not attached):</span></a>
@@ -844,7 +830,7 @@
 <a class="sourceLine" id="cb25-42" data-line-number="42"><span class="co">#&gt;  [15] AnnotationDbi_1.47.0          xml2_1.2.0                   </span></a>
 <a class="sourceLine" id="cb25-43" data-line-number="43"><span class="co">#&gt;  [17] knitr_1.23                    jsonlite_1.6                 </span></a>
 <a class="sourceLine" id="cb25-44" data-line-number="44"><span class="co">#&gt;  [19] Rsamtools_2.1.2               annotate_1.63.0              </span></a>
-<a class="sourceLine" id="cb25-45" data-line-number="45"><span class="co">#&gt;  [21] cluster_2.0.8                 dbplyr_1.4.1                 </span></a>
+<a class="sourceLine" id="cb25-45" data-line-number="45"><span class="co">#&gt;  [21] cluster_2.0.8                 dbplyr_1.4.2                 </span></a>
 <a class="sourceLine" id="cb25-46" data-line-number="46"><span class="co">#&gt;  [23] png_0.1-7                     shinydashboard_0.7.1         </span></a>
 <a class="sourceLine" id="cb25-47" data-line-number="47"><span class="co">#&gt;  [25] graph_1.63.0                  shiny_1.3.2                  </span></a>
 <a class="sourceLine" id="cb25-48" data-line-number="48"><span class="co">#&gt;  [27] BiocManager_1.30.4            compiler_3.6.0               </span></a>
@@ -858,7 +844,7 @@
 <a class="sourceLine" id="cb25-56" data-line-number="56"><span class="co">#&gt;  [43] dplyr_0.8.1                   rappdirs_0.3.1               </span></a>
 <a class="sourceLine" id="cb25-57" data-line-number="57"><span class="co">#&gt;  [45] Rcpp_1.0.1                    pkgdown_1.3.0                </span></a>
 <a class="sourceLine" id="cb25-58" data-line-number="58"><span class="co">#&gt;  [47] Biostrings_2.53.0             ExperimentHub_1.11.1         </span></a>
-<a class="sourceLine" id="cb25-59" data-line-number="59"><span class="co">#&gt;  [49] rtracklayer_1.45.1            DelayedMatrixStats_1.7.0     </span></a>
+<a class="sourceLine" id="cb25-59" data-line-number="59"><span class="co">#&gt;  [49] rtracklayer_1.45.1            DelayedMatrixStats_1.7.1     </span></a>
 <a class="sourceLine" id="cb25-60" data-line-number="60"><span class="co">#&gt;  [51] rintrojs_0.2.2                xfun_0.7                     </span></a>
 <a class="sourceLine" id="cb25-61" data-line-number="61"><span class="co">#&gt;  [53] stringr_1.4.0                 beachmat_2.1.1               </span></a>
 <a class="sourceLine" id="cb25-62" data-line-number="62"><span class="co">#&gt;  [55] irlba_2.3.3                   mime_0.7                     </span></a>
@@ -875,7 +861,7 @@
 <a class="sourceLine" id="cb25-73" data-line-number="73"><span class="co">#&gt;  [77] bitops_1.0-6                  evaluate_0.14                </span></a>
 <a class="sourceLine" id="cb25-74" data-line-number="74"><span class="co">#&gt;  [79] lattice_0.20-38               purrr_0.3.2                  </span></a>
 <a class="sourceLine" id="cb25-75" data-line-number="75"><span class="co">#&gt;  [81] Rhdf5lib_1.7.2                labeling_0.3                 </span></a>
-<a class="sourceLine" id="cb25-76" data-line-number="76"><span class="co">#&gt;  [83] GenomicAlignments_1.21.2      cowplot_0.9.4                </span></a>
+<a class="sourceLine" id="cb25-76" data-line-number="76"><span class="co">#&gt;  [83] GenomicAlignments_1.21.3      cowplot_0.9.4                </span></a>
 <a class="sourceLine" id="cb25-77" data-line-number="77"><span class="co">#&gt;  [85] bit_1.1-14                    tidyselect_0.2.5             </span></a>
 <a class="sourceLine" id="cb25-78" data-line-number="78"><span class="co">#&gt;  [87] GSEABase_1.47.0               plyr_1.8.4                   </span></a>
 <a class="sourceLine" id="cb25-79" data-line-number="79"><span class="co">#&gt;  [89] magrittr_1.5                  bookdown_0.11                </span></a>

@@ -210,7 +210,7 @@ the proportion of samples with detectable levels of the first marker, both of th
 
 <span class='co'># Example usage ----</span>
 
-<span class='no'>markerMatrix</span> <span class='kw'>&lt;-</span> <span class='fu'>makeMarkerDetectionMatrix</span>(<span class='no'>se</span>, <span class='fu'>ids</span>(<span class='fu'>elementData</span>(<span class='no'>bs</span>)))
+<span class='no'>markerMatrix</span> <span class='kw'>&lt;-</span> <span class='fu'>makeMarkerDetectionMatrix</span>(<span class='no'>se</span>, <span class='fu'>ids</span>(<span class='fu'>elementInfo</span>(<span class='no'>bs</span>)))
 <span class='no'>signatureMatrix</span> <span class='kw'>&lt;-</span> <span class='fu'>makeSignatureDetectionMatrix</span>(<span class='no'>markerMatrix</span>, <span class='no'>bs</span>)
 
 <span class='no'>tab</span> <span class='kw'>&lt;-</span> <span class='fu'>makeMarkerProportionScree</span>(<span class='no'>markerMatrix</span>)
