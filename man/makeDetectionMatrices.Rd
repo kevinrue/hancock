@@ -70,7 +70,7 @@ bs <- as(geneLists, "Sets")
 
 # Example usage ----
 
-markerMatrix <- makeMarkerDetectionMatrix(se, ids(elementData(bs)))
+markerMatrix <- makeMarkerDetectionMatrix(se, ids(elementInfo(bs)))
 signatureMatrix <- makeSignatureDetectionMatrix(markerMatrix, bs)
 
 tab <- makeMarkerProportionScree(markerMatrix)

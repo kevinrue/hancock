@@ -142,32 +142,32 @@ knitr::kable(markerTable)
 
 ### Marker metadata
 
-In addition, metadata associated with each unique marker--irrespective of its specific relationships with individual signature--are stored in the metadata columns of the `elementData` slot.
+In addition, metadata associated with each unique marker--irrespective of its specific relationships with individual signature--are stored in the metadata columns of the `elementInfo` slot.
 Specifically, the `"PositiveProportionDifference"` describes `"ProportionPositive"`, the proportion of cells with detectable expression of the markers across the entire data set.
 
 ```{r}
-mcols(elementData(basesets))
+mcols(elementInfo(basesets))
 ```
 
 Using the gene metadata available in the `rowData` slot of the `tenx_pbmc3k` object, we can add the gene symbol associated with each marker to the marker metadata.
 
 ```{r}
-mcols(elementData(basesets)) <- cbind(
-    mcols(elementData(basesets)),
+mcols(elementInfo(basesets)) <- cbind(
+    mcols(elementInfo(basesets)),
     rowData(tenx_pbmc3k)[
-        ids(elementData(basesets)),
+        ids(elementInfo(basesets)),
         c("Symbol", "ENSEMBL_ID", "Symbol_TENx")]
 )
-mcols(elementData(basesets))
+mcols(elementInfo(basesets))
 ```
 
 ### Set metadata
 
-Similarly, metadata associated with each unique signature--irrespective of its specific relationships with individual markers--are stored in the metadata columns of the `setData` slot.
+Similarly, metadata associated with each unique signature--irrespective of its specific relationships with individual markers--are stored in the metadata columns of the `setInfo` slot.
 Specifically, the `"PositiveProportionDifference"` describes `"ProportionPositive"`, the proportion of cells with detectable expression of all markers associated with each signature across the entire data set.
 
 ```{r}
-mcols(setData(basesets))
+mcols(setInfo(basesets))
 ```
 
 ## Applying signatures to predict labels {#predict-proportion-positive}
@@ -228,12 +228,12 @@ plotProportionPositive(tenx_pbmc3k.hancock, cluster_rows=FALSE, cluster_columns=
 
 ### Manually
 
-Renaming a set of signatures is as simple as renaming the identifiers of the `setData` slot that stores the signatures.
+Renaming a set of signatures is as simple as renaming the identifiers of the `setInfo` slot that stores the signatures.
 For instance, here we prefix each signature by a unique integer identifier.
 
 ```{r}
-ids(setData(basesets)) <- paste0(seq_along(setData(basesets)), ". ", ids(setData(basesets)))
-ids(setData(basesets))
+ids(setInfo(basesets)) <- paste0(seq_along(setInfo(basesets)), ". ", ids(setInfo(basesets)))
+ids(setInfo(basesets))
 ```
 
 ### Interactively
@@ -260,7 +260,7 @@ if (interactive()) {
     library(shiny)
     basesets <- runApp(shinyLabels(basesets, tenx_pbmc3k.hancock))
 }
-ids(setData(basesets))
+ids(setInfo(basesets))
 ```
 
 As an example of plot available in the app, dimensionality reduction may facilitate the identification of cell populations more similar or related to each other.
@@ -310,18 +310,18 @@ Among the learning outputs stored in the `Sets` metadata information, the relati
 summary(mcols(relations(basesets))[["minDifferenceProportion"]])
 ```
 
-In addition, information about individual markers may be stored as element metadata accessible using the `elementData` and `mcols` methods as shown below.
+In addition, information about individual markers may be stored as element metadata accessible using the `elementInfo` and `mcols` methods as shown below.
 For instance, the proportion of cells positive for each marker across the entire data set.
 
 ```{r}
-mcols(elementData(basesets))
+mcols(elementInfo(basesets))
 ```
 
-Similarly, information about individual sets may be stored as set metadata accessible using the `setData` and `mcols` methods as shown below.
+Similarly, information about individual sets may be stored as set metadata accessible using the `setInfo` and `mcols` methods as shown below.
 For instance, the proportion of cells simultaneously positive for all markers in the cluster where this signature was defined.
 
 ```{r}
-mcols(setData(basesets))
+mcols(setInfo(basesets))
 ```
 
 For instance, future methods to identify absolute markers could include differential expression between the target cluster and all other clusters to identify candidate markers significantly differentially expressed between clusters.
