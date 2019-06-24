@@ -197,16 +197,16 @@ learnMarkersByPositiveProportionDifference <- function(
         metadata[, c("ProportionPositive", diffProportionFieldName), drop=FALSE]
     )
     # Collect set metadata
-    setData <- IdVector(unique(names(markersList)))
-    mcols(setData) <- DataFrame(
-        ProportionPositive=unlist(setDetectionRates)[ids(setData)]
+    setInfo <- IdVector(unique(names(markersList)))
+    mcols(setInfo) <- DataFrame(
+        ProportionPositive=unlist(setDetectionRates)[ids(setInfo)]
     )
     # Collect element metadata
-    elementData <- IdVector(unique(unlist(markersList)))
-    detectionMatrix <- as(assay(se[ids(elementData), ], assay.type) > threshold, "Matrix")
-    mcols(elementData) <- DataFrame(
+    elementInfo <- IdVector(unique(unlist(markersList)))
+    detectionMatrix <- as(assay(se[ids(elementInfo), ], assay.type) > threshold, "Matrix")
+    mcols(elementInfo) <- DataFrame(
         ProportionPositive=rowSums(detectionMatrix) / ncol(se)
     )
     # Make a Sets
-    Sets(relations=markersTable, elementData=elementData, setData=setData)
+    Sets(relations=markersTable, elementInfo=elementInfo, setInfo=setInfo)
 }
