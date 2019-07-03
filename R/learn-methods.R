@@ -89,6 +89,7 @@ learnSignatures <- function(
 #' @export
 #' @importFrom Biobase rowMax rowMin
 #' @importFrom matrixStats rowMedians
+#' @importFrom BiocGenerics rowMeans
 #' @importFrom utils head
 #'
 #' @author Kevin Rue-Albrecht
@@ -124,10 +125,10 @@ learnMarkersByPositiveProportionDifference <- function(
     }
     diff.method <- match.arg(diff.method)
     diffMethodsMap <- c(
-        "min"=Biobase::rowMax,# minimal difference: compare to the maximal other value
-        "mean"=Matrix::rowMeans,
-        "median"=matrixStats::rowMedians,
-        "max"=Biobase::rowMin # maximal difference: compare to the minimal other value
+        "min"=rowMax,# minimal difference: compare to the maximal other value
+        "mean"=rowMeans,
+        "median"=rowMedians,
+        "max"=rowMin # maximal difference: compare to the minimal other value
         )
     diff.FUN <- diffMethodsMap[[diff.method]]
     diffProportionFieldName <- paste0(diff.method, "DifferenceProportion")

@@ -45,7 +45,7 @@ setGeneric(
 
 # makeFilterExpression ----
 
-#' Build Filter Expressions from `GeneSetCollection` objects
+#' Build Filter Expressions from Sets
 #'
 #' This function create a list of unevaluated expressions representing a collection of signatures.
 #' The resulting expressions can be evaluated as `FilterRules` inside an environment such as a `data.frame` of sample-by-gene detection events.

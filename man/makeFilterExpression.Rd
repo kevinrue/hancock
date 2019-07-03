@@ -8,7 +8,7 @@
 \alias{makeFilterExpression,GeneSetCollection-methods}
 \alias{makeFilterExpression,Sets-method}
 \alias{makeFilterExpression,Sets-methods}
-\title{Build Filter Expressions from \code{GeneSetCollection} objects}
+\title{Build Filter Expressions from Sets}
 \usage{
 makeFilterExpression(object)
 

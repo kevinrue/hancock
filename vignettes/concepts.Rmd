@@ -183,8 +183,8 @@ inputList <- list(
     "Dendritic Cells" = c("FCER1A", "CST3"),
     "Megakaryocytes" = c("PPBP")
 )
-pbmc3k_markers_tbl <- as(inputList, "Sets")
-pbmc3k_markers_tbl
+pbmc3k_markers_sets <- as(inputList, "Sets")
+pbmc3k_markers_sets
 ```
 
 ## Combinations of positive and negative markers using the `GeneColorSet` class

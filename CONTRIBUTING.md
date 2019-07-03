@@ -44,14 +44,14 @@ This package adheres to the _Bioconductor_ coding style (https://bioconductor.or
 Please use common _Bioconductor_ methods and classes, in particular `SummarizedExperiment` and `GeneSetCollection`.
 Note that new data structures for gene sets and signatures are under active development.
 Those include:
-- `BaseSets`  ([_unisets_](https://github.com/kevinrue/unisets) package)
+- `Sets`  ([_unisets_](https://github.com/kevinrue/unisets) package)
 - `tbl_geneset` ([_GeneSet_](https://github.com/Kayla-Morrell/GeneSet) package)
 
 More details are available at https://bioconductor.org/developers/how-to/commonMethodsAndClasses/.
 
 ## Unit tests and code coverage
 
-Code coverage should remain at 100%.
+Code coverage should remain as close as possible to 100%.
 Every function, both internal and exported, should be accompanied with its own unit test(s) as part of the _same_ pull request.
 
 A single unit test may include multiple `expect_*` assertions. Use as many `expect_*` as appropriate.
@@ -90,7 +90,7 @@ Required sections are:
 New prediction methods should be first implemented as a separate functions, individually exported in the `NAMESPACE` file.
 All prediction methods must accept `object` and `se` as their first two arguments, respectively:
 
-1. the `GeneSetCollection`, `BaseSets`, or `tbl_geneset`
+1. the `GeneSetCollection` or `Sets`
 2. the `SummarizedExperiment`
 
 Additional, method-specific parameters may be accepted from the third argument onward.
@@ -104,7 +104,7 @@ Prediction methods should return the input `SummarizedExperiment` object updated
     This column should be populated with the highest-confidence prediction for each sample.
     Additional, method-specific columns may be present from the second column onward.
 - In the `metadata` slot, a `list` in a new (or updated) `"hancock"` element, should contain at least the following elements:
-    - `"GeneSets"`: the object of class `GeneSetCollection`, `BaseSets`, or `tbl_geneset` containing the signatures used to make the predictions.
+    - `"GeneSets"`: the object of class `GeneSetCollection` or `Sets` containing the signatures used to make the predictions.
     - `"method"`: Identifier of the method used to make the predictions
     - `"packageVersion"`: Version of the `hancock` package used to make the predictions
     - Additional, method-specific elements may appear _after_ the above general metadata
