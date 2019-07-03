@@ -8,7 +8,7 @@
 #' @rdname uniqueMarkerNames
 #' @aliases uniqueMarkerNames
 #'
-#' @param object An object of class inheriting from [`BaseSets-class`] or [`GeneSetCollection-class`].
+#' @param object An object of class inheriting from [`Sets-class`] or [`GeneSetCollection-class`].
 #'
 #' @return A character vector of unique set or marker names across all gene sets.
 #' @export
@@ -45,14 +45,14 @@ setGeneric(
 
 # makeFilterExpression ----
 
-#' Build Filter Expressions from `GeneSetCollection` objects
+#' Build Filter Expressions from Sets
 #'
 #' This function create a list of unevaluated expressions representing a collection of signatures.
 #' The resulting expressions can be evaluated as `FilterRules` inside an environment such as a `data.frame` of sample-by-gene detection events.
 #'
 #' @rdname makeFilterExpression
 #'
-#' @param object An object of class inheriting from [`BaseSets`] or [`GeneSetCollection`].
+#' @param object An object of class inheriting from [`Sets`] or [`GeneSetCollection`].
 #'
 #' @return A list of [`expression`] that combines the markers listed in each gene set.
 #'

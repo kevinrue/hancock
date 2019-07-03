@@ -30,7 +30,7 @@ See argument \code{diff.method}.}
 See Details section.}
 }
 \value{
-A collection of signatures as a "\code{\link{BaseSets}}" object.
+A collection of signatures as a "\code{\link{Sets}}" object.
 }
 \description{
 This function computes the detection rate of each feature in each cluster.

@@ -2,16 +2,16 @@
 # uniqueMarkerNames ----
 
 #' @rdname uniqueMarkerNames
-#' @aliases uniqueMarkerNames,BaseSets-methods
+#' @aliases uniqueMarkerNames,Sets-methods
 #'
 #' @export
-#' @importFrom unisets elementData ids
+#' @importFrom unisets elementInfo ids
 setMethod(
-    "uniqueMarkerNames", c("BaseSets"),
+    "uniqueMarkerNames", c("Sets"),
     function(object){
         # NOTE: later, we may trim gene sets to features present in `se`
         # NOTE: in which case, gene sets trimmed to length 0 would have to be dropped (!)
-        uniqueMarkerNames <- ids(elementData(object))
+        uniqueMarkerNames <- ids(elementInfo(object))
         uniqueMarkerNames
     }
 )
@@ -19,14 +19,14 @@ setMethod(
 # uniqueSetNames ----
 
 #' @rdname uniqueMarkerNames
-#' @aliases uniqueSetNames,BaseSets-methods
+#' @aliases uniqueSetNames,Sets-methods
 #'
 #' @export
-#' @importFrom unisets setData ids
+#' @importFrom unisets setInfo ids
 setMethod(
-    "uniqueSetNames", c("BaseSets"),
+    "uniqueSetNames", c("Sets"),
     function(object){
-        uniqueSetNames <- ids(setData(object))
+        uniqueSetNames <- ids(setInfo(object))
         uniqueSetNames
     }
 )
@@ -34,12 +34,12 @@ setMethod(
 # makeFilterExpression ----
 
 #' @rdname makeFilterExpression
-#' @aliases makeFilterExpression,BaseSets-methods
+#' @aliases makeFilterExpression,Sets-methods
 #'
 #' @export
-#' @importFrom unisets setData ids
+#' @importFrom unisets setInfo ids
 setMethod(
-    "makeFilterExpression", c("BaseSets"), function(object){
+    "makeFilterExpression", c("Sets"), function(object){
 
         xList <- as(object, "list")
 
@@ -49,10 +49,10 @@ setMethod(
         }
 
         filterExpressions <- lapply(
-            ids(setData(object)),
+            ids(setInfo(object)),
             .buildSingleExpression
         )
-        names(filterExpressions) <- ids(setData(object))
+        names(filterExpressions) <- ids(setInfo(object))
         filterExpressions
     }
 )

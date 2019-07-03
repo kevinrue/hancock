@@ -47,11 +47,11 @@
 #'   "Cell type 1" = c("Gene001", "Gene002"),
 #'   "Cell type 2" = c("Gene003", "Gene004")
 #' )
-#' bs <- as(geneLists, "BaseSets")
+#' bs <- as(geneLists, "Sets")
 #'
 #' # Example usage ----
 #'
-#' markerMatrix <- makeMarkerDetectionMatrix(se, ids(elementData(bs)))
+#' markerMatrix <- makeMarkerDetectionMatrix(se, ids(elementInfo(bs)))
 #' signatureMatrix <- makeSignatureDetectionMatrix(markerMatrix, bs)
 #'
 #' tab <- makeMarkerProportionScree(markerMatrix)
@@ -93,7 +93,7 @@ makeMarkerProportionScree <- function(matrix) {
 #' @rdname makeDetectionMatrices
 #'
 #' @param matrix A logical matrix indicating the presence of each marker (row) in each sample (column).
-#' @param object A collection of signatures inheriting from "[`GeneSetCollection`]" , "[`BaseSets`]", or "[`tbl_geneset`]".
+#' @param object A collection of signatures inheriting from "[`GeneSetCollection`]" or "[`Sets`]".
 #'
 #' @export
 #'
