@@ -167,7 +167,7 @@
 <p>Please use common <em>Bioconductor</em> methods and classes, in particular <code>SummarizedExperiment</code> and <code>GeneSetCollection</code>. Note that new data structures for gene sets and signatures are under active development. Those include:</p>
 <ul>
 <li>
-<code>BaseSets</code> (<a href="https://github.com/kevinrue/unisets"><em>unisets</em></a> package)</li>
+<code>Sets</code> (<a href="https://github.com/kevinrue/unisets"><em>unisets</em></a> package)</li>
 <li>
 <code>tbl_geneset</code> (<a href="https://github.com/Kayla-Morrell/GeneSet"><em>GeneSet</em></a> package)</li>
 </ul>
@@ -176,7 +176,7 @@
 <div id="unit-tests-and-code-coverage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#unit-tests-and-code-coverage" class="anchor"></a>Unit tests and code coverage</h2>
-<p>Code coverage should remain at 100%. Every function, both internal and exported, should be accompanied with its own unit test(s) as part of the <em>same</em> pull request.</p>
+<p>Code coverage should remain as close as possible to 100%. Every function, both internal and exported, should be accompanied with its own unit test(s) as part of the <em>same</em> pull request.</p>
 <p>A single unit test may include multiple <code>expect_*</code> assertions. Use as many <code>expect_*</code> as appropriate.</p>
 <p>Note that large functions that include several <code>if</code> statements and require multiple unit tests to cover every scenario can generally be refactored in multiple smaller functions easier to unit test individually.</p>
 <p>The following code is useful to track down lines that are not covered by unit tests:</p>
@@ -208,7 +208,7 @@ report(pc)</a></code></pre>
 <a href="#new-prediction-methods" class="anchor"></a>New prediction methods</h2>
 <p>New prediction methods should be first implemented as a separate functions, individually exported in the <code>NAMESPACE</code> file. All prediction methods must accept <code>object</code> and <code>se</code> as their first two arguments, respectively:</p>
 <ol>
-<li>the <code>GeneSetCollection</code>, <code>BaseSets</code>, or <code>tbl_geneset</code>
+<li>the <code>GeneSetCollection</code> or <code>Sets</code>
 </li>
 <li>the <code>SummarizedExperiment</code>
 </li>
@@ -221,7 +221,7 @@ report(pc)</a></code></pre>
 <li>In the <code>metadata</code> slot, a <code>list</code> in a new (or updated) <code>"hancock"</code> element, should contain at least the following elements:
 <ul>
 <li>
-<code>"GeneSets"</code>: the object of class <code>GeneSetCollection</code>, <code>BaseSets</code>, or <code>tbl_geneset</code> containing the signatures used to make the predictions.</li>
+<code>"GeneSets"</code>: the object of class <code>GeneSetCollection</code> or <code>Sets</code> containing the signatures used to make the predictions.</li>
 <li>
 <code>"method"</code>: Identifier of the method used to make the predictions</li>
 <li>
