@@ -212,7 +212,7 @@ the count of samples predicted for each gene signature.</p></li>
 <li><p><code>barplotPredictionProportion</code>: Returns a <code>ggplot</code> bar plot displaying
 the proportion of samples predicted for each gene signature.</p></li>
 <li><p><code>reducedDimPrediction</code>: Returns a <code>ggplot</code> scatter plot displaying
-the first reduced dimension result in <code><a href='https://www.rdocumentation.org/packages/SingleCellExperiment/topics/SCE-reducedDims'>reducedDims(se)</a></code>.</p></li>
+the first reduced dimension result in <code><a href='https://www.rdocumentation.org/packages/SingleCellExperiment/topics/reducedDims'>reducedDims(se)</a></code>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="prediction-methods"><a class="anchor" href="#prediction-methods"></a>Prediction methods</h2>
@@ -255,7 +255,7 @@ Assigns to each cluster the signature detected in the highest proportion of samp
 <span class='fu'>barplotPredictionProportion</span>(<span class='no'>se1</span>, <span class='kw'>highlight</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Cell type 2"</span>))</div><div class='img'><img src='predictSignatures-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>SingleCellExperiment</span>)
 <span class='no'>sce1</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>se1</span>, <span class='st'>"SingleCellExperiment"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/SingleCellExperiment/topics/SCE-reducedDims'>reducedDim</a></span>(<span class='no'>sce1</span>, <span class='st'>"PCA"</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/prcomp'>prcomp</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/t'>t</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/SummarizedExperiment/topics/SummarizedExperiment-class'>assay</a></span>(<span class='no'>sce1</span>)))$<span class='no'>x</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/SingleCellExperiment/topics/reducedDims'>reducedDim</a></span>(<span class='no'>sce1</span>, <span class='st'>"PCA"</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/prcomp'>prcomp</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/t'>t</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/SummarizedExperiment/topics/SummarizedExperiment-class'>assay</a></span>(<span class='no'>sce1</span>)))$<span class='no'>x</span>
 <span class='fu'>reducedDimPrediction</span>(<span class='no'>sce1</span>, <span class='kw'>highlight</span><span class='kw'>=</span><span class='st'>"Cell type 1"</span>, <span class='kw'>redDimType</span><span class='kw'>=</span><span class='st'>"PCA"</span>, <span class='kw'>x</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>y</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='img'><img src='predictSignatures-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
