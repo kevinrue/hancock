@@ -8,6 +8,13 @@
 
 <title>Contributing • hancock</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
@@ -16,13 +23,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="pkgdown.css" rel="stylesheet">
@@ -45,6 +54,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -71,7 +81,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -101,7 +111,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/kevinrue/hancock">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -112,6 +122,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -180,7 +191,7 @@
 <p>A single unit test may include multiple <code>expect_*</code> assertions. Use as many <code>expect_*</code> as appropriate.</p>
 <p>Note that large functions that include several <code>if</code> statements and require multiple unit tests to cover every scenario can generally be refactored in multiple smaller functions easier to unit test individually.</p>
 <p>The following code is useful to track down lines that are not covered by unit tests:</p>
-<pre><code><a href="https://www.rdocumentation.org/packages/base/topics/library">library(covr)
+<pre><code><a href="https://rdrr.io/r/base/library.html">library(covr)
 pc &lt;- package_coverage()
 report(pc)</a></code></pre>
 </div>
@@ -237,7 +248,7 @@ report(pc)</a></code></pre>
 <a href="#new-plotting-functions" class="anchor"></a>New plotting functions</h2>
 <p>New plotting functions should accept <code>se</code> as their first argument, namely a <code>SummarizedExperiment</code> returned by any prediction method (see above).</p>
 <p>Most importantly, plotting function should first check that the input <code>se</code> object contains the results of the associated prediction method(s). In the future, this requirement may be deprecated by the definition of <code>SummarizedExperiment</code> subclasses, “flagging” the presence of specific prediction results.</p>
-<p>Plotting functions should return a minimal <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot2::ggplot</a></code> or <code><a href="https://www.rdocumentation.org/packages/ComplexHeatmap/topics/Heatmap">ComplexHeatmap::Heatmap</a></code> object, giving users maximal freedom to customize the plot.</p>
+<p>Plotting functions should return a minimal <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot2::ggplot</a></code> or <code><a href="https://rdrr.io/pkg/ComplexHeatmap/man/Heatmap.html">ComplexHeatmap::Heatmap</a></code> object, giving users maximal freedom to customize the plot.</p>
 <p>For an example, please refer to <a href="https://github.com/kevinrue/hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/plot-methods.R#L11"><code>plotProportionPositive</code></a>, using the result of the <a href="https://github.com/kevinrue/hancock/blob/e7e7f18fb82f59240078533de0c42545485acf9b/R/predict-methods.R#L176"><code>"ProportionPositive"</code> or <code>"PP"</code></a> method.</p>
 </div>
 <div id="new-learning-methods" class="section level2">
@@ -261,19 +272,23 @@ report(pc)</a></code></pre>
 </div>
 
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Kevin Rue-Albrecht, Robert Amezquita, Aaron Lun.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

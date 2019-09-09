@@ -8,6 +8,13 @@
 
 <title>Identify Markers and Signatures Present in Individual Samples — makeMarkerDetectionMatrix • hancock</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
@@ -16,13 +23,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -49,6 +58,7 @@
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -73,7 +83,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -103,7 +113,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/kevinrue/hancock">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -114,6 +124,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -149,7 +160,7 @@
     </tr>
     <tr>
       <th>markers</th>
-      <td><p>A character vector, subset of <code><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>rownames(se)</a></code>.</p></td>
+      <td><p>A character vector, subset of <code><a href='https://rdrr.io/r/base/colnames.html'>rownames(se)</a></code>.</p></td>
     </tr>
     <tr>
       <th>threshold</th>
@@ -182,6 +193,7 @@ a factor indicating cluster membership for each column (i.e. sample) in <code>se
 <dt><code>makeSignatureDetectionMatrix</code></dt><dd><p>A <code>logical</code> matrix indicating detectable levels of each signature in each sample.</p></dd>
 <dt><code>makeMarkerProportionMatrix</code></dt><dd><p>A matrix indicating for each feature the proportion of samples expressing detectable levels in each cluster.</p></dd>
 <dt><code>makeMarkerProportionScree</code></dt><dd><p>A <code>double</code> vector indicating the proportion of samples positive for markers in the input <code>logical</code> matrix.</p></dd>
+
 </dl>
 
     
@@ -196,15 +208,15 @@ the proportion of samples with detectable levels of the first marker, both of th
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Example data ----</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>SummarizedExperiment</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>SummarizedExperiment</span>)
 <span class='no'>nsamples</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span>
-<span class='no'>u</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Poisson'>rpois</a></span>(<span class='fl'>20000</span>, <span class='fl'>2</span>), <span class='kw'>ncol</span><span class='kw'>=</span><span class='no'>nsamples</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>rownames</a></span>(<span class='no'>u</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"Gene"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sprintf'>sprintf</a></span>(<span class='st'>"%03d"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>u</span>))))
-<span class='no'>se</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/SummarizedExperiment/topics/RangedSummarizedExperiment-class'>SummarizedExperiment</a></span>(<span class='kw'>assays</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>counts</span><span class='kw'>=</span><span class='no'>u</span>))
+<span class='no'>u</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Poisson.html'>rpois</a></span>(<span class='fl'>20000</span>, <span class='fl'>2</span>), <span class='kw'>ncol</span><span class='kw'>=</span><span class='no'>nsamples</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>u</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"Gene"</span>, <span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span>(<span class='st'>"%03d"</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>u</span>))))
+<span class='no'>se</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/SummarizedExperiment/man/RangedSummarizedExperiment-class.html'>SummarizedExperiment</a></span>(<span class='kw'>assays</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>counts</span><span class='kw'>=</span><span class='no'>u</span>))
 
-<span class='no'>geneLists</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(
-  <span class='st'>"Cell type 1"</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Gene001"</span>, <span class='st'>"Gene002"</span>),
-  <span class='st'>"Cell type 2"</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Gene003"</span>, <span class='st'>"Gene004"</span>)
+<span class='no'>geneLists</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+  <span class='st'>"Cell type 1"</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Gene001"</span>, <span class='st'>"Gene002"</span>),
+  <span class='st'>"Cell type 2"</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Gene003"</span>, <span class='st'>"Gene004"</span>)
 )
 <span class='no'>bs</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>geneLists</span>, <span class='st'>"Sets"</span>)
 
@@ -214,11 +226,11 @@ the proportion of samples with detectable levels of the first marker, both of th
 <span class='no'>signatureMatrix</span> <span class='kw'>&lt;-</span> <span class='fu'>makeSignatureDetectionMatrix</span>(<span class='no'>markerMatrix</span>, <span class='no'>bs</span>)
 
 <span class='no'>tab</span> <span class='kw'>&lt;-</span> <span class='fu'>makeMarkerProportionScree</span>(<span class='no'>markerMatrix</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>tab</span>$<span class='no'>markers</span>, <span class='no'>tab</span>$<span class='no'>proportion</span>, <span class='kw'>ylim</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Combined detection scree"</span>)</div><div class='img'><img src='makeDetectionMatrices-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>se</span>$<span class='no'>cluster</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>ncol</a></span>(<span class='no'>se</span>), <span class='fl'>TRUE</span>))
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>tab</span>$<span class='no'>markers</span>, <span class='no'>tab</span>$<span class='no'>proportion</span>, <span class='kw'>ylim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Combined detection scree"</span>)</div><div class='img'><img src='makeDetectionMatrices-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>se</span>$<span class='no'>cluster</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"A"</span>, <span class='st'>"B"</span>), <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>se</span>), <span class='fl'>TRUE</span>))
 <span class='no'>proportionMatrix</span> <span class='kw'>&lt;-</span> <span class='fu'>makeMarkerProportionMatrix</span>(
     <span class='no'>se</span>, <span class='kw'>cluster.col</span><span class='kw'>=</span><span class='st'>"cluster"</span>, <span class='kw'>assay.type</span><span class='kw'>=</span><span class='st'>"counts"</span>, <span class='kw'>threshold</span><span class='kw'>=</span><span class='fl'>0</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>proportionMatrix</span>)</div><div class='output co'>#&gt;          cluster
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>proportionMatrix</span>)</div><div class='output co'>#&gt;          cluster
 #&gt; feature           A         B
 #&gt;   Gene001 0.8035714 0.9545455
 #&gt;   Gene002 0.8571429 0.7954545
@@ -244,19 +256,23 @@ the proportion of samples with detectable levels of the first marker, both of th
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by Kevin Rue-Albrecht, Robert Amezquita, Aaron Lun.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

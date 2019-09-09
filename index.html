@@ -6,9 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Learn and Apply Cell Type Signatures • hancock</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Learn and Apply Cell Type Signatures">
 <meta property="og:description" content="Applies transcriptional signatures to assign cell identities.">
 <meta property="og:image" content="/logo.png">
@@ -39,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -68,7 +75,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/kevinrue/hancock">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -81,6 +88,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="contents col-md-9">
 
@@ -95,19 +103,19 @@
 <h1 class="hasAnchor">
 <a href="#prerequisites" class="anchor"></a>Prerequisites</h1>
 <p>The <a href="https://github.com/kevinrue/hancock"><em>hancock</em></a> package supports classes of gene sets defined in multiple packages. However, it uses <code>BaseSets</code> classes defined in the <a href="https://github.com/kevinrue/unisets"><em>unisets</em></a> package to return newly learned signatures with accompanying metadata. This dependency may be installed as follows:</p>
-<pre><code><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages("devtools")
+<pre><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("devtools")
 devtools::install_github("kevinrue/unisets", build_opts = c("--no-resave-data", "--no-manual"))</a></code></pre>
 <p>Several functions support the <code>tbl_geneset</code> class defined in the <a href="https://github.com/Kayla-Morrell/GeneSet"><em>GeneSet</em></a> package. This package may be installed as follows:</p>
-<pre><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("Kayla-Morrell/GeneSet")</a></code></pre>
+<pre><code><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">devtools::install_github("Kayla-Morrell/GeneSet")</a></code></pre>
 </div>
 <div id="installation" class="section level1">
 <h1 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h1>
 <p>The <a href="https://github.com/kevinrue/hancock"><em>hancock</em></a> package may be installed as follows:</p>
-<pre><code><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages("devtools")
+<pre><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("devtools")
 devtools::install_github("kevinrue/hancock")</a></code></pre>
 <p>To build the vignette as well, please use the following code:</p>
-<pre><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("kevinrue/hancock", build_opts = c("--no-resave-data", "--no-manual"))</a></code></pre>
+<pre><code><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">devtools::install_github("kevinrue/hancock", build_opts = c("--no-resave-data", "--no-manual"))</a></code></pre>
 </div>
 <div id="usage" class="section level1">
 <h1 class="hasAnchor">
@@ -139,10 +147,16 @@ devtools::install_github("kevinrue/hancock")</a></code></pre>
 <li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+<div class="community">
+<h2>Community</h2>
+<ul class="list-unstyled">
+<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
+</ul>
+</div>
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Kevin Rue-Albrecht <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-3899-3872" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
+<li>Kevin Rue-Albrecht <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-3899-3872" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
 <li>Robert Amezquita <br><small class="roles"> Author </small>  </li>
 <li>Aaron Lun <br><small class="roles"> Author </small>  </li>
 </ul>
@@ -158,17 +172,20 @@ devtools::install_github("kevinrue/hancock")</a></code></pre>
 </div>
 </div>
 
+
       <footer><div class="copyright">
   <p>Developed by Kevin Rue-Albrecht, Robert Amezquita, Aaron Lun.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>
