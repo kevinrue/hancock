@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -39,12 +41,12 @@
 
 
 
+
 <meta property="og:title" content="Identify Markers and Signatures Present in Individual Samples — makeMarkerDetectionMatrix" />
-
 <meta property="og:description" content="Create matrices of detection events for individual gene features or combination thereof (i.e., signatures)." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -109,7 +111,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/kevinrue/hancock">
@@ -136,9 +137,7 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Create matrices of detection events for individual gene features or combination thereof (i.e., signatures).</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>makeMarkerDetectionMatrix</span>(<span class='no'>se</span>, <span class='no'>markers</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>,
@@ -150,7 +149,7 @@
 
 <span class='fu'>makeMarkerProportionMatrix</span>(<span class='no'>se</span>, <span class='no'>cluster.col</span>, <span class='kw'>assay.type</span> <span class='kw'>=</span> <span class='st'>"counts"</span>,
   <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -184,7 +183,7 @@
 a factor indicating cluster membership for each column (i.e. sample) in <code>se</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     
@@ -196,7 +195,6 @@ a factor indicating cluster membership for each column (i.e. sample) in <code>se
 
 </dl>
 
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>makeMarkerDetectionMatrix</code> function returns a marker by sample matrix declaring a feature as detected if it is detected above a given threshold in a specific assay (e.g., <code>"counts"</code>, <code>"logcounts"</code>).</p>
@@ -204,7 +202,6 @@ a factor indicating cluster membership for each column (i.e. sample) in <code>se
 <p>The <code>makeMarkerProportionMatrix</code> function returns a signature by cluster matrix indicating the proportion of samples expressing detectable levels of each marker in individual predefined clusters.</p>
 <p>The <code>makeMarkerProportionScree</code> function compute the 'cumulative' (i.e., combined) detection rate of markers:
 the proportion of samples with detectable levels of the first marker, both of the first two markers, etc.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Example data ----</span>
@@ -243,11 +240,8 @@ the proportion of samples with detectable levels of the first marker, both of th
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

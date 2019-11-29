@@ -15,11 +15,13 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -39,14 +41,14 @@
 
 
 
-<meta property="og:title" content="Predict Method for Collection of Gene Set Signatures — barplotPredictionCount" />
 
+<meta property="og:title" content="Predict Method for Collection of Gene Set Signatures — barplotPredictionCount" />
 <meta property="og:description" content="These method signatures apply gene set signatures optionally augmented with
 (semi-)quantitative information to the prediction of sample and cell identities
 in SummarizedExperiment objects." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -111,7 +113,6 @@ in SummarizedExperiment objects." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/kevinrue/hancock">
@@ -138,11 +139,9 @@ in SummarizedExperiment objects." />
     </div>
 
     <div class="ref-description">
-    
     <p>These method signatures apply gene set signatures optionally augmented with
 (semi-)quantitative information to the prediction of sample and cell identities
 in <code>SummarizedExperiment</code> objects.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>barplotPredictionCount</span>(<span class='no'>se</span>, <span class='kw'>highlight</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(<span class='fl'>0</span>), <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
@@ -160,7 +159,7 @@ in <code>SummarizedExperiment</code> objects.</p>
 <span class='co'># S3 method for Sets</span>
 <span class='fu'>predict</span>(<span class='no'>object</span>, <span class='no'>se</span>, <span class='kw'>assay.type</span> <span class='kw'>=</span> <span class='st'>"counts"</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ProportionPositive"</span>, <span class='st'>"PP"</span>), <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -205,7 +204,7 @@ in <code>SummarizedExperiment</code> objects.</p>
       <td><p>Additional arguments affecting the predictions produced.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The object <code>se</code>, updated as follows:</p><ul>
@@ -214,7 +213,6 @@ in <code>SummarizedExperiment</code> objects.</p>
 This DataFrame contains predicted labels in the first column and additional information in further columns for each column in <code>se</code>.</p></li>
 </ul>
 
-    
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     
@@ -226,7 +224,6 @@ the proportion of samples predicted for each gene signature.</p></li>
 <li><p><code>reducedDimPrediction</code>: Returns a <code>ggplot</code> scatter plot displaying
 the first reduced dimension result in <code><a href='https://rdrr.io/pkg/SingleCellExperiment/man/reducedDims.html'>reducedDims(se)</a></code>.</p></li>
 </ul>
-    
     <h2 class="hasAnchor" id="prediction-methods"><a class="anchor" href="#prediction-methods"></a>Prediction methods</h2>
 
     
@@ -238,11 +235,9 @@ Assigns to each cluster the signature detected in the highest proportion of samp
 
 </dl>
 
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='predictByProportionPositive.html'>predictByProportionPositive</a></code>.</p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Example data ----</span>
@@ -277,15 +272,10 @@ Assigns to each cluster the signature detected in the highest proportion of samp
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#functions">Functions</a></li>
-
       <li><a href="#prediction-methods">Prediction methods</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
