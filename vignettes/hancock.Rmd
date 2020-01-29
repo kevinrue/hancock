@@ -38,7 +38,8 @@ knitr::opts_chunk$set(
     comment = "#>",
     error = FALSE,
     warning = FALSE,
-    message = FALSE
+    message = FALSE,
+    crop = NULL
 )
 ```
 
