@@ -1,5 +1,8 @@
+<!-- badges: start -->
+[![R build status](https://github.com/kevinrue/hancock/workflows/R-CMD-check/badge.svg)](https://github.com/kevinrue/hancock/actions)
 [![Travis build status](https://travis-ci.org/kevinrue/hancock.svg?branch=master)](https://travis-ci.org/kevinrue/hancock)
 [![Coverage status](https://codecov.io/gh/kevinrue/hancock/branch/master/graph/badge.svg)](https://codecov.io/github/kevinrue/hancock?branch=master)
+<!-- badges: end -->
 
 # hancock <img src="man/figures/logo.png" align="right" width="120"/>
 
