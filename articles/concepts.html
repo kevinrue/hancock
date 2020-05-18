@@ -95,14 +95,14 @@
       <h1 data-toc-skip>Concepts on cell types and signatures</h1>
                         <h4 class="author">Kevin Rue-Albrecht</h4>
             <address class="author_afil">
-      Kennedy Institute of Rheumatology, University of Oxford, Headington, Oxford OX3 7FY, UK.<br><a class="author_email" href="mailto:#"></a><a href="mailto:kevin.rue-albrecht@kennedy.ox.ac.uk" class="email">kevin.rue-albrecht@kennedy.ox.ac.uk</a>
+      Kennedy Institute of Rheumatology, University of Oxford, Headington, Oxford OX3 7FY, UK.<br><a class="author_email" href="mailto:#"></a><a href="mailto:kevin.rue-albrecht@kennedy.ox.ac.uk">kevin.rue-albrecht@kennedy.ox.ac.uk</a>
       </address>
                               <h4 class="author">Second Author</h4>
             <address class="author_afil">
-      Second Author’s Affiliation<br><a class="author_email" href="mailto:#"></a><a href="mailto:corresponding@author.com" class="email">corresponding@author.com</a>
+      Second Author’s Affiliation<br><a class="author_email" href="mailto:#"></a><a href="mailto:corresponding@author.com">corresponding@author.com</a>
       </address>
                   
-            <h4 class="date">12 May 2020</h4>
+            <h4 class="date">18 May 2020</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/kevinrue/hancock/blob/master/vignettes/concepts.Rmd"><code>vignettes/concepts.Rmd</code></a></small>
       <div class="hidden name"><code>concepts.Rmd</code></div>
@@ -112,10 +112,10 @@
     
         <div class="abstract">
       <p class="abstract">Abstract</p>
-      <p>A discussion of concepts associated with cell types and transcriptional signatures.</p>
+      A discussion of concepts associated with cell types and transcriptional signatures.
     </div>
     
-<p><strong>Compiled date</strong>: 2020-05-12</p>
+<p><strong>Compiled date</strong>: 2020-05-18</p>
 <p><strong>Last edited</strong>: 2018-03-08</p>
 <p><strong>License</strong>: MIT + file LICENSE</p>
 <div id="definition-of-cell-identity" class="section level1">
@@ -248,7 +248,7 @@
 </h2>
 <p>The <em><a href="https://github.com/kevinrue/unisets">unisets</a></em> package is being developed using <em><a href="https://bioconductor.org/packages/3.12/S4Vectors">S4Vectors</a></em> <code>Hits</code> to associate identifiers in a vector of elements to identifiers in a vector of sets.</p>
 <p>The package can be installed as follows:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"kevinrue/unisets"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"kevinrue/unisets"</span>)</pre></body></html></div>
 <p>Conveniently, this package supports multiple source formats to create gene sets, including <code>list</code> described <a href="#using-list">above</a>.</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">unisets</span>)
 <span class="no">inputList</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
@@ -329,16 +329,21 @@
 <div id="session-info" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h1>
-<pre><code>#&gt; R version 4.0.0 (2020-04-24)
-#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)
-#&gt; Running under: macOS Catalina 10.15.4
+<pre><code>#&gt; R Under development (unstable) (2020-05-18 r78484)
+#&gt; Platform: x86_64-pc-linux-gnu (64-bit)
+#&gt; Running under: Ubuntu 16.04.6 LTS
 #&gt; 
 #&gt; Matrix products: default
-#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
-#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
+#&gt; BLAS:   /home/travis/R-bin/lib/R/lib/libRblas.so
+#&gt; LAPACK: /home/travis/R-bin/lib/R/lib/libRlapack.so
 #&gt; 
 #&gt; locale:
-#&gt; [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+#&gt;  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+#&gt;  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+#&gt;  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+#&gt;  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+#&gt;  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+#&gt; [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 #&gt; 
 #&gt; attached base packages:
 #&gt; [1] stats4    parallel  stats     graphics  grDevices utils     datasets 
@@ -347,16 +352,16 @@
 #&gt; other attached packages:
 #&gt;  [1] unisets_0.99.0       GSEABase_1.51.0      graph_1.67.0        
 #&gt;  [4] annotate_1.67.0      XML_3.99-0.3         AnnotationDbi_1.51.0
-#&gt;  [7] IRanges_2.23.4       S4Vectors_0.27.5     Biobase_2.49.0      
+#&gt;  [7] IRanges_2.23.4       S4Vectors_0.27.6     Biobase_2.49.0      
 #&gt; [10] BiocGenerics_0.35.2  BiocStyle_2.17.0    
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] SummarizedExperiment_1.19.2 xfun_0.13                  
+#&gt;  [1] SummarizedExperiment_1.19.3 xfun_0.13                  
 #&gt;  [3] reshape2_1.4.4              lattice_0.20-41            
 #&gt;  [5] vctrs_0.3.0                 htmltools_0.4.0            
 #&gt;  [7] rtracklayer_1.49.1          yaml_2.2.1                 
 #&gt;  [9] blob_1.2.1                  rlang_0.4.6                
-#&gt; [11] pkgdown_1.5.1.9000          DBI_1.1.0                  
+#&gt; [11] pkgdown_1.5.1               DBI_1.1.0                  
 #&gt; [13] BiocParallel_1.23.0         bit64_0.9-7                
 #&gt; [15] matrixStats_0.56.0          GenomeInfoDbData_1.2.3     
 #&gt; [17] plyr_1.8.6                  stringr_1.4.0              
@@ -364,27 +369,27 @@
 #&gt; [21] memoise_1.1.0               evaluate_0.14              
 #&gt; [23] knitr_1.28                  GenomeInfoDb_1.25.0        
 #&gt; [25] Rcpp_1.0.4.6                xtable_1.8-4               
-#&gt; [27] backports_1.1.6             BiocManager_1.30.10        
+#&gt; [27] backports_1.1.7             BiocManager_1.30.10        
 #&gt; [29] DelayedArray_0.15.1         desc_1.2.0                 
 #&gt; [31] XVector_0.29.0              fs_1.4.1                   
 #&gt; [33] bit_1.1-15.2                Rsamtools_2.5.0            
 #&gt; [35] digest_0.6.25               stringi_1.4.6              
-#&gt; [37] bookdown_0.18               grid_4.0.0                 
+#&gt; [37] bookdown_0.19               grid_4.1.0                 
 #&gt; [39] GenomicRanges_1.41.1        rprojroot_1.3-2            
-#&gt; [41] tools_4.0.0                 bitops_1.0-6               
+#&gt; [41] tools_4.1.0                 bitops_1.0-6               
 #&gt; [43] magrittr_1.5                RCurl_1.98-1.2             
 #&gt; [45] RSQLite_2.2.0               crayon_1.3.4               
-#&gt; [47] Matrix_1.2-18               MASS_7.3-51.5              
+#&gt; [47] Matrix_1.2-18               MASS_7.3-51.6              
 #&gt; [49] assertthat_0.2.1            rmarkdown_2.1              
 #&gt; [51] R6_2.4.1                    GenomicAlignments_1.25.0   
-#&gt; [53] compiler_4.0.0</code></pre>
+#&gt; [53] compiler_4.1.0</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
 <div id="refs" class="references">
 <div id="ref-monocytewaterfall2012">
-<p>Tamoutounour, S., S. Henri, H. Lelouard, B. de Bovis, C. de Haar, C. J. van der Woude, A. M. Woltman, et al. 2012. “CD64 Distinguishes Macrophages from Dendritic Cells in the Gut and Reveals the Th1-Inducing Role of Mesenteric Lymph Node Macrophages During Colitis.” Journal Article. <em>Eur J Immunol</em> 42 (12): 3150–66. <a href="https://doi.org/10.1002/eji.201242847">https://doi.org/10.1002/eji.201242847</a>.</p>
+<p>Tamoutounour, S., S. Henri, H. Lelouard, B. de Bovis, C. de Haar, C. J. van der Woude, A. M. Woltman, et al. 2012. “CD64 Distinguishes Macrophages from Dendritic Cells in the Gut and Reveals the Th1-Inducing Role of Mesenteric Lymph Node Macrophages During Colitis.” Journal Article. <em>Eur J Immunol</em> 42 (12): 3150–66. <a href="https://doi.org/10.1002/eji.201242847" class="uri">https://doi.org/10.1002/eji.201242847</a>.</p>
 </div>
 </div>
 </div>
@@ -405,7 +410,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
